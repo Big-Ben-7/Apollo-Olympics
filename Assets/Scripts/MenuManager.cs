@@ -14,8 +14,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject gameSettings;
 
     [Header("Graphics")]
-    [SerializeField] TMP_Dropdown numberDropdown;
-    [SerializeField] TMP_Dropdown difficultyDropdown;
+    [SerializeField] Slider difficultySlider;
+    [SerializeField] Slider playersSlider;
     [SerializeField] TMP_Dropdown ship1Dropdown;
     [SerializeField] TMP_Dropdown ship2Dropdown;
     [SerializeField] TMP_Dropdown ship3Dropdown;
@@ -56,28 +56,31 @@ public class MenuManager : MonoBehaviour
 
     public void ShowMain()
     {
+        audioSource.PlayOneShot(majorClick);
         mainMenu.SetActive(true);
         gameSettings.SetActive(false);
-        audioSource.PlayOneShot(backClip);
     }
 
     public void MenuPlay()
     {
+        audioSource.PlayOneShot(majorClick);
         gameSettings.SetActive(true);
         mainMenu.SetActive(false);
     }
 
     public void Play()
     {
-        playerNumber = numberDropdown.value + 1;
-        difficulty = difficultyDropdown.value + 1;
-        playerModels = new int[] {ship1Dropdown.value, ship2Dropdown.value, ship3Dropdown.value, ship4Dropdown.value};
+        audioSource.PlayOneShot(majorClick);
+        playerNumber = (int) playersSlider.value + 1;
+        difficulty = (int) difficultySlider.value + 1;
+        //playerModels = new int[] {ship1Dropdown.value, ship2Dropdown.value, ship3Dropdown.value, ship4Dropdown.value};
         SceneManager.LoadScene(1);
     }
 
     public void ChangedPlayerNumber()
     {
-        switch(numberDropdown.value)
+        audioSource.PlayOneShot(minorClick);
+        switch(playersSlider.value)
         {
             case 0:
                 numberTransform.anchoredPosition = new Vector2(numberTransform.anchoredPosition.x, 35);
