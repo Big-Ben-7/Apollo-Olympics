@@ -18,9 +18,9 @@ using System.Runtime.CompilerServices;
 public class SpawnManager : MonoBehaviour
 {
     [Header("Sections")]
-    [SerializeField] int side = 700;
+    [SerializeField] int side = 600;
     int length;
-    [SerializeField] int colliderWidth = 100;
+    [SerializeField] int colliderWidth = 500;
     GameObject[] sectionPool;
     [SerializeField] Transform sectionParent;
     [SerializeField] GameObject sectionPrefab;

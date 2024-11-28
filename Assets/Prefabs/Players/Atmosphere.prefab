@@ -4900,7 +4900,6 @@ GameObject:
   - component: {fileID: 310456744880550562}
   - component: {fileID: 2109738263182004709}
   - component: {fileID: 7261490003925142051}
-  - component: {fileID: 4362750641717298645}
   m_Layer: 13
   m_Name: Atmosphere
   m_TagString: Untagged
@@ -4986,27 +4985,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   hitClip: {fileID: 8300000, guid: a7696a2bf114ed3438fefac35ec6ec66, type: 3}
---- !u!135 &4362750641717298645
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645438820640331853}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3515386618921853408
 GameObject:
   m_ObjectHideFlags: 0

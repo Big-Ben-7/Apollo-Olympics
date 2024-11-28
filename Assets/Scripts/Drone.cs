@@ -76,13 +76,13 @@ public class Drone : MonoBehaviour
         }
         collided = true;
         GameObject otherObject = other.gameObject;
-        switch(otherObject.layer == 6)
+        switch(otherObject.layer)
         {
-            case true:
+            case 6:
                 explosionTransform.parent = other.transform;
                 break;
 
-            case false:
+            default:
                 explosionTransform.parent = null;
                 break;
         }
@@ -122,7 +122,7 @@ public class Drone : MonoBehaviour
                     targetVelocity = targetRb.velocity;
                     break;
             }
-            targetRotation = Quaternion.LookRotation(target.position + new Vector3(0, 0, offset) + targetVelocity * (overshoot + targetRb.angularVelocity.magnitude * confusion) * updateInterval - myTransform.position);
+            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + targetVelocity * (overshoot + targetRb.angularVelocity.magnitude * confusion) * updateInterval - myTransform.position);
             yield return new WaitForSeconds(updateInterval);
         }
     }
