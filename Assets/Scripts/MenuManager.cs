@@ -12,18 +12,12 @@ public class MenuManager : MonoBehaviour
     [Header("Windows")]
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject gameSettings;
+    [SerializeField] GameObject customization;
+    [SerializeField] GameObject loading;
 
     [Header("Graphics")]
     [SerializeField] Slider difficultySlider;
     [SerializeField] Slider playersSlider;
-    [SerializeField] TMP_Dropdown ship1Dropdown;
-    [SerializeField] TMP_Dropdown ship2Dropdown;
-    [SerializeField] TMP_Dropdown ship3Dropdown;
-    [SerializeField] TMP_Dropdown ship4Dropdown;
-    [SerializeField] GameObject[] shipDropdownObjects;
-    RectTransform[] shipDropdownTransforms;
-    [SerializeField] RectTransform numberTransform;
-    [SerializeField] RectTransform difficultyTransform;
 
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
@@ -39,19 +33,7 @@ public class MenuManager : MonoBehaviour
     {
         mainMenu.SetActive(true);
         gameSettings.SetActive(false);
-        shipDropdownTransforms = new RectTransform[4];
-        for(int i = 0; i < 4; i++)
-        {
-            shipDropdownTransforms[i] = shipDropdownObjects[i].GetComponent<RectTransform>();
-        }
-
-        numberTransform.anchoredPosition = new Vector2(numberTransform.anchoredPosition.x, 35);
-        difficultyTransform.anchoredPosition = new Vector2(difficultyTransform.anchoredPosition.x, 35);
-        shipDropdownObjects[0].SetActive(true);
-        shipDropdownTransforms[0].anchoredPosition = new Vector2(0, -35);
-        shipDropdownObjects[1].SetActive(false);
-        shipDropdownObjects[2].SetActive(false);
-        shipDropdownObjects[3].SetActive(false);
+        customization.SetActive(false);
     }
 
     public void ShowMain()
@@ -59,13 +41,24 @@ public class MenuManager : MonoBehaviour
         audioSource.PlayOneShot(majorClick);
         mainMenu.SetActive(true);
         gameSettings.SetActive(false);
+        customization.SetActive(false);
+        loading.SetActive(false);
     }
 
-    public void MenuPlay()
+    public void GameSettings()
     {
         audioSource.PlayOneShot(majorClick);
         gameSettings.SetActive(true);
         mainMenu.SetActive(false);
+        customization.SetActive(false);
+    }
+
+    public void Customization()
+    {
+        audioSource.PlayOneShot(majorClick);
+        customization.SetActive(true);
+        mainMenu.SetActive(false);
+        gameSettings.SetActive(false);
     }
 
     public void Play()
@@ -74,60 +67,9 @@ public class MenuManager : MonoBehaviour
         playerNumber = (int) playersSlider.value + 1;
         difficulty = (int) difficultySlider.value + 1;
         //playerModels = new int[] {ship1Dropdown.value, ship2Dropdown.value, ship3Dropdown.value, ship4Dropdown.value};
-        SceneManager.LoadScene(1);
-    }
-
-    public void ChangedPlayerNumber()
-    {
-        audioSource.PlayOneShot(minorClick);
-        switch(playersSlider.value)
-        {
-            case 0:
-                numberTransform.anchoredPosition = new Vector2(numberTransform.anchoredPosition.x, 35);
-                difficultyTransform.anchoredPosition = new Vector2(difficultyTransform.anchoredPosition.x, 35);
-                shipDropdownObjects[0].SetActive(true);
-                shipDropdownTransforms[0].anchoredPosition = new Vector2(0, -35);
-                shipDropdownObjects[1].SetActive(false);
-                shipDropdownObjects[2].SetActive(false);
-                shipDropdownObjects[3].SetActive(false);
-                break;
-
-            case 1:
-                numberTransform.anchoredPosition = new Vector2(numberTransform.anchoredPosition.x, 35);
-                difficultyTransform.anchoredPosition = new Vector2(difficultyTransform.anchoredPosition.x, 35);
-                shipDropdownObjects[0].SetActive(true);
-                shipDropdownTransforms[0].anchoredPosition = new Vector2(-130, -35);
-                shipDropdownObjects[1].SetActive(true);
-                shipDropdownTransforms[1].anchoredPosition = new Vector2(100, -35);
-                shipDropdownObjects[2].SetActive(false);
-                shipDropdownObjects[3].SetActive(false);
-                break;
-
-            case 2:
-                numberTransform.anchoredPosition = new Vector2(numberTransform.anchoredPosition.x, 45);
-                difficultyTransform.anchoredPosition = new Vector2(difficultyTransform.anchoredPosition.x, 45);
-                shipDropdownObjects[0].SetActive(true);
-                shipDropdownTransforms[0].anchoredPosition = new Vector2(-130, -10);
-                shipDropdownObjects[1].SetActive(true);
-                shipDropdownTransforms[1].anchoredPosition = new Vector2(100, -10);
-                shipDropdownObjects[2].SetActive(true);
-                shipDropdownTransforms[2].anchoredPosition = new Vector2(-130, -50);
-                shipDropdownObjects[3].SetActive(false);
-                break;
-            
-            case 3:
-                numberTransform.anchoredPosition = new Vector2(numberTransform.anchoredPosition.x, 45);
-                difficultyTransform.anchoredPosition = new Vector2(difficultyTransform.anchoredPosition.x, 45);
-                for(int i = 0; i < 4; i++)
-                {
-                    shipDropdownObjects[i].SetActive(true);
-                }
-                shipDropdownTransforms[0].anchoredPosition = new Vector2(-130, -10);
-                shipDropdownTransforms[1].anchoredPosition = new Vector2(100, -10);
-                shipDropdownTransforms[2].anchoredPosition = new Vector2(-130, -50);
-                shipDropdownTransforms[3].anchoredPosition = new Vector2(100, -50);
-                break;
-        }
+        gameSettings.SetActive(false);
+        loading.SetActive(true);
+        StartCoroutine(LoadGame());
     }
 
     public void MinorClick()
@@ -138,5 +80,16 @@ public class MenuManager : MonoBehaviour
     public void MajorClick()
     {
         audioSource.PlayOneShot(majorClick);
+    }
+
+    IEnumerator LoadGame()
+    {
+        AsyncOperation load = SceneManager.LoadSceneAsync(1);
+        while(!load.isDone)
+        {
+            yield return null;
+        }
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Play"));
+        SceneManager.UnloadSceneAsync(0);
     }
 }
