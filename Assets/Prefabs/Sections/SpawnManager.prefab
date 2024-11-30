@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2406070084093699108}
   - component: {fileID: 5237278299908245202}
-  - component: {fileID: 3860264242209597597}
   - component: {fileID: 4212043769208938346}
   - component: {fileID: 4963872377474719969}
   - component: {fileID: 3663112476063483804}
@@ -48,8 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e1c552506d04ac3b1d7703e0e75665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 700
-  colliderWidth: 100
+  side: 600
+  colliderWidth: 500
   sectionParent: {fileID: 0}
   sectionPrefab: {fileID: 566563954241801917, guid: 30a9808a47135427c9ecd3e3ee56857d, type: 3}
   playerCheckpoints: 
@@ -106,7 +105,7 @@ MonoBehaviour:
   intCheckpointDrones: 010000000100000002000000030000000400000005000000060000000700000008000000
   advCheckpointDrones: 020000000300000004000000050000000600000007000000080000000a0000000c000000
   expCheckpointDrones: 04000000050000000600000007000000080000000a0000000c0000000e00000010000000
-  playerNumber: 4
+  playerNumber: 1
   possiblePlayers:
   - {fileID: 6744162823093574734, guid: bb456dcf6cf4444fd8c3095cc4f2f8f8, type: 3}
   - {fileID: 6744162823093574734, guid: 34bf0daee831447459c8cf027f9b405e, type: 3}
@@ -116,30 +115,22 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerModels: 04000000050000000600000007000000
+  playerShips: 
   playingPlayers: 
   cameraPrefab: {fileID: 8803354073669428790, guid: cf38e19b88e5647c19ea89b7f8dacb7a, type: 3}
   cameraMasks:
   - serializedVersion: 2
-    m_Bits: 1015
+    m_Bits: 25591
   - serializedVersion: 2
-    m_Bits: 1527
+    m_Bits: 26103
   - serializedVersion: 2
-    m_Bits: 2551
+    m_Bits: 27127
   - serializedVersion: 2
-    m_Bits: 4599
+    m_Bits: 29175
   startSound: {fileID: 8300000, guid: 6cf9c85b5a3b88c468b21b9d21250adf, type: 3}
   countdownSound: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
   goSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
---- !u!81 &3860264242209597597
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8277756364841921885}
-  m_Enabled: 1
 --- !u!82 &4212043769208938346
 AudioSource:
   m_ObjectHideFlags: 0

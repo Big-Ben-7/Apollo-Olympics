@@ -1,0 +1,13 @@
+Font: ISL_Jupiter  Style: Regular
+Point Size: 384   SP/PD Ratio: 2.3%
+
+Characters included: 43/44
+Missing characters: 1
+Excluded characters: 0
+
+Characters missing from font file:
+----------------------------------------
+ID: 37	Hex: 25	Char [%]
+
+Characters excluded from packing:
+----------------------------------------

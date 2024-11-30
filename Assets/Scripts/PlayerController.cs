@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour
     ParticleSystem.MainModule[] auraParticles;
     Ring ring;
     bool died;
+    Coroutine resetting;
 
     //Drone
     Transform droneGroup;
@@ -209,7 +210,8 @@ public class PlayerController : MonoBehaviour
                 ability = Atmosphere();
                 aura = Instantiate(aura);
                 aura.GetComponent<Atmosphere>().target = myTransform;
-                auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystem>()};
+                Transform graphic = aura.transform.GetChild(0);
+                auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
                 break;
@@ -670,10 +672,14 @@ public class PlayerController : MonoBehaviour
     
     void OnCollisionEnter(Collision other)
     {
-        if(collided || !canCollide)
+        if(collided || !canCollide || other.gameObject == aura || other.transform.parent == aura)
         {
             return;
         }
+
+        collided = true;
+        rb.angularVelocity *= deflectionForce;
+        float speed = rb.velocity.magnitude + other.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
 
         if(!other.gameObject.CompareTag("Drone"))
         {
@@ -696,10 +702,6 @@ public class PlayerController : MonoBehaviour
             audioSource.PlayOneShot(hitSounds[UnityEngine.Random.Range(0, hitSoundsCount)]);
             StartCoroutine(ResetEffect(explosion));
         }
-
-        collided = true;
-        rb.angularVelocity *= deflectionForce;
-        float speed = rb.velocity.magnitude + other.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
         
         //Lose speed on other
         if(thrustSpeed > initialThrustSpeed * speedLossDivisor)
@@ -746,9 +748,20 @@ public class PlayerController : MonoBehaviour
                 currentActivation = 0;
                 currentCooldown = 0;
                 aura.SetActive(false);
-                for(int i = 0; i < auraCount; i++)
+                if(resetting != null)
                 {
-                    auraParticles[i].loop = true;
+                    StopCoroutine(resetting);
+                }
+                if(shipModel != "Venus")
+                {
+                    for(int i = 0; i < auraCount; i++)
+                    {
+                        auraParticles[i].loop = true;
+                    }
+                }
+                else
+                {
+                    auraParticles[3].loop = true;
                 }
 
                 foreach(TMP_Text text in allText)
@@ -921,7 +934,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator ResetEffect(GameObject effect, float waitTime = 2)
+    IEnumerator ResetEffect(GameObject effect, int waitTime = 2)
     {
         yield return new WaitForSeconds(waitTime);
         effect.SetActive(false);
@@ -1037,7 +1050,7 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
         rb.AddRelativeForce(Vector3.forward * abilityStrength, ForceMode.Impulse);
-        StartCoroutine(ResetAura(1));
+        resetting = StartCoroutine(ResetAura(2));
 
         //Cooldown
         while(currentCooldown > 0)
@@ -1061,6 +1074,10 @@ public class PlayerController : MonoBehaviour
         currentActivation = activationTime;
         died = false;
         ability = Atmosphere();
+        for(int i = 0; i < 3; i++)
+        {
+            auraParticles[i].duration = auraParticles[i].startLifetimeMultiplier = activationTime;
+        }
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
@@ -1069,11 +1086,8 @@ public class PlayerController : MonoBehaviour
             currentActivation --;
             yield return new WaitForSeconds(1);
         }
-        for(int i = 0; i < auraCount; i++)
-        {
-            auraParticles[i].loop = false;
-        }
-        StartCoroutine(ResetAura(1));
+        auraParticles[2].loop = false;
+        resetting = StartCoroutine(ResetAura(2, 3));
         audioSource.PlayOneShot(expireSound);
 
         //Cooldown
@@ -1120,7 +1134,7 @@ public class PlayerController : MonoBehaviour
         {
             auraParticles[i].loop = false;
         }
-        StartCoroutine(ResetAura(1));
+        resetting = StartCoroutine(ResetAura(2));
         audioSource.PlayOneShot(expireSound);
 
         //Cooldown
@@ -1161,7 +1175,7 @@ public class PlayerController : MonoBehaviour
         {
             auraParticles[i].loop = false;
         }
-        StartCoroutine(ResetAura(1));
+        resetting = StartCoroutine(ResetAura(2));
         audioSource.PlayOneShot(expireSound);
         for(int i = 0; i < droneNumber; i++)
         {
@@ -1215,7 +1229,7 @@ public class PlayerController : MonoBehaviour
         {
             auraParticles[i].loop = false;
         }
-        StartCoroutine(ResetAura(1));
+        resetting = StartCoroutine(ResetAura(2));
         audioSource.PlayOneShot(expireSound);
         initialThrustSpeed /= abilityStrength;
         acc /= abilityStrength;
@@ -1266,7 +1280,7 @@ public class PlayerController : MonoBehaviour
         {
             auraParticles[i].loop = false;
         }
-        StartCoroutine(ResetAura(0.5f));
+        resetting = StartCoroutine(ResetAura(1));
         audioSource.PlayOneShot(expireSound);
 
         //Cooldown
@@ -1303,7 +1317,7 @@ public class PlayerController : MonoBehaviour
             Vector3 direction = collider.transform.position - myTransform.position;
             otherRb.AddForce(direction * (abilityStrength / direction.magnitude), ForceMode.Impulse);
         }
-        StartCoroutine(ResetAura(1));
+        resetting = StartCoroutine(ResetAura(1));
 
         //Cooldown
         while(currentCooldown > 0)
@@ -1321,11 +1335,11 @@ public class PlayerController : MonoBehaviour
         abilityText.SetText("");
     }
 
-    IEnumerator ResetAura(float waitTime)
+    IEnumerator ResetAura(int waitTime, int startIndex = 0)
     {
         yield return new WaitForSeconds(waitTime);
         aura.SetActive(false);
-        for(int i = 0; i < auraCount; i++)
+        for(int i = startIndex; i < auraCount; i++)
         {
             auraParticles[i].loop = true;
         }

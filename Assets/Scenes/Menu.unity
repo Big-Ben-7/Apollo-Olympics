@@ -159,10 +159,29 @@ MonoBehaviour:
   loading: {fileID: 675448063}
   difficultySlider: {fileID: 690239509}
   playersSlider: {fileID: 1470773854}
+  ships:
+  - {fileID: 2069745110905626476}
+  - {fileID: 1258892692}
+  - {fileID: 167262587}
+  - {fileID: 766386288}
+  - {fileID: 1930110581}
+  - {fileID: 1353135793}
+  - {fileID: 896861373}
+  - {fileID: 1184324715}
+  playerText: {fileID: 218482107}
+  abilitySounds:
+  - {fileID: 8300000, guid: 6cf9c85b5a3b88c468b21b9d21250adf, type: 3}
+  - {fileID: 8300000, guid: c91fcf414acc0344cb03b13996f1bf3b, type: 3}
+  - {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
+  - {fileID: 8300000, guid: 8ff2a2d7e79f81c40ac447512f879374, type: 3}
+  - {fileID: 8300000, guid: 6cf9c85b5a3b88c468b21b9d21250adf, type: 3}
+  - {fileID: 8300000, guid: 1d74880bed4586644a16a79a2d9dc8af, type: 3}
+  - {fileID: 8300000, guid: 1d74880bed4586644a16a79a2d9dc8af, type: 3}
+  - {fileID: 8300000, guid: 138ca79e8dc41ed4395011cdf48ff781, type: 3}
+  debuffSound: {fileID: 8300000, guid: acbcb75601b0082458fda8807f67c813, type: 3}
   audioSource: {fileID: 79966735}
   majorClick: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   minorClick: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
-  backClip: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
 --- !u!4 &79966734
 Transform:
   m_ObjectHideFlags: 0
@@ -370,6 +389,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &167262587 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 688296168309898297, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &218482107 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2348797095592484586, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &675448063
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +550,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &766386288 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7870231472668343716, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &896861373 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6748543121811240543, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &974897685 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5223870351887055132, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
@@ -524,6 +569,21 @@ GameObject:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 439145310939834354, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
   m_PrefabInstance: {fileID: 75562149054103178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1184324715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5308051652790137, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1258892692 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7286234114651923644, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1353135793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8950381430829645090, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1466781897
 GameObject:
@@ -779,7 +839,7 @@ Camera:
   far clip plane: 10000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -922,6 +982,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1930110581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7145642616213222188, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &75562149054103178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -934,18 +999,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
-    - target: {fileID: 68414943239927633, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GameSettings
-      objectReference: {fileID: 0}
     - target: {fileID: 213091445410432859, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
-    - target: {fileID: 213091445410432859, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Customization
-      objectReference: {fileID: 0}
     - target: {fileID: 439145310939834354, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -956,7 +1013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 439145310939834354, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 439145310939834354, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_AnchorMax.y
@@ -964,7 +1021,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 439145310939834354, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 439145310939834354, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_AnchorMin.y
@@ -972,7 +1029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 439145310939834354, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 600
+      value: 86
       objectReference: {fileID: 0}
     - target: {fileID: 439145310939834354, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1049,6 +1106,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8656183518272040662, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
   m_PrefabInstance: {fileID: 3458842996035744386}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2069745110905626476 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6243830045593745757, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3458842996035744386
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1057,6 +1119,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1466781901}
     m_Modifications:
+    - target: {fileID: 5308051652790137, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 28754923207280698, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 57508951232903281, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 642073661610893673, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 688296168309898297, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 821632182402418488, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 1071454139643508473, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 1279824628977563895, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
     - target: {fileID: 1710064245376726217, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1067,7 +1161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1710064245376726217, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1710064245376726217, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1075,7 +1169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1710064245376726217, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1710064245376726217, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_AnchorMin.y
@@ -1083,7 +1177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1710064245376726217, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 950
+      value: 296
       objectReference: {fileID: 0}
     - target: {fileID: 1710064245376726217, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1137,7 +1231,135 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2348797095592484586, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
+    - target: {fileID: 2348797095592484586, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
+    - target: {fileID: 2447609885223600967, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 2778134770088676753, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
+    - target: {fileID: 2778134770088676753, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
     - target: {fileID: 3087671778845718842, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 3482225839702832010, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 3528888715409114049, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 4018912577303392548, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 1          Agility: 2          Durability: 2          Stability:
+        4
+
+        Neptune is the furthest planet from the Sun. It''s known for its
+        massive storms with supersonic winds, the fastest in the solar system.
+
+        Ability:
+        Neptune''s supersonic winds explode surrounding objects out.
+
+        Cooldown:
+        10s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4097267508527995609, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 4177219944980230070, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 4237361045563747555, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 4274610513534270600, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 4325271180063313529, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4325271180063313529, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4325271180063313529, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4325271180063313529, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4325271180063313529, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -70
+      objectReference: {fileID: 0}
+    - target: {fileID: 4325271180063313529, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -70
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492764631112993380, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 3          Agility: 3          Durability: 4          Stability:
+        3
+
+        Earth is the 3rd planet from the Sun. Its ideal conditions, from
+        chemical composition to its magnetic field, make it the only place known
+        to harbor life.
+
+        Ability: Earth regenerates its health each second.
+
+        Activation:
+        10s          Cooldown: 10s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4533964136273317193, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 4553180158809738540, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553180158809738540, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553180158809738540, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553180158809738540, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553180158809738540, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -70
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553180158809738540, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -70
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556487298519716008, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
@@ -1145,9 +1367,175 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 5307076667116567567, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468201634765474687, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 1          Agility: 2          Durability: 2          Stability:
+        4
+
+        Saturn is the 6th planet from the Sun and has 146 moons, the most
+        in the Solar System. Its famous rings are mostly made of chunks of ice and
+        rock.
+
+        Ability: Saturn''s rings push surrounding objects laterally.
+        Hold down ability key to rotate rings.
+
+        Activation: 20s         
+        Cooldown: 20s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468201634765474687, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468201634765474687, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
+    - target: {fileID: 5468201634765474687, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468201634765474687, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_isRightToLeft
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468201634765474687, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
+    - target: {fileID: 5965359953179529953, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 3          Agility: 3          Durability: 3          Stability:
+        2
+
+        Venus is the 2nd planet from the Sun. Its dense atmosphere traps
+        greenhouse gases, making it the hottest and deadliest planet.
+
+        Ability:
+        Venus uses its toxic atmosphere to shield itself from asteroids. No effect
+        on drones.
+
+        Activation: 10s          Cooldown: 20s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074474030578598492, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 6124539314202887537, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 1          Agility: 1          Durability: 2          Stability:
+        5
+
+        Jupiter is the 5th planet from the Sun and is by far the largest
+        - 2.5 times more massive than all the other planets combined. Jupiter also
+        contains the Great Red Spot, which is the largest storm in the Solar System,
+        and is bigger than Earth by itself.
+
+        Ability: Jupiter''s mass increases
+        such that its momentum can knock back asteroids.
+
+        Activation: 20s         
+        Cooldown: 20s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6243830045593745757, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551749839771438073, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 4          Agility: 4          Durability: 5          Stability:
+        3
+
+        Mars is the 4th planet from the Sun, often called the "Red Planet"
+        due to the iron rust on its surface. Mars has the largest volcano and valley
+        of the Solar System, and its dust storms can engulf the area of continenets
+        for weeks.
+
+        Ability: A Mars dust storm confuses space pirates.
+
+        Activation:
+        20s          Cooldown: 10s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748543121811240543, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760844087690033436, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 7021774065936682752, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 5          Agility: 5          Durability: 1          Stability:
+        1
+
+        Mercury, the closest planet to the Sun, is the smallest and fastest
+        planet. In fact, Mercury is about the size of our moon and completes its
+        orbit in 88 days.
+
+        Ability: Mercury uses its high velocity and low
+        mass to boost its speed.
+
+        Cooldown: 5s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021774065936682752, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021774065936682752, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_isRightToLeft
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7145642616213222188, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240007484713548268, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
+    - target: {fileID: 7286234114651923644, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670602279623622658, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 2          Agility: 3          Durability: 3          Stability:
+        3
+
+        Uranus is the 7th and coldest planet from the Sun. It''s also
+        the only planet with its equator tilted at a right angle to its orbit, which
+        may have been caused by a collision with an Earth-sized object long ago.
+
+        Ability:
+        Uranus uses its tilted rings to push surrounding objects vertically. Hold
+        down ability key to rotate rings.
+
+        Activation: 20s          Cooldown:
+        20s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870231472668343716, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919059189759754924, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 79966733}
     - target: {fileID: 8656183518272040662, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_Name
       value: Customize
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799447728964805102, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950381430829645090, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1179,30 +1567,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game
       objectReference: {fileID: 0}
-    - target: {fileID: 4197855584905884146, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4197855584905884146, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4197855584905884146, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7376280094760758503, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7376280094760758503, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7376280094760758503, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1213,7 +1577,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1221,7 +1585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_AnchorMin.y
@@ -1229,7 +1593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 600
+      value: -54
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_SizeDelta.y

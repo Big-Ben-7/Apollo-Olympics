@@ -351,18 +351,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: side
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerNumber
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: colliderWidth
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: sectionParent
       value: 
       objectReference: {fileID: 1935171737}
@@ -370,34 +358,6 @@ PrefabInstance:
       propertyPath: checkpointParent
       value: 
       objectReference: {fileID: 64442204}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerModels.Array.data[0]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerModels.Array.data[1]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerModels.Array.data[2]
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: cameraMasks.Array.data[0].m_Bits
-      value: 25591
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: cameraMasks.Array.data[1].m_Bits
-      value: 26103
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: cameraMasks.Array.data[2].m_Bits
-      value: 27127
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: cameraMasks.Array.data[3].m_Bits
-      value: 29175
-      objectReference: {fileID: 0}
     - target: {fileID: 8277756364841921885, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: m_Name
       value: SpawnManager

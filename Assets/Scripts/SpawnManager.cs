@@ -14,6 +14,8 @@ using Cinemachine;
 using UnityEngine.Analytics;
 using JetBrains.Annotations;
 using System.Runtime.CompilerServices;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.LowLevel;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -67,7 +69,7 @@ public class SpawnManager : MonoBehaviour
     [Header("Players")]
     [SerializeField] int playerNumber = 1;
     [SerializeField] GameObject[] possiblePlayers;
-    [SerializeField] int[] playerModels;
+    [SerializeField] int[] playerShips;
     GameObject[] players;
     Vector3[] playerChunks;
     public List<int> playingPlayers = new List<int>();
@@ -95,6 +97,12 @@ public class SpawnManager : MonoBehaviour
         if(MenuManager.playerNumber != 0)
         {
             playerNumber = MenuManager.playerNumber;
+        }
+
+        //Getting ship of each player
+        if(MenuManager.playerShips != null)
+        {
+            playerShips = MenuManager.playerShips;
         }
 
         //Set difficulty-dependent variables
@@ -127,6 +135,31 @@ public class SpawnManager : MonoBehaviour
         //Asteroid belt should have high asteroid number
         disableByCheckpoint[4] = increment;
 
+        //Initialize player variables
+        PlayerController.spawnManager = this;
+        PlayerController.length = length;
+        PlayerController.side = side;
+        PlayerController.playerNumber = playerNumber;
+        PlayerController.checkpointDistances = checkpointDistances;
+        PlayerController.checkpointRadii = checkpointRadii;
+        PlayerController.colliderWidth = colliderWidth;
+        PlayerController.droneNumber = droneNumber;
+        PlayerController.checkpointDrones = checkpointDrones;
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        audioSource = audioSources[0];
+        PlayerController.audioSource = Drone.audioSource = Ring.audioSource = Atmosphere.audioSource = audioSource;
+        backgroundMusic = audioSources[1];
+        backgroundNoise = audioSources[2];
+
+        StartCoroutine(Initialize());
+    }
+    IEnumerator Initialize()
+    {
+        while(SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Play"))
+        {
+            yield return null;
+        }
+        
         //Section spawning
         int sectionNumber = playerNumber * 27;
         sectionChunks = new Vector3[sectionNumber];
@@ -276,27 +309,7 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
-        //Initialize player variables
-        PlayerController.spawnManager = this;
-        PlayerController.length = length;
-        PlayerController.side = side;
-        PlayerController.playerNumber = playerNumber;
-        PlayerController.checkpointDistances = checkpointDistances;
-        PlayerController.checkpointRadii = checkpointRadii;
-        PlayerController.colliderWidth = colliderWidth;
-        PlayerController.droneNumber = droneNumber;
-        PlayerController.checkpointDrones = checkpointDrones;
-        AudioSource[] audioSources = GetComponents<AudioSource>();
-        audioSource = audioSources[0];
-        PlayerController.audioSource = Drone.audioSource = Ring.audioSource = Atmosphere.audioSource = audioSource;
-        backgroundMusic = audioSources[1];
-        backgroundNoise = audioSources[2];
-
-        //Spawn players and cameras
-        if(MenuManager.playerModels != null)
-        {
-            playerModels = MenuManager.playerModels;
-        }
+        //Spawn players
         players = new GameObject[playerNumber];
         playerChunks = new Vector3[playerNumber];
         playerCheckpoints = new int[playerNumber];
@@ -307,7 +320,7 @@ public class SpawnManager : MonoBehaviour
             playerChunks[i] = Vector3.zero;
             playerCheckpoints[i] = 0;
             playingPlayers.Add(i);
-            cameraObjects[i] = Instantiate(cameraPrefab).transform;
+            cameraObjects[i] = Instantiate(cameraPrefab, transform).transform;
             Transform viewObject = cameraObjects[i].GetChild(0);
             views[i] = viewObject.GetComponent<Camera>();
             GameObject thirdPersonObject = viewObject.GetChild(0).gameObject;
@@ -316,7 +329,6 @@ public class SpawnManager : MonoBehaviour
             views[i].cullingMask = cameraMasks[i];
             followers[i] = new List<Transform>() {cameraObjects[i]};
         }
-
         GameObject player1;
         GameObject player2;
         GameObject player3;
@@ -324,7 +336,7 @@ public class SpawnManager : MonoBehaviour
         switch(playerNumber)
         {
             case 1:
-                player1 = Instantiate(possiblePlayers[playerModels[0]], new Vector3(0, 0, 5), Quaternion.identity);
+                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 5), Quaternion.identity);
                 player1.tag = "1";
                 players[0] = player1;
 
@@ -341,8 +353,8 @@ public class SpawnManager : MonoBehaviour
                 break;
 
             case 2:
-                player1 = Instantiate(possiblePlayers[playerModels[0]], new Vector3(0, 0, 5), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerModels[1]], new Vector3(0, 0, -5), Quaternion.Euler(0, 180, 0));
+                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 5), Quaternion.identity);
+                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(0, 0, -5), Quaternion.Euler(0, 180, 0));
                 player1.tag = "1";
                 player2.tag = "2";
                 players[0] = player1;
@@ -366,9 +378,9 @@ public class SpawnManager : MonoBehaviour
                 break;
 
             case 3:
-                player1 = Instantiate(possiblePlayers[playerModels[0]], new Vector3(0, 0, 5), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerModels[2]], new Vector3(-5, 0, 0), Quaternion.Euler(0, 270, 0));
-                player3 = Instantiate(possiblePlayers[playerModels[1]], new Vector3(5, 0, 0), Quaternion.Euler(0, 90, 0));
+                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 5), Quaternion.identity);
+                player2 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(-5, 0, 0), Quaternion.Euler(0, 270, 0));
+                player3 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(5, 0, 0), Quaternion.Euler(0, 90, 0));
                 player1.tag = "1";
                 player2.tag = "2";
                 player3.tag = "3";
@@ -395,10 +407,10 @@ public class SpawnManager : MonoBehaviour
                 break;
 
             case 4:
-                player1 = Instantiate(possiblePlayers[playerModels[0]], new Vector3(0, 0, 5), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerModels[3]], new Vector3(-5, 0, 0), Quaternion.Euler(0, 270, 0));
-                player3 = Instantiate(possiblePlayers[playerModels[1]], new Vector3(5, 0, 0), Quaternion.Euler(0, 90, 0));
-                player4 = Instantiate(possiblePlayers[playerModels[2]], new Vector3(0, 0, -5), Quaternion.Euler(0, 180, 0));
+                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 5), Quaternion.identity);
+                player2 = Instantiate(possiblePlayers[playerShips[3]], new Vector3(-5, 0, 0), Quaternion.Euler(0, 270, 0));
+                player3 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(5, 0, 0), Quaternion.Euler(0, 90, 0));
+                player4 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(0, 0, -5), Quaternion.Euler(0, 180, 0));
                 player1.tag = "1";
                 player2.tag = "2";
                 player3.tag = "3";
@@ -428,6 +440,7 @@ public class SpawnManager : MonoBehaviour
                 break;
         }
 
+        //Audio setup
         AudioSource[] audioArray = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
         foreach(AudioSource audio in audioArray)
         {
@@ -437,14 +450,10 @@ public class SpawnManager : MonoBehaviour
             }
             allAudio.Add(audio);
         }
-    }
+        gameObject.AddComponent<AudioListener>();
 
-    void Start()
-    {
-        //Start background music
         StartCoroutine(Countdown(3));
     }
-
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Return))
@@ -954,7 +963,6 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator Countdown(int countdownTime)
     {
-        yield return null;
         backgroundNoise.Play();
         backgroundMusic.Play();
         while(countdownTime > 0)

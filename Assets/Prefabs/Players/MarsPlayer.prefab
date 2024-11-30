@@ -4963,7 +4963,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -4984,7 +4984,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -5087,7 +5087,7 @@ MonoBehaviour:
   abilityIncrease: 25
   abilityPercent: 40
   activationTimePercent: 40
-  minCooldown: 2
+  minCooldown: 3
   aura: {fileID: 1452392579131037511}
   auraSystems:
   - {fileID: 2216386516380548539}
@@ -5105,7 +5105,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3bbe242bc37c8614fbe02c843ed5b465, type: 3}
   - {fileID: 8300000, guid: 00567c9401ce5364fa0b2830749f785a, type: 3}
   checkpointSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
-  activationSound: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
+  activationSound: {fileID: 8300000, guid: 8ff2a2d7e79f81c40ac447512f879374, type: 3}
   expireSound: {fileID: 8300000, guid: acbcb75601b0082458fda8807f67c813, type: 3}
   chargeSound: {fileID: 8300000, guid: 7a9de5c4d998126449cf964a6b27a8b0, type: 3}
   errorSound: {fileID: 8300000, guid: 1ed8fb76fc64e4e46847348138782234, type: 3}

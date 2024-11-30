@@ -1,37 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &684149586399486677
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6289117378035806089}
-  m_Layer: 6
-  m_Name: Thrusters
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6289117378035806089
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 684149586399486677}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5408715314470822106}
-  m_Father: {fileID: 6256560875089626868}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1794560135650512019
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,6 +31,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6256560875089626868}
   m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
+--- !u!1 &3344193660739149652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6771598149120546618}
+  m_Layer: 6
+  m_Name: Thrusters
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6771598149120546618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3344193660739149652}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7795571617154299418}
+  m_Father: {fileID: 6256560875089626868}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6744162823093574734
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +100,7 @@ Transform:
   m_LocalScale: {x: 0.12, y: 0.12, z: 0.12}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 6289117378035806089}
+  - {fileID: 6771598149120546618}
   - {fileID: 3164727971931173299}
   - {fileID: 5421716473745140403}
   - {fileID: 4500610204598238105}
@@ -120,7 +120,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -141,7 +141,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -238,9 +238,9 @@ MonoBehaviour:
   rollSpeed: 6
   decMultiplier: 0.9
   glideDrag: 0.05
-  thrusterParent: {fileID: 684149586399486677}
+  thrusterParent: {fileID: 3344193660739149652}
   thrusterSystems:
-  - {fileID: 5322797645724142314}
+  - {fileID: 7997991309963598890}
   thrusterSpeedDivisor: 20
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 3000
@@ -612,14 +612,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
   m_PrefabInstance: {fileID: 4502181925842326447}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &8428631023709621929
+--- !u!1001 &6041703948504160361
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 6289117378035806089}
+    m_TransformParent: {fileID: 6771598149120546618}
     m_Modifications:
+    - target: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4603411070070373889, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
       propertyPath: m_Name
       value: middle
@@ -669,15 +673,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
---- !u!198 &5322797645724142314 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
-  m_PrefabInstance: {fileID: 8428631023709621929}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5408715314470822106 stripped
+--- !u!4 &7795571617154299418 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4609186477873770099, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
-  m_PrefabInstance: {fileID: 8428631023709621929}
+  m_PrefabInstance: {fileID: 6041703948504160361}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7997991309963598890 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
+  m_PrefabInstance: {fileID: 6041703948504160361}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9184965671786972603
 PrefabInstance:
