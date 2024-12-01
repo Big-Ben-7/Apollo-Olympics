@@ -181,8 +181,8 @@ MonoBehaviour:
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
-  forwardPercent: 20
-  backPercent: 20
+  forwardPercent: 30
+  backPercent: 30
   shipModel: Venus
   activationTime: 10
   cooldownTime: 20
@@ -213,6 +213,7 @@ MonoBehaviour:
   errorSound: {fileID: 8300000, guid: 1ed8fb76fc64e4e46847348138782234, type: 3}
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
+  arrow: {fileID: 0}
   canCollide: 0
   cameraObject: {fileID: 0}
 --- !u!82 &283605144193943937

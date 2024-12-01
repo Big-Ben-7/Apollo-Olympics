@@ -20,6 +20,7 @@ using UnityEditor.Rendering;
 using UnityEditor;
 using Unity.Mathematics;
 using System.Linq;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -33,7 +34,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float decMultiplier;
     [SerializeField] float glideDrag;
     [SerializeField] GameObject thrusterParent;
-    [SerializeField] ParticleSystem[] thrusterSystems;
     [SerializeField] float thrusterSpeedDivisor;
     [SerializeField] float maxThrusterSpeed;
     [SerializeField] float thrusterVolumeDivisor;
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
     [Header("Drone spawning")]
     [SerializeField] GameObject dronePrefab;
 
-    [Header("Audio")]
+    [Header("UI/Audio")]
     [SerializeField] AudioSource fireSource;
     [SerializeField] AudioSource thrusterSource;
     [SerializeField] AudioClip[] hitSounds;
@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip errorSound;
     [SerializeField] AudioClip wormholeSound;
     [SerializeField] AudioClip dieSound;
+    [SerializeField] Transform arrow;
     
     //Movement control
     Rigidbody rb;
@@ -144,7 +145,7 @@ public class PlayerController : MonoBehaviour
     TMP_Text abilityText;
     TMP_Text timeText;
     TMP_Text posText;
-    TMP_Text rotText;
+    TMP_Text distanceText;
     TMP_Text countdownText;
     TMP_Text finishText;
     TMP_Text[] allText;
@@ -158,6 +159,7 @@ public class PlayerController : MonoBehaviour
         hitExplosionPrefab.SetActive(false);
         aura.SetActive(false);
         thrusterParent.SetActive(false);
+        arrow.gameObject.SetActive(false);
         fireSource.volume = 0;
         thrusterSource.volume = 0;
 
@@ -170,11 +172,12 @@ public class PlayerController : MonoBehaviour
         thrustSpeed = initialThrustSpeed;
         decSpeed = thrustSpeed;
 
-        thrusterCount = thrusterSystems.Length;
+        Transform thrusterTransform = thrusterParent.transform;
+        thrusterCount = thrusterTransform.childCount;
         thrusters = new ParticleSystem.MainModule[thrusterCount];
         for(int i = 0; i < thrusterCount; i++)
         {
-            thrusters[i] = thrusterSystems[i].main;
+            thrusters[i] = thrusterTransform.GetChild(i).GetComponent<ParticleSystem>().main;
         }
         hitSoundsCount = hitSounds.Length;
     }
@@ -277,7 +280,7 @@ public class PlayerController : MonoBehaviour
         abilityText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
         timeText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
         posText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
-        rotText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
+        distanceText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
         countdownText = closeCanvas.GetChild(0).GetComponent<TMP_Text>();
         finishText = closeCanvas.GetChild(1).GetComponent<TMP_Text>();
         
@@ -289,11 +292,11 @@ public class PlayerController : MonoBehaviour
         abilityText.SetText("");
         timeText.SetText("Time: 0:00.000");
         posText.SetText("Pos: 0.0,0.0,0.0");
-        rotText.SetText("Rot: 0,0,0");
+        distanceText.SetText("Distance: 0.00");
         countdownText.SetText("");
         finishText.SetText("");
 
-        allText = new TMP_Text[]{checkpointText, healthText, speedText, collectText, abilityText, timeText, posText, rotText};
+        allText = new TMP_Text[]{checkpointText, healthText, speedText, collectText, abilityText, timeText, posText, distanceText};
 
         StartCoroutine(TextUpdate());
         StartCoroutine(Countdown(3));
@@ -386,6 +389,10 @@ public class PlayerController : MonoBehaviour
         {
             thrusterSpeed = maxThrusterSpeed;
         }
+        else if(thrusterSpeed < 1)
+        {
+            thrusterSpeed = 1;
+        }
         for(int i = 0; i < thrusterCount; i++)
         {
             ParticleSystem.MainModule thruster = thrusters[i];
@@ -438,7 +445,13 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
+        if(rb.isKinematic)
+        {
+            return;
+        }
         droneGroup.localPosition = myTransform.localPosition;
+        arrow.localPosition = Vector3.zero;
+        arrow.rotation = Quaternion.Euler(0, Vector2.SignedAngle(Vector2.up, new Vector2(myTransform.position.x, myTransform.position.z)), myTransform.rotation.eulerAngles.z);
     }
 
     void FixedUpdate()
@@ -493,7 +506,9 @@ public class PlayerController : MonoBehaviour
         else if(other.gameObject.CompareTag("FinishLine"))
         {
             int playingPlayers = spawnManager.PlayerFinish(playerIndex);
-            int elapsedTime = (int) Math.Round((DateTime.Now - startTime).TotalMilliseconds);
+            DateTime finishTime = DateTime.Now;
+            TimeSpan elapsedTime = finishTime - startTime;
+            transform.parent = null;
             gameObject.SetActive(false);
             finishBackground.SetActive(true);
             audioSource.PlayOneShot(checkpointSound);
@@ -513,14 +528,17 @@ public class PlayerController : MonoBehaviour
                     finishText.SetText(finishedPlayers + "th\nPlace!");
                     break;
             }
-            if(elapsedTime < MenuManager.times[MenuManager.difficulty - 1] || MenuManager.times[MenuManager.difficulty - 1] == 0)
+            int elapsedMilliseconds = (int) Math.Round(elapsedTime.TotalMilliseconds);
+            if(MenuManager.loaded && (elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0))
             {
-                int index = MenuManager.difficulty - 1;
-                MenuManager.times[index] = elapsedTime;
-                PlayerPrefs.SetInt("Time" + index, elapsedTime);
+                int index = MenuManager.difficulty;
+                MenuManager.times[index] = elapsedMilliseconds;
+                PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
+                PlayerPrefs.SetString("Description" + index, " (Player " + (playerIndex + 1) + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year + ")");
             }
             MenuManager.collects += collects;
             PlayerPrefs.SetInt("Collects", MenuManager.collects);
+            timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
             if(playingPlayers == 0)
             {
                 MenuManager.races++;
@@ -790,6 +808,10 @@ public class PlayerController : MonoBehaviour
                 //Respawning
                 int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
                 myTransform.parent = null;
+                foreach(Transform follower in SpawnManager.followers[playerIndex])
+                {
+                    follower.parent = null;
+                }
                 switch(playerCheckpoint)
                 {
                     case 0:
@@ -848,13 +870,13 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Countdown(int countdownTime)
     {
-        yield return null;
         while(countdownTime > 0)
         {
             countdownText.SetText("" + countdownTime);
             countdownTime --;
             yield return new WaitForSeconds(1);
         }
+        arrow.gameObject.SetActive(true);
         countdownText.SetText("Go!");
         yield return new WaitForSeconds(1);
         for(int i = 0; i < checkpointDrones[0]; i++)
@@ -893,8 +915,7 @@ public class PlayerController : MonoBehaviour
                 rot.z = 360 - rot.z;
             }
 
-            rotText.SetText("Rot: " + rot.x + "," + rot.y + "," + rot.z);
-
+            distanceText.SetText("Distance: " + new Vector2(pos.x, pos.z).magnitude.ToString("0.00"));
             yield return new WaitForSeconds(0.02f);
         }
     }
@@ -1324,7 +1345,7 @@ public class PlayerController : MonoBehaviour
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        Collider[] colliders = Physics.OverlapSphere(myTransform.position, 500);
+        Collider[] colliders = Physics.OverlapSphere(myTransform.position, 1000);
         for(int i = 0; i < colliders.Length; i++)
         {
             Collider collider = colliders[i];

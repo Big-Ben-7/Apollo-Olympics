@@ -25,6 +25,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text intTime;
     [SerializeField] TMP_Text advTime;
     [SerializeField] TMP_Text expTime;
+    [SerializeField] bool resetRecords;
+    bool reset;
 
     [Header("Game Settings")]
     [SerializeField] Slider difficultySlider;
@@ -50,6 +52,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] AudioClip majorClick;
     [SerializeField] AudioClip minorClick;
     
+    public static bool loaded;
     public static int playerNumber;
     public static int difficulty;
     public static int[] playerShips = new int[4];
@@ -63,19 +66,32 @@ public class MenuManager : MonoBehaviour
         racesText.SetText("Races: " + races);
         collects = PlayerPrefs.GetInt("Collects");
         collectsText.SetText("Space Junk Collected: " + collects);
-        for(int i = 0; i < 4; i++)
+        if(resetRecords)
         {
-            times[i] = PlayerPrefs.GetInt("Time" + i);
-            playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
+            for(int i = 0; i < 4; i++)
+            {
+                PlayerPrefs.SetInt("Time" + i, 0);
+                PlayerPrefs.SetString("Description" + i, "");
+                playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
+            }
+            times = new int[] {0, 0, 0, 0};
+        }
+        else
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                times[i] = PlayerPrefs.GetInt("Time" + i);
+                playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
+            }
         }
         TimeSpan begSpan = TimeSpan.FromMilliseconds(times[0]);
-        begTime.SetText("Beginner: " + begSpan.Minutes + ":" + begSpan.Seconds.ToString("00") + "." + begSpan.Milliseconds.ToString("000"));
+        begTime.SetText("Beginner: " + begSpan.Minutes + ":" + begSpan.Seconds.ToString("00") + "." + begSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description0"));
         TimeSpan intSpan = TimeSpan.FromMilliseconds(times[1]);
-        intTime.SetText("Intermediate: " + intSpan.Minutes + ":" + intSpan.Seconds.ToString("00") + "." + intSpan.Milliseconds.ToString("000"));
+        intTime.SetText("Intermediate: " + intSpan.Minutes + ":" + intSpan.Seconds.ToString("00") + "." + intSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description1"));
         TimeSpan advSpan = TimeSpan.FromMilliseconds(times[2]);
-        advTime.SetText("Advanced: " + advSpan.Minutes + ":" + advSpan.Seconds.ToString("00") + "." + advSpan.Milliseconds.ToString("000"));
+        advTime.SetText("Advanced: " + advSpan.Minutes + ":" + advSpan.Seconds.ToString("00") + "." + advSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description2"));
         TimeSpan expSpan = TimeSpan.FromMilliseconds(times[3]);
-        expTime.SetText("Expert: " + expSpan.Minutes + ":" + expSpan.Seconds.ToString("00") + "." + expSpan.Milliseconds.ToString("000"));
+        expTime.SetText("Expert: " + expSpan.Minutes + ":" + expSpan.Seconds.ToString("00") + "." + expSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description3"));
         mainMenu.SetActive(true);
         gameSettings.SetActive(false);
         customization.SetActive(false);
@@ -95,6 +111,7 @@ public class MenuManager : MonoBehaviour
         difficulty = PlayerPrefs.GetInt("Difficulty");
         playersSlider.value = playerNumber;
         difficultySlider.value = difficulty;
+        loaded = true;
     }
 
     void Update()
@@ -153,16 +170,14 @@ public class MenuManager : MonoBehaviour
 
     public void Play()
     {
-        int playersValue = (int) playersSlider.value;
-        int difficultyValue = (int) difficultySlider.value;
+        playerNumber = (int) playersSlider.value;
+        difficulty = (int) difficultySlider.value;
         for(int i = 0; i < 4; i++)
         {
             PlayerPrefs.SetInt("Ship" + i, playerShips[i]);
         }
-        PlayerPrefs.SetInt("PlayerNumber", playersValue);
-        PlayerPrefs.SetInt("Difficulty", difficultyValue);
-        playerNumber = playersValue + 1;
-        difficulty = difficultyValue + 1;
+        PlayerPrefs.SetInt("PlayerNumber", playerNumber);
+        PlayerPrefs.SetInt("Difficulty", difficulty);
         gameSettings.SetActive(false);
         loading.SetActive(true);
         audioSource.PlayOneShot(majorClick);

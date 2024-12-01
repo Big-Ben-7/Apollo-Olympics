@@ -31,7 +31,7 @@ public class SpawnManager : MonoBehaviour
     [Header("Checkpoints")]
     GameObject[] checkpointPool;
     public int[] playerCheckpoints;
-    [SerializeField] int[] checkpointDistances;
+    [SerializeField] int[] checkpointDistances = new int[] {10000, 20000, 30000, 40000, 55000, 70000, 90000, 110000, 130000};
     float[] checkpointLengths;
     float[] checkpointRadii;
     [SerializeField] Transform checkpointParent;
@@ -75,7 +75,7 @@ public class SpawnManager : MonoBehaviour
     public List<int> playingPlayers = new List<int>();
     public static List<Transform>[] followers;
 
-    [Header("Camera/Audio")]
+    [Header("Camera/UI/Audio")]
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] LayerMask[] cameraMasks;
     Camera[] views = new Camera[4];
@@ -87,9 +87,8 @@ public class SpawnManager : MonoBehaviour
     AudioSource audioSource;
     AudioSource backgroundMusic;
     AudioSource backgroundNoise;
-    List<AudioSource> allAudio = new List<AudioSource>();
-    
-    [Header("UI")]
+    AudioSource[] allAudio;
+    int audioCount;
     [SerializeField] GameObject menu;
     
     void Awake()
@@ -97,29 +96,20 @@ public class SpawnManager : MonoBehaviour
         menu.SetActive(false);
         length = side * 2;
 
-        //Getting number of players
-        if(MenuManager.playerNumber != 0)
+        //Getting variabes from menu
+        if(MenuManager.loaded)
         {
-            playerNumber = MenuManager.playerNumber;
-        }
-
-        //Getting ship of each player
-        if(MenuManager.playerShips != null)
-        {
+            playerNumber = MenuManager.playerNumber + 1;
             playerShips = MenuManager.playerShips;
-        }
-
-        //Set difficulty-dependent variables
-        if(MenuManager.difficulty != 0)
-        {
             difficulty = MenuManager.difficulty;
         }
-        int difficultyMinusOne = difficulty - 1;
-        maxInteractables += interactableIncrease * difficultyMinusOne;
-        droneNumber += droneIncrease * difficultyMinusOne;
-        collectablePercent -= collectableDecrease * difficultyMinusOne;
-        wormholePercent -= wormholeDecrease * difficultyMinusOne;
-        checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficultyMinusOne];
+
+        //Setting difficulty-dependent variables
+        maxInteractables += interactableIncrease * difficulty;
+        droneNumber += droneIncrease * difficulty;
+        collectablePercent -= collectableDecrease * difficulty;
+        wormholePercent -= wormholeDecrease * difficulty;
+        checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
 
         //Stats for each checkpoint
         baseDisableNumber = maxInteractables / 3;
@@ -134,10 +124,13 @@ public class SpawnManager : MonoBehaviour
             int distance = checkpointDistances[i];
             float checkpointSide = distance * Mathf.Tan(Mathf.Deg2Rad * (180 / polygonSides));
             checkpointLengths[i] = 2 * checkpointSide;
-            checkpointRadii[i] = Mathf.Sqrt(checkpointSide * checkpointSide + (float) distance * (float) distance);
+            checkpointRadii[i] = new Vector2(checkpointSide, distance).magnitude;
         }
         //Asteroid belt should have high asteroid number
-        disableByCheckpoint[4] = increment;
+        if(checkpointCount >= 3)
+        {
+            disableByCheckpoint[4] = increment;
+        }
 
         //Initialize player variables
         PlayerController.spawnManager = this;
@@ -324,7 +317,7 @@ public class SpawnManager : MonoBehaviour
             playerChunks[i] = Vector3.zero;
             playerCheckpoints[i] = 0;
             playingPlayers.Add(i);
-            cameraObjects[i] = Instantiate(cameraPrefab, transform).transform;
+            cameraObjects[i] = Instantiate(cameraPrefab).transform;
             Transform viewObject = cameraObjects[i].GetChild(0);
             views[i] = viewObject.GetComponent<Camera>();
             GameObject thirdPersonObject = viewObject.GetChild(0).gameObject;
@@ -345,9 +338,6 @@ public class SpawnManager : MonoBehaviour
                 players[0] = player1;
 
                 //Set up cameras
-                Transform cameraObject = cameraObjects[0];
-                cameraObject.parent = players[0].transform;
-                cameraObject.localPosition = Vector3.zero;
                 players[0].GetComponent<PlayerController>().cameraObject = cameraObjects[0].gameObject;
                 CinemachineVirtualCamera viewCam = thirdPersons[0];
                 viewCam.Follow = viewCam.LookAt = player1.transform.GetChild(2);
@@ -367,9 +357,6 @@ public class SpawnManager : MonoBehaviour
                 //Set up cameras
                 for(int i = 0; i < 2; i++)
                 {
-                    cameraObject = cameraObjects[i];
-                    cameraObject.parent = players[i].transform;
-                    cameraObject.localPosition = Vector3.zero;
                     players[i].GetComponent<PlayerController>().cameraObject = cameraObjects[i].gameObject;
                     viewCam = thirdPersons[i];
                     viewCam.Follow = viewCam.LookAt = players[i].transform.GetChild(2);
@@ -395,9 +382,6 @@ public class SpawnManager : MonoBehaviour
                 //Set up cameras
                 for(int i = 0; i < 3; i++)
                 {
-                    cameraObject = cameraObjects[i];
-                    cameraObject.parent = players[i].transform;
-                    cameraObject.localPosition = Vector3.zero;
                     players[i].GetComponent<PlayerController>().cameraObject = cameraObjects[i].gameObject;
                     viewCam = thirdPersons[i];
                     viewCam.Follow = viewCam.LookAt = players[i].transform.GetChild(2);
@@ -427,9 +411,6 @@ public class SpawnManager : MonoBehaviour
                 //Set up cameras
                 for(int i = 0; i < 4; i++)
                 {
-                    cameraObject = cameraObjects[i];
-                    cameraObject.parent = players[i].transform;
-                    cameraObject.localPosition = Vector3.zero;
                     players[i].GetComponent<PlayerController>().cameraObject = cameraObjects[i].gameObject;
                     viewCam = thirdPersons[i];
                     viewCam.Follow = viewCam.LookAt = players[i].transform.GetChild(2);
@@ -445,15 +426,8 @@ public class SpawnManager : MonoBehaviour
         }
 
         //Audio setup
-        AudioSource[] audioArray = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
-        foreach(AudioSource audio in audioArray)
-        {
-            if(audio == audioSource)
-            {
-                continue;
-            }
-            allAudio.Add(audio);
-        }
+        allAudio = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        audioCount = allAudio.Length;
         gameObject.AddComponent<AudioListener>();
 
         StartCoroutine(Countdown(3));
@@ -478,9 +452,9 @@ public class SpawnManager : MonoBehaviour
     {
         menu.SetActive(true);
         audioSource.PlayOneShot(pauseSound);
-        foreach(AudioSource audio in allAudio)
+        for(int i = 0; i < audioCount; i++)
         {
-            audio.Pause();
+            allAudio[i].Pause();
         }
         Time.timeScale = 0;
     }
@@ -490,9 +464,9 @@ public class SpawnManager : MonoBehaviour
         menu.SetActive(false);
         audioSource.PlayOneShot(pauseSound);
         Time.timeScale = 1;
-        foreach(AudioSource audio in allAudio)
+        for(int i = 0; i < audioCount; i++)
         {
-            audio.UnPause();
+            allAudio[i].UnPause();
         }
     }
 
@@ -951,36 +925,19 @@ public class SpawnManager : MonoBehaviour
     public int PlayerFinish(int playerIndex)
     {
         playingPlayers.Remove(playerIndex);
-        Vector3 playerChunk = playerChunks[playerIndex];
-        int playerYChunk = (int) playerChunk.y;
-        int playerCheckpoint = playerCheckpoints[playerIndex];
-        foreach(GameObject section in sectionPool)
+        for(int i = 0; i < sectionPool.Length; i++)
         {
-            if(section.activeInHierarchy)
-            {
-                Vector3 sectionChunk = section.transform.position / length;
-                if(playerChunk.x >= sectionChunk.x - 1 && playerChunk.x <= sectionChunk.x + 1 && playerChunk.z >= sectionChunk.z - 1 && playerChunk.z <= sectionChunk.z + 1 && playerChunk.y >= sectionChunk.y - 1 && playerChunk.y <= sectionChunk.y + 1)
-                {
-                    section.SetActive(false);
-                }
-            }
+            DestroySection(sectionPool[i]);
         }
-        foreach(GameObject checkpoint in checkpointPool)
+        for(int i = 0; i < checkpointPool.Length; i++)
         {
-            if(checkpoint.activeInHierarchy)
-            {
-                int checkpointYChunk = Mathf.RoundToInt(checkpoint.transform.position.y / length);
-                string checkpointName = checkpoint.name;
-                if(playerYChunk <= checkpointYChunk + 1 && playerYChunk >= checkpointYChunk - 1 && (checkpointName == "" + playerCheckpoint || checkpointName == "" + (playerCheckpoint - 1)))
-                {
-                    checkpoint.SetActive(false);
-                }
-            }
+            DestroyCheckpoint(checkpointPool[i]);
         }
         List<Transform> playerFollowers = followers[playerIndex];
         playerFollowers[0].parent = null;
         for(int i = 1; i < playerFollowers.Count; i++)
         {
+            playerFollowers[i].parent = null;
             playerFollowers[i].gameObject.SetActive(false);
         }
         return playingPlayers.Count;
@@ -988,6 +945,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator Countdown(int countdownTime)
     {
+        yield return null;
         backgroundNoise.Play();
         backgroundMusic.Play();
         while(countdownTime > 0)
