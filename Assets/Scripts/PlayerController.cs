@@ -513,7 +513,7 @@ public class PlayerController : MonoBehaviour
                     finishText.SetText(finishedPlayers + "th\nPlace!");
                     break;
             }
-            if(elapsedTime > MenuManager.times[MenuManager.difficulty - 1])
+            if(elapsedTime < MenuManager.times[MenuManager.difficulty - 1] || MenuManager.times[MenuManager.difficulty - 1] == 0)
             {
                 int index = MenuManager.difficulty - 1;
                 MenuManager.times[index] = elapsedTime;

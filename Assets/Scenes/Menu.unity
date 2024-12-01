@@ -1519,6 +1519,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 4000150246820187415, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: Mars
+      objectReference: {fileID: 0}
     - target: {fileID: 4097267508527995609, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

@@ -977,9 +977,11 @@ public class SpawnManager : MonoBehaviour
                 }
             }
         }
-        foreach(Transform follower in followers[playerIndex])
+        List<Transform> playerFollowers = followers[playerIndex];
+        playerFollowers[0].parent = null;
+        for(int i = 1; i < playerFollowers.Count; i++)
         {
-            follower.gameObject.SetActive(false);
+            playerFollowers[i].gameObject.SetActive(false);
         }
         return playingPlayers.Count;
     }
