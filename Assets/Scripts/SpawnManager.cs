@@ -89,8 +89,12 @@ public class SpawnManager : MonoBehaviour
     AudioSource backgroundNoise;
     List<AudioSource> allAudio = new List<AudioSource>();
     
+    [Header("UI")]
+    [SerializeField] GameObject menu;
+    
     void Awake()
     {
+        menu.SetActive(false);
         length = side * 2;
 
         //Getting number of players
@@ -458,25 +462,44 @@ public class SpawnManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            audioSource.PlayOneShot(pauseSound);
             switch(Time.timeScale)
             {
                 case 0:
-                    Time.timeScale = 1;
-                    foreach(AudioSource audio in allAudio)
-                    {
-                        audio.UnPause();
-                    }
+                    Resume();
                     break;
                 case 1:
-                    foreach(AudioSource audio in allAudio)
-                    {
-                        audio.Pause();
-                    }
-                    Time.timeScale = 0;
+                    Pause();
                     break;
             }
         }
+    }
+
+    public void Pause()
+    {
+        menu.SetActive(true);
+        audioSource.PlayOneShot(pauseSound);
+        foreach(AudioSource audio in allAudio)
+        {
+            audio.Pause();
+        }
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        menu.SetActive(false);
+        audioSource.PlayOneShot(pauseSound);
+        Time.timeScale = 1;
+        foreach(AudioSource audio in allAudio)
+        {
+            audio.UnPause();
+        }
+    }
+
+    public void Exit()
+    {
+        audioSource.PlayOneShot(pauseSound);
+        SceneManager.LoadSceneAsync(0);
     }
 
     void SetSection(Transform parent)
@@ -760,7 +783,7 @@ public class SpawnManager : MonoBehaviour
                         i--;
                         break;
                 }
-                stage ++;
+                stage++;
             }
         }
         Transform newParent = sectionPool[Array.IndexOf(sectionChunks, playerChunks[playerIndex])].transform;
@@ -822,7 +845,7 @@ public class SpawnManager : MonoBehaviour
                         i--;
                         break;
                 }
-                stage ++;
+                stage++;
             }
         }
     }
@@ -874,7 +897,7 @@ public class SpawnManager : MonoBehaviour
                         i--;
                         break;
                 }
-                stage ++;
+                stage++;
             }
         }
     }

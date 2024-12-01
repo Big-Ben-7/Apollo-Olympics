@@ -80,6 +80,7 @@ public class SectionSpawner : MonoBehaviour
 
                     //Random force and torque
                     Rigidbody rb = child.GetComponent<Rigidbody>();
+                    rb.velocity = rb.angularVelocity = Vector3.zero;
                     rb.mass = newScale * 2;
                     float movementForce = Random.Range(0f, maxMovementForce);
                     float rotationForce = Random.Range(0f, maxRotationForce);

@@ -229,8 +229,8 @@ MonoBehaviour:
   shipModel: Neptune
   activationTime: 0
   cooldownTime: 10
-  abilityStrength: 30000
-  abilityIncrease: 15000
+  abilityStrength: 50000
+  abilityIncrease: 25000
   abilityPercent: 70
   activationTimePercent: 0
   minCooldown: 3

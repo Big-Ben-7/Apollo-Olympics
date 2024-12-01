@@ -214,8 +214,8 @@ MonoBehaviour:
   shipModel: Mercury
   activationTime: 0
   cooldownTime: 5
-  abilityStrength: 400
-  abilityIncrease: 200
+  abilityStrength: 2000
+  abilityIncrease: 1000
   abilityPercent: 70
   activationTimePercent: 0
   minCooldown: 3

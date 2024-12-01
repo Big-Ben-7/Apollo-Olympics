@@ -75,27 +75,22 @@ public class Drone : MonoBehaviour
             return;
         }
         collided = true;
-        GameObject otherObject = other.gameObject;
-        switch(otherObject.layer)
-        {
-            case 6:
-                explosionTransform.parent = other.transform;
-                break;
-
-            default:
-                explosionTransform.parent = null;
-                break;
-        }
-        explosionTransform.position = other.GetContact(0).point;
-        explosion.SetActive(true);
-        audioSource.PlayOneShot(explosionSounds[Random.Range(0, explosionSoundsLength)]);
-        StartCoroutine(ResetEffect(explosion));
+        /*GameObject otherObject = other.gameObject;
         Rigidbody otherRb = otherObject.GetComponent<Rigidbody>();
         if(otherRb != null)
         {
             otherRb.AddExplosionForce(explosionForce, myTransform.position, explosionRadius, 0, ForceMode.Impulse);
+        }*/
+        switch(other.gameObject.layer)
+        {
+            case 6:
+                Explode(other.GetContact(0).point, other.transform);
+                break;
+
+            default:
+                Explode(other.GetContact(0).point);
+                break;
         }
-        ResetDrone();
     }
 
     void OnCollisionExit(Collision other)
@@ -125,6 +120,16 @@ public class Drone : MonoBehaviour
             targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + targetVelocity * (overshoot + targetRb.angularVelocity.magnitude * confusion) * updateInterval - myTransform.position);
             yield return new WaitForSeconds(updateInterval);
         }
+    }
+
+    public void Explode(Vector3 pos, Transform parent = null)
+    {
+        explosionTransform.parent = parent;
+        explosionTransform.position = pos;
+        explosion.SetActive(true);
+        audioSource.PlayOneShot(explosionSounds[Random.Range(0, explosionSoundsLength)]);
+        StartCoroutine(ResetEffect(explosion));
+        ResetDrone();
     }
 
     public void ResetDrone()

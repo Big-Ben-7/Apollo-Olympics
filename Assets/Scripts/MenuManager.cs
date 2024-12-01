@@ -7,6 +7,8 @@ using UnityEngine.UIElements.Experimental;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
+using System.Security.Cryptography;
+using System;
 
 public class MenuManager : MonoBehaviour
 {
@@ -15,6 +17,14 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject gameSettings;
     [SerializeField] GameObject customization;
     [SerializeField] GameObject loading;
+
+    [Header("Main Menu")]
+    [SerializeField] TMP_Text racesText;
+    [SerializeField] TMP_Text collectsText;
+    [SerializeField] TMP_Text begTime;
+    [SerializeField] TMP_Text intTime;
+    [SerializeField] TMP_Text advTime;
+    [SerializeField] TMP_Text expTime;
 
     [Header("Game Settings")]
     [SerializeField] Slider difficultySlider;
@@ -42,10 +52,30 @@ public class MenuManager : MonoBehaviour
     
     public static int playerNumber;
     public static int difficulty;
-    public static int[] playerShips;
+    public static int[] playerShips = new int[4];
+    public static int[] times = new int[4];
+    public static int collects;
+    public static int races;
 
     void Awake()
     {
+        races = PlayerPrefs.GetInt("Races");
+        racesText.SetText("Races: " + races);
+        collects = PlayerPrefs.GetInt("Collects");
+        collectsText.SetText("Space Junk Collected: " + collects);
+        for(int i = 0; i < 4; i++)
+        {
+            times[i] = PlayerPrefs.GetInt("Time" + i);
+            playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
+        }
+        TimeSpan begSpan = TimeSpan.FromMilliseconds(times[0]);
+        begTime.SetText("Beginner: " + begSpan.Minutes + ":" + begSpan.Seconds.ToString("00") + "." + begSpan.Milliseconds.ToString("000"));
+        TimeSpan intSpan = TimeSpan.FromMilliseconds(times[1]);
+        intTime.SetText("Intermediate: " + intSpan.Minutes + ":" + intSpan.Seconds.ToString("00") + "." + intSpan.Milliseconds.ToString("000"));
+        TimeSpan advSpan = TimeSpan.FromMilliseconds(times[2]);
+        advTime.SetText("Advanced: " + advSpan.Minutes + ":" + advSpan.Seconds.ToString("00") + "." + advSpan.Milliseconds.ToString("000"));
+        TimeSpan expSpan = TimeSpan.FromMilliseconds(times[3]);
+        expTime.SetText("Expert: " + expSpan.Minutes + ":" + expSpan.Seconds.ToString("00") + "." + expSpan.Milliseconds.ToString("000"));
         mainMenu.SetActive(true);
         gameSettings.SetActive(false);
         customization.SetActive(false);
@@ -56,24 +86,15 @@ public class MenuManager : MonoBehaviour
         for(int i = 0; i < shipCount; i++)
         {
             GameObject ship = ships[i];
-            ship.SetActive(false);
             Transform model = ship.transform.GetChild(0);
             models[i] = model;
             abilities[i] = model.GetChild(2).gameObject;
-            abilities[i].SetActive(false);
-            TMP_Text selectText = ship.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-            selectText.SetText("Select");
-            selectTexts[i] = selectText;
+            selectTexts[i] = ship.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         }
-        ships[0].SetActive(true);
-        selectTexts[0].SetText("Selected");
-        activeShip = activePlayer = 0;
-        activeModel = models[0];
-        activeModel.rotation = Quaternion.Euler(30, 180, 0);
-        rotationSpeed = 0.1f;
-        playerNumber = 1;
-        difficulty = 2;
-        playerShips = new int[] {0, 0, 0, 0};
+        playerNumber = PlayerPrefs.GetInt("PlayerNumber");
+        difficulty = PlayerPrefs.GetInt("Difficulty");
+        playersSlider.value = playerNumber;
+        difficultySlider.value = difficulty;
     }
 
     void Update()
@@ -86,42 +107,70 @@ public class MenuManager : MonoBehaviour
 
     public void ShowMain()
     {
-        audioSource.PlayOneShot(majorClick);
         mainMenu.SetActive(true);
         gameSettings.SetActive(false);
         customization.SetActive(false);
         loading.SetActive(false);
+        audioSource.PlayOneShot(majorClick);
     }
 
     public void GameSettings()
     {
-        audioSource.PlayOneShot(majorClick);
         gameSettings.SetActive(true);
         mainMenu.SetActive(false);
         customization.SetActive(false);
+        audioSource.PlayOneShot(majorClick);
     }
 
     public void Customization()
     {
-        audioSource.PlayOneShot(majorClick);
+        for(int i = 0; i < shipCount; i++)
+        {
+            ships[i].SetActive(false);
+            abilities[i].SetActive(false);
+            selectTexts[i].SetText("Select");
+        }
+        playerText.SetText("Player 1");
+        activePlayer = 0;
+        activeShip = playerShips[0];
+        ships[activeShip].SetActive(true);
+        selectTexts[activeShip].SetText("Selected");
+        activeModel = models[activeShip];
+        activeModel.rotation = Quaternion.Euler(30, 180, 0);
+        if(activeShip > 3 && rotationSpeed != 0.05)
+        {
+            rotationSpeed = 0.05f;
+        }
+        else if(rotationSpeed != 0.1)
+        {
+            rotationSpeed = 0.1f;
+        }
         customization.SetActive(true);
         mainMenu.SetActive(false);
         gameSettings.SetActive(false);
+        audioSource.PlayOneShot(majorClick);
     }
 
     public void Play()
     {
-        audioSource.PlayOneShot(majorClick);
-        playerNumber = (int) playersSlider.value + 1;
-        difficulty = (int) difficultySlider.value + 1;
+        int playersValue = (int) playersSlider.value;
+        int difficultyValue = (int) difficultySlider.value;
+        for(int i = 0; i < 4; i++)
+        {
+            PlayerPrefs.SetInt("Ship" + i, playerShips[i]);
+        }
+        PlayerPrefs.SetInt("PlayerNumber", playersValue);
+        PlayerPrefs.SetInt("Difficulty", difficultyValue);
+        playerNumber = playersValue + 1;
+        difficulty = difficultyValue + 1;
         gameSettings.SetActive(false);
         loading.SetActive(true);
+        audioSource.PlayOneShot(majorClick);
         StartCoroutine(LoadGame());
     }
 
     public void NextShip(int increment)
     {
-        audioSource.PlayOneShot(minorClick);
         activeShip += increment;
         if(activeShip == shipCount)
         {
@@ -132,11 +181,11 @@ public class MenuManager : MonoBehaviour
             activeShip = shipCount - 1;
         }
         ChangeShip();
+        audioSource.PlayOneShot(minorClick);
     }
 
     public void NextPlayer(int increment)
     {
-        audioSource.PlayOneShot(minorClick);
         activePlayer += increment;
         switch(activePlayer)
         {
@@ -155,6 +204,7 @@ public class MenuManager : MonoBehaviour
             selectTexts[i].SetText("Select");
         }
         selectTexts[activeShip].SetText("Selected");
+        audioSource.PlayOneShot(minorClick);
     }
 
     void ChangeShip()
@@ -184,13 +234,13 @@ public class MenuManager : MonoBehaviour
 
     void SelectShip()
     {
-        audioSource.PlayOneShot(majorClick);
         playerShips[activePlayer] = activeShip;
         for(int i = 0; i < shipCount; i++)
         {
             selectTexts[i].SetText("Select");
         }
         selectTexts[activeShip].SetText("Selected");
+        audioSource.PlayOneShot(majorClick);
     }
 
     public void Ability()
@@ -225,6 +275,12 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void Quit()
+    {
+        audioSource.PlayOneShot(majorClick);
+        StartCoroutine(QuitApplication());
+    }
+
     public void MinorClick()
     {
         audioSource.PlayOneShot(minorClick);
@@ -254,5 +310,14 @@ public class MenuManager : MonoBehaviour
         }
         SceneManager.UnloadSceneAsync(0);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Play"));
+    }
+
+    IEnumerator QuitApplication()
+    {
+        yield return new WaitForSeconds(majorClick.length);
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        Application.Quit();
     }
 }

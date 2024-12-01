@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
     ParticleSystem.MainModule[] thrusters;
     int thrusterCount;
     int hitSoundsCount;
+    int collects;
 
     //Ability
     IEnumerator ability;
@@ -139,6 +140,7 @@ public class PlayerController : MonoBehaviour
     TMP_Text checkpointText;
     TMP_Text healthText;
     TMP_Text speedText;
+    TMP_Text collectText;
     TMP_Text abilityText;
     TMP_Text timeText;
     TMP_Text posText;
@@ -271,10 +273,11 @@ public class PlayerController : MonoBehaviour
         checkpointText = farCanvas.GetChild(1).GetComponent<TMP_Text>();
         healthText = farCanvas.GetChild(2).GetComponent<TMP_Text>();
         speedText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
-        abilityText = farCanvas.GetChild(4).GetComponent<TMP_Text>();
-        timeText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
-        posText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
-        rotText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
+        collectText = farCanvas.GetChild(4).GetComponent<TMP_Text>();
+        abilityText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
+        timeText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
+        posText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
+        rotText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
         countdownText = closeCanvas.GetChild(0).GetComponent<TMP_Text>();
         finishText = closeCanvas.GetChild(1).GetComponent<TMP_Text>();
         
@@ -282,6 +285,7 @@ public class PlayerController : MonoBehaviour
         checkpointText.SetText("Checkpoint: 0");
         healthText.SetText("Health: 100.00");
         speedText.SetText("Speed: 0.00");
+        collectText.SetText("Space Junk: 0");
         abilityText.SetText("");
         timeText.SetText("Time: 0:00.000");
         posText.SetText("Pos: 0.0,0.0,0.0");
@@ -289,7 +293,7 @@ public class PlayerController : MonoBehaviour
         countdownText.SetText("");
         finishText.SetText("");
 
-        allText = new TMP_Text[]{checkpointText, healthText, speedText, abilityText, timeText, posText, rotText};
+        allText = new TMP_Text[]{checkpointText, healthText, speedText, collectText, abilityText, timeText, posText, rotText};
 
         StartCoroutine(TextUpdate());
         StartCoroutine(Countdown(3));
@@ -411,7 +415,7 @@ public class PlayerController : MonoBehaviour
             {
                 if((shipModel != "Saturn" && shipModel != "Uranus") || currentActivation == 0)
                 {
-                    StartCoroutine(ChangeTextColor(abilityText, 0.2f, abilityText.color, Color.red));
+                    StartCoroutine(ChangeTextColor(abilityText, 0.2f, Color.white, Color.red));
                     audioSource.PlayOneShot(errorSound);
                 }
             }
@@ -489,6 +493,7 @@ public class PlayerController : MonoBehaviour
         else if(other.gameObject.CompareTag("FinishLine"))
         {
             int playingPlayers = spawnManager.PlayerFinish(playerIndex);
+            int elapsedTime = (int) Math.Round((DateTime.Now - startTime).TotalMilliseconds);
             gameObject.SetActive(false);
             finishBackground.SetActive(true);
             audioSource.PlayOneShot(checkpointSound);
@@ -508,16 +513,29 @@ public class PlayerController : MonoBehaviour
                     finishText.SetText(finishedPlayers + "th\nPlace!");
                     break;
             }
+            if(elapsedTime > MenuManager.times[MenuManager.difficulty - 1])
+            {
+                int index = MenuManager.difficulty - 1;
+                MenuManager.times[index] = elapsedTime;
+                PlayerPrefs.SetInt("Time" + index, elapsedTime);
+            }
+            MenuManager.collects += collects;
+            PlayerPrefs.SetInt("Collects", MenuManager.collects);
             if(playingPlayers == 0)
             {
+                MenuManager.races++;
+                PlayerPrefs.SetInt("Races", MenuManager.races);
                 Invoke("OnFinish", 2);
             }
         }
 
-        //Collected powerup
+        //collects powerup
         else if(other.gameObject.CompareTag("Collectable"))
         {
             other.gameObject.SetActive(false);
+            collects++;
+            collectText.SetText("Space Junk: " + collects);
+            StartCoroutine(ChangeTextColor(collectText, 0.2f, Color.white, Color.green));
             int number = UnityEngine.Random.Range(0, 100);
             if(number < abilityPercent + activationTimePercent)
             {
@@ -830,6 +848,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Countdown(int countdownTime)
     {
+        yield return null;
         while(countdownTime > 0)
         {
             countdownText.SetText("" + countdownTime);
@@ -841,14 +860,13 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < checkpointDrones[0]; i++)
         {
             droneGroup.GetChild(activeDrones).gameObject.SetActive(true);
-            activeDrones ++;
+            activeDrones++;
         }
         countdownText.gameObject.SetActive(false);
         thrusterParent.SetActive(true);
         rb.isKinematic = false;
         canCollide = true;
         canTrigger = true;
-        startTime = DateTime.Now;
         StartCoroutine(TimeUpdate());
     }
 
@@ -883,6 +901,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator TimeUpdate()
     {
+        startTime = DateTime.Now;
         while(true)
         {
             //Show time
@@ -895,7 +914,7 @@ public class PlayerController : MonoBehaviour
 
     void OnFinish()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadSceneAsync(0);
     }
 
     IEnumerator ChangeTextColor(TMP_Text text, float time, Color originalColor, Color newColor, int amount = 1)
@@ -1026,7 +1045,7 @@ public class PlayerController : MonoBehaviour
             droneGroup.GetChild(activeDrones).gameObject.SetActive(true);
             activeDrones++;
         }
-        StartCoroutine(ChangeTextColor(checkpointText, 0.5f, checkpointText.color, Color.green));
+        StartCoroutine(ChangeTextColor(checkpointText, 0.5f, Color.white, Color.green));
         audioSource.PlayOneShot(checkpointSound);
     }
 
@@ -1038,7 +1057,7 @@ public class PlayerController : MonoBehaviour
             spawnManager.SpawnCheckpoints(playerIndex, playerCheckpoint - 1);
             checkpointText.SetText("Checkpoint: " + playerCheckpoint);
         }
-        StartCoroutine(ChangeTextColor(checkpointText, 0.5f, checkpointText.color, Color.red));
+        StartCoroutine(ChangeTextColor(checkpointText, 0.5f, Color.white, Color.red));
         audioSource.PlayOneShot(errorSound);
     }
 
@@ -1305,7 +1324,7 @@ public class PlayerController : MonoBehaviour
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        Collider[] colliders = Physics.OverlapSphere(myTransform.position, 1000);
+        Collider[] colliders = Physics.OverlapSphere(myTransform.position, 500);
         for(int i = 0; i < colliders.Length; i++)
         {
             Collider collider = colliders[i];
@@ -1313,6 +1332,10 @@ public class PlayerController : MonoBehaviour
             if(otherRb == null || collider.gameObject == gameObject || otherRb.isKinematic)
             {
                 continue;
+            }
+            if(collider.gameObject.CompareTag("Drone"))
+            {
+                collider.gameObject.GetComponent<Drone>().Explode(collider.transform.position, transform);
             }
             Vector3 direction = collider.transform.position - myTransform.position;
             otherRb.AddForce(direction * (abilityStrength / direction.magnitude), ForceMode.Impulse);
