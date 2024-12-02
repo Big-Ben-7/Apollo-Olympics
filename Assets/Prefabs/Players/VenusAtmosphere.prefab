@@ -4902,7 +4902,7 @@ GameObject:
   - component: {fileID: 7261490003925142051}
   - component: {fileID: 3753775676460273024}
   m_Layer: 13
-  m_Name: Atmosphere
+  m_Name: VenusAtmosphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

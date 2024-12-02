@@ -168,7 +168,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
@@ -197,8 +197,6 @@ MonoBehaviour:
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
-  thrusterSystems:
-  - {fileID: 2818902708090334172}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 3000
@@ -624,11 +622,6 @@ PrefabInstance:
 --- !u!4 &2724463086501069292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4609186477873770099, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
-  m_PrefabInstance: {fileID: 1889297497268727711}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &2818902708090334172 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
   m_PrefabInstance: {fileID: 1889297497268727711}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2870595848212085721
