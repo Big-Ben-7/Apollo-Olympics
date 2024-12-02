@@ -138,14 +138,15 @@ public class PlayerController : MonoBehaviour
 
     //UI
     public GameObject cameraObject;
+    TMP_Text nameText;
     TMP_Text checkpointText;
     TMP_Text healthText;
-    TMP_Text speedText;
     TMP_Text collectText;
     TMP_Text abilityText;
-    TMP_Text timeText;
     TMP_Text posText;
     TMP_Text distanceText;
+    TMP_Text speedText;
+    TMP_Text timeText;
     TMP_Text countdownText;
     TMP_Text finishText;
     TMP_Text[] allText;
@@ -273,26 +274,28 @@ public class PlayerController : MonoBehaviour
         Transform farCanvas = cameraStats.GetChild(0);
         Transform closeCanvas = cameraStats.GetChild(1);
         finishBackground = farCanvas.GetChild(0).gameObject;
-        checkpointText = farCanvas.GetChild(1).GetComponent<TMP_Text>();
-        healthText = farCanvas.GetChild(2).GetComponent<TMP_Text>();
-        speedText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
+        nameText = checkpointText = farCanvas.GetChild(1).GetComponent<TMP_Text>();
+        checkpointText = farCanvas.GetChild(2).GetComponent<TMP_Text>();
+        healthText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
         collectText = farCanvas.GetChild(4).GetComponent<TMP_Text>();
         abilityText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
-        timeText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
-        posText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
-        distanceText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
+        posText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
+        distanceText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
+        speedText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
+        timeText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
         countdownText = closeCanvas.GetChild(0).GetComponent<TMP_Text>();
         finishText = closeCanvas.GetChild(1).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
+        nameText.SetText("Player: " + MenuManager.playerNames[playerIndex]);
         checkpointText.SetText("Checkpoint: 0");
         healthText.SetText("Health: 100.00");
-        speedText.SetText("Speed: 0.00");
         collectText.SetText("Space Junk: 0");
         abilityText.SetText("");
-        timeText.SetText("Time: 0:00.000");
         posText.SetText("Pos: 0.0,0.0,0.0");
         distanceText.SetText("Distance: 0.00");
+        speedText.SetText("Speed: 0.00");
+        timeText.SetText("Time: 0:00.000");
         countdownText.SetText("");
         finishText.SetText("");
 
@@ -534,7 +537,7 @@ public class PlayerController : MonoBehaviour
                 int index = MenuManager.difficulty;
                 MenuManager.times[index] = elapsedMilliseconds;
                 PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
-                PlayerPrefs.SetString("Description" + index, " (Player " + (playerIndex + 1) + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year + ")");
+                PlayerPrefs.SetString("Description" + index, " (" + MenuManager.playerNames[playerIndex] + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year + ")");
             }
             MenuManager.collects += collects;
             PlayerPrefs.SetInt("Collects", MenuManager.collects);

@@ -26,7 +26,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text advTime;
     [SerializeField] TMP_Text expTime;
     [SerializeField] bool resetRecords;
-    bool reset;
 
     [Header("Game Settings")]
     [SerializeField] Slider difficultySlider;
@@ -38,6 +37,8 @@ public class MenuManager : MonoBehaviour
     int activeShip;
     int activePlayer;
     [SerializeField] TMP_Text playerText;
+    [SerializeField] TMP_InputField nameInput;
+    GameObject nameObject;
     TMP_Text[] selectTexts;
     Transform[] models;
     GameObject[] abilities;
@@ -46,6 +47,7 @@ public class MenuManager : MonoBehaviour
     Transform activeModel;
     float rotationSpeed;
     Coroutine resetting;
+    public static string[] playerNames = new string[4];
 
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
@@ -73,6 +75,7 @@ public class MenuManager : MonoBehaviour
                 PlayerPrefs.SetInt("Time" + i, 0);
                 PlayerPrefs.SetString("Description" + i, "");
                 playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
+                playerNames[i] = PlayerPrefs.GetString("Name" + i, "Player " + (i + 1));
             }
             times = new int[] {0, 0, 0, 0};
         }
@@ -82,6 +85,7 @@ public class MenuManager : MonoBehaviour
             {
                 times[i] = PlayerPrefs.GetInt("Time" + i);
                 playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
+                playerNames[i] = PlayerPrefs.GetString("Name" + i, "Player " + (i + 1));
             }
         }
         TimeSpan begSpan = TimeSpan.FromMilliseconds(times[0]);
@@ -111,6 +115,8 @@ public class MenuManager : MonoBehaviour
         difficulty = PlayerPrefs.GetInt("Difficulty");
         playersSlider.value = playerNumber;
         difficultySlider.value = difficulty;
+        nameObject = nameInput.gameObject;
+        nameInput.text = "";
         loaded = true;
     }
 
@@ -147,7 +153,7 @@ public class MenuManager : MonoBehaviour
             abilities[i].SetActive(false);
             selectTexts[i].SetText("Select");
         }
-        playerText.SetText("Player 1");
+        playerText.SetText(playerNames[0]);
         activePlayer = 0;
         activeShip = playerShips[0];
         ships[activeShip].SetActive(true);
@@ -162,6 +168,8 @@ public class MenuManager : MonoBehaviour
         {
             rotationSpeed = 0.1f;
         }
+        nameObject.SetActive(false);
+        playerText.enabled = true;
         customization.SetActive(true);
         mainMenu.SetActive(false);
         gameSettings.SetActive(false);
@@ -170,14 +178,7 @@ public class MenuManager : MonoBehaviour
 
     public void Play()
     {
-        playerNumber = (int) playersSlider.value;
-        difficulty = (int) difficultySlider.value;
-        for(int i = 0; i < 4; i++)
-        {
-            PlayerPrefs.SetInt("Ship" + i, playerShips[i]);
-        }
-        PlayerPrefs.SetInt("PlayerNumber", playerNumber);
-        PlayerPrefs.SetInt("Difficulty", difficulty);
+        SavePrefs();
         gameSettings.SetActive(false);
         loading.SetActive(true);
         audioSource.PlayOneShot(majorClick);
@@ -211,7 +212,7 @@ public class MenuManager : MonoBehaviour
                 activePlayer = 3;
                 break;
         }
-        playerText.SetText("Player " + (activePlayer + 1));
+        playerText.SetText(playerNames[activePlayer]);
         activeShip = playerShips[activePlayer];
         ChangeShip();
         for(int i = 0; i < shipCount; i++)
@@ -258,6 +259,36 @@ public class MenuManager : MonoBehaviour
         audioSource.PlayOneShot(majorClick);
     }
 
+    public void EditName()
+    {
+        playerText.enabled = false;
+        nameInput.text = "";
+        nameObject.SetActive(true);
+        audioSource.PlayOneShot(majorClick);
+    }
+
+    public void ChangeName()
+    {
+        nameObject.SetActive(false);
+        string newName = nameInput.text;
+        bool valid = true;
+        for(int i = 0; i < 4; i++)
+        {
+            if(playerNames[i] == newName)
+            {
+                valid = false;
+                break;
+            }
+        }
+        if(newName != "" && valid)
+        {
+            playerText.SetText(newName);
+            playerNames[activePlayer] = newName;
+            PlayerPrefs.SetString("Name" + activePlayer, newName);
+        }
+        playerText.enabled = true;
+    }
+
     public void Ability()
     {
         GameObject activeAbility = abilities[activeShip];
@@ -292,6 +323,7 @@ public class MenuManager : MonoBehaviour
 
     public void Quit()
     {
+        SavePrefs();
         audioSource.PlayOneShot(majorClick);
         StartCoroutine(QuitApplication());
     }
@@ -304,6 +336,18 @@ public class MenuManager : MonoBehaviour
     public void MajorClick()
     {
         audioSource.PlayOneShot(majorClick);
+    }
+
+    void SavePrefs()
+    {
+        playerNumber = (int) playersSlider.value;
+        difficulty = (int) difficultySlider.value;
+        for(int i = 0; i < 4; i++)
+        {
+            PlayerPrefs.SetInt("Ship" + i, playerShips[i]);
+        }
+        PlayerPrefs.SetInt("PlayerNumber", playerNumber);
+        PlayerPrefs.SetInt("Difficulty", difficulty);
     }
 
     IEnumerator ResetEffect(GameObject effect, int waitTime, bool sound = false)
