@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour
         finishText = closeCanvas.GetChild(1).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
-        nameText.SetText("Player: " + MenuManager.playerNames[playerIndex]);
+        nameText.SetText(MenuManager.playerNames[playerIndex]);
         checkpointText.SetText("Checkpoint: 0");
         healthText.SetText("Health: 100.00");
         collectText.SetText("Space Junk: 0");
@@ -542,12 +542,6 @@ public class PlayerController : MonoBehaviour
             MenuManager.collects += collects;
             PlayerPrefs.SetInt("Collects", MenuManager.collects);
             timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
-            if(playingPlayers == 0)
-            {
-                MenuManager.races++;
-                PlayerPrefs.SetInt("Races", MenuManager.races);
-                Invoke("OnFinish", 2);
-            }
         }
 
         //collects powerup
@@ -717,8 +711,10 @@ public class PlayerController : MonoBehaviour
         }
 
         collided = true;
-        rb.angularVelocity *= deflectionForce;
         float speed = rb.velocity.magnitude + other.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
+        Vector3 otherPos = other.transform.position;
+        rb.AddTorque(new Vector3(otherPos.x - myTransform.position.x, otherPos.x - myTransform.position.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed);
+        rb.angularVelocity *= deflectionForce;
 
         if(!other.gameObject.CompareTag("Drone"))
         {
@@ -934,11 +930,6 @@ public class PlayerController : MonoBehaviour
 
             yield return new WaitForSeconds(0.001f);
         }
-    }
-
-    void OnFinish()
-    {
-        SceneManager.LoadSceneAsync(0);
     }
 
     IEnumerator ChangeTextColor(TMP_Text text, float time, Color originalColor, Color newColor, int amount = 1)

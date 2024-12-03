@@ -16,6 +16,7 @@ using JetBrains.Annotations;
 using System.Runtime.CompilerServices;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.LowLevel;
+using TMPro;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -74,6 +75,7 @@ public class SpawnManager : MonoBehaviour
     Vector3[] playerChunks;
     public List<int> playingPlayers = new List<int>();
     public static List<Transform>[] followers;
+    bool finished;
 
     [Header("Camera/UI/Audio")]
     [SerializeField] GameObject cameraPrefab;
@@ -434,7 +436,7 @@ public class SpawnManager : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetKeyDown(KeyCode.Return) && !finished)
         {
             switch(Time.timeScale)
             {
@@ -470,8 +472,15 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    public void Restart()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadSceneAsync(1);
+    }
+
     public void Exit()
     {
+        Time.timeScale = 1;
         audioSource.PlayOneShot(pauseSound);
         SceneManager.LoadSceneAsync(0);
     }
@@ -940,7 +949,25 @@ public class SpawnManager : MonoBehaviour
             playerFollowers[i].parent = null;
             playerFollowers[i].gameObject.SetActive(false);
         }
+        //Game over
+        if(playingPlayers.Count == 0)
+        {
+            finished = true;
+            MenuManager.races++;
+            PlayerPrefs.SetInt("Races", MenuManager.races);
+            StartCoroutine(FinishMenu());
+        }
         return playingPlayers.Count;
+    }
+
+    IEnumerator FinishMenu()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Transform menuTransform = menu.transform.GetChild(1);
+        menuTransform.GetChild(2).gameObject.SetActive(false);
+        menuTransform.GetChild(3).gameObject.SetActive(true);
+        menuTransform.GetChild(1).GetChild(1).GetComponent<TMP_Text>().SetText("Game Over");
+        menu.SetActive(true);
     }
 
     IEnumerator Countdown(int countdownTime)
