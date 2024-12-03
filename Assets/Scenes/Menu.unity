@@ -2083,6 +2083,20 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 4018912577303392548, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 1          Agility: 2          Durability: 4         Stability:
+        4
+
+        Neptune is the furthest planet from the Sun. It''s known for its
+        massive storms with supersonic winds, the fastest in the solar system.
+
+        Ability:
+        Neptune''s supersonic winds blast surrounding objects away.
+
+        Cooldown:
+        10s'
+      objectReference: {fileID: 0}
     - target: {fileID: 4097267508527995609, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2119,10 +2133,69 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 5468201634765474687, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 2          Agility: 1          Durability: 3          Stability:
+        4
+
+        Saturn is the 6th and least dense planet from the Sun - it''s
+        in fact less dense than water. It has 146 moons, the most in the Solar System,
+        and its famous rings are mostly made of chunks of ice and rock.
+
+        Ability:
+        Saturn''s rings push surrounding objects laterally. Hold down ability key
+        to rotate rings.
+
+        Activation: 20s          Cooldown: 20s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965359953179529953, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 4          Agility: 3          Durability: 2          Stability:
+        2
+
+        Venus is the 2nd planet from the Sun. Its dense atmosphere traps
+        greenhouse gases, making it the hottest and deadliest planet.
+
+        Ability:
+        Venus uses its toxic atmosphere to shield itself from asteroids. No effect
+        on drones.
+
+        Activation: 10s          Cooldown: 20s'
+      objectReference: {fileID: 0}
     - target: {fileID: 6074474030578598492, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 6124539314202887537, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 2          Agility: 1          Durability: 3          Stability:
+        5
+
+        Jupiter is the 5th planet from the Sun and is by far the largest
+        - 2.5 times more massive than the other planets combined. Jupiter also contains
+        the Great Red Spot, a storm by itself bigger then Earth.
+
+        Ability:
+        Jupiter''s mass increases such that its momentum can knock back asteroids.
+
+        Activation:
+        20s          Cooldown: 20s'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6551749839771438073, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 3          Agility: 4          Durability: 5          Stability:
+        2
+
+        Mars is the 4th planet from the Sun, often called the "Red Planet"
+        due to the iron rust on its surface. Mars has the largest volcano and valley
+        of the Solar System, and its dust storms can engulf the area of continenets
+        for weeks.
+
+        Ability: A Mars dust storm confuses space pirates.
+
+        Activation:
+        20s          Cooldown: 10s'
+      objectReference: {fileID: 0}
     - target: {fileID: 6760844087690033436, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2134,6 +2207,22 @@ PrefabInstance:
     - target: {fileID: 7303919234407235589, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670602279623622658, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 2          Agility: 2          Durability: 4          Stability:
+        3
+
+        Uranus is the 7th and coldest planet from the Sun. It''s also
+        the only planet with its equator tilted at a right angle to its orbit, most
+        likely due to a collision with an Earth-sized object long ago.
+
+        Ability:
+        Uranus uses its tilted rings to push surrounding objects vertically. Hold
+        down ability key to rotate rings.
+
+        Activation: 20s          Cooldown:
+        20s'
       objectReference: {fileID: 0}
     - target: {fileID: 7919059189759754924, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
