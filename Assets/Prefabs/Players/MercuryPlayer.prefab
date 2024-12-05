@@ -188,12 +188,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d9ffdebf0b84ad6bc04690d849ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialThrustSpeed: 600
-  acc: 300
-  maxThrustSpeed: 6000
-  yawSpeed: 0.2
-  pitchSpeed: 0.15
-  rollSpeed: 0.2
+  speed: 5
+  agility: 5
+  durability: 1
+  stability: 1
+  activationTime: 0
+  cooldownTime: 5
+  abilityStrength: 2000
+  abilityIncrease: 1000
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
@@ -201,20 +203,12 @@ MonoBehaviour:
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 3000
   maxThrusterVolume: 0.3
-  speedLossDivisor: 2
-  healthLossDivisor: 200
-  minHealthLoss: 1
-  deflectionForce: 30
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
   forwardPercent: 30
   backPercent: 30
   shipModel: Mercury
-  activationTime: 0
-  cooldownTime: 5
-  abilityStrength: 2000
-  abilityIncrease: 1000
   abilityPercent: 70
   activationTimePercent: 0
   minCooldown: 3

@@ -190,12 +190,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d9ffdebf0b84ad6bc04690d849ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialThrustSpeed: 750
-  acc: 500
-  maxThrustSpeed: 10000
-  yawSpeed: 0.5
-  pitchSpeed: 0.35
-  rollSpeed: 0.7
+  speed: 3
+  agility: 3
+  durability: 4
+  stability: 3
+  activationTime: 10
+  cooldownTime: 10
+  abilityStrength: 1
+  abilityIncrease: 0.5
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
@@ -203,20 +205,12 @@ MonoBehaviour:
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 3000
   maxThrusterVolume: 0.3
-  speedLossDivisor: 1.7
-  healthLossDivisor: 200
-  minHealthLoss: 0.5
-  deflectionForce: 15
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
   forwardPercent: 30
   backPercent: 30
   shipModel: Earth
-  activationTime: 10
-  cooldownTime: 10
-  abilityStrength: 1
-  abilityIncrease: 0.5
   abilityPercent: 40
   activationTimePercent: 40
   minCooldown: 5

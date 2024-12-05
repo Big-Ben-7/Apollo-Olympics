@@ -2211,7 +2211,7 @@ PrefabInstance:
     - target: {fileID: 7670602279623622658, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_text
       value: 'Speed: 2          Agility: 2          Durability: 4          Stability:
-        3
+        4
 
         Uranus is the 7th and coldest planet from the Sun. It''s also
         the only planet with its equator tilted at a right angle to its orbit, most

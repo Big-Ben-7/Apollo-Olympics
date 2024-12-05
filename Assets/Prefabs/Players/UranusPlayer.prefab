@@ -156,35 +156,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d9ffdebf0b84ad6bc04690d849ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialThrustSpeed: 2500
-  acc: 2000
-  maxThrustSpeed: 35000
-  yawSpeed: 2.25
-  pitchSpeed: 1.5
-  rollSpeed: 3.25
+  speed: 2
+  agility: 2
+  durability: 4
+  stability: 4
+  activationTime: 20
+  cooldownTime: 20
+  abilityStrength: 500
+  abilityIncrease: 250
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
-  thrusterSystems:
-  - {fileID: 5322797645724142314}
   thrusterSpeedDivisor: 20
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 3000
   maxThrusterVolume: 0.3
-  speedLossDivisor: 1.4
-  healthLossDivisor: 125
-  minHealthLoss: 1
-  deflectionForce: 5
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
   forwardPercent: 30
   backPercent: 30
   shipModel: Uranus
-  activationTime: 20
-  cooldownTime: 20
-  abilityStrength: 500
-  abilityIncrease: 250
   abilityPercent: 40
   activationTimePercent: 40
   minCooldown: 5
@@ -626,11 +618,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
---- !u!198 &5322797645724142314 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
-  m_PrefabInstance: {fileID: 8428631023709621929}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5408715314470822106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4609186477873770099, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}

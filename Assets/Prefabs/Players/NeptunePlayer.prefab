@@ -203,12 +203,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d9ffdebf0b84ad6bc04690d849ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialThrustSpeed: 1500
-  acc: 1000
-  maxThrustSpeed: 35000
-  yawSpeed: 2
-  pitchSpeed: 1.25
-  rollSpeed: 3
+  speed: 1
+  agility: 2
+  durability: 4
+  stability: 4
+  activationTime: 0
+  cooldownTime: 10
+  abilityStrength: 40000
+  abilityIncrease: 20000
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
@@ -216,20 +218,12 @@ MonoBehaviour:
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 3000
   maxThrusterVolume: 0.3
-  speedLossDivisor: 1.3
-  healthLossDivisor: 100
-  minHealthLoss: 1
-  deflectionForce: 10
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
   forwardPercent: 30
   backPercent: 30
   shipModel: Neptune
-  activationTime: 0
-  cooldownTime: 10
-  abilityStrength: 40000
-  abilityIncrease: 20000
   abilityPercent: 70
   activationTimePercent: 0
   minCooldown: 3

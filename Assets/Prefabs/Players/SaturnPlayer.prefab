@@ -231,35 +231,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d9ffdebf0b84ad6bc04690d849ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialThrustSpeed: 4000
-  acc: 3000
-  maxThrustSpeed: 60000
-  yawSpeed: 4
-  pitchSpeed: 2.5
-  rollSpeed: 6
+  speed: 2
+  agility: 1
+  durability: 3
+  stability: 4
+  activationTime: 20
+  cooldownTime: 20
+  abilityStrength: 500
+  abilityIncrease: 250
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 3344193660739149652}
-  thrusterSystems:
-  - {fileID: 7997991309963598890}
   thrusterSpeedDivisor: 20
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 3000
   maxThrusterVolume: 0.3
-  speedLossDivisor: 1.2
-  healthLossDivisor: 100
-  minHealthLoss: 1
-  deflectionForce: 4
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
   forwardPercent: 30
   backPercent: 30
   shipModel: Saturn
-  activationTime: 20
-  cooldownTime: 20
-  abilityStrength: 500
-  abilityIncrease: 250
   abilityPercent: 40
   activationTimePercent: 40
   minCooldown: 5
@@ -740,11 +732,6 @@ PrefabInstance:
 --- !u!4 &7795571617154299418 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4609186477873770099, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
-  m_PrefabInstance: {fileID: 6041703948504160361}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &7997991309963598890 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
   m_PrefabInstance: {fileID: 6041703948504160361}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9184965671786972603

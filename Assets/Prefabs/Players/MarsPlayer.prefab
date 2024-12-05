@@ -5053,12 +5053,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d9ffdebf0b84ad6bc04690d849ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialThrustSpeed: 600
-  acc: 400
-  maxThrustSpeed: 8000
-  yawSpeed: 0.25
-  pitchSpeed: 0.2
-  rollSpeed: 0.3
+  speed: 3
+  agility: 4
+  durability: 5
+  stability: 2
+  activationTime: 20
+  cooldownTime: 10
+  abilityStrength: 50
+  abilityIncrease: 25
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
@@ -5066,20 +5068,12 @@ MonoBehaviour:
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 3000
   maxThrusterVolume: 0.3
-  speedLossDivisor: 1.5
-  healthLossDivisor: 500
-  minHealthLoss: 0.1
-  deflectionForce: 8
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
   forwardPercent: 30
   backPercent: 30
   shipModel: Mars
-  activationTime: 20
-  cooldownTime: 10
-  abilityStrength: 50
-  abilityIncrease: 25
   abilityPercent: 40
   activationTimePercent: 40
   minCooldown: 3

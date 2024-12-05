@@ -77,6 +77,18 @@ public class SpawnManager : MonoBehaviour
     public static List<Transform>[] followers;
     bool finished;
 
+    [Header("Customization")]
+    public int[] initialThrustSpeeds;
+    public int[] accelerations;
+    public int[] maxThrustSpeeds;
+    public float[] rollSpeeds;
+    public float[] pitchSpeeds;
+    public float[] yawSpeeds;
+    public int[] healthLossDivisors;
+    public float[] speedLossDivisors;
+    public float[] minHealthLosses;
+    public int[] deflectionForces;
+
     [Header("Camera/UI/Audio")]
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] LayerMask[] cameraMasks;

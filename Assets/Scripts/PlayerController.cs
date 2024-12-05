@@ -24,13 +24,17 @@ using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Attributes")]
+    [SerializeField] int speed;
+    [SerializeField] int agility;
+    [SerializeField] int durability;
+    [SerializeField] int stability;
+    [SerializeField] int activationTime;
+    [SerializeField] int cooldownTime;
+    [SerializeField] float abilityStrength;
+    [SerializeField] float abilityIncrease;
+
     [Header("Movement")]
-    [SerializeField] float initialThrustSpeed;
-    [SerializeField] float acc;
-    [SerializeField] float maxThrustSpeed;
-    [SerializeField] float yawSpeed;
-    [SerializeField] float pitchSpeed;
-    [SerializeField] float rollSpeed;
     [SerializeField] float decMultiplier;
     [SerializeField] float glideDrag;
     [SerializeField] GameObject thrusterParent;
@@ -40,10 +44,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxThrusterVolume;
 
     [Header("Collision")]
-    [SerializeField] float speedLossDivisor;
-    [SerializeField] float healthLossDivisor;
-    [SerializeField] float minHealthLoss;
-    [SerializeField] int deflectionForce;
     [SerializeField] GameObject dieExplosion;
     [SerializeField] List<GameObject> hitExplosions;
     [SerializeField] int forwardPercent;
@@ -52,10 +52,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ability")]
     [SerializeField] string shipModel;
-    [SerializeField] int activationTime;
-    [SerializeField] int cooldownTime;
-    [SerializeField] float abilityStrength;
-    [SerializeField] float abilityIncrease;
     [SerializeField] int abilityPercent;
     [SerializeField] int activationTimePercent;
     [SerializeField] int minCooldown;
@@ -83,6 +79,12 @@ public class PlayerController : MonoBehaviour
     Transform myTransform;
     string playerNumberString;
     int playerIndex;
+    float initialThrustSpeed;
+    float acc;
+    float maxThrustSpeed;
+    float yawSpeed;
+    float pitchSpeed;
+    float rollSpeed;
     float thrustSpeed;
     float decSpeed;
     float glideSpeed;
@@ -95,6 +97,10 @@ public class PlayerController : MonoBehaviour
     Quaternion startRot;
 
     //Collisions/triggers
+    float speedLossDivisor;
+    int healthLossDivisor;
+    float minHealthLoss;
+    int deflectionForce;
     float health = 100;
     bool collided;
     bool sectionFront;
@@ -170,8 +176,6 @@ public class PlayerController : MonoBehaviour
         startPos = rb.position;
         normalizedStartPos = startPos.normalized;
         startRot = rb.rotation;
-        thrustSpeed = initialThrustSpeed;
-        decSpeed = thrustSpeed;
 
         Transform thrusterTransform = thrusterParent.transform;
         thrusterCount = thrusterTransform.childCount;
@@ -244,6 +248,25 @@ public class PlayerController : MonoBehaviour
                 ability = WindStorm();
                 break;
         }
+
+        //Customize
+        float multiplier = rb.mass;
+        speed -= 1;
+        agility -= 1;
+        durability -= 1;
+        stability -= 1;
+        initialThrustSpeed = spawnManager.initialThrustSpeeds[speed] * multiplier;
+        acc = spawnManager.accelerations[speed] * multiplier;
+        maxThrustSpeed = spawnManager.maxThrustSpeeds[speed] * multiplier;
+        rollSpeed = spawnManager.rollSpeeds[agility] * multiplier;
+        pitchSpeed = spawnManager.pitchSpeeds[agility] * multiplier;
+        yawSpeed = spawnManager.yawSpeeds[agility] * multiplier;
+        healthLossDivisor = spawnManager.healthLossDivisors[durability];
+        minHealthLoss = spawnManager.minHealthLosses[durability];
+        speedLossDivisor = spawnManager.speedLossDivisors[stability];
+        deflectionForce = spawnManager.deflectionForces[stability];
+        thrustSpeed = initialThrustSpeed;
+        decSpeed = thrustSpeed;
 
         //Spawn drones
         droneGroup = new GameObject("Drones " + playerNumberString).transform;
@@ -1267,7 +1290,7 @@ public class PlayerController : MonoBehaviour
         pitchSpeed /= abilityStrength;
         rollSpeed /= abilityStrength;
         speedLossDivisor = collisionInitials[0];
-        healthLossDivisor = collisionInitials[1];
+        healthLossDivisor = (int) collisionInitials[1];
         minHealthLoss = collisionInitials[2];
         deflectionForce = (int) collisionInitials[3];
         glideSpeed /= abilityStrength;

@@ -157,37 +157,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d9ffdebf0b84ad6bc04690d849ed0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialThrustSpeed: 700
-  acc: 400
-  maxThrustSpeed: 8000
-  yawSpeed: 0.5
-  pitchSpeed: 0.35
-  rollSpeed: 0.7
+  speed: 4
+  agility: 3
+  durability: 2
+  stability: 2
+  activationTime: 10
+  cooldownTime: 20
+  abilityStrength: 0
+  abilityIncrease: 0
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
-  thrusterSystems:
-  - {fileID: 2818902708090334172}
-  - {fileID: 2929986337009511102}
-  - {fileID: 5322797645724142314}
   thrusterSpeedDivisor: 30
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 3000
   maxThrusterVolume: 0.3
-  speedLossDivisor: 1.6
-  healthLossDivisor: 200
-  minHealthLoss: 0.5
-  deflectionForce: 20
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
   forwardPercent: 30
   backPercent: 30
   shipModel: Venus
-  activationTime: 10
-  cooldownTime: 20
-  abilityStrength: 0
-  abilityIncrease: 0
   abilityPercent: 0
   activationTimePercent: 70
   minCooldown: 5
@@ -558,11 +548,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
---- !u!198 &2929986337009511102 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
-  m_PrefabInstance: {fileID: 1553605596519067389}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3060365964565594254 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4609186477873770099, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
@@ -632,11 +617,6 @@ PrefabInstance:
 --- !u!4 &2724463086501069292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4609186477873770099, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
-  m_PrefabInstance: {fileID: 1889297497268727711}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &2818902708090334172 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
   m_PrefabInstance: {fileID: 1889297497268727711}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4502181925842326447
@@ -767,11 +747,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
---- !u!198 &5322797645724142314 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
-  m_PrefabInstance: {fileID: 8428631023709621929}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5408715314470822106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4609186477873770099, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
