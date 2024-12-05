@@ -21,7 +21,7 @@ using TMPro;
 public class SpawnManager : MonoBehaviour
 {
     [Header("Sections")]
-    [SerializeField] int side = 600;
+    [SerializeField] int side = 800;
     int length;
     [SerializeField] int colliderWidth = 500;
     GameObject[] sectionPool;

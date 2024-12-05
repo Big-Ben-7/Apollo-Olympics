@@ -174,7 +174,7 @@ MonoBehaviour:
   intTime: {fileID: 1031867451}
   advTime: {fileID: 51761134}
   expTime: {fileID: 1484428368}
-  resetRecords: 0
+  resetRecords: 1
   difficultySlider: {fileID: 690239509}
   playersSlider: {fileID: 1470773854}
   ships:

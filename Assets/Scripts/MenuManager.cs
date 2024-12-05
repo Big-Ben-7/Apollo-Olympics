@@ -64,30 +64,30 @@ public class MenuManager : MonoBehaviour
 
     void Awake()
     {
-        races = PlayerPrefs.GetInt("Races");
-        racesText.SetText("Races: " + races);
-        collects = PlayerPrefs.GetInt("Collects");
-        collectsText.SetText("Space Junk Collected: " + collects);
         if(resetRecords)
         {
             for(int i = 0; i < 4; i++)
             {
                 PlayerPrefs.SetInt("Time" + i, 0);
                 PlayerPrefs.SetString("Description" + i, "");
-                playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
-                playerNames[i] = PlayerPrefs.GetString("Name" + i, "Player " + (i + 1));
+                PlayerPrefs.SetInt("Ship" + i, 0);
+                PlayerPrefs.SetString("Name" + i, "Player " + (i + 1));
             }
-            times = new int[] {0, 0, 0, 0};
+            PlayerPrefs.SetInt("PlayerNumber", 0);
+            PlayerPrefs.SetInt("Difficulty", 0);
+            PlayerPrefs.SetInt("Races", 0);
+            PlayerPrefs.SetInt("Collects", 0);
         }
-        else
+        for(int i = 0; i < 4; i++)
         {
-            for(int i = 0; i < 4; i++)
-            {
-                times[i] = PlayerPrefs.GetInt("Time" + i);
-                playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
-                playerNames[i] = PlayerPrefs.GetString("Name" + i, "Player " + (i + 1));
-            }
+            times[i] = PlayerPrefs.GetInt("Time" + i);
+            playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
+            playerNames[i] = PlayerPrefs.GetString("Name" + i, "Player " + (i + 1));
         }
+        races = PlayerPrefs.GetInt("Races");
+        racesText.SetText("Races: " + races);
+        collects = PlayerPrefs.GetInt("Collects");
+        collectsText.SetText("Space Junk Collected: " + collects);
         TimeSpan begSpan = TimeSpan.FromMilliseconds(times[0]);
         begTime.SetText("Beginner: " + begSpan.Minutes + ":" + begSpan.Seconds.ToString("00") + "." + begSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description0"));
         TimeSpan intSpan = TimeSpan.FromMilliseconds(times[1]);
