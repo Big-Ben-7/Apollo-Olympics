@@ -167,9 +167,9 @@ public class PlayerController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         rb.isKinematic = true;
         myTransform = transform;
-        startPos = myTransform.position;
+        startPos = rb.position;
         normalizedStartPos = startPos.normalized;
-        startRot = myTransform.rotation;
+        startRot = rb.rotation;
         thrustSpeed = initialThrustSpeed;
         decSpeed = thrustSpeed;
 
@@ -454,7 +454,8 @@ public class PlayerController : MonoBehaviour
         }
         droneGroup.localPosition = myTransform.localPosition;
         arrow.localPosition = Vector3.zero;
-        arrow.rotation = Quaternion.Euler(0, Vector2.SignedAngle(Vector2.up, new Vector2(myTransform.position.x, myTransform.position.z)), myTransform.rotation.eulerAngles.z);
+        Vector3 pos = rb.position;
+        arrow.rotation = Quaternion.Euler(0, Vector2.SignedAngle(new Vector2(pos.x, pos.z), Vector2.up), rb.rotation.eulerAngles.z);
     }
 
     void FixedUpdate()
@@ -583,26 +584,30 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("Section"))
         {
             Vector3 sectionPos = other.transform.position;
-            if(sectionPos.x == myTransform.position.x - side || sectionPos.x == myTransform.position.x + side)
+            Vector3 pos = rb.position;
+            float myX = pos.x;
+            float myY = pos.y;
+            float myZ = pos.z;
+            if(sectionPos.x == myX - side || sectionPos.x == myX + side)
             {
-                myTransform.position += Vector3.right;
+                rb.position += Vector3.right;
             }
-            if(sectionPos.z == myTransform.position.z - side || sectionPos.z == myTransform.position.z + side)
+            if(sectionPos.z == myZ - side || sectionPos.z == myZ + side)
             {
-                myTransform.position += Vector3.forward;
+                rb.position += Vector3.forward;
             }
-            if(sectionPos.y == myTransform.position.y - side || sectionPos.y == myTransform.position.y + side)
+            if(sectionPos.y == myY - side || sectionPos.y == myY + side)
             {
-                myTransform.position += Vector3.up;
+                rb.position += Vector3.up;
             }
             switch(other.name)
             {
                 //Player moved forward or back
                 case "SectionFront":
-                    if(!sectionFront && myTransform.position.x > sectionPos.x - side && myTransform.position.x < sectionPos.x + side && myTransform.position.y > sectionPos.y - side && myTransform.position.y < sectionPos.y + side)
+                    if(!sectionFront && myX > sectionPos.x - side && myX < sectionPos.x + side && myY > sectionPos.y - side && myY < sectionPos.y + side)
                     {
                         sectionFront = true;
-                        if(myTransform.position.z >= sectionPos.z)
+                        if(myZ >= sectionPos.z)
                         {
                             spawnManager.SpawnSectionsForward(sectionPos, playerIndex);
                         }
@@ -615,10 +620,10 @@ public class PlayerController : MonoBehaviour
 
                 //Player moved left or right
                 case "SectionSide":
-                    if(!sectionSide && myTransform.position.z > sectionPos.z - side && myTransform.position.z < sectionPos.z + side && myTransform.position.y > sectionPos.y - side && myTransform.position.y < sectionPos.y + side)
+                    if(!sectionSide && myZ > sectionPos.z - side && myZ < sectionPos.z + side && myY > sectionPos.y - side && myY < sectionPos.y + side)
                     {
                         sectionSide = true;
-                        if(myTransform.position.x >= sectionPos.x)
+                        if(myX >= sectionPos.x)
                         {
                             spawnManager.SpawnSectionsRight(sectionPos, playerIndex);
                         }
@@ -631,10 +636,10 @@ public class PlayerController : MonoBehaviour
 
                 //Player moved up or down
                 case "SectionUp":
-                    if(!sectionUp && myTransform.position.x > sectionPos.x - side && myTransform.position.x < sectionPos.x + side && myTransform.position.z > sectionPos.z - side && myTransform.position.z < sectionPos.z + side)
+                    if(!sectionUp && myX > sectionPos.x - side && myX < sectionPos.x + side && myZ > sectionPos.z - side && myZ < sectionPos.z + side)
                     {
                         sectionUp = true;
-                        if(myTransform.position.y >= sectionPos.y)
+                        if(myY >= sectionPos.y)
                         {
                             spawnManager.SpawnSectionsUp(sectionPos, playerIndex);
                         }
@@ -651,11 +656,13 @@ public class PlayerController : MonoBehaviour
         else if(other.gameObject.CompareTag("Checkpoint") && !checkpointTriggered)
         {
             int checkpointYPos = (int) other.transform.position.y;
-            if(myTransform.position.y == checkpointYPos - side || myTransform.position.y == checkpointYPos + side)
+            Vector3 pos = rb.position;
+            float myY = pos.y;
+            if(myY == checkpointYPos - side || myY == checkpointYPos + side)
             {
-                myTransform.position += Vector3.up;
+                rb.position += Vector3.up;
             }
-            if(myTransform.position.y > checkpointYPos - side && myTransform.position.y < checkpointYPos + side)
+            if(myY > checkpointYPos - side && myY < checkpointYPos + side)
             {
                 checkpointTriggered = true;
                 int playerCheckpoint = 0;
@@ -686,18 +693,15 @@ public class PlayerController : MonoBehaviour
                         playerCheckpoint = 7;
                         break;
                 }
-                switch(Vector2.Angle(new Vector2(myTransform.position.x, myTransform.position.z), new Vector2(rb.velocity.x, rb.velocity.z)) <= 90)
+                if(Vector2.Angle(new Vector2(pos.x, pos.z), new Vector2(rb.velocity.x, rb.velocity.z)) <= 90)
                 {
                     //Player moved out
-                    case true:
-                        AddCheckpoint(playerCheckpoint);
-                        break;
-
+                    AddCheckpoint(playerCheckpoint);
+                }
+                else
+                {
                     //Player moved in
-                    case false:
-                        RemoveCheckpoint(playerCheckpoint);
-                        break;
-                        
+                    RemoveCheckpoint(playerCheckpoint);
                 }
             }
         }
@@ -713,7 +717,8 @@ public class PlayerController : MonoBehaviour
         collided = true;
         float speed = rb.velocity.magnitude + other.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
         Vector3 otherPos = other.transform.position;
-        rb.AddTorque(new Vector3(otherPos.x - myTransform.position.x, otherPos.x - myTransform.position.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed);
+        Vector3 pos = rb.position;
+        rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed);
         rb.angularVelocity *= deflectionForce;
 
         if(!other.gameObject.CompareTag("Drone"))
@@ -814,12 +819,12 @@ public class PlayerController : MonoBehaviour
                 switch(playerCheckpoint)
                 {
                     case 0:
-                        myTransform.position = startPos;
+                        rb.position = startPos;
                         spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
                         break;
                     default:
                         Vector3 newPos = startPos + normalizedStartPos * (checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1] + colliderWidth);
-                        myTransform.position = newPos;
+                        rb.position = newPos;
                         spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
                         break;
                 }
@@ -832,7 +837,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
 
-                myTransform.rotation = startRot;
+                rb.rotation = startRot;
                 thrustSpeed = initialThrustSpeed;
                 health = 100;
                 audioSource.PlayOneShot(dieSound);
@@ -900,20 +905,10 @@ public class PlayerController : MonoBehaviour
             speedText.SetText("Speed: " + (rb.velocity * 3.6f).magnitude.ToString("0.00"));
 
             //Show position in km, divide by 1609 for mi
-            Vector3 pos = myTransform.position / 1000;
+            Vector3 pos = rb.position / 1000;
             posText.SetText("Pos: " + pos.x.ToString("0.0") + "," + pos.y.ToString("0.0") + "," + pos.z.ToString("0.0"));
-            
-            //Show rotation in degrees
-            Vector3 rot = new Vector3(Mathf.Round(myTransform.rotation.eulerAngles.x), Mathf.Round(myTransform.rotation.eulerAngles.y), Mathf.Round(myTransform.rotation.eulerAngles.z));
-            if(rot.x != 0)
-            {
-                rot.x = 360 - rot.x;
-            }
-            if(rot.z != 0)
-            {
-                rot.z = 360 - rot.z;
-            }
 
+            //Show distance from origin
             distanceText.SetText("Distance: " + new Vector2(pos.x, pos.z).magnitude.ToString("0.00"));
             yield return new WaitForSeconds(0.02f);
         }
@@ -1038,7 +1033,7 @@ public class PlayerController : MonoBehaviour
         float argument = UnityEngine.Random.Range(0f, 360) * Mathf.Deg2Rad;
         Vector3 newPos = new Vector3(distance * Mathf.Cos(argument), UnityEngine.Random.Range(-side + colliderWidth + 5, side - colliderWidth - 5), distance * Mathf.Sin(argument));
         myTransform.parent = null;
-        myTransform.position = newPos;
+        rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), 0, Mathf.RoundToInt(newPos.z / length)), playerIndex);
         audioSource.PlayOneShot(wormholeSound);
         canCollide = true;
@@ -1339,7 +1334,7 @@ public class PlayerController : MonoBehaviour
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        Collider[] colliders = Physics.OverlapSphere(myTransform.position, 1000);
+        Collider[] colliders = Physics.OverlapSphere(rb.position, 1000);
         for(int i = 0; i < colliders.Length; i++)
         {
             Collider collider = colliders[i];
@@ -1352,7 +1347,7 @@ public class PlayerController : MonoBehaviour
             {
                 collider.gameObject.GetComponent<Drone>().Explode(collider.transform.position, transform);
             }
-            Vector3 direction = collider.transform.position - myTransform.position;
+            Vector3 direction = collider.transform.position - rb.position;
             otherRb.AddForce(direction * (abilityStrength / direction.magnitude), ForceMode.Impulse);
         }
         resetting = StartCoroutine(ResetAura(1));
