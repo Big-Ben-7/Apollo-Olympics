@@ -296,7 +296,6 @@ public class PlayerController : MonoBehaviour
         //Text setup
         Transform cameraStats = cameraObject.transform.GetChild(1);
         Transform farCanvas = cameraStats.GetChild(0);
-        Transform closeCanvas = cameraStats.GetChild(1);
         finishBackground = farCanvas.GetChild(0).gameObject;
         nameText = checkpointText = farCanvas.GetChild(1).GetComponent<TMP_Text>();
         checkpointText = farCanvas.GetChild(2).GetComponent<TMP_Text>();
@@ -307,8 +306,8 @@ public class PlayerController : MonoBehaviour
         distanceText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
         speedText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
         timeText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
-        countdownText = closeCanvas.GetChild(0).GetComponent<TMP_Text>();
-        finishText = closeCanvas.GetChild(1).GetComponent<TMP_Text>();
+        finishText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
+        countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
         nameText.SetText(MenuManager.playerNames[playerIndex]);
@@ -460,11 +459,11 @@ public class PlayerController : MonoBehaviour
             switch(shipModel)
             {
                 case "Saturn":
-                    ring.rotationOffset *= Quaternion.Euler(new Vector3(0.5f, 0, 0));
+                    ring.rotationOffset *= Quaternion.Euler(Vector3.up);
                     break;
                 
                 case "Uranus":
-                    ring.rotationOffset *= Quaternion.Euler(Vector3.up);
+                    ring.rotationOffset *= Quaternion.Euler(new Vector3(2, 0, 0));
                     break;
             }
         }
@@ -742,8 +741,8 @@ public class PlayerController : MonoBehaviour
         float speed = rb.velocity.magnitude + other.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
         Vector3 otherPos = other.transform.position;
         Vector3 pos = rb.position;
-        rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed);
-        rb.angularVelocity *= deflectionForce;
+        rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized);
+        rb.angularVelocity *= deflectionForce + speed;
 
         if(!other.gameObject.CompareTag("Drone"))
         {

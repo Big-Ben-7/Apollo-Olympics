@@ -348,7 +348,7 @@ public class SpawnManager : MonoBehaviour
         switch(playerNumber)
         {
             case 1:
-                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 5), Quaternion.identity);
+                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 20), Quaternion.identity);
                 player1.tag = "1";
                 players[0] = player1;
 
@@ -362,8 +362,8 @@ public class SpawnManager : MonoBehaviour
                 break;
 
             case 2:
-                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 5), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(0, 0, -5), Quaternion.Euler(0, 180, 0));
+                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 20), Quaternion.identity);
+                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(0, 0, -20), Quaternion.Euler(0, 180, 0));
                 player1.tag = "1";
                 player2.tag = "2";
                 players[0] = player1;
@@ -384,9 +384,9 @@ public class SpawnManager : MonoBehaviour
                 break;
 
             case 3:
-                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 5), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(-5, 0, 0), Quaternion.Euler(0, 270, 0));
-                player3 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(5, 0, 0), Quaternion.Euler(0, 90, 0));
+                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 20), Quaternion.identity);
+                player2 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(-20, 0, 0), Quaternion.Euler(0, 270, 0));
+                player3 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(20, 0, 0), Quaternion.Euler(0, 90, 0));
                 player1.tag = "1";
                 player2.tag = "2";
                 player3.tag = "3";
@@ -410,10 +410,10 @@ public class SpawnManager : MonoBehaviour
                 break;
 
             case 4:
-                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 5), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerShips[3]], new Vector3(-5, 0, 0), Quaternion.Euler(0, 270, 0));
-                player3 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(5, 0, 0), Quaternion.Euler(0, 90, 0));
-                player4 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(0, 0, -5), Quaternion.Euler(0, 180, 0));
+                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 20), Quaternion.identity);
+                player2 = Instantiate(possiblePlayers[playerShips[3]], new Vector3(-20, 0, 0), Quaternion.Euler(0, 270, 0));
+                player3 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(20, 0, 0), Quaternion.Euler(0, 90, 0));
+                player4 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(0, 0, -20), Quaternion.Euler(0, 180, 0));
                 player1.tag = "1";
                 player2.tag = "2";
                 player3.tag = "3";
