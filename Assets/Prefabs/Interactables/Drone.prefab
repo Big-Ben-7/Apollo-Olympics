@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3524371869210975190}
@@ -126,12 +126,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6690d4d9c37240af8e5ef86244c14f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRadius: 100
+  spawnRadius: 50
   maxStartDelay: 10
   updateInterval: 1
-  minAttackForce: 25
-  maxAttackForce: 50
-  rotationSpeed: 15
+  minAttackForce: 15
+  maxAttackForce: 30
+  rotationSpeed: 10
   overshoot: 0
   confusion: 10
   offset: 0

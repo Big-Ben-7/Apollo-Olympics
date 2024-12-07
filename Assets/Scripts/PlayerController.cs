@@ -211,6 +211,26 @@ public class PlayerController : MonoBehaviour
                 playerIndex = 3;
                 break;
         }
+        
+        //Customize
+        float multiplier = rb.mass;
+        speed -= 1;
+        agility -= 1;
+        durability -= 1;
+        stability -= 1;
+        initialThrustSpeed = spawnManager.initialThrustSpeeds[speed] * multiplier;
+        acc = spawnManager.accelerations[speed] * multiplier;
+        maxThrustSpeed = spawnManager.maxThrustSpeeds[speed] * multiplier;
+        rollSpeed = spawnManager.rollSpeeds[agility] * multiplier;
+        pitchSpeed = spawnManager.pitchSpeeds[agility] * multiplier;
+        yawSpeed = spawnManager.yawSpeeds[agility] * multiplier;
+        healthLossDivisor = spawnManager.healthLossDivisors[durability];
+        minHealthLoss = spawnManager.minHealthLosses[durability];
+        speedLossDivisor = spawnManager.speedLossDivisors[stability];
+        deflectionForce = spawnManager.deflectionForces[stability];
+        thrustSpeed = initialThrustSpeed;
+        decSpeed = thrustSpeed;
+
         switch(shipModel)
         {
             case "Mercury":
@@ -248,25 +268,6 @@ public class PlayerController : MonoBehaviour
                 ability = WindStorm();
                 break;
         }
-
-        //Customize
-        float multiplier = rb.mass;
-        speed -= 1;
-        agility -= 1;
-        durability -= 1;
-        stability -= 1;
-        initialThrustSpeed = spawnManager.initialThrustSpeeds[speed] * multiplier;
-        acc = spawnManager.accelerations[speed] * multiplier;
-        maxThrustSpeed = spawnManager.maxThrustSpeeds[speed] * multiplier;
-        rollSpeed = spawnManager.rollSpeeds[agility] * multiplier;
-        pitchSpeed = spawnManager.pitchSpeeds[agility] * multiplier;
-        yawSpeed = spawnManager.yawSpeeds[agility] * multiplier;
-        healthLossDivisor = spawnManager.healthLossDivisors[durability];
-        minHealthLoss = spawnManager.minHealthLosses[durability];
-        speedLossDivisor = spawnManager.speedLossDivisors[stability];
-        deflectionForce = spawnManager.deflectionForces[stability];
-        thrustSpeed = initialThrustSpeed;
-        decSpeed = thrustSpeed;
 
         //Spawn drones
         droneGroup = new GameObject("Drones " + playerNumberString).transform;
@@ -897,6 +898,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Countdown(int countdownTime)
     {
+        spawnManager.initializedPlayers += 1;
         while(countdownTime > 0)
         {
             countdownText.SetText("" + countdownTime);

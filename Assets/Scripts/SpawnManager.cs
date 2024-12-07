@@ -104,6 +104,7 @@ public class SpawnManager : MonoBehaviour
     AudioSource[] allAudio;
     int audioCount;
     [SerializeField] GameObject menu;
+    public int initializedPlayers;
     
     void Awake()
     {
@@ -785,7 +786,7 @@ public class SpawnManager : MonoBehaviour
         players[playerIndex].transform.parent = newParent;
         foreach(Transform follower in followers[playerIndex])
         {
-            follower.parent = newParent;
+            //follower.parent = newParent;
         }
     }
     
@@ -984,6 +985,10 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator Countdown(int countdownTime)
     {
+        while(initializedPlayers < playerNumber)
+        {
+            yield return null;
+        }
         yield return null;
         backgroundNoise.Play();
         backgroundMusic.Play();
