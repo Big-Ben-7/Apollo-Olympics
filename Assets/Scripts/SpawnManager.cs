@@ -782,12 +782,12 @@ public class SpawnManager : MonoBehaviour
                 stage++;
             }
         }
-        Transform newParent = sectionPool[Array.IndexOf(sectionChunks, playerChunks[playerIndex])].transform;
-        players[playerIndex].transform.parent = newParent;
-        foreach(Transform follower in followers[playerIndex])
-        {
-            //follower.parent = newParent;
-        }
+        //Transform newParent = sectionPool[Array.IndexOf(sectionChunks, playerChunks[playerIndex])].transform;
+        //players[playerIndex].transform.parent = newParent;
+        //foreach(Transform follower in followers[playerIndex])
+        //{
+        //    follower.parent = newParent;
+        //}
     }
     
     void MoveCheckpoint(int playerIndex, int newYChunk)
@@ -956,10 +956,10 @@ public class SpawnManager : MonoBehaviour
             DestroyCheckpoint(checkpointPool[i]);
         }
         List<Transform> playerFollowers = followers[playerIndex];
-        playerFollowers[0].parent = null;
+        //playerFollowers[0].parent = null;
         for(int i = 1; i < playerFollowers.Count; i++)
         {
-            playerFollowers[i].parent = null;
+            //playerFollowers[i].parent = null;
             playerFollowers[i].gameObject.SetActive(false);
         }
         //Game over

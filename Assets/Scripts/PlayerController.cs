@@ -211,7 +211,7 @@ public class PlayerController : MonoBehaviour
                 playerIndex = 3;
                 break;
         }
-        
+
         //Customize
         float multiplier = rb.mass;
         speed -= 1;
@@ -536,7 +536,7 @@ public class PlayerController : MonoBehaviour
             int playingPlayers = spawnManager.PlayerFinish(playerIndex);
             DateTime finishTime = DateTime.Now;
             TimeSpan elapsedTime = finishTime - startTime;
-            transform.parent = null;
+            //transform.parent = null;
             gameObject.SetActive(false);
             finishBackground.SetActive(true);
             audioSource.PlayOneShot(checkpointSound);
@@ -828,18 +828,18 @@ public class PlayerController : MonoBehaviour
                     auraParticles[3].loop = true;
                 }
 
-                foreach(TMP_Text text in allText)
+                for(int i = 0; i < allText.Length; i++)
                 {
-                    StartCoroutine(ChangeTextColor(text, 0.5f, Color.white, Color.red));
+                    StartCoroutine(ChangeTextColor(allText[i], 0.5f, Color.white, Color.red));
                 }
 
                 //Respawning
                 int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
-                myTransform.parent = null;
+                /*myTransform.parent = null;
                 foreach(Transform follower in SpawnManager.followers[playerIndex])
                 {
                     follower.parent = null;
-                }
+                }*/
                 switch(playerCheckpoint)
                 {
                     case 0:
@@ -853,12 +853,9 @@ public class PlayerController : MonoBehaviour
                         break;
                 }
 
-                foreach(Transform drone in droneGroup)
+                for(int i = 0; i < activeDrones; i++)
                 {
-                    if(drone.gameObject.activeInHierarchy)
-                    {
-                        drone.GetComponent<Drone>().ResetDrone();
-                    }
+                    droneGroup.GetChild(i).GetComponent<Drone>().ResetDrone();
                 }
 
                 rb.rotation = startRot;
@@ -1057,7 +1054,7 @@ public class PlayerController : MonoBehaviour
         }
         float argument = UnityEngine.Random.Range(0f, 360) * Mathf.Deg2Rad;
         Vector3 newPos = new Vector3(distance * Mathf.Cos(argument), UnityEngine.Random.Range(-side + colliderWidth + 5, side - colliderWidth - 5), distance * Mathf.Sin(argument));
-        myTransform.parent = null;
+        //myTransform.parent = null;
         rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), 0, Mathf.RoundToInt(newPos.z / length)), playerIndex);
         audioSource.PlayOneShot(wormholeSound);
