@@ -173,11 +173,11 @@ public class SpawnManager : MonoBehaviour
         }
         
         //Section spawning
-        int sectionNumber = playerNumber * 27;
-        sectionChunks = new Vector3[sectionNumber];
-        sectionPool = new GameObject[sectionNumber];
+        int sectionCount = playerNumber * 27;
+        sectionChunks = new Vector3[sectionCount];
+        sectionPool = new GameObject[sectionCount];
         Vector3 spawnPos = Vector3.zero;
-        for(int i = 0; i < sectionNumber; i++)
+        for(int i = 0; i < sectionCount; i++)
         {
             switch(i)
             {
@@ -989,7 +989,6 @@ public class SpawnManager : MonoBehaviour
         {
             yield return null;
         }
-        yield return null;
         backgroundNoise.Play();
         backgroundMusic.Play();
         while(countdownTime > 0)

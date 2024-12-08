@@ -126,17 +126,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6690d4d9c37240af8e5ef86244c14f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRadius: 50
+  spawnRadius: 200
   maxStartDelay: 10
-  updateInterval: 1
-  minAttackForce: 30
-  maxAttackForce: 60
-  rotationSpeed: 10
-  overshoot: 0
-  confusion: 10
+  updateInterval: 2
+  minAttackForce: 50
+  maxAttackForce: 150
+  rotationSpeed: 20
+  confusion: 50
   offset: 0
-  explosionForce: 5
-  explosionRadius: 100
   explosion: {fileID: 3521837129305150364}
   explosionSounds:
   - {fileID: 8300000, guid: 31dbe1f047a081845bd95a5b256ee829, type: 3}

@@ -14,13 +14,11 @@ public class Drone : MonoBehaviour
     [SerializeField] float maxAttackForce;
     [SerializeField] float rotationSpeed;
     //[SerializeField] float maxOffset;
-    [SerializeField] float overshoot;
+    //[SerializeField] float overshoot;
     [SerializeField] float confusion;
     public float offset;
 
     [Header("Explosion")]
-    [SerializeField] float explosionForce;
-    [SerializeField] float explosionRadius;
     [SerializeField] GameObject explosion;
     Transform explosionTransform;
     [SerializeField] AudioClip[] explosionSounds;
@@ -117,7 +115,7 @@ public class Drone : MonoBehaviour
                     targetVelocity = targetRb.velocity;
                     break;
             }
-            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + targetVelocity * (overshoot + targetRb.angularVelocity.magnitude * confusion) * updateInterval - myTransform.position);
+            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + targetVelocity * (targetRb.angularVelocity.magnitude * confusion) * updateInterval - myTransform.position);
             yield return new WaitForSeconds(updateInterval);
         }
     }

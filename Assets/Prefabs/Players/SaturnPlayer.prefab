@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  agility: 1
+  agility: 2
   durability: 3
   stability: 4
   activationTime: 20

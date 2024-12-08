@@ -162,7 +162,7 @@ MonoBehaviour:
   agility: 3
   durability: 2
   stability: 2
-  activationTime: 10
+  activationTime: 20
   cooldownTime: 20
   abilityStrength: 0
   abilityIncrease: 0

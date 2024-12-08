@@ -459,11 +459,11 @@ public class PlayerController : MonoBehaviour
             switch(shipModel)
             {
                 case "Saturn":
-                    ring.rotationOffset *= Quaternion.Euler(Vector3.up);
+                    ring.rotationOffset *= Quaternion.Euler(Vector3.right);
                     break;
                 
                 case "Uranus":
-                    ring.rotationOffset *= Quaternion.Euler(new Vector3(2, 0, 0));
+                    ring.rotationOffset *= Quaternion.Euler(new Vector3(0, 2, 0));
                     break;
             }
         }
@@ -732,7 +732,7 @@ public class PlayerController : MonoBehaviour
     
     void OnCollisionEnter(Collision other)
     {
-        if(collided || !canCollide || other.gameObject == aura || other.transform.parent == aura)
+        if(collided || !canCollide)
         {
             return;
         }
@@ -741,8 +741,8 @@ public class PlayerController : MonoBehaviour
         float speed = rb.velocity.magnitude + other.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
         Vector3 otherPos = other.transform.position;
         Vector3 pos = rb.position;
-        rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized);
-        rb.angularVelocity *= deflectionForce + speed;
+        rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed);
+        rb.angularVelocity *= deflectionForce;
 
         if(!other.gameObject.CompareTag("Drone"))
         {
@@ -1263,7 +1263,7 @@ public class PlayerController : MonoBehaviour
         pitchSpeed *= abilityStrength;
         rollSpeed *= abilityStrength;
         speedLossDivisor = 1;
-        healthLossDivisor = 400;
+        healthLossDivisor = 1000;
         minHealthLoss = 0;
         deflectionForce = 1;
         glideSpeed *= abilityStrength;
