@@ -51,12 +51,12 @@ MonoBehaviour:
   maxRotationForce: 0.03
   asteroidProportions: {x: 1, y: 1, z: 1}
   minAsteroidScale: 20
-  maxAsteroidScale: 60
+  maxAsteroidScale: 100
   minRotationSpeed: 10
   maxRotationSpeed: 20
   collectableProportions: {x: 1, y: 1, z: 1}
-  minCollectableScale: 20
-  maxCollectableScale: 40
+  minCollectableScale: 30
+  maxCollectableScale: 60
   wormholeProportions: {x: 7, y: 5, z: 10}
   minWormholeScale: 100
   maxWormholeScale: 500

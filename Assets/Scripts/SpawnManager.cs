@@ -173,6 +173,7 @@ public class SpawnManager : MonoBehaviour
         }
         
         //Section spawning
+        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         int sectionCount = playerNumber * 27;
         sectionChunks = new Vector3[sectionCount];
         sectionPool = new GameObject[sectionCount];

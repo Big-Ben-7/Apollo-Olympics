@@ -2135,7 +2135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5468201634765474687, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_text
-      value: 'Speed: 2          Agility: 1          Durability: 3          Stability:
+      value: 'Speed: 2          Agility: 2          Durability: 3          Stability:
         4
 
         Saturn is the 6th and least dense planet from the Sun - it''s
@@ -2160,7 +2160,7 @@ PrefabInstance:
         Venus uses its toxic atmosphere to shield itself from asteroids. No effect
         on drones.
 
-        Activation: 10s          Cooldown: 20s'
+        Activation: 20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     - target: {fileID: 6074474030578598492, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
