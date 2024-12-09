@@ -676,54 +676,45 @@ public class PlayerController : MonoBehaviour
         //Passed checkpoint
         else if(other.gameObject.CompareTag("Checkpoint") && !checkpointTriggered)
         {
-            int checkpointYPos = (int) other.transform.position.y;
             Vector3 pos = rb.position;
-            float myY = pos.y;
-            if(myY == checkpointYPos - side || myY == checkpointYPos + side)
+            checkpointTriggered = true;
+            int playerCheckpoint = 0;
+            switch(other.transform.parent.parent.name)
             {
-                rb.position += Vector3.up;
+                case "0":
+                    playerCheckpoint = 0;
+                    break;
+                case "1":
+                    playerCheckpoint = 1;
+                    break;
+                case "2":
+                    playerCheckpoint = 2;
+                    break;
+                case "3":
+                    playerCheckpoint = 3;
+                    break;
+                case "4":
+                    playerCheckpoint = 4;
+                    break;
+                case "5":
+                    playerCheckpoint = 5;
+                    break;
+                case "6":
+                    playerCheckpoint = 6;
+                    break;
+                case "7":
+                    playerCheckpoint = 7;
+                    break;
             }
-            if(myY > checkpointYPos - side && myY < checkpointYPos + side)
+            if(Vector3.Angle(rb.position, rb.velocity) <= 90)
             {
-                checkpointTriggered = true;
-                int playerCheckpoint = 0;
-                switch(other.transform.parent.parent.name)
-                {
-                    case "0":
-                        playerCheckpoint = 0;
-                        break;
-                    case "1":
-                        playerCheckpoint = 1;
-                        break;
-                    case "2":
-                        playerCheckpoint = 2;
-                        break;
-                    case "3":
-                        playerCheckpoint = 3;
-                        break;
-                    case "4":
-                        playerCheckpoint = 4;
-                        break;
-                    case "5":
-                        playerCheckpoint = 5;
-                        break;
-                    case "6":
-                        playerCheckpoint = 6;
-                        break;
-                    case "7":
-                        playerCheckpoint = 7;
-                        break;
-                }
-                if(Vector3.Angle(rb.position, rb.velocity) <= 90)
-                {
-                    //Player moved out
-                    AddCheckpoint(playerCheckpoint);
-                }
-                else
-                {
-                    //Player moved in
-                    RemoveCheckpoint(playerCheckpoint);
-                }
+                //Player moved out
+                AddCheckpoint(playerCheckpoint);
+            }
+            else
+            {
+                //Player moved in
+                RemoveCheckpoint(playerCheckpoint);
             }
         }
     }

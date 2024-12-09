@@ -837,7 +837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: playerNumber
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: sectionParent
@@ -873,23 +873,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[0]
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[1]
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[2]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[3]
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[4]
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: accelerations.Array.size
@@ -917,23 +917,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[0]
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[1]
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[2]
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[3]
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[4]
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: playerShips.Array.data[0]
@@ -1017,19 +1017,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: minHealthLosses.Array.data[1]
-      value: 0.8
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: minHealthLosses.Array.data[2]
-      value: 0.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: minHealthLosses.Array.data[3]
-      value: 0.4
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: minHealthLosses.Array.data[4]
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: checkpointDistances.Array.size
@@ -1037,23 +1037,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: deflectionForces.Array.data[0]
-      value: 40
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: deflectionForces.Array.data[1]
-      value: 30
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: deflectionForces.Array.data[2]
-      value: 20
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: deflectionForces.Array.data[3]
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: deflectionForces.Array.data[4]
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: initialThrustSpeeds.Array.size
@@ -1061,19 +1061,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: speedLossDivisors.Array.data[0]
-      value: 2.4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: speedLossDivisors.Array.data[1]
-      value: 2.1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: speedLossDivisors.Array.data[2]
-      value: 1.8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: speedLossDivisors.Array.data[3]
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: speedLossDivisors.Array.data[4]
