@@ -213,17 +213,16 @@ public class PlayerController : MonoBehaviour
         }
 
         //Customize
-        float multiplier = rb.mass;
         speed -= 1;
         agility -= 1;
         durability -= 1;
         stability -= 1;
-        initialThrustSpeed = spawnManager.initialThrustSpeeds[speed] * multiplier;
-        acc = spawnManager.accelerations[speed] * multiplier;
-        maxThrustSpeed = spawnManager.maxThrustSpeeds[speed] * multiplier;
-        rollSpeed = spawnManager.rollSpeeds[agility] * multiplier;
-        pitchSpeed = spawnManager.pitchSpeeds[agility] * multiplier;
-        yawSpeed = spawnManager.yawSpeeds[agility] * multiplier;
+        initialThrustSpeed = spawnManager.initialThrustSpeeds[speed];
+        acc = spawnManager.accelerations[speed];
+        maxThrustSpeed = spawnManager.maxThrustSpeeds[speed];
+        rollSpeed = spawnManager.rollSpeeds[agility];
+        pitchSpeed = spawnManager.pitchSpeeds[agility];
+        yawSpeed = spawnManager.yawSpeeds[agility];
         healthLossDivisor = spawnManager.healthLossDivisors[durability];
         minHealthLoss = spawnManager.minHealthLosses[durability];
         speedLossDivisor = spawnManager.speedLossDivisors[stability];
@@ -477,8 +476,7 @@ public class PlayerController : MonoBehaviour
         }
         droneGroup.localPosition = myTransform.localPosition;
         arrow.localPosition = Vector3.zero;
-        Vector3 pos = rb.position;
-        arrow.rotation = Quaternion.Euler(0, Vector2.SignedAngle(new Vector2(pos.x, pos.z), Vector2.up), rb.rotation.eulerAngles.z);
+        arrow.rotation = Quaternion.LookRotation(rb.position.normalized, transform.up);
     }
 
     void FixedUpdate()
@@ -491,20 +489,20 @@ public class PlayerController : MonoBehaviour
         //Roll, pitch, yaw
         if(yaw != 0 || pitch != 0 || roll != 0)
         {
-            rb.AddRelativeTorque(-pitchSpeed * pitch, yawSpeed * yaw, -rollSpeed * roll);
+            rb.AddRelativeTorque(-pitchSpeed * pitch, yawSpeed * yaw, -rollSpeed * roll, ForceMode.Acceleration);
         }
 
         //Thrust and glide
         switch(thrust)
         {
             case > 0:
-                rb.AddRelativeForce(Vector3.forward * thrustSpeed * thrust);
+                rb.AddRelativeForce(Vector3.forward * thrustSpeed * thrust, ForceMode.Acceleration);
                 break;
             case < 0:
-                rb.AddRelativeForce(Vector3.forward * decSpeed * thrust);
+                rb.AddRelativeForce(Vector3.forward * decSpeed * thrust, ForceMode.Acceleration);
                 break;
             case 0:
-                rb.AddRelativeForce(Vector3.forward * glideSpeed);
+                rb.AddRelativeForce(Vector3.forward * glideSpeed, ForceMode.Acceleration);
                 break;
         }
     }
@@ -716,7 +714,7 @@ public class PlayerController : MonoBehaviour
                         playerCheckpoint = 7;
                         break;
                 }
-                if(Vector2.Angle(new Vector2(pos.x, pos.z), new Vector2(rb.velocity.x, rb.velocity.z)) <= 90)
+                if(Vector3.Angle(rb.position, rb.velocity) <= 90)
                 {
                     //Player moved out
                     AddCheckpoint(playerCheckpoint);
@@ -1098,7 +1096,7 @@ public class PlayerController : MonoBehaviour
         ability = SpeedUp();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        rb.AddRelativeForce(Vector3.forward * abilityStrength, ForceMode.Impulse);
+        rb.AddRelativeForce(Vector3.forward * abilityStrength, ForceMode.VelocityChange);
         resetting = StartCoroutine(ResetAura(2));
 
         //Cooldown
@@ -1255,18 +1253,10 @@ public class PlayerController : MonoBehaviour
         ability = Juggernaut();
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
-        initialThrustSpeed *= abilityStrength;
-        acc *= abilityStrength;
-        maxThrustSpeed *= abilityStrength;
-        yawSpeed *= abilityStrength;
-        pitchSpeed *= abilityStrength;
-        rollSpeed *= abilityStrength;
         speedLossDivisor = 1;
         healthLossDivisor = 1000;
         minHealthLoss = 0;
         deflectionForce = 1;
-        glideSpeed *= abilityStrength;
-        thrustSpeed *= abilityStrength;
         rb.mass *= abilityStrength;
         while(currentActivation > 0)
         {
@@ -1280,18 +1270,10 @@ public class PlayerController : MonoBehaviour
         }
         resetting = StartCoroutine(ResetAura(2));
         audioSource.PlayOneShot(expireSound);
-        initialThrustSpeed /= abilityStrength;
-        acc /= abilityStrength;
-        maxThrustSpeed /= abilityStrength;
-        yawSpeed /= abilityStrength;
-        pitchSpeed /= abilityStrength;
-        rollSpeed /= abilityStrength;
         speedLossDivisor = collisionInitials[0];
         healthLossDivisor = (int) collisionInitials[1];
         minHealthLoss = collisionInitials[2];
         deflectionForce = (int) collisionInitials[3];
-        glideSpeed /= abilityStrength;
-        thrustSpeed /= abilityStrength;
         rb.mass /= abilityStrength;
 
         //Cooldown

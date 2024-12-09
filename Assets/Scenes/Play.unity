@@ -873,23 +873,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[0]
-      value: 20
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[1]
-      value: 25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[2]
-      value: 30
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[3]
-      value: 35
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: yawSpeeds.Array.data[4]
-      value: 40
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: accelerations.Array.size
@@ -897,43 +897,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: rollSpeeds.Array.data[0]
-      value: 25
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: rollSpeeds.Array.data[1]
-      value: 30
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: rollSpeeds.Array.data[2]
-      value: 35
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: rollSpeeds.Array.data[3]
-      value: 40
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: rollSpeeds.Array.data[4]
-      value: 45
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[0]
-      value: 15
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[1]
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[2]
-      value: 25
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[3]
-      value: 30
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: pitchSpeeds.Array.data[4]
-      value: 35
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: playerShips.Array.data[0]
@@ -945,7 +945,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: playerShips.Array.data[2]
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: playerShips.Array.data[3]
@@ -961,23 +961,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: accelerations.Array.data[0]
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[1]
       value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[2]
+      propertyPath: accelerations.Array.data[1]
       value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[3]
+      propertyPath: accelerations.Array.data[2]
       value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[4]
+      propertyPath: accelerations.Array.data[3]
       value: 700
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: accelerations.Array.data[4]
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: deflectionForces.Array.size
