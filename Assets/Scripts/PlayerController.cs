@@ -46,8 +46,8 @@ public class PlayerController : MonoBehaviour
     [Header("Collision")]
     [SerializeField] GameObject dieExplosion;
     [SerializeField] List<GameObject> hitExplosions;
-    [SerializeField] int forwardPercent;
-    [SerializeField] int backPercent;
+    [SerializeField] int forwardPercent = 30;
+    [SerializeField] int backPercent = 30;
     GameObject hitExplosionPrefab;
 
     [Header("Ability")]
