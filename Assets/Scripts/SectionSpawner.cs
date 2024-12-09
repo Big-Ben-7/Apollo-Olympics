@@ -31,9 +31,9 @@ public class SectionSpawner : MonoBehaviour
     public static int side;
     public int initialDisableNumber = -1;
     public bool avoidCenter;
+    //public bool initialEnable;
     Transform myTransform;
     int disableNumber;
-    //bool initialEnable = true;
 
     void Awake()
     {
@@ -51,12 +51,14 @@ public class SectionSpawner : MonoBehaviour
         }
         disableNumber = initialDisableNumber;
 
-        /*//Regular enable - spread randomization across frames, don't avoid center
-        if(!initialEnable)
+        //Regular enable - spread randomization across frames, don't avoid center
+        /*if(!initialEnable)
         {
             StartCoroutine(Randomize());
             return;
         }*/
+
+        //initialEnable = false;
 
         //Initial enable - don't spread randomization, don't avoid center
         if(!avoidCenter)

@@ -996,7 +996,7 @@ public class PlayerController : MonoBehaviour
         canCollide = false;
         int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
         int direction = UnityEngine.Random.Range(0, 100);
-        float distance = 0;
+        float distance;
         switch(playerCheckpoint)
         {
             case 0:
@@ -1004,10 +1004,10 @@ public class PlayerController : MonoBehaviour
                 {
                     AddCheckpoint(playerCheckpoint);
                     playerCheckpoint += 1;
-                    distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 5, checkpointDistances[playerCheckpoint] - colliderWidth - 5);
+                    distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
                     break;
                 }
-                distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - colliderWidth - 5);
+                distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
                 break;
 
             case 1:
@@ -1015,7 +1015,7 @@ public class PlayerController : MonoBehaviour
                 {
                     AddCheckpoint(playerCheckpoint);
                     playerCheckpoint += 1;
-                    distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 5, checkpointDistances[playerCheckpoint] - colliderWidth - 5);
+                    distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
                     break;
                 }
                 else if(direction < forwardPercent + backPercent)
@@ -1025,7 +1025,7 @@ public class PlayerController : MonoBehaviour
                     distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - colliderWidth - 5);
                     break;
                 }
-                distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 5, checkpointDistances[playerCheckpoint] - colliderWidth - 5);
+                distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
                 break;
             
             case 8:
@@ -1034,7 +1034,7 @@ public class PlayerController : MonoBehaviour
                     playerCheckpoint -= 1;
                     RemoveCheckpoint(playerCheckpoint);
                 }
-                distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 5, checkpointDistances[playerCheckpoint] - colliderWidth - 5);
+                distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
                 break;
 
             default:
@@ -1048,11 +1048,10 @@ public class PlayerController : MonoBehaviour
                     playerCheckpoint -= 1;
                     RemoveCheckpoint(playerCheckpoint);
                 }
-                distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 5, checkpointDistances[playerCheckpoint] - colliderWidth - 5);
+                distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
                 break;
         }
-        float argument = UnityEngine.Random.Range(0f, 360) * Mathf.Deg2Rad;
-        Vector3 newPos = new Vector3(distance * Mathf.Cos(argument), UnityEngine.Random.Range(-side + colliderWidth + 5, side - colliderWidth - 5), distance * Mathf.Sin(argument));
+        Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), 0) * new Vector3(0, 0, distance);
         //myTransform.parent = null;
         rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), 0, Mathf.RoundToInt(newPos.z / length)), playerIndex);
@@ -1067,7 +1066,7 @@ public class PlayerController : MonoBehaviour
         if(spawnManager.playerCheckpoints[playerIndex] != playerCheckpoint)
         {
             spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-            spawnManager.SpawnCheckpoints(playerIndex, playerCheckpoint);
+            //spawnManager.SpawnCheckpoints(playerIndex, playerCheckpoint);
             checkpointText.SetText("Checkpoint: " + playerCheckpoint);
         }
         int dronesToActivate = checkpointDrones[playerCheckpoint] - activeDrones;
@@ -1085,7 +1084,7 @@ public class PlayerController : MonoBehaviour
         if(spawnManager.playerCheckpoints[playerIndex] != playerCheckpoint)
         {
             spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-            spawnManager.SpawnCheckpoints(playerIndex, playerCheckpoint - 1);
+            //spawnManager.SpawnCheckpoints(playerIndex, playerCheckpoint - 1);
             checkpointText.SetText("Checkpoint: " + playerCheckpoint);
         }
         StartCoroutine(ChangeTextColor(checkpointText, 0.5f, Color.white, Color.red));

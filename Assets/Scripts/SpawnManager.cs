@@ -30,15 +30,13 @@ public class SpawnManager : MonoBehaviour
     Vector3[] sectionChunks;
 
     [Header("Checkpoints")]
-    GameObject[] checkpointPool;
     public int[] playerCheckpoints;
-    [SerializeField] int[] checkpointDistances = new int[] {10000, 20000, 30000, 40000, 55000, 70000, 90000, 110000, 130000};
+    [SerializeField] int[] checkpointDistances = new int[] {7500, 15000, 22500, 30000, 40000, 50000, 65000, 80000, 100000};
     float[] checkpointLengths;
     float[] checkpointRadii;
     [SerializeField] Transform checkpointParent;
     [SerializeField] GameObject checkpointGraphic;
     [SerializeField] GameObject checkpointTrigger;
-    [SerializeField] Material checkpointMat;
     [SerializeField] Material finishMat;
     [SerializeField] float polygonSides = 36;
     int checkpointCount;
@@ -288,6 +286,12 @@ public class SpawnManager : MonoBehaviour
 
         //Spawn initial sections
         sectionPool[0].GetComponent<SectionSpawner>().avoidCenter = true;
+        /*for(int i = 0; i < 5; i++)
+        {
+            sectionPool[i].GetComponent<SectionSpawner>().initialEnable = true;
+            sectionPool[i].SetActive(true);
+            sectionPool[i].GetComponent<SectionSpawner>().initialEnable = false;
+        }*/
         for(int i = 0; i < 27; i++)
         {
             sectionPool[i].SetActive(true);
@@ -295,32 +299,7 @@ public class SpawnManager : MonoBehaviour
         sectionPool[0].GetComponent<SectionSpawner>().avoidCenter = false;
 
         //Spawn checkpoints
-        int checkpointNumber = playerNumber * 6;
-        checkpointPool = new GameObject[checkpointNumber];
-        for(int i = 0; i < checkpointNumber; i++)
-        {
-            switch(i)
-            {
-                case 0:
-                    checkpointPool[0] = Instantiate(checkpointGraphic, checkpointParent);
-                    SetCheckpoint(checkpointPool[0].transform, 0);
-                    break;
-                case 1:
-                    checkpointPool[1] = Instantiate(checkpointGraphic, new Vector3(0, length, 0), Quaternion.identity, checkpointParent);
-                    SetCheckpoint(checkpointPool[1].transform, 0);
-                    break;
-                case 2:
-                    checkpointPool[2] = Instantiate(checkpointGraphic, new Vector3(0, -length, 0), Quaternion.identity, checkpointParent);
-                    SetCheckpoint(checkpointPool[2].transform, 0);
-                    break;
-                default:
-                    checkpointPool[i] = Instantiate(checkpointGraphic, checkpointParent);
-                    checkpointPool[i].SetActive(false);
-                    SetCheckpoint(checkpointPool[i].transform, 0);
-                    break;
-
-            }
-        }
+        StartCoroutine(SpawnCheckpoints());
 
         //Spawn players
         players = new GameObject[playerNumber];
@@ -527,48 +506,48 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    void SetCheckpoint(Transform parent, int checkpointIndex)
+    IEnumerator SpawnCheckpoints()
     {
-        parent.name = "" + checkpointIndex;
-        int distance = checkpointDistances[checkpointIndex];
-        float objectLength = checkpointLengths[checkpointIndex];
         float baseAngle = 360 / polygonSides;
-        switch(parent.childCount)
+        int lastCheckpoint = checkpointCount - 1;
+        Transform parent;
+        float objectLength;
+        for(int i = 0; i < lastCheckpoint; i++)
         {
-            case 0:
-                for(int i = 0; i < polygonSides; i++)
+            parent = Instantiate(checkpointGraphic, checkpointParent).transform;
+            parent.name = "" + i;
+            int distance = checkpointDistances[i];
+            objectLength = checkpointLengths[i];
+            for(int j = 0; j < polygonSides; j++)
+            {
+                for(int k = 0; k < polygonSides; k++)
                 {
-                    Transform checkpoint = Instantiate(checkpointTrigger, parent.position, Quaternion.Euler(0, baseAngle * i, 0), parent).transform;
+                    Transform checkpoint = Instantiate(checkpointTrigger, parent.position, Quaternion.Euler(baseAngle * k, baseAngle * j, 0), parent).transform;
                     Transform collider = checkpoint.GetChild(0);
-                    collider.localScale = new Vector3(objectLength, length, colliderWidth);
+                    collider.localScale = new Vector3(objectLength, objectLength, colliderWidth);
                     collider.localPosition = new Vector3(0, 0, distance);
                 }
-                break;
+                yield return null;
+            }
+        }
 
-            default:
-                int finishDistance = distance + colliderWidth / 2;
-                for(int i = 0; i < polygonSides; i++)
-                {
-                    Transform checkpoint = parent.GetChild(i);
-                    checkpoint.rotation = Quaternion.Euler(0, baseAngle * i, 0);
-                    Transform collider = checkpoint.GetChild(0);
-                    collider.localScale = new Vector3(objectLength, length, colliderWidth);
-                    switch(checkpointIndex == checkpointCount - 1)
-                    {
-                        case false:
-                            collider.localPosition = new Vector3(0, 0, distance);
-                            collider.GetComponent<Renderer>().material = checkpointMat;
-                            collider.tag = "Checkpoint";
-                            break;
-
-                        case true:
-                            collider.localPosition = new Vector3(0, 0, finishDistance);
-                            collider.GetComponent<Renderer>().material = finishMat;
-                            collider.tag = "FinishLine";
-                            break;
-                    }
-                }
-                break;
+        //Spawn finish line
+        parent = Instantiate(checkpointGraphic, checkpointParent).transform;
+        parent.name = "" + lastCheckpoint;
+        int finishDistance = checkpointDistances[lastCheckpoint] + colliderWidth / 2;
+        objectLength = checkpointLengths[lastCheckpoint];
+        for(int i = 0; i < polygonSides; i++)
+        {
+            for(int j = 0; j < polygonSides; j++)
+            {
+                Transform checkpoint = Instantiate(checkpointTrigger, parent.position, Quaternion.Euler(baseAngle * j, baseAngle * i, 0), parent).transform;
+                Transform collider = checkpoint.GetChild(0);
+                collider.localScale = new Vector3(objectLength, objectLength, colliderWidth);
+                collider.localPosition = new Vector3(0, 0, finishDistance);
+                collider.GetComponent<Renderer>().material = finishMat;
+                collider.tag = "FinishLine";
+            }
+            yield return null;
         }
     }
     
@@ -657,7 +636,6 @@ public class SpawnManager : MonoBehaviour
         newPosList[8] = newPosList[0] + new Vector3(-length, 0, -length);
 
         SpawnSections(newPosList, playerIndex);
-        MoveCheckpoint(playerIndex, (int) (playerChunkPos.y / length + 1));
     }
     public void SpawnSectionsDown(Vector3 colliderPos, int playerIndex)
     {
@@ -675,12 +653,10 @@ public class SpawnManager : MonoBehaviour
         newPosList[8] = newPosList[0] + new Vector3(-length, 0, -length);
 
         SpawnSections(newPosList, playerIndex);
-        MoveCheckpoint(playerIndex, (int) (playerChunkPos.y / length - 1));
     }
 
     public void SpawnSectionsAround(Vector3 playerChunk, int playerIndex)
     {
-        int originalYChunk = (int) playerChunks[playerIndex].y;
         playerChunks[playerIndex] = playerChunk;
         Vector3 playerChunkPos = playerChunk * length;
         Vector3[] newPosList = new Vector3[27];
@@ -717,22 +693,6 @@ public class SpawnManager : MonoBehaviour
         newPosList[25] = baseChunkPos + new Vector3(length, 0, -length);                
         newPosList[26] = baseChunkPos + new Vector3(-length, 0, -length);
         
-        //Move checkpoints and sections
-        int playerYChunk = (int) playerChunk.y;
-        if(originalYChunk > playerYChunk + 1 || originalYChunk < playerYChunk - 1)
-        {
-            MoveCheckpoint(playerIndex, playerYChunk);
-        }
-        playerYChunk += 1;
-        if(originalYChunk > playerYChunk + 1 || originalYChunk < playerYChunk - 1)
-        {
-            MoveCheckpoint(playerIndex, playerYChunk);
-        }
-        playerYChunk -= 2;
-        if(originalYChunk > playerYChunk + 1 || originalYChunk < playerYChunk - 1)
-        {
-            MoveCheckpoint(playerIndex, playerYChunk);
-        }
         SpawnSections(newPosList, playerIndex);
     }
     
@@ -791,7 +751,7 @@ public class SpawnManager : MonoBehaviour
         //}
     }
     
-    void MoveCheckpoint(int playerIndex, int newYChunk)
+    /*void MoveCheckpoint(int playerIndex, int newYChunk)
     {
         int baseCheckpointIndex = playerCheckpoints[playerIndex];
         int[] checkpointIndexes = new int[]{baseCheckpointIndex, baseCheckpointIndex - 1};
@@ -845,9 +805,9 @@ public class SpawnManager : MonoBehaviour
                 stage++;
             }
         }
-    }
+    }*/
     
-    public void SpawnCheckpoints(int playerIndex, int checkpointIndex)
+    /*public void SpawnCheckpoints(int playerIndex, int checkpointIndex)
     {
         int baseYChunk = (int) playerChunks[playerIndex].y;
         int[] newYChunks = new int[]{baseYChunk, baseYChunk + 1, baseYChunk - 1};
@@ -897,7 +857,7 @@ public class SpawnManager : MonoBehaviour
                 stage++;
             }
         }
-    }
+    }*/
 
     void DestroySection(GameObject section)
     {
@@ -921,7 +881,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
     
-    void DestroyCheckpoint(GameObject checkpoint)
+    /*void DestroyCheckpoint(GameObject checkpoint)
     {
         if(checkpoint.activeInHierarchy)
         {
@@ -943,7 +903,7 @@ public class SpawnManager : MonoBehaviour
                 checkpoint.SetActive(false);
             }
         }
-    }
+    }*/
 
     public int PlayerFinish(int playerIndex)
     {
@@ -952,10 +912,10 @@ public class SpawnManager : MonoBehaviour
         {
             DestroySection(sectionPool[i]);
         }
-        for(int i = 0; i < checkpointPool.Length; i++)
+        /*for(int i = 0; i < checkpointPool.Length; i++)
         {
             DestroyCheckpoint(checkpointPool[i]);
-        }
+        }*/
         List<Transform> playerFollowers = followers[playerIndex];
         //playerFollowers[0].parent = null;
         for(int i = 1; i < playerFollowers.Count; i++)
