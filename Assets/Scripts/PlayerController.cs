@@ -331,7 +331,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         float speed = rb.velocity.magnitude;
-        float thrusterSpeed = 0;
         
         if(!rb.isKinematic)
         {
@@ -409,7 +408,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Change thruster effect based on speed
-        thrusterSpeed = speed / thrusterSpeedDivisor;
+        float thrusterSpeed = speed / thrusterSpeedDivisor;
         if(thrusterSpeed > maxThrusterSpeed)
         {
             thrusterSpeed = maxThrusterSpeed;
