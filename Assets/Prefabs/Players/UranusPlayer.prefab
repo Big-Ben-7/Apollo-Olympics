@@ -167,9 +167,9 @@ MonoBehaviour:
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
-  thrusterSpeedDivisor: 20
+  thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
-  thrusterVolumeDivisor: 3000
+  thrusterVolumeDivisor: 4000
   maxThrusterVolume: 0.3
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:

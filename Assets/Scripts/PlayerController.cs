@@ -35,13 +35,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float abilityIncrease;
 
     [Header("Movement")]
-    [SerializeField] float decMultiplier;
-    [SerializeField] float glideDrag;
+    [SerializeField] float decMultiplier = 0.9f;
+    [SerializeField] float glideDrag = 0.05f;
     [SerializeField] GameObject thrusterParent;
-    [SerializeField] float thrusterSpeedDivisor;
-    [SerializeField] float maxThrusterSpeed;
-    [SerializeField] float thrusterVolumeDivisor;
-    [SerializeField] float maxThrusterVolume;
+    [SerializeField] float thrusterSpeedDivisor = 40;
+    [SerializeField] float maxThrusterSpeed = 20;
+    [SerializeField] float thrusterVolumeDivisor = 4000;
+    [SerializeField] float maxThrusterVolume = 0.3f;
 
     [Header("Collision")]
     [SerializeField] GameObject dieExplosion;
