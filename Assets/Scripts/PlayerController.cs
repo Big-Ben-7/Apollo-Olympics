@@ -1054,7 +1054,7 @@ public class PlayerController : MonoBehaviour
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), 0) * new Vector3(0, 0, distance);
         //myTransform.parent = null;
         rb.position = newPos;
-        spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), 0, Mathf.RoundToInt(newPos.z / length)), playerIndex);
+        spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);
         audioSource.PlayOneShot(wormholeSound);
         canCollide = true;
         canTrigger = true;
