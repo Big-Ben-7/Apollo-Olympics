@@ -552,8 +552,13 @@ public class PlayerController : MonoBehaviour
                     finishText.SetText(finishedPlayers + "th\nPlace!");
                     break;
             }
+            timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
+            if(!MenuManager.loaded)
+            {
+                return;
+            }
             int elapsedMilliseconds = (int) Math.Round(elapsedTime.TotalMilliseconds);
-            if(MenuManager.loaded && (elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0))
+            if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
             {
                 int index = MenuManager.difficulty;
                 MenuManager.times[index] = elapsedMilliseconds;
@@ -562,7 +567,6 @@ public class PlayerController : MonoBehaviour
             }
             MenuManager.collects += collects;
             PlayerPrefs.SetInt("Collects", MenuManager.collects);
-            timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
         }
 
         //collects powerup

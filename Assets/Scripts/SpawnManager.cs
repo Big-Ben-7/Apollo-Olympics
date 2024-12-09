@@ -936,7 +936,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator FinishMenu()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1);
         Transform menuTransform = menu.transform.GetChild(1);
         menuTransform.GetChild(2).gameObject.SetActive(false);
         menuTransform.GetChild(3).gameObject.SetActive(true);
