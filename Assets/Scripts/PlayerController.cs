@@ -106,7 +106,6 @@ public class PlayerController : MonoBehaviour
     bool sectionFront;
     bool sectionSide;
     bool sectionUp;
-    bool checkpointTriggered;
     public bool canCollide;
     bool canTrigger;
     public static SpawnManager spawnManager;
@@ -114,8 +113,6 @@ public class PlayerController : MonoBehaviour
     public static int side;
     public static int playerNumber;
     public static int[] checkpointDistances;
-    public static float[] checkpointRadii;
-    public static int colliderWidth;
     public static AudioSource audioSource;
     float[] collisionInitials;
     ParticleSystem.MainModule[] thrusters;
@@ -213,10 +210,10 @@ public class PlayerController : MonoBehaviour
         }
 
         //Customize
-        speed -= 1;
-        agility -= 1;
-        durability -= 1;
-        stability -= 1;
+        speed --;
+        agility --;
+        durability --;
+        stability --;
         initialThrustSpeed = spawnManager.initialThrustSpeeds[speed];
         acc = spawnManager.accelerations[speed];
         maxThrustSpeed = spawnManager.maxThrustSpeeds[speed];
@@ -465,6 +462,80 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
+    
+        //Check if passed checkpoint
+        float pos = rb.position.magnitude;
+        int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
+        switch(playerCheckpoint)
+        {
+            case 0:
+                if(pos >= checkpointDistances[0])
+                {
+                    AddCheckpoint(playerCheckpoint);
+                }
+                break;
+            
+            case 8:
+                //Passed finish line
+                if(pos >= checkpointDistances[8])
+                {
+                    int playingPlayers = spawnManager.PlayerFinish(playerIndex);
+                    DateTime finishTime = DateTime.Now;
+                    TimeSpan elapsedTime = finishTime - startTime;
+                    //transform.parent = null;
+                    gameObject.SetActive(false);
+                    finishBackground.SetActive(true);
+                    audioSource.PlayOneShot(checkpointSound);
+                    int finishedPlayers = playerNumber - playingPlayers;
+                    switch(finishedPlayers)
+                    {
+                        case 1:
+                            finishText.SetText("1st\nPlace!");
+                            break;
+                        case 2:
+                            finishText.SetText("2nd\nPlace!");
+                            break;
+                        case 3:
+                            finishText.SetText("3rd\nPlace!");
+                            break;
+                        default:
+                            finishText.SetText(finishedPlayers + "th\nPlace!");
+                            break;
+                    }
+                    timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
+                    if(!MenuManager.loaded)
+                    {
+                        return;
+                    }
+                    int elapsedMilliseconds = (int) Math.Round(elapsedTime.TotalMilliseconds);
+                    if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
+                    {
+                        int index = MenuManager.difficulty;
+                        MenuManager.times[index] = elapsedMilliseconds;
+                        PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
+                        PlayerPrefs.SetString("Description" + index, " (" + MenuManager.playerNames[playerIndex] + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year + ")");
+                    }
+                    MenuManager.collects += collects;
+                    PlayerPrefs.SetInt("Collects", MenuManager.collects);
+                }
+                else if(pos <= checkpointDistances[7])
+                {
+                    RemoveCheckpoint(7);
+                }
+                break;
+
+            default:
+                int lastCheckpoint = playerCheckpoint - 1;
+                if(pos >= checkpointDistances[playerCheckpoint])
+                {
+                    AddCheckpoint(playerCheckpoint);
+                }
+                else if(pos <= checkpointDistances[lastCheckpoint])
+                {
+                    RemoveCheckpoint(lastCheckpoint);
+                }
+                break;
+        }
     }
 
     void LateUpdate()
@@ -473,9 +544,11 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        droneGroup.localPosition = myTransform.localPosition;
+        droneGroup.position = rb.position;
         arrow.localPosition = Vector3.zero;
-        arrow.rotation = Quaternion.LookRotation(rb.position.normalized, transform.up);
+        arrow.rotation = Quaternion.LookRotation(rb.position.normalized, Vector3.up);
+        Vector3 rot = arrow.rotation.eulerAngles;
+        arrow.rotation = Quaternion.Euler(rot.x, rot.y, rb.rotation.eulerAngles.z);
     }
 
     void FixedUpdate()
@@ -521,55 +594,7 @@ public class PlayerController : MonoBehaviour
             sectionUp = false;
         }
 
-        else if(other.gameObject.CompareTag("Checkpoint") && checkpointTriggered)
-        {
-            checkpointTriggered = false;
-        }
-    
-        //Passed finish line
-        else if(other.gameObject.CompareTag("FinishLine"))
-        {
-            int playingPlayers = spawnManager.PlayerFinish(playerIndex);
-            DateTime finishTime = DateTime.Now;
-            TimeSpan elapsedTime = finishTime - startTime;
-            //transform.parent = null;
-            gameObject.SetActive(false);
-            finishBackground.SetActive(true);
-            audioSource.PlayOneShot(checkpointSound);
-            int finishedPlayers = playerNumber - playingPlayers;
-            switch(finishedPlayers)
-            {
-                case 1:
-                    finishText.SetText("1st\nPlace!");
-                    break;
-                case 2:
-                    finishText.SetText("2nd\nPlace!");
-                    break;
-                case 3:
-                    finishText.SetText("3rd\nPlace!");
-                    break;
-                default:
-                    finishText.SetText(finishedPlayers + "th\nPlace!");
-                    break;
-            }
-            timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
-            if(!MenuManager.loaded)
-            {
-                return;
-            }
-            int elapsedMilliseconds = (int) Math.Round(elapsedTime.TotalMilliseconds);
-            if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
-            {
-                int index = MenuManager.difficulty;
-                MenuManager.times[index] = elapsedMilliseconds;
-                PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
-                PlayerPrefs.SetString("Description" + index, " (" + MenuManager.playerNames[playerIndex] + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year + ")");
-            }
-            MenuManager.collects += collects;
-            PlayerPrefs.SetInt("Collects", MenuManager.collects);
-        }
-
-        //collects powerup
+        //Collected powerup
         else if(other.gameObject.CompareTag("Collectable"))
         {
             other.gameObject.SetActive(false);
@@ -673,51 +698,6 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                     break;
-            }
-        }
-    
-        //Passed checkpoint
-        else if(other.gameObject.CompareTag("Checkpoint") && !checkpointTriggered)
-        {
-            Vector3 pos = rb.position;
-            checkpointTriggered = true;
-            int playerCheckpoint = 0;
-            switch(other.transform.parent.parent.name)
-            {
-                case "0":
-                    playerCheckpoint = 0;
-                    break;
-                case "1":
-                    playerCheckpoint = 1;
-                    break;
-                case "2":
-                    playerCheckpoint = 2;
-                    break;
-                case "3":
-                    playerCheckpoint = 3;
-                    break;
-                case "4":
-                    playerCheckpoint = 4;
-                    break;
-                case "5":
-                    playerCheckpoint = 5;
-                    break;
-                case "6":
-                    playerCheckpoint = 6;
-                    break;
-                case "7":
-                    playerCheckpoint = 7;
-                    break;
-            }
-            if(Vector3.Angle(rb.position, rb.velocity) <= 90)
-            {
-                //Player moved out
-                AddCheckpoint(playerCheckpoint);
-            }
-            else
-            {
-                //Player moved in
-                RemoveCheckpoint(playerCheckpoint);
             }
         }
     }
@@ -838,7 +818,7 @@ public class PlayerController : MonoBehaviour
                         spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
                         break;
                     default:
-                        Vector3 newPos = startPos + normalizedStartPos * (checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1] + colliderWidth);
+                        Vector3 newPos = startPos + normalizedStartPos * checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1];
                         rb.position = newPos;
                         spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
                         break;
@@ -886,7 +866,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Countdown(int countdownTime)
     {
-        spawnManager.initializedPlayers += 1;
+        spawnManager.initializedPlayers ++;
         while(countdownTime > 0)
         {
             countdownText.SetText("" + countdownTime);
@@ -995,52 +975,52 @@ public class PlayerController : MonoBehaviour
                 if(direction < forwardPercent)
                 {
                     AddCheckpoint(playerCheckpoint);
-                    playerCheckpoint += 1;
-                    distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
+                    playerCheckpoint ++;
+                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
                     break;
                 }
-                distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
+                distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - 20);
                 break;
 
             case 1:
                 if(direction < forwardPercent)
                 {
                     AddCheckpoint(playerCheckpoint);
-                    playerCheckpoint += 1;
-                    distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
+                    playerCheckpoint ++;
+                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
                     break;
                 }
                 else if(direction < forwardPercent + backPercent)
                 {
-                    playerCheckpoint -= 1;
+                    playerCheckpoint --;
                     RemoveCheckpoint(playerCheckpoint);
-                    distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - colliderWidth - 5);
+                    distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - 5);
                     break;
                 }
-                distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
                 break;
             
             case 8:
                 if(direction < backPercent)
                 {
-                    playerCheckpoint -= 1;
+                    playerCheckpoint --;
                     RemoveCheckpoint(playerCheckpoint);
                 }
-                distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
                 break;
 
             default:
                 if(direction < forwardPercent)
                 {
                     AddCheckpoint(playerCheckpoint);
-                    playerCheckpoint += 1;
+                    playerCheckpoint ++;
                 }
                 else if(direction < forwardPercent + backPercent)
                 {
-                    playerCheckpoint -= 1;
+                    playerCheckpoint --;
                     RemoveCheckpoint(playerCheckpoint);
                 }
-                distance = UnityEngine.Random.Range(checkpointRadii[playerCheckpoint - 1] + colliderWidth + 20, checkpointDistances[playerCheckpoint] - colliderWidth - 20);
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
                 break;
         }
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), 0) * new Vector3(0, 0, distance);
@@ -1054,13 +1034,13 @@ public class PlayerController : MonoBehaviour
 
     void AddCheckpoint(int playerCheckpoint)
     {
-        playerCheckpoint += 1;
-        if(spawnManager.playerCheckpoints[playerIndex] != playerCheckpoint)
+        playerCheckpoint ++;
+        if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint)
         {
-            spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-            //spawnManager.SpawnCheckpoints(playerIndex, playerCheckpoint);
-            checkpointText.SetText("Checkpoint: " + playerCheckpoint);
+            return;
         }
+        spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
+        checkpointText.SetText("Checkpoint: " + playerCheckpoint);
         int dronesToActivate = checkpointDrones[playerCheckpoint] - activeDrones;
         for(int i = 0; i < dronesToActivate; i++)
         {
@@ -1073,12 +1053,12 @@ public class PlayerController : MonoBehaviour
 
     void RemoveCheckpoint(int playerCheckpoint)
     {
-        if(spawnManager.playerCheckpoints[playerIndex] != playerCheckpoint)
+        if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint)
         {
-            spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-            //spawnManager.SpawnCheckpoints(playerIndex, playerCheckpoint - 1);
-            checkpointText.SetText("Checkpoint: " + playerCheckpoint);
+            return;
         }
+        spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
+        checkpointText.SetText("Checkpoint: " + playerCheckpoint);
         StartCoroutine(ChangeTextColor(checkpointText, 0.5f, Color.white, Color.red));
         audioSource.PlayOneShot(errorSound);
     }

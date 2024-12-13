@@ -47,19 +47,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e1c552506d04ac3b1d7703e0e75665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 600
+  side: 900
   colliderWidth: 500
   sectionParent: {fileID: 0}
   sectionPrefab: {fileID: 566563954241801917, guid: 30a9808a47135427c9ecd3e3ee56857d, type: 3}
   playerCheckpoints: 
-  checkpointDistances: 10270000204e000030750000409c0000d8d6000060ea000080380100a0860100d0fb0100
+  checkpointDistances: 4c1d0000983a0000e457000030750000409c000050c30000e8fd000080380100a0860100
   checkpointParent: {fileID: 0}
-  checkpointGraphic: {fileID: 1103338233799838282, guid: 1b3d9bb52aa5642af998b9b949d39fa1, type: 3}
-  checkpointTrigger: {fileID: 2601213820490887638, guid: 7d610b37e71cd4c418cb1b62ed330fc4, type: 3}
-  checkpointMat: {fileID: 2100000, guid: f3d918d4bd35848af853d2319c2bc370, type: 2}
+  checkpointPrefab: {fileID: 1524319548756128656, guid: cf191d8315c8d4bcbb649de43114089f, type: 3}
   finishMat: {fileID: 2100000, guid: 11a6088f9cac6426a90e9b064c81cc2e, type: 2}
-  polygonSides: 36
-  difficulty: 4
+  difficulty: 0
   possibleAsteroids:
   - {fileID: 7437889339238721774, guid: a028a9caf7ccf2443a238296ded73a04, type: 3}
   - {fileID: 2746130058158584518, guid: 41059c7f21dd4994d9797364e07a3d45, type: 3}
@@ -105,7 +102,7 @@ MonoBehaviour:
   intCheckpointDrones: 010000000100000002000000030000000400000005000000060000000700000008000000
   advCheckpointDrones: 020000000300000004000000050000000600000007000000080000000a0000000c000000
   expCheckpointDrones: 04000000050000000600000007000000080000000a0000000c0000000e00000010000000
-  playerNumber: 1
+  playerNumber: 2
   possiblePlayers:
   - {fileID: 6744162823093574734, guid: bb456dcf6cf4444fd8c3095cc4f2f8f8, type: 3}
   - {fileID: 6744162823093574734, guid: 34bf0daee831447459c8cf027f9b405e, type: 3}
@@ -115,8 +112,43 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerShips: 
+  playerShips: 00000000040000000100000006000000
   playingPlayers: 
+  initialThrustSpeeds: 20030000b004000040060000d007000060090000
+  accelerations: 90010000f401000058020000bc02000020030000
+  maxThrustSpeeds: a00f000070170000401f000010270000e02e0000
+  rollSpeeds:
+  - 4
+  - 7
+  - 10
+  - 13
+  - 16
+  pitchSpeeds:
+  - 1
+  - 4
+  - 7
+  - 10
+  - 13
+  yawSpeeds:
+  - 1
+  - 4
+  - 7
+  - 10
+  - 13
+  healthLossDivisors: c8000000900100005802000020030000e8030000
+  speedLossDivisors:
+  - 5
+  - 4
+  - 3
+  - 2
+  - 1.2
+  minHealthLosses:
+  - 1
+  - 0.75
+  - 0.5
+  - 0.25
+  - 0
+  deflectionForces: 2d00000023000000190000000f00000005000000
   cameraPrefab: {fileID: 8803354073669428790, guid: cf38e19b88e5647c19ea89b7f8dacb7a, type: 3}
   cameraMasks:
   - serializedVersion: 2
@@ -127,10 +159,11 @@ MonoBehaviour:
     m_Bits: 27127
   - serializedVersion: 2
     m_Bits: 29175
-  startSound: {fileID: 8300000, guid: 6cf9c85b5a3b88c468b21b9d21250adf, type: 3}
   countdownSound: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
   goSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
+  menu: {fileID: 0}
+  initializedPlayers: 0
 --- !u!82 &4212043769208938346
 AudioSource:
   m_ObjectHideFlags: 0

@@ -281,7 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1183720515}
   - component: {fileID: 1183720514}
-  - component: {fileID: 1183720513}
+  - component: {fileID: 1183720516}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -289,26 +289,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1183720513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183720512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &1183720514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,13 +312,44 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183720512}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000030517578, y: 0.000015258789, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1183720516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183720512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!1 &1265169702
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,333 +839,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1265169702}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: side
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: difficulty
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerNumber
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: sectionParent
       value: 
       objectReference: {fileID: 1935171737}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: overridePlayers
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: checkpointParent
       value: 
       objectReference: {fileID: 64442204}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxInteractables
-      value: 48
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: yawSpeeds.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rollSpeeds.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: pitchSpeeds.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: yawSpeeds.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: yawSpeeds.Array.data[1]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: yawSpeeds.Array.data[2]
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: yawSpeeds.Array.data[3]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: yawSpeeds.Array.data[4]
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rollSpeeds.Array.data[0]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rollSpeeds.Array.data[1]
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rollSpeeds.Array.data[2]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rollSpeeds.Array.data[3]
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rollSpeeds.Array.data[4]
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: pitchSpeeds.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: pitchSpeeds.Array.data[1]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: pitchSpeeds.Array.data[2]
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: pitchSpeeds.Array.data[3]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: pitchSpeeds.Array.data[4]
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.data[0]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.data[1]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.data[2]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.data[3]
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: minHealthLosses.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[0]
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[1]
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[2]
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[3]
-      value: 700
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[4]
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: deflectionForces.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: speedLossDivisors.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[0]
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[1]
-      value: 6000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[2]
-      value: 8000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[3]
-      value: 10000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[4]
-      value: 12000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: minHealthLosses.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: minHealthLosses.Array.data[1]
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: minHealthLosses.Array.data[2]
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: minHealthLosses.Array.data[3]
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: minHealthLosses.Array.data[4]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: deflectionForces.Array.data[0]
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: deflectionForces.Array.data[1]
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: deflectionForces.Array.data[2]
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: deflectionForces.Array.data[3]
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: deflectionForces.Array.data[4]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: speedLossDivisors.Array.data[0]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: speedLossDivisors.Array.data[1]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: speedLossDivisors.Array.data[2]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: speedLossDivisors.Array.data[3]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: speedLossDivisors.Array.data[4]
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[0]
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[1]
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[2]
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[3]
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[4]
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.data[0]
-      value: 7500
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.data[1]
-      value: 15000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.data[2]
-      value: 22500
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.data[3]
-      value: 30000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.data[4]
-      value: 40000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.data[5]
-      value: 50000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.data[6]
-      value: 65000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.data[7]
-      value: 80000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: checkpointDistances.Array.data[8]
-      value: 100000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.data[0]
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.data[1]
-      value: 1200
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.data[2]
-      value: 1600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.data[3]
-      value: 2000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.data[4]
-      value: 2400
-      objectReference: {fileID: 0}
     - target: {fileID: 8277756364841921885, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: m_Name
       value: SpawnManager

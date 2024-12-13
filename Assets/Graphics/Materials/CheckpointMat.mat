@@ -25,11 +25,12 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _EMISSION
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
@@ -105,7 +106,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Cull: 2
+    - _Cull: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -131,8 +132,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0.34901932, g: 1, b: 0.490196, a: 0.39215687}
-    - _Color: {r: 0.34901926, g: 1, b: 0.490196, a: 0.39215687}
-    - _EmissionColor: {r: 0.036547422, g: 0.3745098, b: 0.076803975, a: 1}
+    - _BaseColor: {r: 0.4292453, g: 1, b: 0.5530234, a: 0}
+    - _Color: {r: 0.42924526, g: 1, b: 0.55302334, a: 0}
+    - _EmissionColor: {r: 0, g: 0.03125, b: 0.00390625, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

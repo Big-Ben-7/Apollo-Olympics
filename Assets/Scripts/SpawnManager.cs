@@ -21,7 +21,7 @@ using TMPro;
 public class SpawnManager : MonoBehaviour
 {
     [Header("Sections")]
-    [SerializeField] int side = 800;
+    [SerializeField] int side = 900;
     int length;
     [SerializeField] int colliderWidth = 500;
     GameObject[] sectionPool;
@@ -32,13 +32,9 @@ public class SpawnManager : MonoBehaviour
     [Header("Checkpoints")]
     public int[] playerCheckpoints;
     [SerializeField] int[] checkpointDistances = new int[] {7500, 15000, 22500, 30000, 40000, 50000, 65000, 80000, 100000};
-    float[] checkpointLengths;
-    float[] checkpointRadii;
     [SerializeField] Transform checkpointParent;
-    [SerializeField] GameObject checkpointGraphic;
-    [SerializeField] GameObject checkpointTrigger;
+    [SerializeField] GameObject checkpointPrefab;
     [SerializeField] Material finishMat;
-    [SerializeField] float polygonSides = 36;
     int checkpointCount;
 
     [Header("Interactables")]
@@ -92,7 +88,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] LayerMask[] cameraMasks;
     Camera[] views = new Camera[4];
     CinemachineVirtualCamera[] thirdPersons = new CinemachineVirtualCamera[4];
-    [SerializeField] AudioClip startSound;
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
     [SerializeField] AudioClip pauseSound;
@@ -129,16 +124,6 @@ public class SpawnManager : MonoBehaviour
         checkpointCount = checkpointDistances.Length;
         disableByCheckpoint = new int[checkpointCount];
         int increment = baseDisableNumber / (checkpointCount - 1);
-        checkpointLengths = new float[checkpointCount];
-        checkpointRadii = new float[checkpointCount];
-        for(int i = 0; i < checkpointCount; i++)
-        {
-            disableByCheckpoint[i] = baseDisableNumber - i * increment;
-            int distance = checkpointDistances[i];
-            float checkpointSide = distance * Mathf.Tan(Mathf.Deg2Rad * (180 / polygonSides));
-            checkpointLengths[i] = 2 * checkpointSide;
-            checkpointRadii[i] = new Vector2(checkpointSide, distance).magnitude;
-        }
         //Asteroid belt should have high asteroid number
         if(checkpointCount >= 3)
         {
@@ -151,8 +136,6 @@ public class SpawnManager : MonoBehaviour
         PlayerController.side = side;
         PlayerController.playerNumber = playerNumber;
         PlayerController.checkpointDistances = checkpointDistances;
-        PlayerController.checkpointRadii = checkpointRadii;
-        PlayerController.colliderWidth = colliderWidth;
         PlayerController.droneNumber = droneNumber;
         PlayerController.checkpointDrones = checkpointDrones;
         AudioSource[] audioSources = GetComponents<AudioSource>();
@@ -299,7 +282,18 @@ public class SpawnManager : MonoBehaviour
         sectionPool[0].GetComponent<SectionSpawner>().avoidCenter = false;
 
         //Spawn checkpoints
-        StartCoroutine(SpawnCheckpoints());
+        int lastCheckpoint = checkpointCount - 1;
+        int newScale;
+        for(int i = 0; i < lastCheckpoint; i++)
+        {
+            Transform checkpoint = Instantiate(checkpointPrefab, checkpointParent).transform;
+            newScale = checkpointDistances[i] * 2;
+            checkpoint.localScale = new Vector3(newScale, newScale, newScale);
+        }
+        Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
+        newScale = checkpointDistances[lastCheckpoint] * 2;
+        finish.transform.localScale = new Vector3(newScale, newScale, newScale);
+        finish.GetComponent<Renderer>().material = finishMat;
 
         //Spawn players
         players = new GameObject[playerNumber];
@@ -505,51 +499,6 @@ public class SpawnManager : MonoBehaviour
             }
         }
     }
-
-    IEnumerator SpawnCheckpoints()
-    {
-        float baseAngle = 360 / polygonSides;
-        int lastCheckpoint = checkpointCount - 1;
-        Transform parent;
-        float objectLength;
-        for(int i = 0; i < lastCheckpoint; i++)
-        {
-            parent = Instantiate(checkpointGraphic, checkpointParent).transform;
-            parent.name = "" + i;
-            int distance = checkpointDistances[i];
-            objectLength = checkpointLengths[i];
-            for(int j = 0; j < polygonSides; j++)
-            {
-                for(int k = 0; k < polygonSides; k++)
-                {
-                    Transform checkpoint = Instantiate(checkpointTrigger, parent.position, Quaternion.Euler(baseAngle * k, baseAngle * j, 0), parent).transform;
-                    Transform collider = checkpoint.GetChild(0);
-                    collider.localScale = new Vector3(objectLength, objectLength, colliderWidth);
-                    collider.localPosition = new Vector3(0, 0, distance);
-                }
-                yield return null;
-            }
-        }
-
-        //Spawn finish line
-        parent = Instantiate(checkpointGraphic, checkpointParent).transform;
-        parent.name = "" + lastCheckpoint;
-        int finishDistance = checkpointDistances[lastCheckpoint] + colliderWidth / 2;
-        objectLength = checkpointLengths[lastCheckpoint];
-        for(int i = 0; i < polygonSides; i++)
-        {
-            for(int j = 0; j < polygonSides; j++)
-            {
-                Transform checkpoint = Instantiate(checkpointTrigger, parent.position, Quaternion.Euler(baseAngle * j, baseAngle * i, 0), parent).transform;
-                Transform collider = checkpoint.GetChild(0);
-                collider.localScale = new Vector3(objectLength, objectLength, colliderWidth);
-                collider.localPosition = new Vector3(0, 0, finishDistance);
-                collider.GetComponent<Renderer>().material = finishMat;
-                collider.tag = "FinishLine";
-            }
-            yield return null;
-        }
-    }
     
     //Section spawning
     public void SpawnSectionsForward(Vector3 colliderPos, int playerIndex)
@@ -750,114 +699,6 @@ public class SpawnManager : MonoBehaviour
         //    follower.parent = newParent;
         //}
     }
-    
-    /*void MoveCheckpoint(int playerIndex, int newYChunk)
-    {
-        int baseCheckpointIndex = playerCheckpoints[playerIndex];
-        int[] checkpointIndexes = new int[]{baseCheckpointIndex, baseCheckpointIndex - 1};
-        if(baseCheckpointIndex == 0)
-        {
-            checkpointIndexes = new int[]{baseCheckpointIndex};
-        }
-        int stage = 0;
-
-        for(int i = 0; i < checkpointPool.Length; i++)
-        {
-            GameObject checkpoint = checkpointPool[i];
-
-            //Deactivate unused checkpoints
-            DestroyCheckpoint(checkpoint);
-
-            //Activate sections
-            if(!checkpoint.activeInHierarchy && stage < checkpointIndexes.Length)
-            {
-                int checkpointIndex = checkpointIndexes[stage];
-                bool valid = true;
-                foreach(int j in playingPlayers)
-                {
-                    if(j == playerIndex)
-                    {
-                        continue;
-                    }
-                    int playerCheckpoint = playerCheckpoints[j];
-                    int playerYChunk = (int) playerChunks[j].y;
-                    if(playerYChunk <= newYChunk + 1 && playerYChunk >= newYChunk - 1 && (playerCheckpoint == checkpointIndex || playerCheckpoint == checkpointIndex + 1))
-                    {
-                        valid = false;
-                        break;
-                    }
-                }
-                switch(valid)
-                {
-                    case true:
-                        checkpoint.transform.position = new Vector3(0, newYChunk * length, 0);
-                        if(checkpoint.name != "" + checkpointIndex)
-                        {
-                            SetCheckpoint(checkpoint.transform, checkpointIndex);
-                        }
-                        checkpoint.SetActive(true);
-                        break;
-
-                    case false:
-                        i--;
-                        break;
-                }
-                stage++;
-            }
-        }
-    }*/
-    
-    /*public void SpawnCheckpoints(int playerIndex, int checkpointIndex)
-    {
-        int baseYChunk = (int) playerChunks[playerIndex].y;
-        int[] newYChunks = new int[]{baseYChunk, baseYChunk + 1, baseYChunk - 1};
-        int stage = 0;
-
-        for(int i = 0; i < checkpointPool.Length; i++)
-        {
-            GameObject checkpoint = checkpointPool[i];
-
-            //Deactivate unused checkpoints
-            DestroyCheckpoint(checkpoint);
-
-            //Activate sections
-            if(!checkpoint.activeInHierarchy && stage < newYChunks.Length && checkpointIndex >= 0)
-            {
-                int newYChunk = newYChunks[stage];
-                bool valid = true;
-                foreach(int j in playingPlayers)
-                {
-                    if(j == playerIndex)
-                    {
-                        continue;
-                    }
-                    int playerCheckpoint = playerCheckpoints[j];
-                    int playerYChunk = (int) playerChunks[j].y;
-                    if(playerYChunk <= newYChunk + 1 && playerYChunk >= newYChunk - 1 && (playerCheckpoint == checkpointIndex || playerCheckpoint == checkpointIndex + 1))
-                    {
-                        valid = false;
-                        break;
-                    }
-                }
-                switch(valid)
-                {
-                    case true:
-                        checkpoint.transform.position = new Vector3(0, newYChunk * length, 0);
-                        if(checkpoint.name != "" + checkpointIndex)
-                        {
-                            SetCheckpoint(checkpoint.transform, checkpointIndex);
-                        }
-                        checkpoint.SetActive(true);
-                        break;
-
-                    case false:
-                        i--;
-                        break;
-                }
-                stage++;
-            }
-        }
-    }*/
 
     void DestroySection(GameObject section)
     {
@@ -880,30 +721,6 @@ public class SpawnManager : MonoBehaviour
             }
         }
     }
-    
-    /*void DestroyCheckpoint(GameObject checkpoint)
-    {
-        if(checkpoint.activeInHierarchy)
-        {
-            int checkpointYChunk = Mathf.RoundToInt(checkpoint.transform.position.y / length);
-            bool valid = true;
-            foreach(int j in playingPlayers)
-            {
-                int playerCheckpoint = playerCheckpoints[j];
-                int playerYChunk = (int) playerChunks[j].y;
-                string checkpointName = checkpoint.name;
-                if(playerYChunk <= checkpointYChunk + 1 && playerYChunk >= checkpointYChunk - 1 && (checkpointName == "" + playerCheckpoint || checkpointName == "" + (playerCheckpoint - 1)))
-                {
-                    valid = false;
-                    break;
-                }
-            }
-            if(valid)
-            {
-                checkpoint.SetActive(false);
-            }
-        }
-    }*/
 
     public int PlayerFinish(int playerIndex)
     {
@@ -912,10 +729,6 @@ public class SpawnManager : MonoBehaviour
         {
             DestroySection(sectionPool[i]);
         }
-        /*for(int i = 0; i < checkpointPool.Length; i++)
-        {
-            DestroyCheckpoint(checkpointPool[i]);
-        }*/
         List<Transform> playerFollowers = followers[playerIndex];
         //playerFollowers[0].parent = null;
         for(int i = 1; i < playerFollowers.Count; i++)
