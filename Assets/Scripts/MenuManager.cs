@@ -51,6 +51,12 @@ public class MenuManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] GameObject[] panels;
+    [SerializeField] Slider fovSlider;
+    [SerializeField] Slider depthSlider;
+    [SerializeField] Toggle cursorToggle;
+    [SerializeField] Slider musicSlider;
+    [SerializeField] Slider noiseSlider;
+    [SerializeField] Slider effectsSlider;
 
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
@@ -64,6 +70,7 @@ public class MenuManager : MonoBehaviour
     public static int[] times = new int[4];
     public static int collects;
     public static int races;
+    public static float fov;
 
     void Awake()
     {
@@ -345,12 +352,17 @@ public class MenuManager : MonoBehaviour
     {
         playerNumber = (int) playersSlider.value;
         difficulty = (int) difficultySlider.value;
+        PlayerPrefs.SetInt("PlayerNumber", playerNumber);
+        PlayerPrefs.SetInt("Difficulty", difficulty);
         for(int i = 0; i < 4; i++)
         {
             PlayerPrefs.SetInt("Ship" + i, playerShips[i]);
         }
-        PlayerPrefs.SetInt("PlayerNumber", playerNumber);
-        PlayerPrefs.SetInt("Difficulty", difficulty);
+        PlayerPrefs.SetFloat("FOV", fovSlider.value);
+        PlayerPrefs.SetFloat("Depth", depthSlider.value);
+        PlayerPrefs.SetFloat("Music", musicSlider.value);
+        PlayerPrefs.SetFloat("Noise", noiseSlider.value);
+        PlayerPrefs.SetFloat("Effects", effectsSlider.value);
     }
 
     IEnumerator ResetEffect(GameObject effect, int waitTime, bool sound = false)
