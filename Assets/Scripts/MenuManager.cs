@@ -49,6 +49,9 @@ public class MenuManager : MonoBehaviour
     Coroutine resetting;
     public static string[] playerNames = new string[4];
 
+    [Header("Settings")]
+    [SerializeField] GameObject[] panels;
+
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip majorClick;

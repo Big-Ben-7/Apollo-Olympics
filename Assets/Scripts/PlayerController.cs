@@ -710,7 +710,12 @@ public class PlayerController : MonoBehaviour
         }
 
         collided = true;
-        float speed = rb.velocity.magnitude + other.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
+        float speed = rb.velocity.magnitude;
+        float otherSpeed = other.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
+        if(speed < otherSpeed)
+        {
+            speed = otherSpeed;
+        }
         Vector3 otherPos = other.transform.position;
         Vector3 pos = rb.position;
         rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed);

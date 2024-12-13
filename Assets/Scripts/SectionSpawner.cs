@@ -72,7 +72,10 @@ public class SectionSpawner : MonoBehaviour
                 //Variable interactable amount
                 if(disableNumber > 0)
                 {
-                    child.SetActive(false);
+                    if(child.activeInHierarchy)
+                    {
+                        child.SetActive(false);
+                    }
                     disableNumber --;
                     continue;
                 }
@@ -185,78 +188,6 @@ public class SectionSpawner : MonoBehaviour
                     float rotationForce = Random.Range(0f, maxRotationForce);
                     rb.AddRelativeForce(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * movementForce, ForceMode.VelocityChange);
                     rb.AddRelativeTorque(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * rotationForce, ForceMode.VelocityChange);
-                    break;
-
-                case "Collectable":
-                    //Random scale
-                    childTransform.localScale = collectableProportions * Random.Range(minCollectableScale, maxCollectableScale);
-
-                    //Random rotation speed
-                    int randomAxis = Random.Range(0, 3);
-                    float rotationSpeed = Random.Range(minRotationSpeed, maxRotationSpeed);
-                    switch(randomAxis)
-                    {
-                        case 0:
-                            child.GetComponent<Collectable>().randomRot = new Vector3(rotationSpeed, 0, 0);
-                            break;
-                        case 1:
-                            child.GetComponent<Collectable>().randomRot = new Vector3(0, rotationSpeed, 0);
-                            break;
-                        default:
-                            child.GetComponent<Collectable>().randomRot = new Vector3(0, 0, rotationSpeed);
-                            break;
-
-                    }
-                    break;
-
-                case "Wormhole":
-                    //Random scale
-                    childTransform.localScale = wormholeProportions * Random.Range(minWormholeScale, maxWormholeScale);
-                    break;
-            }
-        }
-    }
-
-    IEnumerator Randomize()
-    {
-        //Randomize interactables
-        for(int i = 3; i < myTransform.childCount; i++)
-        {
-            Transform childTransform = myTransform.GetChild(i);
-            GameObject child = childTransform.gameObject;
-
-            //Variable interactable amount
-            if(disableNumber > 0)
-            {
-                child.SetActive(false);
-                disableNumber --;
-                continue;
-            }
-            else if(!child.activeInHierarchy)
-            {
-                child.SetActive(true);
-            }
-
-            //Random position and rotation
-            childTransform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
-            childTransform.rotation = Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360));
-
-            switch(child.tag)
-            {
-                case "Asteroid":
-                    //Random scale
-                    float newScale = Random.Range(minAsteroidScale, maxAsteroidScale);
-                    childTransform.localScale = asteroidProportions * newScale;
-
-                    //Random force and torque
-                    Rigidbody rb = child.GetComponent<Rigidbody>();
-                    rb.velocity = rb.angularVelocity = Vector3.zero;
-                    rb.mass = newScale * 2;
-                    float movementForce = Random.Range(0f, maxMovementForce);
-                    float rotationForce = Random.Range(0f, maxRotationForce);
-                    rb.AddRelativeForce(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * movementForce, ForceMode.VelocityChange);
-                    rb.AddRelativeTorque(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * rotationForce, ForceMode.VelocityChange);
-                    yield return null;
                     break;
 
                 case "Collectable":

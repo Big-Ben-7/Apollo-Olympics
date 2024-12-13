@@ -124,10 +124,15 @@ public class SpawnManager : MonoBehaviour
         checkpointCount = checkpointDistances.Length;
         disableByCheckpoint = new int[checkpointCount];
         int increment = baseDisableNumber / (checkpointCount - 1);
-        //Asteroid belt should have high asteroid number
-        if(checkpointCount >= 3)
+        for(int i = 0; i < checkpointCount; i++)
         {
-            disableByCheckpoint[4] = increment;
+            if(i == 4)
+            {
+                //Asteroid belt should have high asteroid number
+                disableByCheckpoint[4] = increment;
+                continue;
+            }
+            disableByCheckpoint[i] = baseDisableNumber - increment * i;
         }
 
         //Initialize player variables
