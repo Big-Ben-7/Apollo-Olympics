@@ -9,6 +9,8 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using System.Security.Cryptography;
 using System;
+using Unity.Mathematics;
+using Palmmedia.ReportGenerator.Core;
 
 public class MenuManager : MonoBehaviour
 {
@@ -17,6 +19,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject gameSettings;
     [SerializeField] GameObject customization;
     [SerializeField] GameObject loading;
+    [SerializeField] GameObject settings;
+    [SerializeField] GameObject vaSettings;
+    [SerializeField] GameObject controlSettings;
 
     [Header("Main Menu")]
     [SerializeField] TMP_Text racesText;
@@ -50,7 +55,6 @@ public class MenuManager : MonoBehaviour
     public static string[] playerNames = new string[4];
 
     [Header("Settings")]
-    [SerializeField] GameObject[] panels;
     [SerializeField] Slider fovSlider;
     [SerializeField] Slider depthSlider;
     [SerializeField] Toggle cursorToggle;
@@ -71,11 +75,17 @@ public class MenuManager : MonoBehaviour
     public static int collects;
     public static int races;
     public static float fov;
+    public static float depth;
+    public static bool cursorHide;
+    public static float music;
+    public static float noise;
+    public static float effects;
 
     void Awake()
     {
         if(resetRecords)
         {
+            resetRecords = false;
             for(int i = 0; i < 4; i++)
             {
                 PlayerPrefs.SetInt("Time" + i, 0);
@@ -87,6 +97,12 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetInt("Difficulty", 0);
             PlayerPrefs.SetInt("Races", 0);
             PlayerPrefs.SetInt("Collects", 0);
+            PlayerPrefs.SetFloat("Fov", 35);
+            PlayerPrefs.SetFloat("Depth", 1600);
+            PlayerPrefs.SetFloat("Music", 0.04f);
+            PlayerPrefs.SetInt("CursorHide", 1);
+            PlayerPrefs.SetFloat("Noise", 0.1f);
+            PlayerPrefs.SetFloat("Effects", 0.2f);
         }
         for(int i = 0; i < 4; i++)
         {
@@ -94,6 +110,7 @@ public class MenuManager : MonoBehaviour
             playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
             playerNames[i] = PlayerPrefs.GetString("Name" + i, "Player " + (i + 1));
         }
+
         races = PlayerPrefs.GetInt("Races");
         racesText.SetText("Races: " + races);
         collects = PlayerPrefs.GetInt("Collects");
@@ -109,6 +126,10 @@ public class MenuManager : MonoBehaviour
         mainMenu.SetActive(true);
         gameSettings.SetActive(false);
         customization.SetActive(false);
+        settings.SetActive(false);
+        vaSettings.SetActive(true);
+        controlSettings.SetActive(false);
+
         shipCount = ships.Length;
         models = new Transform[shipCount];
         abilities = new GameObject[shipCount];
@@ -121,12 +142,34 @@ public class MenuManager : MonoBehaviour
             abilities[i] = model.GetChild(2).gameObject;
             selectTexts[i] = ship.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         }
+
         playerNumber = PlayerPrefs.GetInt("PlayerNumber");
         difficulty = PlayerPrefs.GetInt("Difficulty");
         playersSlider.value = playerNumber;
         difficultySlider.value = difficulty;
         nameObject = nameInput.gameObject;
         nameInput.text = "";
+
+        fov = PlayerPrefs.GetFloat("Fov", 35);
+        fovSlider.value = fov;
+        depth = PlayerPrefs.GetFloat("Depth", 1600);
+        depthSlider.value = depth;
+        music = PlayerPrefs.GetFloat("Music", 0.04f);
+        musicSlider.value = music;
+        if(PlayerPrefs.GetInt("CursorHide", 1) == 0)
+        {
+            cursorHide = false;
+            cursorToggle.isOn = false;
+        }
+        else
+        {
+            cursorHide = true;
+            cursorToggle.isOn = true;
+        }
+        noise = PlayerPrefs.GetFloat("Noise", 0.1f);
+        noiseSlider.value = noise;
+        effects = PlayerPrefs.GetFloat("Effects", 0.2f);
+        effectsSlider.value = effects;
         loaded = true;
     }
 
@@ -143,6 +186,7 @@ public class MenuManager : MonoBehaviour
         mainMenu.SetActive(true);
         gameSettings.SetActive(false);
         customization.SetActive(false);
+        settings.SetActive(false);
         loading.SetActive(false);
         audioSource.PlayOneShot(majorClick);
     }
@@ -151,7 +195,6 @@ public class MenuManager : MonoBehaviour
     {
         gameSettings.SetActive(true);
         mainMenu.SetActive(false);
-        customization.SetActive(false);
         audioSource.PlayOneShot(majorClick);
     }
 
@@ -182,7 +225,13 @@ public class MenuManager : MonoBehaviour
         playerText.enabled = true;
         customization.SetActive(true);
         mainMenu.SetActive(false);
-        gameSettings.SetActive(false);
+        audioSource.PlayOneShot(majorClick);
+    }
+
+    public void Settings()
+    {
+        settings.SetActive(true);
+        mainMenu.SetActive(false);
         audioSource.PlayOneShot(majorClick);
     }
 
@@ -331,6 +380,22 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void NextSetting()
+    {
+        vaSettings.SetActive(!vaSettings.activeInHierarchy);
+
+    }
+
+    public void ChangeText(Slider slider, TMP_Text text)
+    {
+        text.SetText("" + slider.value);
+    }
+
+    public void ChangeAudio(Slider slider, AudioSource source)
+    {
+        source.volume = slider.value;
+    }
+
     public void Quit()
     {
         SavePrefs();
@@ -358,11 +423,25 @@ public class MenuManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("Ship" + i, playerShips[i]);
         }
-        PlayerPrefs.SetFloat("FOV", fovSlider.value);
-        PlayerPrefs.SetFloat("Depth", depthSlider.value);
-        PlayerPrefs.SetFloat("Music", musicSlider.value);
-        PlayerPrefs.SetFloat("Noise", noiseSlider.value);
-        PlayerPrefs.SetFloat("Effects", effectsSlider.value);
+        fov = fovSlider.value;
+        PlayerPrefs.SetFloat("Fov", fov);
+        depth = depthSlider.value;
+        PlayerPrefs.SetFloat("Depth", depth);
+        music = musicSlider.value;
+        PlayerPrefs.SetFloat("Music", music);
+        cursorHide = cursorToggle.isOn;
+        if(cursorHide)
+        {
+            PlayerPrefs.SetInt("CursorHide", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("CursorHide", 0);
+        }
+        noise = noiseSlider.value;
+        PlayerPrefs.SetFloat("Noise", noise);
+        effects = effectsSlider.value;
+        PlayerPrefs.SetFloat("Effects", effects);
     }
 
     IEnumerator ResetEffect(GameObject effect, int waitTime, bool sound = false)

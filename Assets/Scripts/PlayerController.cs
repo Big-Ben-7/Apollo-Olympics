@@ -208,6 +208,7 @@ public class PlayerController : MonoBehaviour
                 playerIndex = 3;
                 break;
         }
+        arrow.gameObject.layer = playerIndex + 6;
 
         //Customize
         speed --;

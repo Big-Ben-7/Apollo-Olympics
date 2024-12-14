@@ -9,7 +9,6 @@ using UnityEditor.PackageManager;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.UIElements;
 using Cinemachine;
 using UnityEngine.Analytics;
 using JetBrains.Annotations;
@@ -98,18 +97,37 @@ public class SpawnManager : MonoBehaviour
     int audioCount;
     [SerializeField] GameObject menu;
     public int initializedPlayers;
+    bool cursorHide;
     
     void Awake()
     {
         menu.SetActive(false);
         length = side * 2;
 
-        //Getting variabes from menu
+        //Audio setup
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        audioSource = audioSources[0];
+        backgroundMusic = audioSources[1];
+        backgroundNoise = audioSources[2];
+
+        //Getting variabes from main menu
         if(MenuManager.loaded)
         {
             playerNumber = MenuManager.playerNumber + 1;
             playerShips = MenuManager.playerShips;
             difficulty = MenuManager.difficulty;
+            audioSource.volume = MenuManager.effects;
+            backgroundMusic.volume = MenuManager.music;
+            backgroundNoise.volume = MenuManager.noise;
+            cursorHide = MenuManager.cursorHide;
+            if(cursorHide)
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
+            view.m_Lens.FieldOfView = MenuManager.fov;
+            view.m_Lens.FarClipPlane = MenuManager.depth;
         }
 
         //Setting difficulty-dependent variables
@@ -143,12 +161,7 @@ public class SpawnManager : MonoBehaviour
         PlayerController.checkpointDistances = checkpointDistances;
         PlayerController.droneNumber = droneNumber;
         PlayerController.checkpointDrones = checkpointDrones;
-        AudioSource[] audioSources = GetComponents<AudioSource>();
-        audioSource = audioSources[0];
         PlayerController.audioSource = Drone.audioSource = Ring.audioSource = Atmosphere.audioSource = audioSource;
-        backgroundMusic = audioSources[1];
-        backgroundNoise = audioSources[2];
-
         StartCoroutine(Initialize());
     }
     IEnumerator Initialize()
@@ -445,6 +458,11 @@ public class SpawnManager : MonoBehaviour
     public void Pause()
     {
         menu.SetActive(true);
+        if(cursorHide)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
         audioSource.PlayOneShot(pauseSound);
         for(int i = 0; i < audioCount; i++)
         {
@@ -456,6 +474,11 @@ public class SpawnManager : MonoBehaviour
     public void Resume()
     {
         menu.SetActive(false);
+        if(cursorHide)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         audioSource.PlayOneShot(pauseSound);
         Time.timeScale = 1;
         for(int i = 0; i < audioCount; i++)
@@ -760,6 +783,11 @@ public class SpawnManager : MonoBehaviour
         menuTransform.GetChild(3).gameObject.SetActive(true);
         menuTransform.GetChild(1).GetChild(1).GetComponent<TMP_Text>().SetText("Game Over");
         menu.SetActive(true);
+        if(cursorHide)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     IEnumerator Countdown(int countdownTime)
