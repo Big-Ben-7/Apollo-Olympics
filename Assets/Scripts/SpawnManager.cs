@@ -90,6 +90,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
     [SerializeField] AudioClip pauseSound;
+    [SerializeField] GameObject eventSystem;
     AudioSource audioSource;
     AudioSource backgroundMusic;
     AudioSource backgroundNoise;
@@ -116,8 +117,8 @@ public class SpawnManager : MonoBehaviour
             playerNumber = MenuManager.playerNumber + 1;
             playerShips = MenuManager.playerShips;
             difficulty = MenuManager.difficulty;
-            audioSource.volume = MenuManager.effects;
-            backgroundMusic.volume = MenuManager.music;
+            audioSource.volume = MenuManager.effects * 0.4f;
+            backgroundMusic.volume = MenuManager.music * 0.2f;
             backgroundNoise.volume = MenuManager.noise;
             cursorHide = MenuManager.cursorHide;
             if(cursorHide)
@@ -128,6 +129,11 @@ public class SpawnManager : MonoBehaviour
             CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
             view.m_Lens.FieldOfView = MenuManager.fov;
             view.m_Lens.FarClipPlane = MenuManager.depth;
+            PlayerController.maxThrusterVolume = MenuManager.thruster;
+        }
+        else
+        {
+            PlayerController.maxThrusterVolume = 0.3f;
         }
 
         //Setting difficulty-dependent variables
@@ -434,8 +440,12 @@ public class SpawnManager : MonoBehaviour
 
         //Audio setup
         allAudio = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        List<AudioSource> audioSources = new List<AudioSource>(allAudio);
+        audioSources.Remove(audioSource);
+        allAudio = audioSources.ToArray();
         audioCount = allAudio.Length;
         gameObject.AddComponent<AudioListener>();
+        eventSystem.SetActive(true);
 
         StartCoroutine(Countdown(3));
     }
@@ -468,7 +478,14 @@ public class SpawnManager : MonoBehaviour
         {
             allAudio[i].Pause();
         }
+        StartCoroutine(PauseSounds());
         Time.timeScale = 0;
+    }
+
+    IEnumerator PauseSounds()
+    {
+        yield return new WaitForSecondsRealtime(1);
+        audioSource.Pause();
     }
 
     public void Resume()
@@ -479,25 +496,32 @@ public class SpawnManager : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
-        audioSource.PlayOneShot(pauseSound);
         Time.timeScale = 1;
+        audioSource.UnPause();
         for(int i = 0; i < audioCount; i++)
         {
             allAudio[i].UnPause();
         }
+        audioSource.PlayOneShot(pauseSound);
     }
 
     public void Restart()
     {
-        Time.timeScale = 1;
-        SceneManager.LoadSceneAsync(1);
+        audioSource.PlayOneShot(pauseSound);
+        StartCoroutine(LoadScene(1));
     }
 
     public void Exit()
     {
-        Time.timeScale = 1;
         audioSource.PlayOneShot(pauseSound);
-        SceneManager.LoadSceneAsync(0);
+        StartCoroutine(LoadScene(0));
+    }
+
+    IEnumerator LoadScene(int index)
+    {
+        yield return new WaitForSecondsRealtime(1);
+        Time.timeScale = 1;
+        SceneManager.LoadSceneAsync(index);
     }
 
     void SetSection(Transform parent)

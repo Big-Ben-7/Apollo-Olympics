@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float thrusterSpeedDivisor = 40;
     [SerializeField] float maxThrusterSpeed = 20;
     [SerializeField] float thrusterVolumeDivisor = 4000;
-    [SerializeField] float maxThrusterVolume = 0.3f;
+    public static float maxThrusterVolume;
 
     [Header("Collision")]
     [SerializeField] GameObject dieExplosion;
@@ -875,7 +875,7 @@ public class PlayerController : MonoBehaviour
         spawnManager.initializedPlayers ++;
         while(countdownTime > 0)
         {
-            countdownText.SetText("" + countdownTime);
+            countdownText.SetText(countdownTime.ToString());
             countdownTime --;
             yield return new WaitForSeconds(1);
         }

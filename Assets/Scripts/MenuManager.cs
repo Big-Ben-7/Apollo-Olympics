@@ -60,10 +60,19 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Toggle cursorToggle;
     [SerializeField] Slider musicSlider;
     [SerializeField] Slider noiseSlider;
+    [SerializeField] Slider thrusterSlider;
     [SerializeField] Slider effectsSlider;
+    [SerializeField] TMP_Text fovText;
+
+    [SerializeField] TMP_Text depthText;
+    [SerializeField] TMP_Text musicText;
+    [SerializeField] TMP_Text noiseText;
+    [SerializeField] TMP_Text thrusterText;
+    [SerializeField] TMP_Text effectsText;
 
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioSource backgroundMusic;
     [SerializeField] AudioClip majorClick;
     [SerializeField] AudioClip minorClick;
     
@@ -79,6 +88,7 @@ public class MenuManager : MonoBehaviour
     public static bool cursorHide;
     public static float music;
     public static float noise;
+    public static float thruster;
     public static float effects;
 
     void Awake()
@@ -99,10 +109,11 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetInt("Collects", 0);
             PlayerPrefs.SetFloat("Fov", 35);
             PlayerPrefs.SetFloat("Depth", 1600);
-            PlayerPrefs.SetFloat("Music", 0.04f);
+            PlayerPrefs.SetFloat("Music", 0.2f);
             PlayerPrefs.SetInt("CursorHide", 1);
-            PlayerPrefs.SetFloat("Noise", 0.1f);
-            PlayerPrefs.SetFloat("Effects", 0.2f);
+            PlayerPrefs.SetFloat("Noise", 0.2f);
+            PlayerPrefs.SetFloat("Thruster", 0.3f);
+            PlayerPrefs.SetFloat("Effects", 0.5f);
         }
         for(int i = 0; i < 4; i++)
         {
@@ -152,10 +163,13 @@ public class MenuManager : MonoBehaviour
 
         fov = PlayerPrefs.GetFloat("Fov", 35);
         fovSlider.value = fov;
+        fovText.SetText(fov.ToString("0.#"));
         depth = PlayerPrefs.GetFloat("Depth", 1600);
         depthSlider.value = depth;
-        music = PlayerPrefs.GetFloat("Music", 0.04f);
+        depthText.SetText(depth.ToString("0"));
+        music = PlayerPrefs.GetFloat("Music", 0.2f);
         musicSlider.value = music;
+        musicText.SetText(music.ToString("0.##"));
         if(PlayerPrefs.GetInt("CursorHide", 1) == 0)
         {
             cursorHide = false;
@@ -166,10 +180,15 @@ public class MenuManager : MonoBehaviour
             cursorHide = true;
             cursorToggle.isOn = true;
         }
-        noise = PlayerPrefs.GetFloat("Noise", 0.1f);
+        noise = PlayerPrefs.GetFloat("Noise", 0.2f);
         noiseSlider.value = noise;
-        effects = PlayerPrefs.GetFloat("Effects", 0.2f);
+        noiseText.SetText(noise.ToString("0.##"));
+        thruster = PlayerPrefs.GetFloat("Thruster", 0.3f);
+        thrusterSlider.value = thruster;
+        thrusterText.SetText(thruster.ToString("0.##"));
+        effects = PlayerPrefs.GetFloat("Effects", 0.5f);
         effectsSlider.value = effects;
+        effectsText.SetText(effects.ToString("0.##"));
         loaded = true;
     }
 
@@ -382,18 +401,43 @@ public class MenuManager : MonoBehaviour
 
     public void NextSetting()
     {
-        vaSettings.SetActive(!vaSettings.activeInHierarchy);
-
+        bool vaActive = vaSettings.activeInHierarchy;
+        vaSettings.SetActive(!vaActive);
+        controlSettings.SetActive(vaActive);
     }
 
-    public void ChangeText(Slider slider, TMP_Text text)
+    public void ChangeFOV()
     {
-        text.SetText("" + slider.value);
+        fovText.SetText(fovSlider.value.ToString("0.#"));
     }
 
-    public void ChangeAudio(Slider slider, AudioSource source)
+    public void ChangeDepth()
     {
-        source.volume = slider.value;
+        depthText.SetText(depthSlider.value.ToString("0"));
+    }
+
+    public void ChangeMusic()
+    {
+        float vol = musicSlider.value;
+        musicText.SetText(vol.ToString("0.##"));
+        backgroundMusic.volume = vol;
+    }
+
+    public void ChangeNoise()
+    {
+        noiseText.SetText(noiseSlider.value.ToString("0.##"));
+    }
+
+    public void ChangeThruster()
+    {
+        thrusterText.SetText(thrusterSlider.value.ToString("0.##"));
+    }
+
+    public void ChangeEffects()
+    {
+        float vol = effectsSlider.value;
+        effectsText.SetText(vol.ToString("0.##"));
+        audioSource.volume = vol;
     }
 
     public void Quit()
@@ -440,6 +484,8 @@ public class MenuManager : MonoBehaviour
         }
         noise = noiseSlider.value;
         PlayerPrefs.SetFloat("Noise", noise);
+        thruster = thrusterSlider.value;
+        PlayerPrefs.SetFloat("Thruster", thruster);
         effects = effectsSlider.value;
         PlayerPrefs.SetFloat("Effects", effects);
     }
