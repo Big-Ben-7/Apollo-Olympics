@@ -36,7 +36,7 @@ public class Ring : MonoBehaviour
         if(!otherRb.isKinematic)
         {
             otherRb.AddForce((other.transform.position - myTransform.position) * hitForce, ForceMode.Impulse);
-            otherRb.angularVelocity *= hitForce;
+            otherRb.AddTorque(new Vector3(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)) * hitForce, ForceMode.Impulse);
         }
         audioSource.PlayOneShot(hitClip);
     }
