@@ -74,9 +74,7 @@ public class SpawnManager : MonoBehaviour
     public int[] initialThrustSpeeds;
     public int[] accelerations;
     public int[] maxThrustSpeeds;
-    public float[] rollSpeeds;
-    public float[] pitchSpeeds;
-    public float[] yawSpeeds;
+    public float[] rotationSpeeds;
     public int[] healthLossDivisors;
     public float[] speedLossDivisors;
     public float[] minHealthLosses;
@@ -114,7 +112,7 @@ public class SpawnManager : MonoBehaviour
         //Getting variabes from main menu
         if(MenuManager.loaded)
         {
-            playerNumber = MenuManager.playerNumber + 1;
+            playerNumber = MenuManager.playerNumber;
             playerShips = MenuManager.playerShips;
             difficulty = MenuManager.difficulty;
             audioSource.volume = MenuManager.effects * 0.4f;

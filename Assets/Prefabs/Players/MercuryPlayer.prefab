@@ -194,15 +194,14 @@ MonoBehaviour:
   stability: 1
   activationTime: 0
   cooldownTime: 5
-  abilityStrength: 2000
-  abilityIncrease: 1000
+  abilityStrength: 4000
+  abilityIncrease: 2000
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 4000
-  maxThrusterVolume: 0.3
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}

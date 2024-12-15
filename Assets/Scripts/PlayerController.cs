@@ -21,6 +21,7 @@ using UnityEditor;
 using Unity.Mathematics;
 using System.Linq;
 using UnityEngine.Rendering;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -82,16 +83,14 @@ public class PlayerController : MonoBehaviour
     float initialThrustSpeed;
     float acc;
     float maxThrustSpeed;
-    float yawSpeed;
-    float pitchSpeed;
-    float rollSpeed;
     float thrustSpeed;
     float decSpeed;
     float glideSpeed;
-    float yaw;
-    float pitch;
-    float roll;
+    InputAction thrustAction;
     float thrust;
+    InputAction rotateAction;
+    Vector3 rotation;
+    float rotationSpeed;
     Vector3 startPos;
     Vector3 normalizedStartPos;
     Quaternion startRot;
@@ -123,7 +122,7 @@ public class PlayerController : MonoBehaviour
     //Ability
     IEnumerator ability;
     Coroutine runningAbility;
-    KeyCode abilityKey;
+    InputAction abilityAction;
     int currentActivation;
     int currentCooldown;
     int auraCount;
@@ -192,22 +191,21 @@ public class PlayerController : MonoBehaviour
         switch(playerNumberString)
         {
             case "1":
-                abilityKey = KeyCode.R;
                 playerIndex = 0;
                 break;
             case "2":
-                abilityKey = KeyCode.Comma;
                 playerIndex = 1;
                 break;
             case "3":
-                abilityKey = KeyCode.Y;
                 playerIndex = 2;
                 break;
             case "4":
-                abilityKey = KeyCode.C;
                 playerIndex = 3;
                 break;
         }
+        rotateAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Rotate");
+        thrustAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Thrust");
+        abilityAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Ability");
         arrow.gameObject.layer = playerIndex + 6;
 
         //Customize
@@ -218,9 +216,7 @@ public class PlayerController : MonoBehaviour
         initialThrustSpeed = spawnManager.initialThrustSpeeds[speed];
         acc = spawnManager.accelerations[speed];
         maxThrustSpeed = spawnManager.maxThrustSpeeds[speed];
-        rollSpeed = spawnManager.rollSpeeds[agility];
-        pitchSpeed = spawnManager.pitchSpeeds[agility];
-        yawSpeed = spawnManager.yawSpeeds[agility];
+        rotationSpeed = spawnManager.rotationSpeeds[agility];
         healthLossDivisor = spawnManager.healthLossDivisors[durability];
         minHealthLoss = spawnManager.minHealthLosses[durability];
         speedLossDivisor = spawnManager.speedLossDivisors[stability];
@@ -333,10 +329,8 @@ public class PlayerController : MonoBehaviour
         if(!rb.isKinematic)
         {
             //Movement input
-            yaw = Input.GetAxis("Yaw" + playerNumberString);
-            pitch = Input.GetAxis("Pitch" + playerNumberString);
-            roll = Input.GetAxis("Roll" + playerNumberString);
-            thrust = Input.GetAxis("Thrust" + playerNumberString);
+            rotation = rotateAction.ReadValue<Vector3>();
+            thrust = thrustAction.ReadValue<float>();
 
             //Thrust/glide control
             float accIncrement = acc * Time.deltaTime;
@@ -392,14 +386,30 @@ public class PlayerController : MonoBehaviour
                     break;
                 
                 default:
-                    float newGlide = glideSpeed - glideDrag * Time.deltaTime;
-                    if(newGlide > 0)
+                    switch(glideSpeed)
                     {
-                        glideSpeed = newGlide;
-                    }
-                    else
-                    {
-                        glideSpeed = 0;
+                        case > 0:
+                            float newGlide = glideSpeed - glideDrag * Time.deltaTime;
+                            if(newGlide > 0)
+                            {
+                                glideSpeed = newGlide;
+                            }
+                            else
+                            {
+                                glideSpeed = 0;
+                            }
+                            break;
+                        case < 0:
+                            newGlide = glideSpeed + glideDrag * Time.deltaTime;
+                            if(newGlide < 0)
+                            {
+                                glideSpeed = newGlide;
+                            }
+                            else
+                            {
+                                glideSpeed = 0;
+                            }
+                            break;
                     }
                     break;
             }
@@ -429,7 +439,7 @@ public class PlayerController : MonoBehaviour
         thrusterSource.volume = thrusterVolume;
 
         //Activate special ability
-        if(Input.GetKeyDown(abilityKey))
+        if(abilityAction.WasPressedThisFrame())
         {
             if(currentCooldown == 0)
             {   
@@ -450,7 +460,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetKey(abilityKey) && currentActivation > 0)
+        if(abilityAction.IsPressed() && currentActivation > 0)
         {
             switch(shipModel)
             {
@@ -560,19 +570,19 @@ public class PlayerController : MonoBehaviour
         }
 
         //Roll, pitch, yaw
-        if(yaw != 0 || pitch != 0 || roll != 0)
+        if(rotation != Vector3.zero)
         {
-            rb.AddRelativeTorque(-pitchSpeed * pitch, yawSpeed * yaw, -rollSpeed * roll, ForceMode.Acceleration);
+            rb.AddRelativeTorque(rotation * rotationSpeed, ForceMode.Acceleration);
         }
 
         //Thrust and glide
         switch(thrust)
         {
             case > 0:
-                rb.AddRelativeForce(Vector3.forward * thrustSpeed * thrust, ForceMode.Acceleration);
+                rb.AddRelativeForce(Vector3.forward * thrustSpeed, ForceMode.Acceleration);
                 break;
             case < 0:
-                rb.AddRelativeForce(Vector3.forward * decSpeed * thrust, ForceMode.Acceleration);
+                rb.AddRelativeForce(Vector3.back * decSpeed, ForceMode.Acceleration);
                 break;
             case 0:
                 rb.AddRelativeForce(Vector3.forward * glideSpeed, ForceMode.Acceleration);
@@ -846,7 +856,10 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case <= 10:
-                healthText.color = Color.red;
+                if(healthText.color != Color.red)
+                {
+                    healthText.color = Color.red;
+                }
                 break;
             
             default:
@@ -908,7 +921,7 @@ public class PlayerController : MonoBehaviour
             posText.SetText("Pos: " + pos.x.ToString("0.0") + "," + pos.y.ToString("0.0") + "," + pos.z.ToString("0.0"));
 
             //Show distance from origin
-            distanceText.SetText("Distance: " + new Vector2(pos.x, pos.z).magnitude.ToString("0.00"));
+            distanceText.SetText("Distance: " + rb.position.magnitude.ToString("0.00"));
             yield return new WaitForSeconds(0.02f);
         }
     }
@@ -1076,7 +1089,7 @@ public class PlayerController : MonoBehaviour
         ability = SpeedUp();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        rb.AddRelativeForce(Vector3.forward * abilityStrength, ForceMode.VelocityChange);
+        rb.AddForce(rb.velocity + rb.velocity.normalized * abilityStrength, ForceMode.VelocityChange);
         resetting = StartCoroutine(ResetAura(2));
 
         //Cooldown
@@ -1329,8 +1342,11 @@ public class PlayerController : MonoBehaviour
             {
                 collider.gameObject.GetComponent<Drone>().Explode(collider.transform.position, transform);
             }
-            Vector3 direction = collider.transform.position - rb.position;
-            otherRb.AddForce(direction * (abilityStrength / direction.magnitude), ForceMode.Impulse);
+            else
+            {
+                otherRb.AddForce((collider.transform.position - rb.position).normalized * abilityStrength, ForceMode.Impulse);
+                otherRb.AddTorque(new Vector3(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)) * abilityStrength);
+            }
         }
         resetting = StartCoroutine(ResetAura(1));
 

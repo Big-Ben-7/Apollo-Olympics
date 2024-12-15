@@ -844,12 +844,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: difficulty
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: eventSystem
       value: 
       objectReference: {fileID: 1183720512}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: playerNumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: sectionParent
       value: 
@@ -858,6 +862,94 @@ PrefabInstance:
       propertyPath: checkpointParent
       value: 
       objectReference: {fileID: 64442204}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: yawSpeeds.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: yawSpeeds.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: yawSpeeds.Array.data[2]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: yawSpeeds.Array.data[3]
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: yawSpeeds.Array.data[4]
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rollSpeeds.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rollSpeeds.Array.data[1]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rollSpeeds.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rollSpeeds.Array.data[3]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rollSpeeds.Array.data[4]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: pitchSpeeds.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: pitchSpeeds.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: pitchSpeeds.Array.data[2]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: pitchSpeeds.Array.data[3]
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: pitchSpeeds.Array.data[4]
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: playerShips.Array.data[0]
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.data[1]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.data[3]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.data[4]
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: healthLossDivisors.Array.data[0]
       value: 100

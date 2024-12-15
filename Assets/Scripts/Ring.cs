@@ -52,7 +52,7 @@ public class Ring : MonoBehaviour
 
     void LateUpdate()
     {
-        myTransform.localPosition = target.localPosition;
+        myTransform.position = target.position;
         myTransform.rotation = target.rotation * rotationOffset;
     }
 }

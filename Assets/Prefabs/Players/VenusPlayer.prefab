@@ -172,7 +172,6 @@ MonoBehaviour:
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
   thrusterVolumeDivisor: 4000
-  maxThrusterVolume: 0.3
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}

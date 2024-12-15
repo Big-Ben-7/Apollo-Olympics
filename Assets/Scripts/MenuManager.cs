@@ -103,7 +103,7 @@ public class MenuManager : MonoBehaviour
                 PlayerPrefs.SetInt("Ship" + i, 0);
                 PlayerPrefs.SetString("Name" + i, "Player " + (i + 1));
             }
-            PlayerPrefs.SetInt("PlayerNumber", 0);
+            PlayerPrefs.SetInt("PlayerNumber", 1);
             PlayerPrefs.SetInt("Difficulty", 0);
             PlayerPrefs.SetInt("Races", 0);
             PlayerPrefs.SetInt("Collects", 0);
@@ -154,7 +154,7 @@ public class MenuManager : MonoBehaviour
             selectTexts[i] = ship.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         }
 
-        playerNumber = PlayerPrefs.GetInt("PlayerNumber");
+        playerNumber = PlayerPrefs.GetInt("PlayerNumber", 1);
         difficulty = PlayerPrefs.GetInt("Difficulty");
         playersSlider.value = playerNumber;
         difficultySlider.value = difficulty;
