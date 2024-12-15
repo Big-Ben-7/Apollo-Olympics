@@ -1345,7 +1345,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 otherRb.AddForce((collider.transform.position - rb.position).normalized * abilityStrength, ForceMode.Impulse);
-                otherRb.AddTorque(new Vector3(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)) * abilityStrength);
+                otherRb.AddTorque(new Vector3(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)) * abilityStrength, ForceMode.Impulse);
             }
         }
         resetting = StartCoroutine(ResetAura(1));
