@@ -9,9 +9,6 @@ TagManager:
   - 3
   - 4
   - Camera
-  - Section
-  - Checkpoint
-  - FinishLine
   - Drone
   - Asteroid
   - Collectable

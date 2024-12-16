@@ -1,5 +1,5 @@
 
-using System;
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +22,18 @@ public class SpawnManager : MonoBehaviour
     [Header("Sections")]
     [SerializeField] int side = 900;
     int length;
-    [SerializeField] int colliderWidth = 500;
     GameObject[] sectionPool;
     [SerializeField] Transform sectionParent;
     [SerializeField] GameObject sectionPrefab;
+    [SerializeField] float minAsteroidScale;
+    [SerializeField] float maxAsteroidScale;
+    [SerializeField] float minRotationSpeed;
+    [SerializeField] float maxRotationSpeed;
+    [SerializeField] float minCollectableScale;
+    [SerializeField] float maxCollectableScale;
+    [SerializeField] Vector3 wormholeProportions;
+    [SerializeField] float minWormholeScale;
+    [SerializeField] float maxWormholeScale;
     Vector3[] sectionChunks;
 
     [Header("Checkpoints")]
@@ -40,14 +48,17 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int difficulty;
     [SerializeField] GameObject[] possibleAsteroids;
     [SerializeField] GameObject[] possibleCollectables;
+    int asteroidCount;
+    int collectableCount;
     [SerializeField] GameObject wormholePrefab;
     //Interactable number must be divisible by 24
-    [SerializeField] int maxInteractables = 48;
-    [SerializeField] int interactableIncrease = 24;
-    [SerializeField] int collectablePercent = 20;
-    [SerializeField] int collectableDecrease = 5;
-    [SerializeField] float wormholePercent = 1;
-    [SerializeField] float wormholeDecrease = 0.2f;
+    [SerializeField] int asteroidNumber = 48;
+    [SerializeField] int asteroidIncrease = 24;
+    [SerializeField] int collectableNumber = 10;
+    [SerializeField] int collectableDecrease = 2;
+    [SerializeField] int wormholePercent = 5;
+    [SerializeField] int wormholeDecrease = 1;
+    int interactableNumber;
 
     [Header("Drones")]
     [SerializeField] int droneNumber = 4;
@@ -135,14 +146,18 @@ public class SpawnManager : MonoBehaviour
         }
 
         //Setting difficulty-dependent variables
-        maxInteractables += interactableIncrease * difficulty;
+        asteroidNumber += asteroidIncrease * difficulty;
         droneNumber += droneIncrease * difficulty;
-        collectablePercent -= collectableDecrease * difficulty;
+        collectableNumber -= collectableDecrease * difficulty;
         wormholePercent -= wormholeDecrease * difficulty;
         checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
+        wormholeProportions = wormholeProportions.normalized;
+        interactableNumber = asteroidNumber + collectableNumber;
+        asteroidCount = possibleAsteroids.Length;
+        collectableCount = possibleCollectables.Length;
 
         //Stats for each checkpoint
-        baseDisableNumber = maxInteractables / 3;
+        baseDisableNumber = asteroidNumber / 3;
         checkpointCount = checkpointDistances.Length;
         disableByCheckpoint = new int[checkpointCount];
         int increment = baseDisableNumber / (checkpointCount - 1);
@@ -271,32 +286,14 @@ public class SpawnManager : MonoBehaviour
             sectionPool[i] = Instantiate(sectionPrefab, spawnPos, Quaternion.identity, sectionParent);
             sectionPool[i].SetActive(false);
             SectionSpawner.side = side;
-            sectionPool[i].GetComponent<SectionSpawner>().initialDisableNumber = baseDisableNumber;
+            sectionPool[i].GetComponent<SectionSpawner>().disableNumber = baseDisableNumber;
             sectionChunks[i] = spawnPos / length;
-
-            Transform child1 = sectionPool[i].transform.GetChild(0);
-            Transform child2 = sectionPool[i].transform.GetChild(1);
-            Transform child3 = sectionPool[i].transform.GetChild(2);
-
-            child1.localScale = new Vector3(length + colliderWidth, length + colliderWidth, colliderWidth);
-            child1.localPosition = new Vector3(0, 0, side);
-            
-            child2.localScale = new Vector3(colliderWidth, length + colliderWidth, length + colliderWidth);
-            child2.localPosition = new Vector3(side, 0, 0);
-            
-            child3.localScale = new Vector3(length + colliderWidth, colliderWidth, length + colliderWidth);
-            child3.localPosition = new Vector3(0, side, 0);
             SetSection(sectionPool[i].transform);
         }
 
         //Spawn initial sections
+        SectionSpawner.childrenCount = interactableNumber;
         sectionPool[0].GetComponent<SectionSpawner>().avoidCenter = true;
-        /*for(int i = 0; i < 5; i++)
-        {
-            sectionPool[i].GetComponent<SectionSpawner>().initialEnable = true;
-            sectionPool[i].SetActive(true);
-            sectionPool[i].GetComponent<SectionSpawner>().initialEnable = false;
-        }*/
         for(int i = 0; i < 27; i++)
         {
             sectionPool[i].SetActive(true);
@@ -524,29 +521,59 @@ public class SpawnManager : MonoBehaviour
 
     void SetSection(Transform parent)
     {
-        for(int i = 0; i < maxInteractables; i++)
+        parent.GetComponent<SectionSpawner>().children = new GameObject[interactableNumber];
+        Transform interactable;
+        for(int i = 0; i < asteroidNumber; i++)
         {
-            //Asteroid or collectable
-            float interactableType = UnityEngine.Random.Range(0f, 100);
-            int asteroidNumber = possibleAsteroids.Length;
-            int collectableNumber = possibleCollectables.Length;
-            if(interactableType < collectablePercent)
-            {
-                //Spawn random collectable
-                int collectableIndex = UnityEngine.Random.Range(0, collectableNumber);
-                Instantiate(possibleCollectables[collectableIndex], parent);
-            }
-            else if(interactableType < collectablePercent + wormholePercent)
+            //Spawn random asteroid
+            int asteroidIndex = Random.Range(0, asteroidCount);
+            interactable = Instantiate(possibleAsteroids[asteroidIndex], parent).transform;
+
+            //Random scale
+            float newScale = Random.Range(minAsteroidScale, maxAsteroidScale);
+            interactable.localScale = new Vector3(newScale, newScale, newScale);
+            interactable.GetComponent<Rigidbody>().mass = newScale * 2;
+            interactable.transform.rotation = Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360));
+            parent.GetComponent<SectionSpawner>().children[i] = interactable.gameObject;
+        }
+    
+        for(int i = asteroidNumber; i < interactableNumber; i++)
+        {
+            float interactableType = Random.Range(0f, 100);
+            if(interactableType < wormholePercent)
             {
                 //Spawn wormhole
-                Instantiate(wormholePrefab, parent);
+                interactable = Instantiate(wormholePrefab, parent).transform;
+                interactable.localScale = wormholeProportions * Random.Range(minWormholeScale, maxWormholeScale);
             }
             else
             {
-                //Spawn random asteroid
-                int asteroidIndex = UnityEngine.Random.Range(0, asteroidNumber);
-                Instantiate(possibleAsteroids[asteroidIndex], parent);
+                //Spawn random collectable
+                int collectableIndex = Random.Range(0, collectableCount);
+                interactable = Instantiate(possibleCollectables[collectableIndex], parent).transform;
+
+                //Random scale
+                float newScale = Random.Range(minCollectableScale, maxCollectableScale);
+                interactable.localScale = new Vector3(newScale, newScale, newScale);
+
+                //Random rotation speed
+                int randomAxis = Random.Range(0, 3);
+                float rotationSpeed = Random.Range(minRotationSpeed, maxRotationSpeed);
+                switch(randomAxis)
+                {
+                    case 0:
+                        interactable.GetComponent<Collectable>().randomRot = new Vector3(rotationSpeed, 0, 0);
+                        break;
+                    case 1:
+                        interactable.GetComponent<Collectable>().randomRot = new Vector3(0, rotationSpeed, 0);
+                        break;
+                    default:
+                        interactable.GetComponent<Collectable>().randomRot = new Vector3(0, 0, rotationSpeed);
+                        break;
+
+                }
             }
+            parent.GetComponent<SectionSpawner>().children[i] = interactable.gameObject;
         }
     }
     
@@ -736,8 +763,8 @@ public class SpawnManager : MonoBehaviour
                 {
                     case true:
                         section.transform.position = newPos;
-                        section.GetComponent<SectionSpawner>().initialDisableNumber = disableNumber;
-                        sectionChunks[Array.IndexOf(sectionPool, section)] = newChunk;
+                        section.GetComponent<SectionSpawner>().disableNumber = disableNumber;
+                        sectionChunks[i] = newChunk;
                         section.SetActive(true);
                         break;
                     
