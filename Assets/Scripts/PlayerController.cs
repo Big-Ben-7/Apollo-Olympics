@@ -99,12 +99,9 @@ public class PlayerController : MonoBehaviour
     float speedLossDivisor;
     int healthLossDivisor;
     float minHealthLoss;
-    int deflectionForce;
+    float deflectionForce;
     float health = 100;
     bool collided;
-    bool sectionFront;
-    bool sectionSide;
-    bool sectionUp;
     public bool canCollide;
     bool canTrigger;
     public static SpawnManager spawnManager;
@@ -153,7 +150,7 @@ public class PlayerController : MonoBehaviour
     TMP_Text finishText;
     TMP_Text[] allText;
     GameObject finishBackground;
-    DateTime startTime;
+    int milliseconds;
 
     void Awake()
     {
@@ -473,9 +470,42 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
+
+        Vector3 position = rb.position;
+
+        //Check if passed section
+        Vector3 chunk = new Vector3((int) Mathf.Round(position.x / length), (int) Mathf.Round(position.y / length), (int) Mathf.Round(position.z / length));
+        Vector3 playerChunk = spawnManager.playerChunks[playerIndex];
+        if(chunk != playerChunk)
+        {
+            if(chunk.x > playerChunk.x)
+            {
+                spawnManager.SpawnSectionsRight(playerIndex);
+            }
+            else if(chunk.x < playerChunk.x)
+            {
+                spawnManager.SpawnSectionsLeft(playerIndex);
+            }
+            if(chunk.y > playerChunk.y)
+            {
+                spawnManager.SpawnSectionsUp(playerIndex);
+            }
+            else if(chunk.y < playerChunk.y)
+            {
+                spawnManager.SpawnSectionsDown(playerIndex);
+            }
+            if(chunk.z > playerChunk.z)
+            {
+                spawnManager.SpawnSectionsForward(playerIndex);
+            }
+            else if(chunk.z < playerChunk.z)
+            {
+                spawnManager.SpawnSectionsBack(playerIndex);
+            }
+        }
     
         //Check if passed checkpoint
-        float pos = rb.position.magnitude;
+        float pos = position.magnitude;
         int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
         switch(playerCheckpoint)
         {
@@ -492,7 +522,7 @@ public class PlayerController : MonoBehaviour
                 {
                     int playingPlayers = spawnManager.PlayerFinish(playerIndex);
                     DateTime finishTime = DateTime.Now;
-                    TimeSpan elapsedTime = finishTime - startTime;
+                    int elapsedMilliseconds = milliseconds;
                     //transform.parent = null;
                     gameObject.SetActive(false);
                     finishBackground.SetActive(true);
@@ -513,12 +543,12 @@ public class PlayerController : MonoBehaviour
                             finishText.SetText(finishedPlayers + "th\nPlace!");
                             break;
                     }
+                    TimeSpan elapsedTime = TimeSpan.FromMilliseconds(elapsedMilliseconds);
                     timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
                     if(!MenuManager.loaded)
                     {
                         return;
                     }
-                    int elapsedMilliseconds = (int) Math.Round(elapsedTime.TotalMilliseconds);
                     if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
                     {
                         int index = MenuManager.difficulty;
@@ -597,16 +627,16 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        //Passed section boundary
+        /*//Passed section boundary
         if(other.gameObject.CompareTag("Section") && (sectionFront || sectionSide || sectionUp))
         {
             sectionFront = false;
             sectionSide = false;
             sectionUp = false;
-        }
+        }*/
 
         //Collected powerup
-        else if(other.gameObject.CompareTag("Collectable"))
+        if(other.gameObject.CompareTag("Collectable"))
         {
             other.gameObject.SetActive(false);
             collects++;
@@ -633,7 +663,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
+    /*void OnTriggerExit(Collider other)
     {
         if(!canTrigger)
         {
@@ -711,7 +741,7 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
-    }
+    }*/
     
     void OnCollisionEnter(Collision other)
     {
@@ -729,8 +759,8 @@ public class PlayerController : MonoBehaviour
         }
         Vector3 otherPos = other.transform.position;
         Vector3 pos = rb.position;
-        rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed);
-        rb.angularVelocity *= deflectionForce;
+        rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
+        //rb.angularVelocity *= deflectionForce;
 
         if(!other.gameObject.CompareTag("Drone"))
         {
@@ -928,11 +958,12 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator TimeUpdate()
     {
-        startTime = DateTime.Now;
+        milliseconds = 0;
         while(true)
         {
             //Show time
-            TimeSpan elapsedTime = DateTime.Now - startTime;
+            milliseconds ++;
+            TimeSpan elapsedTime = TimeSpan.FromMilliseconds(milliseconds);
             timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
 
             yield return new WaitForSeconds(0.001f);
@@ -1249,7 +1280,7 @@ public class PlayerController : MonoBehaviour
         speedLossDivisor = 1;
         healthLossDivisor = 1000;
         minHealthLoss = 0;
-        deflectionForce = 1;
+        deflectionForce = 0;
         rb.mass *= abilityStrength;
         while(currentActivation > 0)
         {
@@ -1344,7 +1375,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                otherRb.AddForce((collider.transform.position - rb.position).normalized * abilityStrength, ForceMode.Impulse);
+                otherRb.AddForce((collider.transform.position - rb.position).normalized * abilityStrength, ForceMode.VelocityChange);
                 otherRb.AddTorque(new Vector3(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)) * abilityStrength, ForceMode.Impulse);
             }
         }

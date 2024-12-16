@@ -35,7 +35,7 @@ public class Ring : MonoBehaviour
         Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
         if(!otherRb.isKinematic)
         {
-            otherRb.AddForce((other.transform.position - myTransform.position) * hitForce, ForceMode.Impulse);
+            otherRb.AddForce((other.transform.position - myTransform.position).normalized * hitForce, ForceMode.VelocityChange);
             otherRb.AddTorque(new Vector3(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)) * hitForce, ForceMode.Impulse);
         }
         audioSource.PlayOneShot(hitClip);

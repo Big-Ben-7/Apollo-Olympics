@@ -65,7 +65,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject[] possiblePlayers;
     [SerializeField] int[] playerShips;
     GameObject[] players;
-    Vector3[] playerChunks;
+    public Vector3[] playerChunks;
     public List<int> playingPlayers = new List<int>();
     public static List<Transform>[] followers;
     bool finished;
@@ -78,7 +78,7 @@ public class SpawnManager : MonoBehaviour
     public int[] healthLossDivisors;
     public float[] speedLossDivisors;
     public float[] minHealthLosses;
-    public int[] deflectionForces;
+    public float[] deflectionForces;
 
     [Header("Camera/UI/Audio")]
     [SerializeField] GameObject cameraPrefab;
@@ -551,11 +551,12 @@ public class SpawnManager : MonoBehaviour
     }
     
     //Section spawning
-    public void SpawnSectionsForward(Vector3 colliderPos, int playerIndex)
+    public void SpawnSectionsForward(int playerIndex)
     {
         Vector3[] newPosList = new Vector3[9];
-        Vector3 playerChunkPos = colliderPos + new Vector3(0, 0, side);
-        playerChunks[playerIndex] = playerChunkPos / length;
+        //Vector3 playerChunkPos = colliderPos + new Vector3(0, 0, side);
+        playerChunks[playerIndex] += Vector3.forward;
+        Vector3 playerChunkPos = playerChunks[playerIndex] * length;
         newPosList[0] = new Vector3(playerChunkPos.x, playerChunkPos.y, playerChunkPos.z + length);
         newPosList[1] = newPosList[0] + new Vector3(length, 0, 0);
         newPosList[2] = newPosList[0] + new Vector3(-length, 0, 0);
@@ -568,11 +569,12 @@ public class SpawnManager : MonoBehaviour
 
         SpawnSections(newPosList, playerIndex);
     }
-    public void SpawnSectionsBack(Vector3 colliderPos, int playerIndex)
+    public void SpawnSectionsBack(int playerIndex)
     {
         Vector3[] newPosList = new Vector3[9];
-        Vector3 playerChunkPos = colliderPos + new Vector3(0, 0, -side);
-        playerChunks[playerIndex] = playerChunkPos / length;
+        //Vector3 playerChunkPos = colliderPos + new Vector3(0, 0, -side);
+        playerChunks[playerIndex] += Vector3.back;
+        Vector3 playerChunkPos = playerChunks[playerIndex] * length;
         newPosList[0] = new Vector3(playerChunkPos.x, playerChunkPos.y, playerChunkPos.z - length);
         newPosList[1] = newPosList[0] + new Vector3(length, 0, 0);
         newPosList[2] = newPosList[0] + new Vector3(-length, 0, 0);
@@ -585,11 +587,12 @@ public class SpawnManager : MonoBehaviour
 
         SpawnSections(newPosList, playerIndex);
     }
-    public void SpawnSectionsRight(Vector3 colliderPos, int playerIndex)
+    public void SpawnSectionsRight(int playerIndex)
     {
         Vector3[] newPosList = new Vector3[9];
-        Vector3 playerChunkPos = colliderPos + new Vector3(side, 0, 0);
-        playerChunks[playerIndex] = playerChunkPos / length;
+        //Vector3 playerChunkPos = colliderPos + new Vector3(side, 0, 0);
+        playerChunks[playerIndex] += Vector3.right;
+        Vector3 playerChunkPos = playerChunks[playerIndex] * length;
         newPosList[0] = new Vector3(playerChunkPos.x + length, playerChunkPos.y, playerChunkPos.z);
         newPosList[1] = newPosList[0] + new Vector3(0, 0, length);
         newPosList[2] = newPosList[0] + new Vector3(0, 0, -length);
@@ -602,11 +605,12 @@ public class SpawnManager : MonoBehaviour
 
         SpawnSections(newPosList, playerIndex);
     }
-    public void SpawnSectionsLeft(Vector3 colliderPos, int playerIndex)
+    public void SpawnSectionsLeft(int playerIndex)
     {
         Vector3[] newPosList = new Vector3[9];
-        Vector3 playerChunkPos = colliderPos + new Vector3(-side, 0, 0);
-        playerChunks[playerIndex] = playerChunkPos / length;
+        //Vector3 playerChunkPos = colliderPos + new Vector3(-side, 0, 0);
+        playerChunks[playerIndex] += Vector3.left;
+        Vector3 playerChunkPos = playerChunks[playerIndex] * length;
         newPosList[0] = new Vector3(playerChunkPos.x - length, playerChunkPos.y, playerChunkPos.z);
         newPosList[1] = newPosList[0] + new Vector3(0, 0, length);
         newPosList[2] = newPosList[0] + new Vector3(0, 0, -length);
@@ -619,11 +623,12 @@ public class SpawnManager : MonoBehaviour
 
         SpawnSections(newPosList, playerIndex);
     }
-    public void SpawnSectionsUp(Vector3 colliderPos, int playerIndex)
+    public void SpawnSectionsUp(int playerIndex)
     {
         Vector3[] newPosList = new Vector3[9];
-        Vector3 playerChunkPos = colliderPos + new Vector3(0, side, 0);
-        playerChunks[playerIndex] = playerChunkPos / length;
+        //Vector3 playerChunkPos = colliderPos + new Vector3(0, side, 0);
+        playerChunks[playerIndex] += Vector3.up;
+        Vector3 playerChunkPos = playerChunks[playerIndex] * length;
         newPosList[0] = new Vector3(playerChunkPos.x, playerChunkPos.y + length, playerChunkPos.z);
         newPosList[1] = newPosList[0] + new Vector3(length, 0, 0);
         newPosList[2] = newPosList[0] + new Vector3(-length, 0, 0);
@@ -636,11 +641,12 @@ public class SpawnManager : MonoBehaviour
 
         SpawnSections(newPosList, playerIndex);
     }
-    public void SpawnSectionsDown(Vector3 colliderPos, int playerIndex)
+    public void SpawnSectionsDown(int playerIndex)
     {
         Vector3[] newPosList = new Vector3[9];
-        Vector3 playerChunkPos = colliderPos + new Vector3(0, -side, 0);
-        playerChunks[playerIndex] = playerChunkPos / length;
+        //Vector3 playerChunkPos = colliderPos + new Vector3(0, -side, 0);
+        playerChunks[playerIndex] += Vector3.down;
+        Vector3 playerChunkPos = playerChunks[playerIndex] * length;
         newPosList[0] = new Vector3(playerChunkPos.x, playerChunkPos.y - length, playerChunkPos.z);
         newPosList[1] = newPosList[0] + new Vector3(length, 0, 0);
         newPosList[2] = newPosList[0] + new Vector3(-length, 0, 0);
