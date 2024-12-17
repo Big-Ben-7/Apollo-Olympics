@@ -292,7 +292,8 @@ public class SpawnManager : MonoBehaviour
         }
 
         //Spawn initial sections
-        SectionSpawner.childrenCount = interactableNumber;
+        SectionSpawner.interactableNumber = interactableNumber;
+        SectionSpawner.asteroidNumber = asteroidNumber;
         sectionPool[0].GetComponent<SectionSpawner>().avoidCenter = true;
         for(int i = 0; i < 27; i++)
         {
@@ -439,7 +440,7 @@ public class SpawnManager : MonoBehaviour
         audioSources.Remove(audioSource);
         allAudio = audioSources.ToArray();
         audioCount = allAudio.Length;
-        gameObject.AddComponent<AudioListener>();
+        GetComponent<AudioListener>().enabled = true;
         eventSystem.SetActive(true);
 
         StartCoroutine(Countdown(3));
@@ -521,8 +522,11 @@ public class SpawnManager : MonoBehaviour
 
     void SetSection(Transform parent)
     {
-        parent.GetComponent<SectionSpawner>().children = new GameObject[interactableNumber];
+        SectionSpawner sectionSpawner = parent.GetComponent<SectionSpawner>();
+        GameObject[] children = sectionSpawner.children = new GameObject[interactableNumber];
+        Rigidbody[] asteroidRbs = sectionSpawner.asteroidRbs = new Rigidbody[asteroidNumber];
         Transform interactable;
+
         for(int i = 0; i < asteroidNumber; i++)
         {
             //Spawn random asteroid
@@ -532,9 +536,11 @@ public class SpawnManager : MonoBehaviour
             //Random scale
             float newScale = Random.Range(minAsteroidScale, maxAsteroidScale);
             interactable.localScale = new Vector3(newScale, newScale, newScale);
-            interactable.GetComponent<Rigidbody>().mass = newScale * 2;
+            Rigidbody rb = asteroidRbs[i] = interactable.GetComponent<Rigidbody>();
+            rb.mass = newScale * 2;
+
             interactable.transform.rotation = Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360));
-            parent.GetComponent<SectionSpawner>().children[i] = interactable.gameObject;
+            children[i] = interactable.gameObject;
         }
     
         for(int i = asteroidNumber; i < interactableNumber; i++)
@@ -573,7 +579,7 @@ public class SpawnManager : MonoBehaviour
 
                 }
             }
-            parent.GetComponent<SectionSpawner>().children[i] = interactable.gameObject;
+            children[i] = interactable.gameObject;
         }
     }
     

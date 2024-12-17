@@ -47,10 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e1c552506d04ac3b1d7703e0e75665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 900
-  colliderWidth: 500
+  side: 1500
   sectionParent: {fileID: 0}
   sectionPrefab: {fileID: 566563954241801917, guid: 30a9808a47135427c9ecd3e3ee56857d, type: 3}
+  minAsteroidScale: 20
+  maxAsteroidScale: 100
+  minRotationSpeed: 10
+  maxRotationSpeed: 20
+  minCollectableScale: 30
+  maxCollectableScale: 60
+  wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
+  minWormholeScale: 100
+  maxWormholeScale: 500
   playerCheckpoints: 
   checkpointDistances: 4c1d0000983a0000e457000030750000409c000050c30000e8fd000080380100a0860100
   checkpointParent: {fileID: 0}
@@ -90,12 +98,12 @@ MonoBehaviour:
   - {fileID: 7642089964585371861, guid: 92a1b946617364e45abe13fa0761e5f5, type: 3}
   - {fileID: 2194794745080136896, guid: bf3cfb302a4c1434b90634b49aeb16f8, type: 3}
   wormholePrefab: {fileID: 5607819269926399345, guid: de0c4b77a8bd041caa85f9497e2a6c42, type: 3}
-  maxInteractables: 48
-  interactableIncrease: 24
-  collectablePercent: 20
-  collectableDecrease: 5
-  wormholePercent: 1
-  wormholeDecrease: 0.2
+  asteroidNumber: 48
+  asteroidIncrease: 24
+  collectableNumber: 10
+  collectableDecrease: 2
+  wormholePercent: 5
+  wormholeDecrease: 1
   droneNumber: 4
   droneIncrease: 4
   begCheckpointDrones: 000000000000000001000000010000000200000002000000030000000300000004000000
@@ -113,29 +121,18 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
   playerShips: 00000000040000000100000006000000
+  playerChunks: []
   playingPlayers: 
   initialThrustSpeeds: 20030000b004000040060000d007000060090000
   accelerations: 90010000f401000058020000bc02000020030000
   maxThrustSpeeds: a00f000070170000401f000010270000e02e0000
-  rollSpeeds:
+  rotationSpeeds:
+  - 2
+  - 3
   - 4
-  - 7
-  - 10
-  - 13
-  - 16
-  pitchSpeeds:
-  - 1
-  - 4
-  - 7
-  - 10
-  - 13
-  yawSpeeds:
-  - 1
-  - 4
-  - 7
-  - 10
-  - 13
-  healthLossDivisors: c8000000900100005802000020030000e8030000
+  - 5
+  - 6
+  healthLossDivisors: 640000002c010000f4010000bc02000084030000
   speedLossDivisors:
   - 5
   - 4
@@ -148,7 +145,12 @@ MonoBehaviour:
   - 0.5
   - 0.25
   - 0
-  deflectionForces: 2d00000023000000190000000f00000005000000
+  deflectionForces:
+  - 20
+  - 2
+  - 0.2
+  - 0.02
+  - 0.002
   cameraPrefab: {fileID: 8803354073669428790, guid: cf38e19b88e5647c19ea89b7f8dacb7a, type: 3}
   cameraMasks:
   - serializedVersion: 2
@@ -162,6 +164,7 @@ MonoBehaviour:
   countdownSound: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
   goSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
+  eventSystem: {fileID: 0}
   menu: {fileID: 0}
   initializedPlayers: 0
 --- !u!82 &4212043769208938346

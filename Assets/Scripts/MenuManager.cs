@@ -108,7 +108,7 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetInt("Races", 0);
             PlayerPrefs.SetInt("Collects", 0);
             PlayerPrefs.SetFloat("Fov", 35);
-            PlayerPrefs.SetFloat("Depth", 1600);
+            PlayerPrefs.SetFloat("Depth", 2900);
             PlayerPrefs.SetFloat("Music", 0.2f);
             PlayerPrefs.SetInt("CursorHide", 1);
             PlayerPrefs.SetFloat("Noise", 0.2f);
@@ -164,7 +164,7 @@ public class MenuManager : MonoBehaviour
         fov = PlayerPrefs.GetFloat("Fov", 35);
         fovSlider.value = fov;
         fovText.SetText(fov.ToString("0.#"));
-        depth = PlayerPrefs.GetFloat("Depth", 1600);
+        depth = PlayerPrefs.GetFloat("Depth", 2900);
         depthSlider.value = depth;
         depthText.SetText(depth.ToString("0"));
         music = PlayerPrefs.GetFloat("Music", 0.2f);
