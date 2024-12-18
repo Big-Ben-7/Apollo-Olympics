@@ -759,7 +759,7 @@ GameObject:
   - component: {fileID: -8511519590918375490}
   m_Layer: 0
   m_Name: Cloud-Aerosol Lidar and Infrared Pathfinder Satellite
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: -423062786537808962}
   m_Layer: 0
   m_Name: Mars Reconnaissance Orbiter (MRO)
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

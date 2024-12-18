@@ -10,20 +10,11 @@ using TMPro;
 public class SpawnManager : MonoBehaviour
 {
     [Header("Sections")]
-    [SerializeField] int side = 900;
+    [SerializeField] int side = 2000;
     int length;
     GameObject[] sectionPool;
     [SerializeField] Transform sectionParent;
     [SerializeField] GameObject sectionPrefab;
-    [SerializeField] float minAsteroidScale;
-    [SerializeField] float maxAsteroidScale;
-    [SerializeField] float minRotationSpeed;
-    [SerializeField] float maxRotationSpeed;
-    [SerializeField] float minCollectableScale;
-    [SerializeField] float maxCollectableScale;
-    [SerializeField] Vector3 wormholeProportions;
-    [SerializeField] float minWormholeScale;
-    [SerializeField] float maxWormholeScale;
     Vector3[] sectionChunks;
 
     [Header("Checkpoints")]
@@ -42,12 +33,19 @@ public class SpawnManager : MonoBehaviour
     int collectableCount;
     [SerializeField] GameObject wormholePrefab;
     //Interactable number must be divisible by 24
-    [SerializeField] int asteroidNumber = 48;
+    [SerializeField] int asteroidNumber = 24;
     [SerializeField] int asteroidIncrease = 24;
     [SerializeField] int collectableNumber = 10;
     [SerializeField] int collectableDecrease = 2;
     [SerializeField] int wormholePercent = 5;
     [SerializeField] int wormholeDecrease = 1;
+    [SerializeField] float minAsteroidScale;
+    [SerializeField] float maxAsteroidScale;
+    [SerializeField] float minRotationSpeed;
+    [SerializeField] float maxRotationSpeed;
+    [SerializeField] Vector3 wormholeProportions;
+    [SerializeField] float minWormholeScale;
+    [SerializeField] float maxWormholeScale;
     int interactableNumber;
 
     [Header("Drones")]
@@ -525,7 +523,7 @@ public class SpawnManager : MonoBehaviour
 
             //Random scale
             float newScale = Random.Range(minAsteroidScale, maxAsteroidScale);
-            interactable.localScale = new Vector3(newScale, newScale, newScale);
+            interactable.localScale = new Vector3(Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale));
             Rigidbody rb = asteroidRbs[i] = interactable.GetComponent<Rigidbody>();
             rb.mass = newScale * 2;
 
@@ -547,10 +545,6 @@ public class SpawnManager : MonoBehaviour
                 //Spawn random collectable
                 int collectableIndex = Random.Range(0, collectableCount);
                 interactable = Instantiate(possibleCollectables[collectableIndex], parent).transform;
-
-                //Random scale
-                float newScale = Random.Range(minCollectableScale, maxCollectableScale);
-                //interactable.localScale = new Vector3(newScale, newScale, newScale);
 
                 //Random rotation speed
                 int randomAxis = Random.Range(0, 3);

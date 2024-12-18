@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SectionSpawner : MonoBehaviour
@@ -47,19 +48,10 @@ public class SectionSpawner : MonoBehaviour
                 rb.AddRelativeForce(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * movementForce, ForceMode.VelocityChange);
                 rb.AddRelativeTorque(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * rotationForce, ForceMode.VelocityChange);
             }
+            
             for(int i = asteroidNumber; i < interactableNumber; i++)
             {
                 GameObject child = children[i];
-
-                //Variable interactable amount
-                if(i < disableNumber)
-                {
-                    if(child.activeInHierarchy)
-                    {
-                        child.SetActive(false);
-                    }
-                    continue;
-                }
                 if(!child.activeInHierarchy)
                 {
                     child.SetActive(true);
@@ -110,13 +102,6 @@ public class SectionSpawner : MonoBehaviour
         for(int i = asteroidNumber; i < interactableNumber; i++)
         {
             GameObject child = children[i];
-
-            //Variable interactable amount
-            if(i < disableNumber)
-            {
-                child.SetActive(false);
-                continue;
-            }
 
             //Random position and rotation, avoid center
             float randomX = Random.Range(100, side);

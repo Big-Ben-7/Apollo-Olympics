@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -6226147590875399895}
   m_Layer: 0
   m_Name: Tracking and Data Relay Satellites
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
