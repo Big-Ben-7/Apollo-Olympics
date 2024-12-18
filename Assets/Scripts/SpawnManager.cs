@@ -2,19 +2,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.PackageManager;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Pool;
 using Cinemachine;
-using UnityEngine.Analytics;
-using JetBrains.Annotations;
-using System.Runtime.CompilerServices;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem.LowLevel;
 using TMPro;
 
 public class SpawnManager : MonoBehaviour

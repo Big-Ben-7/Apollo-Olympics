@@ -1,26 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UIElements;
 using TMPro;
 using System;
-using System.Xml;
-using UnityEngine.SceneManagement;
-using Unity.VisualScripting.AssemblyQualifiedNameParser;
-using System.Linq.Expressions;
-using UnityEngine.Profiling;
-using Unity.VisualScripting.Dependencies.NCalc;
-using System.Resources;
-using UnityEngine.UI;
-using UnityEditor.Rendering;
-using UnityEditor;
-using Unity.Mathematics;
-using System.Linq;
-using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
