@@ -560,7 +560,7 @@ public class SpawnManager : MonoBehaviour
 
                 //Random scale
                 float newScale = Random.Range(minCollectableScale, maxCollectableScale);
-                interactable.localScale = new Vector3(newScale, newScale, newScale);
+                //interactable.localScale = new Vector3(newScale, newScale, newScale);
 
                 //Random rotation speed
                 int randomAxis = Random.Range(0, 3);
