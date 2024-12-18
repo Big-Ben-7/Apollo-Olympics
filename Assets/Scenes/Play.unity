@@ -637,6 +637,10 @@ PrefabInstance:
       value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: wormholePercent
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: checkpointParent
       value: 
       objectReference: {fileID: 64442204}
@@ -649,8 +653,12 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: wormholeDecrease
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: collectableNumber
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: collectableDecrease

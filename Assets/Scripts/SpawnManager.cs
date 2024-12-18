@@ -35,10 +35,10 @@ public class SpawnManager : MonoBehaviour
     //Interactable number must be divisible by 24
     [SerializeField] int asteroidNumber = 24;
     [SerializeField] int asteroidIncrease = 24;
-    [SerializeField] int collectableNumber = 10;
+    [SerializeField] int collectableNumber = 8;
     [SerializeField] int collectableDecrease = 2;
-    [SerializeField] int wormholePercent = 5;
-    [SerializeField] int wormholeDecrease = 1;
+    [SerializeField] int wormholePercent = 10;
+    [SerializeField] int wormholeDecrease = 2;
     [SerializeField] float minAsteroidScale;
     [SerializeField] float maxAsteroidScale;
     [SerializeField] float minRotationSpeed;
