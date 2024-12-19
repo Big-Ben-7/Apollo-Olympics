@@ -5092,6 +5092,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1b1e870555539084e867c27366722812, type: 3}
   - {fileID: 8300000, guid: 3bbe242bc37c8614fbe02c843ed5b465, type: 3}
   - {fileID: 8300000, guid: 00567c9401ce5364fa0b2830749f785a, type: 3}
+  collectSound: {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
   checkpointSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   activationSound: {fileID: 8300000, guid: 8ff2a2d7e79f81c40ac447512f879374, type: 3}
   expireSound: {fileID: 8300000, guid: acbcb75601b0082458fda8807f67c813, type: 3}

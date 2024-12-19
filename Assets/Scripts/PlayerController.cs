@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource fireSource;
     [SerializeField] AudioSource thrusterSource;
     [SerializeField] AudioClip[] hitSounds;
+    [SerializeField] AudioClip collectSound;
     [SerializeField] AudioClip checkpointSound;
     [SerializeField] AudioClip activationSound;
     [SerializeField] AudioClip expireSound;
@@ -132,6 +133,9 @@ public class PlayerController : MonoBehaviour
     TMP_Text finishText;
     TMP_Text[] allText;
     GameObject finishBackground;
+    bool inCountdown = true;
+    int minutes;
+    int seconds;
     int milliseconds;
 
     void Awake()
@@ -148,9 +152,9 @@ public class PlayerController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         rb.isKinematic = true;
         myTransform = transform;
-        startPos = rb.position;
+        startPos = myTransform.position;
         normalizedStartPos = startPos.normalized;
-        startRot = rb.rotation;
+        startRot = myTransform.rotation;
 
         Transform thrusterTransform = thrusterParent.transform;
         thrusterCount = thrusterTransform.childCount;
@@ -295,14 +299,50 @@ public class PlayerController : MonoBehaviour
         finishText.SetText("");
 
         allText = new TMP_Text[]{checkpointText, healthText, speedText, collectText, abilityText, timeText, posText, distanceText};
-
-        StartCoroutine(TextUpdate());
         StartCoroutine(Countdown(3));
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Activate special ability
+        if(abilityAction.WasPressedThisFrame())
+        {
+            if(currentCooldown == 0)
+            {   
+                currentCooldown = cooldownTime;
+                if(runningAbility != null)
+                {
+                    StopCoroutine(runningAbility);
+                }
+                runningAbility = StartCoroutine(ability);
+            }
+            else
+            {
+                if((shipModel != "Saturn" && shipModel != "Uranus") || currentActivation == 0)
+                {
+                    StartCoroutine(ChangeTextColor(abilityText, 0.2f, Color.white, Color.red));
+                    audioSource.PlayOneShot(errorSound);
+                }
+            }
+        }
+
+        if(abilityAction.IsPressed() && currentActivation > 0)
+        {
+            switch(shipModel)
+            {
+                case "Saturn":
+                    ring.rotationOffset *= Quaternion.Euler(Vector3.right);
+                    break;
+                
+                case "Uranus":
+                    ring.rotationOffset *= Quaternion.Euler(new Vector3(0, 2, 0));
+                    break;
+            }
+        }
+
+        if(inCountdown) return;
+
         float speed = rb.velocity.magnitude;
         
         if(!rb.isKinematic)
@@ -392,6 +432,9 @@ public class PlayerController : MonoBehaviour
                     }
                     break;
             }
+        
+            //Show speed in km/h, multiply by 2.23694 for mph
+            speedText.SetText("Speed: " + (speed * 3.6f).ToString("0.00"));
         }
 
         //Change thruster effect based on speed
@@ -417,43 +460,7 @@ public class PlayerController : MonoBehaviour
         fireSource.volume = thrusterVolume;
         thrusterSource.volume = thrusterVolume;
 
-        //Activate special ability
-        if(abilityAction.WasPressedThisFrame())
-        {
-            if(currentCooldown == 0)
-            {   
-                currentCooldown = cooldownTime;
-                if(runningAbility != null)
-                {
-                    StopCoroutine(runningAbility);
-                }
-                runningAbility = StartCoroutine(ability);
-            }
-            else
-            {
-                if((shipModel != "Saturn" && shipModel != "Uranus") || currentActivation == 0)
-                {
-                    StartCoroutine(ChangeTextColor(abilityText, 0.2f, Color.white, Color.red));
-                    audioSource.PlayOneShot(errorSound);
-                }
-            }
-        }
-
-        if(abilityAction.IsPressed() && currentActivation > 0)
-        {
-            switch(shipModel)
-            {
-                case "Saturn":
-                    ring.rotationOffset *= Quaternion.Euler(Vector3.right);
-                    break;
-                
-                case "Uranus":
-                    ring.rotationOffset *= Quaternion.Euler(new Vector3(0, 2, 0));
-                    break;
-            }
-        }
-
-        Vector3 position = rb.position;
+        Vector3 position = myTransform.position;
 
         //Check if passed section
         Vector3 chunk = new Vector3((int) Mathf.Round(position.x / length), (int) Mathf.Round(position.y / length), (int) Mathf.Round(position.z / length));
@@ -486,6 +493,20 @@ public class PlayerController : MonoBehaviour
             }
         }
     
+        //Show time
+        milliseconds += (int) (Time.deltaTime * 1000);
+        if(milliseconds >= 1000)
+        {
+            milliseconds = 0;
+            seconds ++;
+            if(seconds >= 60)
+            {
+                seconds = 0;
+                minutes ++;
+            }
+        }
+        timeText.SetText("Time: " + minutes + ":" + seconds.ToString("00") + "." + milliseconds.ToString("000"));
+
         //Check if passed checkpoint
         float pos = position.magnitude;
         int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
@@ -504,8 +525,6 @@ public class PlayerController : MonoBehaviour
                 {
                     int playingPlayers = spawnManager.PlayerFinish(playerIndex);
                     DateTime finishTime = DateTime.Now;
-                    int elapsedMilliseconds = milliseconds;
-                    //transform.parent = null;
                     gameObject.SetActive(false);
                     finishBackground.SetActive(true);
                     audioSource.PlayOneShot(checkpointSound);
@@ -525,17 +544,15 @@ public class PlayerController : MonoBehaviour
                             finishText.SetText(finishedPlayers + "th\nPlace!");
                             break;
                     }
-                    TimeSpan elapsedTime = TimeSpan.FromMilliseconds(elapsedMilliseconds);
-                    timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
                     if(!MenuManager.loaded)
                     {
                         return;
                     }
-                    if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
+                    if(milliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
                     {
                         int index = MenuManager.difficulty;
-                        MenuManager.times[index] = elapsedMilliseconds;
-                        PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
+                        MenuManager.times[index] = milliseconds;
+                        PlayerPrefs.SetInt("Time" + index, milliseconds);
                         PlayerPrefs.SetString("Description" + index, " (" + MenuManager.playerNames[playerIndex] + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year + ")");
                     }
                     MenuManager.collects += collects;
@@ -559,6 +576,13 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
         }
+
+        //Show position in km, divide by 1609 for mi
+        Vector3 kmPos = position / 1000;
+        posText.SetText("Pos: " + kmPos.x.ToString("0.0") + "," + kmPos.y.ToString("0.0") + "," + kmPos.z.ToString("0.0"));
+
+        //Show distance from origin
+        distanceText.SetText("Distance: " + pos.ToString("0.00"));
     }
 
     void LateUpdate()
@@ -567,11 +591,11 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        droneGroup.position = rb.position;
+        droneGroup.position = myTransform.position;
         arrow.localPosition = Vector3.zero;
-        arrow.rotation = Quaternion.LookRotation(rb.position.normalized, Vector3.up);
+        arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, Vector3.up);
         Vector3 rot = arrow.rotation.eulerAngles;
-        arrow.rotation = Quaternion.Euler(rot.x, rot.y, rb.rotation.eulerAngles.z);
+        arrow.rotation = Quaternion.Euler(rot.x, rot.y, myTransform.rotation.eulerAngles.z);
     }
 
     void FixedUpdate()
@@ -609,14 +633,6 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        /*//Passed section boundary
-        if(other.gameObject.CompareTag("Section") && (sectionFront || sectionSide || sectionUp))
-        {
-            sectionFront = false;
-            sectionSide = false;
-            sectionUp = false;
-        }*/
-
         //Collected powerup
         if(other.gameObject.CompareTag("Collectable"))
         {
@@ -642,6 +658,7 @@ public class PlayerController : MonoBehaviour
                     currentCooldown--;
                 }
             }
+            audioSource.PlayOneShot(collectSound);
         }
     }
 
@@ -740,7 +757,7 @@ public class PlayerController : MonoBehaviour
             speed = otherSpeed;
         }
         Vector3 otherPos = other.transform.position;
-        Vector3 pos = rb.position;
+        Vector3 pos = myTransform.position;
         rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
         //rb.angularVelocity *= deflectionForce;
 
@@ -834,20 +851,15 @@ public class PlayerController : MonoBehaviour
 
                 //Respawning
                 int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
-                /*myTransform.parent = null;
-                foreach(Transform follower in SpawnManager.followers[playerIndex])
-                {
-                    follower.parent = null;
-                }*/
                 switch(playerCheckpoint)
                 {
                     case 0:
-                        rb.position = startPos;
+                        myTransform.position = startPos;
                         spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
                         break;
                     default:
                         Vector3 newPos = startPos + normalizedStartPos * checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1];
-                        rb.position = newPos;
+                        myTransform.position = newPos;
                         spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
                         break;
                 }
@@ -857,7 +869,7 @@ public class PlayerController : MonoBehaviour
                     droneGroup.GetChild(i).GetComponent<Drone>().ResetDrone();
                 }
 
-                rb.rotation = startRot;
+                myTransform.rotation = startRot;
                 thrustSpeed = initialThrustSpeed;
                 health = 100;
                 audioSource.PlayOneShot(dieSound);
@@ -917,38 +929,7 @@ public class PlayerController : MonoBehaviour
         rb.isKinematic = false;
         canCollide = true;
         canTrigger = true;
-        StartCoroutine(TimeUpdate());
-    }
-
-    //Updates speed but not as fast as update
-    IEnumerator TextUpdate()
-    {
-        while(true)
-        {
-            //Show speed in km/h, multiply by 2.23694 for mph
-            speedText.SetText("Speed: " + (rb.velocity * 3.6f).magnitude.ToString("0.00"));
-
-            //Show position in km, divide by 1609 for mi
-            Vector3 pos = rb.position / 1000;
-            posText.SetText("Pos: " + pos.x.ToString("0.0") + "," + pos.y.ToString("0.0") + "," + pos.z.ToString("0.0"));
-
-            //Show distance from origin
-            distanceText.SetText("Distance: " + rb.position.magnitude.ToString("0.00"));
-            yield return new WaitForSeconds(0.02f);
-        }
-    }
-
-    IEnumerator TimeUpdate()
-    {
-        milliseconds = 0;
-        while(true)
-        {
-            //Show time
-            milliseconds ++;
-            TimeSpan elapsedTime = TimeSpan.FromMilliseconds(milliseconds);
-            timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
-            yield return new WaitForSeconds(0.001f);
-        }
+        inCountdown = false;
     }
 
     IEnumerator ChangeTextColor(TMP_Text text, float time, Color originalColor, Color newColor, int amount = 1)
@@ -1056,7 +1037,7 @@ public class PlayerController : MonoBehaviour
         }
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), 0) * new Vector3(0, 0, distance);
         //myTransform.parent = null;
-        rb.position = newPos;
+        myTransform.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);
         audioSource.PlayOneShot(wormholeSound);
         canCollide = true;
@@ -1341,7 +1322,7 @@ public class PlayerController : MonoBehaviour
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        Collider[] colliders = Physics.OverlapSphere(rb.position, 1000);
+        Collider[] colliders = Physics.OverlapSphere(myTransform.position, 1000);
         for(int i = 0; i < colliders.Length; i++)
         {
             Collider collider = colliders[i];
@@ -1356,7 +1337,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                otherRb.AddForce((collider.transform.position - rb.position).normalized * abilityStrength, ForceMode.VelocityChange);
+                otherRb.AddForce((collider.transform.position - myTransform.position).normalized * abilityStrength, ForceMode.VelocityChange);
                 otherRb.AddTorque(new Vector3(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)) * abilityStrength, ForceMode.Impulse);
             }
         }

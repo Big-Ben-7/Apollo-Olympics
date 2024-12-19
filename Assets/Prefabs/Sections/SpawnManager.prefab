@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4212043769208938346}
   - component: {fileID: 4963872377474719969}
   - component: {fileID: 3663112476063483804}
+  - component: {fileID: 6913639984360395601}
   m_Layer: 0
   m_Name: SpawnManager
   m_TagString: Untagged
@@ -47,63 +48,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e1c552506d04ac3b1d7703e0e75665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 1500
+  side: 2500
   sectionParent: {fileID: 0}
   sectionPrefab: {fileID: 566563954241801917, guid: 30a9808a47135427c9ecd3e3ee56857d, type: 3}
-  minAsteroidScale: 20
-  maxAsteroidScale: 100
-  minRotationSpeed: 10
-  maxRotationSpeed: 20
-  minCollectableScale: 30
-  maxCollectableScale: 60
-  wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
-  minWormholeScale: 100
-  maxWormholeScale: 500
   playerCheckpoints: 
   checkpointDistances: 4c1d0000983a0000e457000030750000409c000050c30000e8fd000080380100a0860100
   checkpointParent: {fileID: 0}
   checkpointPrefab: {fileID: 1524319548756128656, guid: cf191d8315c8d4bcbb649de43114089f, type: 3}
   finishMat: {fileID: 2100000, guid: 11a6088f9cac6426a90e9b064c81cc2e, type: 2}
-  difficulty: 0
+  difficulty: 3
   possibleAsteroids:
-  - {fileID: 7437889339238721774, guid: a028a9caf7ccf2443a238296ded73a04, type: 3}
-  - {fileID: 2746130058158584518, guid: 41059c7f21dd4994d9797364e07a3d45, type: 3}
-  - {fileID: 1797448692007430590, guid: 579e809d2465e864795196e5b0545d73, type: 3}
-  - {fileID: 5088785953716078452, guid: b31bb4b021ef65f4fbaf7f2d7e56f967, type: 3}
-  - {fileID: 1630719386496763137, guid: 1b25ec5b3aa236f49bb4e00c0b8a5efe, type: 3}
-  - {fileID: 5194881690107128898, guid: a7650c1ce3d21654ebf92d7ebf494bfc, type: 3}
-  - {fileID: 2491964224651406481, guid: 2da3e069c77e294469e5af0fe430dabf, type: 3}
-  - {fileID: 5252957863175906491, guid: 52e5665ed874ab649afee8d6df0ab38e, type: 3}
-  - {fileID: 3291891354613854917, guid: 3054692602d6b2c418a430defcc5dca4, type: 3}
-  - {fileID: 6549293077901927804, guid: 8312a98dccd9dba4ab86a80fa392cfa8, type: 3}
-  - {fileID: 2078176198351759274, guid: af2725044a76460448d036210c096953, type: 3}
-  - {fileID: 1433142016259526838, guid: 73da260fe05fc414da1dbbca90d3030c, type: 3}
-  - {fileID: 3606340279829517473, guid: 46e7653dfbf77b247bc855c46bbd4f4e, type: 3}
-  - {fileID: 7642089964585371861, guid: ec4c29675987e87429aeec5e4e93fc5f, type: 3}
-  - {fileID: 2194794745080136896, guid: c0e82ab38938b0a4ab35f65d8981ac0f, type: 3}
+  - {fileID: 151664, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
+  - {fileID: 141316, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
+  - {fileID: 130102, guid: 04d0bf4be9447154188d86f6e3b8dce9, type: 3}
   possibleCollectables:
-  - {fileID: 7437889339238721774, guid: 6cc8efdabdcd948a3851f1070597231d, type: 3}
-  - {fileID: 2746130058158584518, guid: 59121f1bbe11b4426bdc57432d92087f, type: 3}
-  - {fileID: 1797448692007430590, guid: 2e46b9c2d037d46a39cb6fa9bfe56bec, type: 3}
-  - {fileID: 5088785953716078452, guid: 8daed629eb20f4f049423e37b711ccdc, type: 3}
-  - {fileID: 1630719386496763137, guid: 2d6f06fbe75d84768a60bf29ebf6293e, type: 3}
-  - {fileID: 5194881690107128898, guid: a2f61407b039f48bd95251f2734a1515, type: 3}
-  - {fileID: 2491964224651406481, guid: d009e705a6ae74b90a74aa8a140cad6d, type: 3}
-  - {fileID: 5252957863175906491, guid: fbc35d981ba8e424da18d45135651389, type: 3}
-  - {fileID: 3291891354613854917, guid: 0e0e4e9a8d60945ebb4e13415218184f, type: 3}
-  - {fileID: 6549293077901927804, guid: c29156ae18dd2438890906659e1d00cb, type: 3}
-  - {fileID: 2078176198351759274, guid: 1d8597e396e99400586cd4968604c428, type: 3}
-  - {fileID: 1433142016259526838, guid: fae7608e55fb1483797dba7a06646109, type: 3}
-  - {fileID: 3606340279829517473, guid: b86184f9bddeb4b49a9a327e5d35c582, type: 3}
-  - {fileID: 7642089964585371861, guid: 92a1b946617364e45abe13fa0761e5f5, type: 3}
-  - {fileID: 2194794745080136896, guid: bf3cfb302a4c1434b90634b49aeb16f8, type: 3}
+  - {fileID: 6075084805237653659, guid: 2f3517d7122014a08b905abf499bac15, type: 3}
+  - {fileID: 4587344141743971495, guid: 6cc7e4208c3d34f89a9ff5c10e1ed95c, type: 3}
+  - {fileID: 5252142220861717741, guid: 269de9359ecb44e1eb408a202c25ebcb, type: 3}
+  - {fileID: 3131469598399110636, guid: a43a2b2be43a14729b838f7c622fb7ab, type: 3}
+  - {fileID: 4601883293852469496, guid: 40f191741e6e74dbc8ffba5d3a8dfa10, type: 3}
+  - {fileID: 7808347883478816596, guid: 2b6f157d817344b3d9b91b2032898d2a, type: 3}
+  - {fileID: 4379712186503579011, guid: 624198dc7e1734227a0e817fbacf125e, type: 3}
+  - {fileID: 8632703639105145109, guid: 91f9f9b60ef4d40f48cc72b3f06624ee, type: 3}
+  - {fileID: 4040162732614693336, guid: 23bdadb807c32449a94889791279d2b3, type: 3}
+  - {fileID: 2055080738407199746, guid: 0e917f3caf8db4171b9d11a8161e8c8c, type: 3}
+  - {fileID: 5091410988160283168, guid: 28f3306282a5a4e638182415b233a5e0, type: 3}
+  - {fileID: 5904535897187956228, guid: d8fde970a336942c289cb27928265710, type: 3}
+  - {fileID: 2986270185592015149, guid: 5b3091c9de621493b8f944956dfd3f06, type: 3}
+  - {fileID: 6590368148363473146, guid: 7a6299fd74fad49d79b148fc56ea7e50, type: 3}
+  - {fileID: 4653249530402667658, guid: d730cecc55f6d4d608a0ac57bd68bba8, type: 3}
+  - {fileID: 8280170879861214458, guid: 2fb0b3c5ff2354f7f9dc9d2479787c7a, type: 3}
+  - {fileID: 5200160173293639372, guid: be77ecd777d93482ab3cb188ecaefe40, type: 3}
+  - {fileID: 7590357491821193132, guid: 50bbdd09f2a4048b3ab0699e420a3791, type: 3}
+  - {fileID: 6014792775208504390, guid: b82f1e0cb6ac742099f8e757f40e0e86, type: 3}
+  - {fileID: 5562784731008266770, guid: f7b7e223a8bb043289e0f992c832f1ef, type: 3}
+  - {fileID: 4572339319366399824, guid: 182bb06e49f5c4055bf2a347718cc03b, type: 3}
   wormholePrefab: {fileID: 5607819269926399345, guid: de0c4b77a8bd041caa85f9497e2a6c42, type: 3}
-  asteroidNumber: 48
+  asteroidNumber: 24
   asteroidIncrease: 24
   collectableNumber: 10
   collectableDecrease: 2
-  wormholePercent: 5
-  wormholeDecrease: 1
+  wormholePercent: 10
+  minAsteroidScale: 20
+  maxAsteroidScale: 200
+  minRotationSpeed: 10
+  maxRotationSpeed: 20
+  wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
+  minWormholeScale: 500
+  maxWormholeScale: 2000
   droneNumber: 4
   droneIncrease: 4
   begCheckpointDrones: 000000000000000001000000010000000200000002000000030000000300000004000000
@@ -123,9 +115,9 @@ MonoBehaviour:
   playerShips: 00000000040000000100000006000000
   playerChunks: []
   playingPlayers: 
-  initialThrustSpeeds: 20030000b004000040060000d007000060090000
-  accelerations: 90010000f401000058020000bc02000020030000
-  maxThrustSpeeds: a00f000070170000401f000010270000e02e0000
+  initialThrustSpeeds: 4006000060090000800c0000a00f0000c0120000
+  accelerations: 20030000b004000040060000d007000060090000
+  maxThrustSpeeds: 401f0000e02e0000803e0000204e0000c05d0000
   rotationSpeeds:
   - 2
   - 3
@@ -455,3 +447,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!81 &6913639984360395601
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8277756364841921885}
+  m_Enabled: 0

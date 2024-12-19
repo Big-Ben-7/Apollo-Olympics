@@ -9,9 +9,9 @@ public class SectionSpawner : MonoBehaviour
     public int disableNumber;
     public bool avoidCenter;
     public GameObject[] children;
-    public Rigidbody[] asteroidRbs;
+    //public Rigidbody[] asteroidRbs;
     public static int interactableNumber;
-    public static int asteroidNumber;
+    //public static int asteroidNumber;
 
     void OnEnable()
     {
@@ -22,7 +22,7 @@ public class SectionSpawner : MonoBehaviour
 
         if(!avoidCenter)
         {
-            for(int i = 0; i < asteroidNumber; i++)
+            for(int i = 0; i < interactableNumber; i++)
             {
                 GameObject child = children[i];
 
@@ -42,27 +42,19 @@ public class SectionSpawner : MonoBehaviour
                 child.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
 
                 //Random force
-                Rigidbody rb = asteroidRbs[i];
-                float movementForce = Random.Range(0f, maxMovementForce);
-                float rotationForce = Random.Range(0f, maxRotationForce);
-                rb.AddRelativeForce(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * movementForce, ForceMode.VelocityChange);
-                rb.AddRelativeTorque(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * rotationForce, ForceMode.VelocityChange);
-            }
-            
-            for(int i = asteroidNumber; i < interactableNumber; i++)
-            {
-                GameObject child = children[i];
-                if(!child.activeInHierarchy)
+                if(child.CompareTag("Wormhole"))
                 {
-                    child.SetActive(true);
+                    continue;
                 }
-                child.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
+                Rigidbody rb = child.GetComponent<Rigidbody>();
+                rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
             }
             return;
         }
 
         //Initial center section - avoid center
-        for(int i = 0; i < asteroidNumber; i++)
+        for(int i = 0; i < interactableNumber; i++)
         {
             GameObject child = children[i];
 
@@ -92,34 +84,13 @@ public class SectionSpawner : MonoBehaviour
             child.transform.localPosition = new Vector3(randomX, randomY, randomZ);
             
             //Random force
-            Rigidbody rb = asteroidRbs[i];
-            float movementForce = Random.Range(0f, maxMovementForce);
-            float rotationForce = Random.Range(0f, maxRotationForce);
-            rb.AddRelativeForce(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * movementForce, ForceMode.VelocityChange);
-            rb.AddRelativeTorque(new Vector3(Random.Range(-1f, 1), Random.Range(-1f, 1), Random.Range(-1f, 1)).normalized * rotationForce, ForceMode.VelocityChange);
-        }
-
-        for(int i = asteroidNumber; i < interactableNumber; i++)
-        {
-            GameObject child = children[i];
-
-            //Random position and rotation, avoid center
-            float randomX = Random.Range(100, side);
-            float randomY = Random.Range(100, side);
-            float randomZ = Random.Range(100, side);
-            if(Random.Range(0, 2) == 0)
+            if(child.CompareTag("Wormhole"))
             {
-                randomX *= -1;
+                continue;
             }
-            if(Random.Range(0, 2) == 0)
-            {
-                randomY *= -1;
-            }
-            if(Random.Range(0, 2) == 0)
-            {
-                randomZ *= -1;
-            }
-            child.transform.localPosition = new Vector3(randomX, randomY, randomZ);
+            Rigidbody rb = child.GetComponent<Rigidbody>();
+            rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+            rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
         }
     }
 }
