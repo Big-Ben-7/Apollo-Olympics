@@ -947,7 +947,6 @@ public class PlayerController : MonoBehaviour
             milliseconds ++;
             TimeSpan elapsedTime = TimeSpan.FromMilliseconds(milliseconds);
             timeText.SetText("Time: " + elapsedTime.Minutes + ":" + elapsedTime.Seconds.ToString("00") + "." + elapsedTime.Milliseconds.ToString("000"));
-
             yield return new WaitForSeconds(0.001f);
         }
     }
