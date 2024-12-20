@@ -548,11 +548,12 @@ public class PlayerController : MonoBehaviour
                     {
                         return;
                     }
-                    if(milliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
+                    int elapsedMilliseconds = milliseconds + seconds * 1000 + minutes * 60000;
+                    if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
                     {
                         int index = MenuManager.difficulty;
-                        MenuManager.times[index] = milliseconds;
-                        PlayerPrefs.SetInt("Time" + index, milliseconds);
+                        MenuManager.times[index] = elapsedMilliseconds;
+                        PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
                         PlayerPrefs.SetString("Description" + index, " (" + MenuManager.playerNames[playerIndex] + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year + ")");
                     }
                     MenuManager.collects += collects;

@@ -415,6 +415,7 @@ public class MenuManager : MonoBehaviour
         for(int i = 0; i < 4; i++)
         {
             PlayerPrefs.SetInt("Time" + i, 0);
+            times[i] = 0;
             PlayerPrefs.SetString("Description" + i, "");
             PlayerPrefs.SetInt("Ship" + i, 0);
             playerShips[i] = 0;

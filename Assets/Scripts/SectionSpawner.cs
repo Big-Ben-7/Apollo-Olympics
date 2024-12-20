@@ -14,7 +14,7 @@ public class SectionSpawner : MonoBehaviour
 
     void OnEnable()
     {
-        if(interactableNumber == 0)
+        if(children.Length == 0)
         {
             return;
         }

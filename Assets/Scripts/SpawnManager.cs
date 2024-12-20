@@ -543,23 +543,6 @@ public class SpawnManager : MonoBehaviour
                 //Spawn random collectable
                 int collectableIndex = Random.Range(0, collectableCount);
                 interactable = Instantiate(possibleCollectables[collectableIndex], parent).transform;
-
-                //Random rotation speed
-                int randomAxis = Random.Range(0, 3);
-                float rotationSpeed = Random.Range(minRotationSpeed, maxRotationSpeed);
-                switch(randomAxis)
-                {
-                    case 0:
-                        interactable.GetComponent<Collectable>().randomRot = new Vector3(rotationSpeed, 0, 0);
-                        break;
-                    case 1:
-                        interactable.GetComponent<Collectable>().randomRot = new Vector3(0, rotationSpeed, 0);
-                        break;
-                    default:
-                        interactable.GetComponent<Collectable>().randomRot = new Vector3(0, 0, rotationSpeed);
-                        break;
-
-                }
             }
             children[i] = interactable.gameObject;
         }
