@@ -5,7 +5,7 @@ public class Atmosphere : MonoBehaviour
     public Transform target;
     Transform myTransform;
     PlayerController player;
-    public static AudioSource audioSource;
+    public AudioSource audioSource;
     [SerializeField] AudioClip hitClip;
     void Awake()
     {

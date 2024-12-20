@@ -29,7 +29,7 @@ public class Drone : MonoBehaviour
     Transform myTransform;
     Rigidbody rb;
     bool collided;
-    public static AudioSource audioSource;
+    public AudioSource audioSource;
 
     void Awake()
     {

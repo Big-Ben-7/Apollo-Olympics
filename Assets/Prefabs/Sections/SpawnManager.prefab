@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e1c552506d04ac3b1d7703e0e75665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 2500
+  side: 2000
   sectionParent: {fileID: 0}
   sectionPrefab: {fileID: 566563954241801917, guid: 30a9808a47135427c9ecd3e3ee56857d, type: 3}
   playerCheckpoints: 
@@ -88,11 +88,10 @@ MonoBehaviour:
   asteroidIncrease: 24
   collectableNumber: 10
   collectableDecrease: 2
+  partDisablePercent: 0.5
   wormholePercent: 10
   minAsteroidScale: 20
   maxAsteroidScale: 200
-  minRotationSpeed: 10
-  maxRotationSpeed: 20
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
   minWormholeScale: 500
   maxWormholeScale: 2000

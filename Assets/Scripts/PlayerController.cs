@@ -24,14 +24,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float thrusterSpeedDivisor = 40;
     [SerializeField] float maxThrusterSpeed = 20;
     [SerializeField] float thrusterVolumeDivisor = 4000;
-    public static float maxThrusterVolume;
 
     [Header("Collision")]
     [SerializeField] GameObject dieExplosion;
     [SerializeField] List<GameObject> hitExplosions;
     [SerializeField] int forwardPercent = 30;
     [SerializeField] int backPercent = 30;
-    GameObject hitExplosionPrefab;
+    [SerializeField] int collectThreshold = 10;
+    [SerializeField] float backForce;
 
     [Header("Ability")]
     [SerializeField] string shipModel;
@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject dronePrefab;
 
     [Header("UI/Audio")]
+    [SerializeField] AudioSource audioSource;
     [SerializeField] AudioSource fireSource;
     [SerializeField] AudioSource thrusterSource;
     [SerializeField] AudioClip[] hitSounds;
@@ -92,12 +93,12 @@ public class PlayerController : MonoBehaviour
     public static int side;
     public static int playerNumber;
     public static int[] checkpointDistances;
-    public static AudioSource audioSource;
     float[] collisionInitials;
     ParticleSystem.MainModule[] thrusters;
     int thrusterCount;
     int hitSoundsCount;
     int collects;
+    GameObject hitExplosionPrefab;
 
     //Ability
     IEnumerator ability;
@@ -137,6 +138,8 @@ public class PlayerController : MonoBehaviour
     int minutes;
     int seconds;
     int milliseconds;
+    public static float maxThrusterVolume;
+    public static float audioVolume;
 
     void Awake()
     {
@@ -215,7 +218,9 @@ public class PlayerController : MonoBehaviour
             case "Venus":
                 ability = Atmosphere();
                 aura = Instantiate(aura);
-                aura.GetComponent<Atmosphere>().target = myTransform;
+                Atmosphere atmosphere = aura.GetComponent<Atmosphere>();
+                atmosphere.target = myTransform;
+                atmosphere.audioSource = audioSource;
                 Transform graphic = aura.transform.GetChild(0);
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
@@ -236,6 +241,7 @@ public class PlayerController : MonoBehaviour
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
                 ring.target = myTransform;
+                ring.audioSource = audioSource;
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
@@ -254,6 +260,7 @@ public class PlayerController : MonoBehaviour
             GameObject drone = Instantiate(dronePrefab, droneGroup);
             Drone droneScript = drone.GetComponent<Drone>();
             droneScript.target = myTransform;
+            droneScript.audioSource = audioSource;
             drones[i] = droneScript;
             drone.SetActive(false);
             
@@ -269,7 +276,7 @@ public class PlayerController : MonoBehaviour
             auraParticles[i] = auraSystems[i].main;
         }
 
-        //Text setup
+        //UI setup
         Transform cameraStats = cameraObject.transform.GetChild(1);
         Transform farCanvas = cameraStats.GetChild(0);
         finishBackground = farCanvas.GetChild(0).gameObject;
@@ -297,6 +304,8 @@ public class PlayerController : MonoBehaviour
         timeText.SetText("Time: 0:00.000");
         countdownText.SetText("");
         finishText.SetText("");
+
+        audioSource.volume = audioVolume;
 
         allText = new TMP_Text[]{checkpointText, healthText, speedText, collectText, abilityText, timeText, posText, distanceText};
         StartCoroutine(Countdown(3));
@@ -523,6 +532,13 @@ public class PlayerController : MonoBehaviour
                 //Passed finish line
                 if(pos >= checkpointDistances[8])
                 {
+                    if(collects < collectThreshold)
+                    {
+                        rb.AddForce(-myTransform.position * backForce, ForceMode.VelocityChange);
+                        StartCoroutine(ChangeTextColor(collectText, 0.2f, Color.white, Color.red));
+                        audioSource.PlayOneShot(errorSound);
+                        break;
+                    }
                     int playingPlayers = spawnManager.PlayerFinish(playerIndex);
                     DateTime finishTime = DateTime.Now;
                     gameObject.SetActive(false);

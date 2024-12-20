@@ -10,7 +10,7 @@ using TMPro;
 public class SpawnManager : MonoBehaviour
 {
     [Header("Sections")]
-    [SerializeField] int side = 2500;
+    [SerializeField] int side = 2000;
     int length;
     GameObject[] sectionPool;
     [SerializeField] Transform sectionParent;
@@ -37,11 +37,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int asteroidIncrease = 24;
     [SerializeField] int collectableNumber = 8;
     [SerializeField] int collectableDecrease = 2;
-    [SerializeField] int wormholePercent = 10;
+    [SerializeField] float partDisablePercent = 0.5f;
+    [SerializeField] int wormholePercent = 8;
     [SerializeField] float minAsteroidScale;
     [SerializeField] float maxAsteroidScale;
-    [SerializeField] float minRotationSpeed;
-    [SerializeField] float maxRotationSpeed;
     [SerializeField] Vector3 wormholeProportions;
     [SerializeField] float minWormholeScale;
     [SerializeField] float maxWormholeScale;
@@ -113,7 +112,7 @@ public class SpawnManager : MonoBehaviour
             playerNumber = MenuManager.playerNumber;
             playerShips = MenuManager.playerShips;
             difficulty = MenuManager.difficulty;
-            audioSource.volume = MenuManager.effects * 0.4f;
+            audioSource.volume = PlayerController.audioVolume = MenuManager.effects * 0.4f;
             backgroundMusic.volume = MenuManager.music * 0.2f;
             backgroundNoise.volume = MenuManager.noise;
             cursorHide = MenuManager.cursorHide;
@@ -129,6 +128,7 @@ public class SpawnManager : MonoBehaviour
         }
         else
         {
+            PlayerController.audioVolume = 0.2f;
             PlayerController.maxThrusterVolume = 0.3f;
         }
 
@@ -166,7 +166,6 @@ public class SpawnManager : MonoBehaviour
         PlayerController.checkpointDistances = checkpointDistances;
         PlayerController.droneNumber = droneNumber;
         PlayerController.checkpointDrones = checkpointDrones;
-        PlayerController.audioSource = Drone.audioSource = Ring.audioSource = Atmosphere.audioSource = audioSource;
         StartCoroutine(Initialize());
     }
     IEnumerator Initialize()
@@ -420,15 +419,8 @@ public class SpawnManager : MonoBehaviour
                 break;
         }
 
-        //Audio setup
-        allAudio = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
-        List<AudioSource> audioSources = new List<AudioSource>(allAudio);
-        audioSources.Remove(audioSource);
-        allAudio = audioSources.ToArray();
-        audioCount = allAudio.Length;
         GetComponent<AudioListener>().enabled = true;
         eventSystem.SetActive(true);
-
         StartCoroutine(Countdown(3));
     }
     void Update()
@@ -543,9 +535,41 @@ public class SpawnManager : MonoBehaviour
                 //Spawn random collectable
                 int collectableIndex = Random.Range(0, collectableCount);
                 interactable = Instantiate(possibleCollectables[collectableIndex], parent).transform;
+                
+                //Break down satellites
+                List<GameObject> parts = GetDeepestChildren(interactable);
+                int disableNumber = (int) (parts.Count * partDisablePercent);
+                if(disableNumber >= 1)
+                {
+                    for (int j = 0; j < disableNumber; j++)
+                    {
+                        int disableIndex = Random.Range(0, parts.Count);
+                        parts[disableIndex].SetActive(false);
+                        parts.RemoveAt(disableIndex);
+                    }
+                }
             }
             children[i] = interactable.gameObject;
         }
+    }
+
+    List<GameObject> GetDeepestChildren(Transform parent)
+    {
+        List<GameObject> deepestChildren = new List<GameObject>();
+        foreach(Transform child in parent)
+        {
+            if (child.childCount == 0)
+            {
+                //Child is deepest
+                deepestChildren.Add(child.gameObject);
+            }
+            else
+            {
+                //Find deepest in child
+                deepestChildren.AddRange(GetDeepestChildren(child));
+            }
+        }
+        return deepestChildren;
     }
     
     //Section spawning
@@ -822,6 +846,14 @@ public class SpawnManager : MonoBehaviour
         {
             yield return null;
         }
+
+        //Audio setup
+        allAudio = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        List<AudioSource> audioSources = new List<AudioSource>(allAudio);
+        audioSources.Remove(audioSource);
+        allAudio = audioSources.ToArray();
+        audioCount = allAudio.Length;
+
         backgroundNoise.Play();
         backgroundMusic.Play();
         while(countdownTime > 0)
