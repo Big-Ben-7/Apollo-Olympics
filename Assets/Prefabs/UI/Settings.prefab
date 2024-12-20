@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4500
+  m_text: 4000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -1142,7 +1142,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_Value
-      value: 0.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_MaxValue
@@ -1763,7 +1763,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_Value
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_MaxValue
@@ -2217,11 +2217,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_Value
-      value: 4500
+      value: 4000
       objectReference: {fileID: 0}
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_MaxValue
-      value: 5000
+      value: 4000
       objectReference: {fileID: 0}
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_MinValue
@@ -2600,7 +2600,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_Value
-      value: 0.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_MaxValue
@@ -3051,7 +3051,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_Value
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_MaxValue
