@@ -23,7 +23,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text intTime;
     [SerializeField] TMP_Text advTime;
     [SerializeField] TMP_Text expTime;
-    [SerializeField] bool resetRecords;
 
     [Header("Game Settings")]
     [SerializeField] Slider difficultySlider;
@@ -86,28 +85,6 @@ public class MenuManager : MonoBehaviour
 
     void Awake()
     {
-        if(resetRecords)
-        {
-            resetRecords = false;
-            for(int i = 0; i < 4; i++)
-            {
-                PlayerPrefs.SetInt("Time" + i, 0);
-                PlayerPrefs.SetString("Description" + i, "");
-                PlayerPrefs.SetInt("Ship" + i, 0);
-                PlayerPrefs.SetString("Name" + i, "Player " + (i + 1));
-            }
-            PlayerPrefs.SetInt("PlayerNumber", 1);
-            PlayerPrefs.SetInt("Difficulty", 0);
-            PlayerPrefs.SetInt("Races", 0);
-            PlayerPrefs.SetInt("Collects", 0);
-            PlayerPrefs.SetFloat("Fov", 35);
-            PlayerPrefs.SetFloat("Depth", 4000);
-            PlayerPrefs.SetFloat("Music", 0.2f);
-            PlayerPrefs.SetInt("CursorHide", 1);
-            PlayerPrefs.SetFloat("Noise", 0.2f);
-            PlayerPrefs.SetFloat("Thruster", 0.3f);
-            PlayerPrefs.SetFloat("Effects", 0.5f);
-        }
         for(int i = 0; i < 4; i++)
         {
             times[i] = PlayerPrefs.GetInt("Time" + i);
@@ -431,6 +408,53 @@ public class MenuManager : MonoBehaviour
         float vol = effectsSlider.value;
         effectsText.SetText(vol.ToString("0.##"));
         audioSource.volume = vol;
+    }
+
+    public void ResetPrefs()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            PlayerPrefs.SetInt("Time" + i, 0);
+            PlayerPrefs.SetString("Description" + i, "");
+            PlayerPrefs.SetInt("Ship" + i, 0);
+            playerShips[i] = 0;
+            PlayerPrefs.SetString("Name" + i, "Player " + (i + 1));
+            playerNames[i] = "Player " + (i + 1);
+        }
+        PlayerPrefs.SetInt("PlayerNumber", 1);
+        PlayerPrefs.SetInt("Difficulty", 0);
+        PlayerPrefs.SetInt("Races", 0);
+        PlayerPrefs.SetInt("Collects", 0);
+        PlayerPrefs.SetFloat("Fov", 35);
+        PlayerPrefs.SetFloat("Depth", 4000);
+        PlayerPrefs.SetFloat("Music", 0.2f);
+        PlayerPrefs.SetInt("CursorHide", 1);
+        PlayerPrefs.SetFloat("Noise", 0.2f);
+        PlayerPrefs.SetFloat("Thruster", 0.3f);
+        PlayerPrefs.SetFloat("Effects", 0.5f);
+        racesText.SetText("Races: 0");
+        collectsText.SetText("Space Junk Collected: 0");
+        begTime.SetText("Beginner: 0:00:000");
+        intTime.SetText("Intermediate: 0:00:000");
+        advTime.SetText("Advanced: 0:00:000");
+        expTime.SetText("Expert: 0:00:000");
+        playersSlider.value = 1;
+        difficultySlider.value = 0;
+        fovSlider.value = 35;
+        fovText.SetText("35");
+        depthSlider.value = 4000;
+        depthText.SetText("4000");
+        musicSlider.value = 0.2f;
+        musicText.SetText("0.2");
+        cursorHide = true;
+        cursorToggle.isOn = true;
+        noiseSlider.value = 0.2f;
+        noiseText.SetText("0.2");
+        thrusterSlider.value = 0.3f;
+        thrusterText.SetText("0.3");
+        effectsSlider.value = 0.5f;
+        effectsText.SetText("0.5");
+        audioSource.PlayOneShot(majorClick);
     }
 
     public void Quit()
