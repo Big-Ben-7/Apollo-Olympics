@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 5395273198664808329}
   - component: {fileID: 5328100906300849721}
   m_Layer: 0
-  m_Name: SatRadioDish2
+  m_Name: SatRadioDish3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 7616413960102985955}
   - component: {fileID: 2046757108908037170}
   m_Layer: 0
-  m_Name: SatWingConnector5
+  m_Name: SatWingConnector7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -495,7 +495,7 @@ GameObject:
   - component: {fileID: 496187653561223098}
   - component: {fileID: 7557479756308994198}
   m_Layer: 0
-  m_Name: SatWing2
+  m_Name: SatWing8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 9187844404342033000}
   - component: {fileID: 2523285585540575977}
   m_Layer: 0
-  m_Name: SatWing2
+  m_Name: SatWing5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -778,7 +778,7 @@ GameObject:
   m_Component:
   - component: {fileID: 796388622209738906}
   m_Layer: 0
-  m_Name: LWing
+  m_Name: LWing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -812,7 +812,7 @@ GameObject:
   - component: {fileID: 6197630140097124234}
   - component: {fileID: 1658614758502871145}
   m_Layer: 0
-  m_Name: SatWing1
+  m_Name: SatWing7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1160,7 +1160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1827427247780163187}
   m_Layer: 0
-  m_Name: LWing
+  m_Name: LWing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1194,7 +1194,7 @@ GameObject:
   - component: {fileID: 5775621483854387925}
   - component: {fileID: 5410221428102205942}
   m_Layer: 0
-  m_Name: SatWingConnector6
+  m_Name: SatWingConnector8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1716,7 +1716,7 @@ GameObject:
   - component: {fileID: 7738150542774813916}
   - component: {fileID: 244453398961757385}
   m_Layer: 0
-  m_Name: SatWing1
+  m_Name: SatWing6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1798,7 +1798,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2823528726379756900}
   m_Layer: 0
-  m_Name: RWing
+  m_Name: RWing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2102,7 +2102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3854575743678741389}
   m_Layer: 0
-  m_Name: RWing
+  m_Name: RWing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2549,7 +2549,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3711046335054536458}
   m_Layer: 0
-  m_Name: BothWings1
+  m_Name: BothWings3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2782,7 +2782,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4575049126281297180}
   m_Layer: 0
-  m_Name: SatWing1
+  m_Name: SatWing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2816,7 +2816,7 @@ GameObject:
   - component: {fileID: 6235640726003411304}
   - component: {fileID: 5714318139021961906}
   m_Layer: 0
-  m_Name: pCube1
+  m_Name: pCube2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2898,7 +2898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2436813153607604707}
   m_Layer: 0
-  m_Name: BothWings1
+  m_Name: BothWings2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3016,7 +3016,7 @@ GameObject:
   - component: {fileID: 1688728124316723451}
   - component: {fileID: 2744799902629644375}
   m_Layer: 0
-  m_Name: SatRadioDish1
+  m_Name: SatRadioDish2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3161,7 +3161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3255208271233039349}
   m_Layer: 0
-  m_Name: SatWing1
+  m_Name: SatWing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

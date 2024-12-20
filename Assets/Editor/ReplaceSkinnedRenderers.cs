@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ReplaceSkinnedMeshRenderers : EditorWindow
 {
-    [MenuItem("Tools/Replace SkinnedMeshRenderers")]
     public static void ReplaceInPrefabs()
     {
         // Define the folder to search (relative to the Assets folder)
