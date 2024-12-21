@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int forwardPercent = 30;
     [SerializeField] int backPercent = 30;
     [SerializeField] int collectThreshold = 10;
-    [SerializeField] float backForce;
 
     [Header("Ability")]
     [SerializeField] string shipModel;
@@ -534,7 +533,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if(collects < collectThreshold)
                     {
-                        rb.AddForce(-myTransform.position * backForce, ForceMode.VelocityChange);
+                        rb.AddForce(-myTransform.position.normalized * rb.velocity.magnitude, ForceMode.VelocityChange);
                         StartCoroutine(ChangeTextColor(collectText, 0.2f, Color.white, Color.red));
                         audioSource.PlayOneShot(errorSound);
                         break;
@@ -543,7 +542,7 @@ public class PlayerController : MonoBehaviour
                     DateTime finishTime = DateTime.Now;
                     gameObject.SetActive(false);
                     finishBackground.SetActive(true);
-                    audioSource.PlayOneShot(checkpointSound);
+                    spawnManager.audioSource.PlayOneShot(checkpointSound);
                     int finishedPlayers = playerNumber - playingPlayers;
                     switch(finishedPlayers)
                     {

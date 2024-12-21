@@ -209,7 +209,7 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   collectThreshold: 10
-  backForce: 100
+  backForce: 2
   shipModel: Mercury
   abilityPercent: 70
   activationTimePercent: 0

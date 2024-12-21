@@ -86,7 +86,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] AudioClip goSound;
     [SerializeField] AudioClip pauseSound;
     [SerializeField] GameObject eventSystem;
-    AudioSource audioSource;
+    public AudioSource audioSource;
     AudioSource backgroundMusic;
     AudioSource backgroundNoise;
     AudioSource[] allAudio;
@@ -296,7 +296,7 @@ public class SpawnManager : MonoBehaviour
             checkpoint.localScale = new Vector3(newScale, newScale, newScale);
         }
         Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
-        newScale = checkpointDistances[lastCheckpoint] * 2;
+        newScale = checkpointDistances[lastCheckpoint] * 2 + 1000;
         finish.transform.localScale = new Vector3(newScale, newScale, newScale);
         finish.GetComponent<Renderer>().material = finishMat;
 
@@ -537,15 +537,18 @@ public class SpawnManager : MonoBehaviour
                 interactable = Instantiate(possibleCollectables[collectableIndex], parent).transform;
                 
                 //Break down satellites
-                List<GameObject> parts = GetDeepestChildren(interactable);
-                int disableNumber = (int) (parts.Count * partDisablePercent);
-                if(disableNumber >= 1)
+                GameObject[] parts = GetDeepestChildren(interactable);
+                int partNumber = parts.Length;
+                int disabledParts = 1;
+                if(partNumber > 1)
                 {
-                    for (int j = 0; j < disableNumber; j++)
+                    for(int j = 0; j < partNumber; j++)
                     {
-                        int disableIndex = Random.Range(0, parts.Count);
-                        parts[disableIndex].SetActive(false);
-                        parts.RemoveAt(disableIndex);
+                        if(Random.Range(0, 100) < partDisablePercent && disabledParts != partNumber)
+                        {
+                            parts[j].SetActive(false);
+                            disabledParts ++;
+                        }
                     }
                 }
             }
@@ -553,7 +556,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    List<GameObject> GetDeepestChildren(Transform parent)
+    GameObject[] GetDeepestChildren(Transform parent)
     {
         List<GameObject> deepestChildren = new List<GameObject>();
         foreach(Transform child in parent)
@@ -569,7 +572,7 @@ public class SpawnManager : MonoBehaviour
                 deepestChildren.AddRange(GetDeepestChildren(child));
             }
         }
-        return deepestChildren;
+        return deepestChildren.ToArray();
     }
     
     //Section spawning

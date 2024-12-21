@@ -252,7 +252,7 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   collectThreshold: 10
-  backForce: 100
+  backForce: 2
   shipModel: Saturn
   abilityPercent: 40
   activationTimePercent: 40
