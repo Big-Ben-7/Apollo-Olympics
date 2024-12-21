@@ -30,7 +30,7 @@ public class Ring : MonoBehaviour
             return;
         }
         player.canCollide = false;
-        Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
+        Rigidbody otherRb = other.rigidbody;
         if(!otherRb.isKinematic)
         {
             otherRb.AddForce((other.transform.position - myTransform.position).normalized * hitForce, ForceMode.VelocityChange);

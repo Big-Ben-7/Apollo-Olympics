@@ -220,7 +220,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 383
+    m_Bits: 57727
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
@@ -618,7 +618,7 @@ PrefabInstance:
       objectReference: {fileID: 1265169702}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: difficulty
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: eventSystem
@@ -626,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 1183720512}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: playerNumber
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: sectionParent
@@ -655,6 +655,74 @@ PrefabInstance:
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: collectableDecrease
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: playerShips.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: playerShips.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: playerShips.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: playerShips.Array.data[3]
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.data[3]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: rotationSpeeds.Array.data[4]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: maxThrustSpeeds.Array.data[0]
+      value: 16000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: maxThrustSpeeds.Array.data[1]
+      value: 24000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: maxThrustSpeeds.Array.data[2]
+      value: 32000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: maxThrustSpeeds.Array.data[3]
+      value: 40000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: maxThrustSpeeds.Array.data[4]
+      value: 48000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: cameraMasks.Array.data[0].m_Bits
+      value: 58359
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: cameraMasks.Array.data[1].m_Bits
+      value: 58871
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: cameraMasks.Array.data[2].m_Bits
+      value: 59895
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
+      propertyPath: cameraMasks.Array.data[3].m_Bits
+      value: 61943
       objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: healthLossDivisors.Array.data[0]

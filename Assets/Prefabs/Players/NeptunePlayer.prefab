@@ -210,8 +210,8 @@ MonoBehaviour:
   stability: 4
   activationTime: 0
   cooldownTime: 10
-  abilityStrength: 1000
-  abilityIncrease: 500
+  abilityStrength: 2000
+  abilityIncrease: 1000
   decMultiplier: 0.9
   glideDrag: 0.05
   thrusterParent: {fileID: 684149586399486677}
@@ -224,7 +224,6 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   collectThreshold: 10
-  backForce: 2
   shipModel: Neptune
   abilityPercent: 70
   activationTimePercent: 0
@@ -234,6 +233,9 @@ MonoBehaviour:
   - {fileID: 1593704782548890587}
   - {fileID: 621038660106141191}
   - {fileID: 4689612843827078034}
+  abilityMask:
+    serializedVersion: 2
+    m_Bits: 49216
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   audioSource: {fileID: -6234278454604288188}
   fireSource: {fileID: 283605144193943937}

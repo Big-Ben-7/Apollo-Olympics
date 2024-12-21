@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int minCooldown;
     [SerializeField] GameObject aura;
     [SerializeField] ParticleSystem[] auraSystems;
+    [SerializeField] LayerMask abilityMask;
+    Collider[] surroundingColliders = new Collider[5000];
 
     [Header("Drone spawning")]
     [SerializeField] GameObject dronePrefab;
@@ -767,7 +769,7 @@ public class PlayerController : MonoBehaviour
 
         collided = true;
         float speed = rb.velocity.magnitude;
-        float otherSpeed = other.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
+        float otherSpeed = other.rigidbody.velocity.magnitude;
         if(speed < otherSpeed)
         {
             speed = otherSpeed;
@@ -870,12 +872,12 @@ public class PlayerController : MonoBehaviour
                 switch(playerCheckpoint)
                 {
                     case 0:
-                        myTransform.position = startPos;
+                        myTransform.SetPositionAndRotation(startPos, startRot);
                         spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
                         break;
                     default:
                         Vector3 newPos = startPos + normalizedStartPos * checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1];
-                        myTransform.position = newPos;
+                        myTransform.SetPositionAndRotation(newPos, startRot);
                         spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
                         break;
                 }
@@ -885,7 +887,6 @@ public class PlayerController : MonoBehaviour
                     droneGroup.GetChild(i).GetComponent<Drone>().ResetDrone();
                 }
 
-                myTransform.rotation = startRot;
                 thrustSpeed = initialThrustSpeed;
                 health = 100;
                 audioSource.PlayOneShot(dieSound);
@@ -1338,18 +1339,19 @@ public class PlayerController : MonoBehaviour
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        Collider[] colliders = Physics.OverlapSphere(myTransform.position, 1000);
-        for(int i = 0; i < colliders.Length; i++)
+        Array.Clear(surroundingColliders, 0, 5000);
+        int colliders = Physics.OverlapSphereNonAlloc(myTransform.position, 5000, surroundingColliders, abilityMask);
+        for(int i = 0; i < colliders; i++)
         {
-            Collider collider = colliders[i];
-            Rigidbody otherRb = collider.GetComponent<Rigidbody>();
-            if(otherRb == null || collider.gameObject == gameObject || otherRb.isKinematic)
+            Collider collider = surroundingColliders[i];
+            Rigidbody otherRb = collider.attachedRigidbody;
+            if(otherRb.isKinematic || collider.gameObject == gameObject)
             {
                 continue;
             }
             if(collider.gameObject.CompareTag("Drone"))
             {
-                collider.gameObject.GetComponent<Drone>().Explode(collider.transform.position, transform);
+                collider.GetComponent<Drone>().Explode(collider.transform.position, transform);
             }
             else
             {

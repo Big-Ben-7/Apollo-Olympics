@@ -4937,7 +4937,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 16384
+    m_Bits: 16448
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -4985,6 +4985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  audioSource: {fileID: 0}
   hitClip: {fileID: 8300000, guid: a7696a2bf114ed3438fefac35ec6ec66, type: 3}
 --- !u!135 &3753775676460273024
 SphereCollider:

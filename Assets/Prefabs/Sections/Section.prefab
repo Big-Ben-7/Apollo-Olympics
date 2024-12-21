@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxMovementForce: 40
-  maxRotationForce: 0.4
+  maxRotationForce: 0.2
   disableNumber: 0
   avoidCenter: 0
   children: []

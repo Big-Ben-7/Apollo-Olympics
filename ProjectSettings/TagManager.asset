@@ -13,6 +13,7 @@ TagManager:
   - Asteroid
   - Collectable
   - Wormhole
+  - Section
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - View4
   - Aura
   - Drone
-  - 
+  - Asteroid
   - 
   - 
   - 
