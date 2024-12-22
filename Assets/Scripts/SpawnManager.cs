@@ -568,7 +568,7 @@ public class SpawnManager : MonoBehaviour
                     {
                         if(Random.Range(0, 100) < partDisablePercent && disabledParts != partNumber)
                         {
-                            parts[j].SetActive(false);
+                            Destroy(parts[j]);
                             disabledParts ++;
                         }
                     }
