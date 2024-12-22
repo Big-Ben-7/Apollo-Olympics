@@ -96,8 +96,9 @@ public class SpawnManager : MonoBehaviour
     AudioSource[] allAudio;
     int audioCount;
     [SerializeField] GameObject menu;
-    public int initializedPlayers;
+    public int initializedObjects;
     bool cursorHide;
+    WaitForSeconds tenthSecond = new WaitForSeconds(0.1f);
     
     void Awake()
     {
@@ -133,7 +134,7 @@ public class SpawnManager : MonoBehaviour
         else
         {
             PlayerController.audioVolume = 0.2f;
-            PlayerController.maxThrusterVolume = 0.3f;
+            PlayerController.maxThrusterVolume = 0.2f;
         }
 
         //Setting difficulty-dependent variables
@@ -422,7 +423,31 @@ public class SpawnManager : MonoBehaviour
 
         GetComponent<AudioListener>().enabled = true;
         eventSystem.SetActive(true);
-        StartCoroutine(Countdown(3));
+
+        //Start countdown
+        while(initializedObjects < playerNumber)
+        {
+            yield return null;
+        }
+        yield return null;
+
+        //Audio setup
+        allAudio = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        List<AudioSource> audioSources = new List<AudioSource>(allAudio);
+        audioSources.Remove(audioSource);
+        allAudio = audioSources.ToArray();
+        audioCount = allAudio.Length;
+
+        backgroundNoise.Play();
+        backgroundMusic.Play();
+        int countdownTime = 3;
+        while(countdownTime > 0)
+        {
+            audioSource.PlayOneShot(countdownSound);
+            yield return new WaitForSeconds(1);
+            countdownTime--;
+        }
+        audioSource.PlayOneShot(goSound);
     }
     void Update()
     {
@@ -826,7 +851,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator FinishMenu()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         Transform menuTransform = menu.transform.GetChild(1);
         menuTransform.GetChild(2).gameObject.SetActive(false);
         menuTransform.GetChild(3).gameObject.SetActive(true);
@@ -837,31 +862,6 @@ public class SpawnManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
-    }
-
-    IEnumerator Countdown(int countdownTime)
-    {
-        while(initializedPlayers < playerNumber)
-        {
-            yield return null;
-        }
-
-        //Audio setup
-        allAudio = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
-        List<AudioSource> audioSources = new List<AudioSource>(allAudio);
-        audioSources.Remove(audioSource);
-        allAudio = audioSources.ToArray();
-        audioCount = allAudio.Length;
-
-        backgroundNoise.Play();
-        backgroundMusic.Play();
-        while(countdownTime > 0)
-        {
-            audioSource.PlayOneShot(countdownSound);
-            yield return new WaitForSeconds(1);
-            countdownTime--;
-        }
-        audioSource.PlayOneShot(goSound);
     }
 
     void ActivateSection(int sectionIndex, int disableNumber, bool avoidCenter = false)

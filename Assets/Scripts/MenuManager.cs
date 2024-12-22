@@ -155,7 +155,7 @@ public class MenuManager : MonoBehaviour
         noise = PlayerPrefs.GetFloat("Noise", 0.2f);
         noiseSlider.value = noise;
         noiseText.SetText(noise.ToString("0.##"));
-        thruster = PlayerPrefs.GetFloat("Thruster", 0.3f);
+        thruster = PlayerPrefs.GetFloat("Thruster", 0.2f);
         thrusterSlider.value = thruster;
         thrusterText.SetText(thruster.ToString("0.##"));
         effects = PlayerPrefs.GetFloat("Effects", 0.5f);
@@ -440,7 +440,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Music", 0.2f);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetFloat("Noise", 0.2f);
-        PlayerPrefs.SetFloat("Thruster", 0.3f);
+        PlayerPrefs.SetFloat("Thruster", 0.2f);
         PlayerPrefs.SetFloat("Effects", 0.5f);
         racesText.SetText("Races: 0");
         collectsText.SetText("Space Junk Collected: 0");
@@ -460,8 +460,8 @@ public class MenuManager : MonoBehaviour
         cursorToggle.isOn = true;
         noiseSlider.value = 0.2f;
         noiseText.SetText("0.2");
-        thrusterSlider.value = 0.3f;
-        thrusterText.SetText("0.3");
+        thrusterSlider.value = 0.2f;
+        thrusterText.SetText("0.2");
         effectsSlider.value = 0.5f;
         effectsText.SetText("0.5");
         audioSource.PlayOneShot(majorClick);

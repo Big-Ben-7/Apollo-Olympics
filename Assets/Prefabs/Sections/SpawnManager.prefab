@@ -86,22 +86,24 @@ MonoBehaviour:
   wormholePrefab: {fileID: 5607819269926399345, guid: de0c4b77a8bd041caa85f9497e2a6c42, type: 3}
   asteroidNumber: 24
   asteroidIncrease: 24
-  collectableNumber: 10
-  collectableDecrease: 2
-  partDisablePercent: 0.5
-  wormholePercent: 10
   minAsteroidScale: 20
   maxAsteroidScale: 200
+  collectableNumber: 10
+  collectableDecrease: 1
+  partDisablePercent: 50
+  maxMovementForce: 40
+  maxRotationForce: 0.2
+  wormholePercent: 5
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
   minWormholeScale: 500
-  maxWormholeScale: 2000
+  maxWormholeScale: 1500
   droneNumber: 4
   droneIncrease: 4
   begCheckpointDrones: 000000000000000001000000010000000200000002000000030000000300000004000000
   intCheckpointDrones: 010000000100000002000000030000000400000005000000060000000700000008000000
   advCheckpointDrones: 020000000300000004000000050000000600000007000000080000000a0000000c000000
   expCheckpointDrones: 04000000050000000600000007000000080000000a0000000c0000000e00000010000000
-  playerNumber: 2
+  playerNumber: 4
   possiblePlayers:
   - {fileID: 6744162823093574734, guid: bb456dcf6cf4444fd8c3095cc4f2f8f8, type: 3}
   - {fileID: 6744162823093574734, guid: 34bf0daee831447459c8cf027f9b405e, type: 3}
@@ -111,19 +113,19 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerShips: 00000000040000000100000006000000
+  playerShips: 01000000050000000600000007000000
   playerChunks: []
   playingPlayers: 
   initialThrustSpeeds: 4006000060090000800c0000a00f0000c0120000
   accelerations: 20030000b004000040060000d007000060090000
-  maxThrustSpeeds: 401f0000e02e0000803e0000204e0000c05d0000
+  maxThrustSpeeds: 803e0000c05d0000007d0000409c000080bb0000
   rotationSpeeds:
   - 2
   - 3
   - 4
   - 5
   - 6
-  healthLossDivisors: 640000002c010000f4010000bc02000084030000
+  healthLossDivisors: c8000000900100005802000020030000e8030000
   speedLossDivisors:
   - 5
   - 4
@@ -145,17 +147,18 @@ MonoBehaviour:
   cameraPrefab: {fileID: 8803354073669428790, guid: cf38e19b88e5647c19ea89b7f8dacb7a, type: 3}
   cameraMasks:
   - serializedVersion: 2
-    m_Bits: 25591
+    m_Bits: 58359
   - serializedVersion: 2
-    m_Bits: 26103
+    m_Bits: 58871
   - serializedVersion: 2
-    m_Bits: 27127
+    m_Bits: 59895
   - serializedVersion: 2
-    m_Bits: 29175
+    m_Bits: 61943
   countdownSound: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
   goSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
   eventSystem: {fileID: 0}
+  audioSource: {fileID: 0}
   menu: {fileID: 0}
   initializedPlayers: 0
 --- !u!82 &4212043769208938346
@@ -272,7 +275,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 256
+  Priority: 253
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -368,7 +371,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 100
+  Priority: 256
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour
     Ring ring;
     bool died;
     Coroutine resetting;
+    WaitForSeconds oneSecond = new WaitForSeconds(1);
 
     //Drone
     Transform droneGroup;
@@ -544,9 +545,7 @@ public class PlayerController : MonoBehaviour
                     DateTime finishTime = DateTime.Now;
                     gameObject.SetActive(false);
                     finishBackground.SetActive(true);
-                    spawnManager.audioSource.PlayOneShot(checkpointSound);
-                    int finishedPlayers = playerNumber - playingPlayers;
-                    switch(finishedPlayers)
+                    switch(playerNumber - playingPlayers)
                     {
                         case 1:
                             finishText.SetText("1st\nPlace!");
@@ -558,9 +557,10 @@ public class PlayerController : MonoBehaviour
                             finishText.SetText("3rd\nPlace!");
                             break;
                         default:
-                            finishText.SetText(finishedPlayers + "th\nPlace!");
+                            finishText.SetText("4th\nPlace!");
                             break;
                     }
+                    spawnManager.audioSource.PlayOneShot(checkpointSound);
                     if(!MenuManager.loaded)
                     {
                         return;
@@ -926,16 +926,16 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Countdown(int countdownTime)
     {
-        spawnManager.initializedPlayers ++;
+        spawnManager.initializedObjects ++;
         while(countdownTime > 0)
         {
             countdownText.SetText(countdownTime.ToString());
             countdownTime --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         arrow.gameObject.SetActive(true);
         countdownText.SetText("Go!");
-        yield return new WaitForSeconds(1);
+        yield return oneSecond;
         for(int i = 0; i < checkpointDrones[0]; i++)
         {
             droneGroup.GetChild(activeDrones).gameObject.SetActive(true);
@@ -968,17 +968,18 @@ public class PlayerController : MonoBehaviour
 
             default:
                 int amountMinusOne = amount - 1;
+                WaitForSeconds wait = new WaitForSeconds(time);
                 for(int i = 0; i < amount; i++)
                 {
                     text.color = newColor;
-                    yield return new WaitForSeconds(time);
+                    yield return wait;
                     if(text.color == newColor)
                     {
                         text.color = originalColor;
                     }
                     if(i < amountMinusOne)
                     {
-                        yield return new WaitForSeconds(time);
+                        yield return wait;
                     }
                 }
                 break;
@@ -1107,13 +1108,13 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             currentCooldown --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
             audioSource.PlayOneShot(chargeSound);
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         abilityText.SetText("");
     }
@@ -1134,7 +1135,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Activated: " + currentActivation);
             currentActivation --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         auraParticles[2].loop = false;
         resetting = StartCoroutine(ResetAura(2, 3));
@@ -1145,13 +1146,13 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             currentCooldown --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
             audioSource.PlayOneShot(chargeSound);
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         abilityText.SetText("");
     }
@@ -1178,7 +1179,7 @@ public class PlayerController : MonoBehaviour
             }
             health = (float) Math.Round(health, 2);
             healthText.SetText("Health: " + health.ToString("0.00"));
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         for(int i = 0; i < auraCount; i++)
         {
@@ -1192,13 +1193,13 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             currentCooldown --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
             audioSource.PlayOneShot(chargeSound);
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         abilityText.SetText("");
     }
@@ -1219,7 +1220,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Activated: " + currentActivation);
             currentActivation --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         for(int i = 0; i < auraCount; i++)
         {
@@ -1237,13 +1238,13 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             currentCooldown --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
             audioSource.PlayOneShot(chargeSound);
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         abilityText.SetText("");
     }
@@ -1265,7 +1266,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Activated: " + currentActivation);
             currentActivation --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         for(int i = 0; i < auraCount; i++)
         {
@@ -1284,13 +1285,13 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             currentCooldown --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
             audioSource.PlayOneShot(chargeSound);
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         abilityText.SetText("");
     }
@@ -1308,7 +1309,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Activated: " + currentActivation);
             currentActivation --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         for(int i = 0; i < auraCount; i++)
         {
@@ -1322,13 +1323,13 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             currentCooldown --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
             audioSource.PlayOneShot(chargeSound);
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         abilityText.SetText("");
     }
@@ -1366,13 +1367,13 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             currentCooldown --;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
             audioSource.PlayOneShot(chargeSound);
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
         abilityText.SetText("");
     }

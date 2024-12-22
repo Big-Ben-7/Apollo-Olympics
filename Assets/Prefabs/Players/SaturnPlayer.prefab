@@ -252,7 +252,6 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   collectThreshold: 10
-  backForce: 2
   shipModel: Saturn
   abilityPercent: 40
   activationTimePercent: 40
@@ -260,6 +259,9 @@ MonoBehaviour:
   aura: {fileID: 763327245692713505, guid: 7e7f0b717eb76498c93444cfba338985, type: 3}
   auraSystems:
   - {fileID: 0}
+  abilityMask:
+    serializedVersion: 2
+    m_Bits: 0
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   audioSource: {fileID: 1125289966839989057}
   fireSource: {fileID: 283605144193943937}
@@ -303,7 +305,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 254
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -399,7 +401,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 255
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -495,7 +497,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

@@ -255,7 +255,6 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   collectThreshold: 10
-  backForce: 2
   shipModel: Jupiter
   abilityPercent: 40
   activationTimePercent: 40
@@ -265,6 +264,9 @@ MonoBehaviour:
   - {fileID: 356728834899632146}
   - {fileID: 1537528316189588736}
   - {fileID: 5641844761450400878}
+  abilityMask:
+    serializedVersion: 2
+    m_Bits: 0
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   audioSource: {fileID: -68717298645134362}
   fireSource: {fileID: 283605144193943937}
@@ -308,7 +310,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 254
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -404,7 +406,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 255
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -500,7 +502,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

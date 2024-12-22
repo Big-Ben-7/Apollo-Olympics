@@ -617,133 +617,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1265169702}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: difficulty
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: eventSystem
       value: 
       objectReference: {fileID: 1183720512}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerNumber
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: sectionParent
       value: 
       objectReference: {fileID: 1935171737}
     - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: wormholePercent
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: checkpointParent
       value: 
       objectReference: {fileID: 64442204}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxWormholeScale
-      value: 1500
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: collectableNumber
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: partDisablePercent
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: collectableDecrease
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.data[1]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.data[2]
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.data[3]
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rotationSpeeds.Array.data[1]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rotationSpeeds.Array.data[2]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rotationSpeeds.Array.data[3]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: rotationSpeeds.Array.data[4]
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[0]
-      value: 16000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[1]
-      value: 24000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[2]
-      value: 32000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[3]
-      value: 40000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[4]
-      value: 48000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: cameraMasks.Array.data[0].m_Bits
-      value: 58359
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: cameraMasks.Array.data[1].m_Bits
-      value: 58871
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: cameraMasks.Array.data[2].m_Bits
-      value: 59895
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: cameraMasks.Array.data[3].m_Bits
-      value: 61943
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[0]
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[1]
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[2]
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[3]
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: healthLossDivisors.Array.data[4]
-      value: 1000
-      objectReference: {fileID: 0}
     - target: {fileID: 8277756364841921885, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: m_Name
       value: SpawnManager

@@ -211,7 +211,6 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   collectThreshold: 10
-  backForce: 2
   shipModel: Earth
   abilityPercent: 40
   activationTimePercent: 40
@@ -220,6 +219,9 @@ MonoBehaviour:
   auraSystems:
   - {fileID: 5798016770675349161}
   - {fileID: 4743291718615288763}
+  abilityMask:
+    serializedVersion: 2
+    m_Bits: 0
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   audioSource: {fileID: -7118304278174337402}
   fireSource: {fileID: 283605144193943937}
@@ -263,7 +265,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 254
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -359,7 +361,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 255
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -455,7 +457,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

@@ -177,13 +177,15 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   collectThreshold: 10
-  backForce: 2
   shipModel: Uranus
   abilityPercent: 40
   activationTimePercent: 40
   minCooldown: 5
   aura: {fileID: 763327245692713505, guid: f8e07c7e8bd5b433b94a995c992197af, type: 3}
   auraSystems: []
+  abilityMask:
+    serializedVersion: 2
+    m_Bits: 0
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   audioSource: {fileID: 773162021749446396}
   fireSource: {fileID: 283605144193943937}
@@ -227,7 +229,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 254
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -323,7 +325,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 255
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -419,7 +421,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

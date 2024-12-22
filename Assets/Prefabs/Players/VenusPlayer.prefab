@@ -179,13 +179,15 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   collectThreshold: 10
-  backForce: 2
   shipModel: Venus
   abilityPercent: 0
   activationTimePercent: 70
   minCooldown: 5
   aura: {fileID: 1645438820640331853, guid: 7843525c7d07846c0a80dbad20a48ee3, type: 3}
   auraSystems: []
+  abilityMask:
+    serializedVersion: 2
+    m_Bits: 0
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   audioSource: {fileID: 2894755101914845672}
   fireSource: {fileID: 283605144193943937}
@@ -229,7 +231,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 254
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -325,7 +327,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 0
+  Priority: 255
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -421,7 +423,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
