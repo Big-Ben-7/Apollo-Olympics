@@ -784,7 +784,7 @@ public class PlayerController : MonoBehaviour
             GameObject explosion = null;
             foreach(GameObject hitExplosion in hitExplosions)
             {
-                if(!hitExplosion.activeInHierarchy)
+                if(!hitExplosion.activeSelf)
                 {
                     explosion = hitExplosion;
                     break;

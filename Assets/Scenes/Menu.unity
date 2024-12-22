@@ -190,6 +190,7 @@ MonoBehaviour:
   - {fileID: 1184324715}
   playerText: {fileID: 218482107}
   nameInput: {fileID: 717406548}
+  nameEdit: {fileID: 830300838}
   nameEnter: {fileID: 1954826845}
   abilitySounds:
   - {fileID: 8300000, guid: 6cf9c85b5a3b88c468b21b9d21250adf, type: 3}
@@ -644,6 +645,11 @@ MonoBehaviour:
 --- !u!1 &766386288 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7870231472668343716, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+  m_PrefabInstance: {fileID: 3458842996035744386}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &830300838 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3753739238790588776, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
   m_PrefabInstance: {fileID: 3458842996035744386}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &896861373 stripped
@@ -1561,6 +1567,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 5954094925988293202, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 380
+      objectReference: {fileID: 0}
     - target: {fileID: 6074474030578598492, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1573,6 +1583,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 7152389787315986201, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7240007484713548268, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

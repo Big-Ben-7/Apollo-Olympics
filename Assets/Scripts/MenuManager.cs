@@ -35,6 +35,7 @@ public class MenuManager : MonoBehaviour
     int activePlayer;
     [SerializeField] TMP_Text playerText;
     [SerializeField] TMP_InputField nameInput;
+    [SerializeField] GameObject nameEdit;
     [SerializeField] GameObject nameEnter;
     GameObject nameObject;
     TMP_Text[] selectTexts;
@@ -213,6 +214,7 @@ public class MenuManager : MonoBehaviour
         }
         nameObject.SetActive(false);
         nameEnter.SetActive(false);
+        nameEdit.SetActive(true);
         playerText.enabled = true;
         customization.SetActive(true);
         mainMenu.SetActive(false);
@@ -311,20 +313,11 @@ public class MenuManager : MonoBehaviour
 
     public void EditName()
     {
-        if(playerText.enabled)
-        {
-            playerText.enabled = false;
-            nameInput.text = "";
-            nameObject.SetActive(true);
-            nameEnter.SetActive(true);
-        }
-        else
-        {
-            nameObject.SetActive(false);
-            nameEnter.SetActive(false);
-            playerText.enabled = true;
-            nameInput.text = "";
-        }
+        playerText.enabled = false;
+        nameInput.text = "";
+        nameEdit.SetActive(false);
+        nameObject.SetActive(true);
+        nameEnter.SetActive(true);
         audioSource.PlayOneShot(minorClick);
     }
 
@@ -350,6 +343,7 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetString("Name" + activePlayer, newName);
         }
         playerText.enabled = true;
+        nameEdit.SetActive(true);
     }
 
     public void Ability()
