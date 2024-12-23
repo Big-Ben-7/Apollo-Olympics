@@ -6,6 +6,7 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -98,7 +99,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject menu;
     public int initializedObjects;
     bool cursorHide;
-    WaitForSeconds tenthSecond = new WaitForSeconds(0.1f);
+    InputAction pauseAction;
     
     void Awake()
     {
@@ -164,6 +165,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         //Initialize player variables
+        pauseAction = InputSystem.actions.FindAction("Pause");
         PlayerController.spawnManager = this;
         PlayerController.length = length;
         PlayerController.side = side;
@@ -451,7 +453,7 @@ public class SpawnManager : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return) && !finished)
+        if(pauseAction.WasPressedThisFrame() && !finished)
         {
             switch(Time.timeScale)
             {

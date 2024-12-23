@@ -161,6 +161,7 @@ public class MenuManager : MonoBehaviour
         effects = PlayerPrefs.GetFloat("Effects", 0.5f);
         effectsSlider.value = effects;
         effectsText.SetText(effects.ToString("0.##"));
+        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         loaded = true;
     }
 
