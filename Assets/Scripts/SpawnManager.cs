@@ -284,10 +284,10 @@ public class SpawnManager : MonoBehaviour
         }
 
         //Spawn initial sections
-        ActivateSection(0, baseDisableNumber, true);
+        ActivateSection(0, baseDisableNumber, true, true);
         for(int i = 1; i < 27; i++)
         {
-            ActivateSection(i, baseDisableNumber);
+            ActivateSection(i, baseDisableNumber, true);
         }
 
         //Spawn checkpoints
@@ -300,7 +300,7 @@ public class SpawnManager : MonoBehaviour
             checkpoint.localScale = new Vector3(newScale, newScale, newScale);
         }
         Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
-        newScale = checkpointDistances[lastCheckpoint] * 2 + 1000;
+        newScale = checkpointDistances[lastCheckpoint] * 2 + 2000;
         finish.transform.localScale = new Vector3(newScale, newScale, newScale);
         finish.GetComponent<Renderer>().material = finishMat;
 
@@ -443,6 +443,7 @@ public class SpawnManager : MonoBehaviour
         backgroundNoise.Play();
         backgroundMusic.Play();
         int countdownTime = 3;
+        System.GC.Collect();
         while(countdownTime > 0)
         {
             audioSource.PlayOneShot(countdownSound);
@@ -481,6 +482,7 @@ public class SpawnManager : MonoBehaviour
             allAudio[i].Pause();
         }
         StartCoroutine(PauseSounds());
+        System.GC.Collect();
         Time.timeScale = 0;
     }
 
@@ -866,80 +868,106 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    void ActivateSection(int sectionIndex, int disableNumber, bool avoidCenter = false)
+    void ActivateSection(int sectionIndex, int disableNumber, bool initialSection = false, bool avoidCenter = false)
     {
         sectionPool[sectionIndex].SetActive(true);
         GameObject[] children = childrenList[sectionIndex];
-        if(!avoidCenter)
+        switch(initialSection, avoidCenter)
         {
-            for(int i = 0; i < interactableNumber; i++)
-            {
-                GameObject child = children[i];
-
-                //Variable interactable amount
-                if(i < disableNumber)
+            case (false, false):
+                for(int i = 0; i < interactableNumber; i++)
                 {
-                    if(child.activeSelf)
+                    GameObject child = children[i];
+
+                    //Variable interactable amount
+                    if(i < disableNumber)
+                    {
+                        if(child.activeSelf)
+                        {
+                            child.SetActive(false);
+                        }
+                        continue;
+                    }
+                    if(!child.activeSelf)
+                    {
+                        child.SetActive(true);
+                    }
+
+                    //Random position
+                    child.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
+                }
+                break;
+            
+            case (true, false):
+                for(int i = 0; i < interactableNumber; i++)
+                {
+                    GameObject child = children[i];
+
+                    //Variable interactable amount
+                    if(i < disableNumber)
+                    {
+                        if(child.activeSelf)
+                        {
+                            child.SetActive(false);
+                        }
+                        continue;
+                    }
+                    if(!child.activeSelf)
+                    {
+                        child.SetActive(true);
+                    }
+
+                    //Random position and force
+                    child.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
+                    if(!child.CompareTag("Wormhole"))
+                    {
+                        Rigidbody rb = child.GetComponent<Rigidbody>();
+                        rb.velocity = rb.angularVelocity = Vector3.zero;
+                        rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                        rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+                    }
+                }
+                break;
+            
+            default:
+                for(int i = 0; i < interactableNumber; i++)
+                {
+                    GameObject child = children[i];
+
+                    //Variable interactable amount
+                    if(i < disableNumber)
                     {
                         child.SetActive(false);
+                        continue;
                     }
-                    continue;
-                }
-                if(!child.activeSelf)
-                {
-                    child.SetActive(true);
-                }
 
-                //Random position and force
-                child.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
-                if(!child.CompareTag("Wormhole"))
-                {
-                    Rigidbody rb = child.GetComponent<Rigidbody>();
-                    rb.velocity = rb.angularVelocity = Vector3.zero;
-                    rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
-                    rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+                    //Random position, avoid center
+                    float randomX = Random.Range(200, side);
+                    float randomY = Random.Range(200, side);
+                    float randomZ = Random.Range(200, side);
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        randomX *= -1;
+                    }
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        randomY *= -1;
+                    }
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        randomZ *= -1;
+                    }
+                    child.transform.localPosition = new Vector3(randomX, randomY, randomZ);
+                    
+                    //Random force
+                    if(!child.CompareTag("Wormhole"))
+                    {
+                        Rigidbody rb = child.GetComponent<Rigidbody>();
+                        rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                        rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+                    }
                 }
-            }
-        }
-        else
-        {
-            for(int i = 0; i < interactableNumber; i++)
-            {
-                GameObject child = children[i];
-
-                //Variable interactable amount
-                if(i < disableNumber)
-                {
-                    child.SetActive(false);
-                    continue;
-                }
-
-                //Random position, avoid center
-                float randomX = Random.Range(200, side);
-                float randomY = Random.Range(200, side);
-                float randomZ = Random.Range(200, side);
-                if(Random.Range(0, 2) == 0)
-                {
-                    randomX *= -1;
-                }
-                if(Random.Range(0, 2) == 0)
-                {
-                    randomY *= -1;
-                }
-                if(Random.Range(0, 2) == 0)
-                {
-                    randomZ *= -1;
-                }
-                child.transform.localPosition = new Vector3(randomX, randomY, randomZ);
-                
-                //Random force
-                if(!child.CompareTag("Wormhole"))
-                {
-                    Rigidbody rb = child.GetComponent<Rigidbody>();
-                    rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
-                    rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
-                }
-            }
+                break;
         }
     }
 }

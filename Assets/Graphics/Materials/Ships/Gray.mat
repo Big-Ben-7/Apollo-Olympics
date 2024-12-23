@@ -64,6 +64,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnvironmentReflections: 1
+    - _Smoothness: 0.8
     - _SpecularHighlights: 1
     m_Colors: []
   m_BuildTextureStacks: []
