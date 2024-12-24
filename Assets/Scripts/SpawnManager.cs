@@ -1028,6 +1028,7 @@ public class SpawnManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
+        audioSource.PlayOneShot(pauseSound);
     }
 
     IEnumerator ActivateSection(int sectionIndex, int disableNumber)
