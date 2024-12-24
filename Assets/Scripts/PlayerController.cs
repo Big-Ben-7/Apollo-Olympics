@@ -134,6 +134,7 @@ public class PlayerController : MonoBehaviour
     TMP_Text timeText;
     TMP_Text countdownText;
     TMP_Text finishText;
+    GameObject caption;
     TMP_Text[] allText;
     GameObject finishBackground;
     bool inCountdown = true;
@@ -164,10 +165,7 @@ public class PlayerController : MonoBehaviour
         Transform thrusterTransform = thrusterParent.transform;
         thrusterCount = thrusterTransform.childCount;
         thrusters = new ParticleSystem.MainModule[thrusterCount];
-        for(int i = 0; i < thrusterCount; i++)
-        {
-            thrusters[i] = thrusterTransform.GetChild(i).GetComponent<ParticleSystem>().main;
-        }
+        for(int i = 0; i < thrusterCount; i++) thrusters[i] = thrusterTransform.GetChild(i).GetComponent<ParticleSystem>().main;
         hitSoundsCount = hitSounds.Length;
     }
 
@@ -292,6 +290,7 @@ public class PlayerController : MonoBehaviour
         speedText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
         timeText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
         finishText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
+        caption = farCanvas.GetChild(11).gameObject;
         countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
@@ -306,6 +305,7 @@ public class PlayerController : MonoBehaviour
         timeText.SetText("Time: 0:00.000");
         countdownText.SetText("");
         finishText.SetText("");
+        caption.SetActive(false);
 
         audioSource.volume = audioVolume;
 
@@ -370,65 +370,39 @@ public class PlayerController : MonoBehaviour
             switch(thrust)
             {
                 case > 0:
-                    if(glideSpeed != thrustSpeed)
-                    {
-                        glideSpeed = thrustSpeed;
-                    }
-                    if(thrustSpeed < accThreshold)
-                    {
-                        thrustSpeed += accIncrement;
-                    }
-                    else if(thrustSpeed != maxThrustSpeed)
-                    {
-                        thrustSpeed = maxThrustSpeed;
-                    }
-                    if(decSpeed > decThreshold)
-                    {
-                        decSpeed *= dec;
-                    }
-                    else if(decSpeed != initialThrustSpeed)
-                    {
-                        decSpeed = initialThrustSpeed;
-                    }
+                    if(glideSpeed != thrustSpeed) glideSpeed = thrustSpeed;
+                    
+                    if(thrustSpeed < accThreshold) thrustSpeed += accIncrement;
+                    else if(thrustSpeed != maxThrustSpeed) thrustSpeed = maxThrustSpeed;
+                    
+                    if(decSpeed > decThreshold) decSpeed *= dec;
+                    else if(decSpeed != initialThrustSpeed) decSpeed = initialThrustSpeed;
+                    
                     break;
 
                 case < 0:
-                    if(glideSpeed != -decSpeed)
+                    /*if(glideSpeed != -decSpeed)
                     {
                         glideSpeed = -decSpeed;
-                    }
-                    if(decSpeed < accThreshold)
-                    {
-                        decSpeed += accIncrement;
-                    }
-                    else if(decSpeed != maxThrustSpeed)
-                    {
-                        decSpeed = maxThrustSpeed;
-                    }
-                    if(thrustSpeed > decThreshold)
-                    {
-                        thrustSpeed *= dec;
-                    }
-                    else if(thrustSpeed != initialThrustSpeed)
-                    {
-                        thrustSpeed = initialThrustSpeed;
-                    }
+                    }*/
+                    if(glideSpeed != 0) glideSpeed = 0;
+
+                    if(decSpeed < accThreshold) decSpeed += accIncrement;
+                    else if(decSpeed != maxThrustSpeed) decSpeed = maxThrustSpeed;
+
+                    if(thrustSpeed > decThreshold) thrustSpeed *= dec;
+                    else if(thrustSpeed != initialThrustSpeed) thrustSpeed = initialThrustSpeed;
+
                     break;
                 
                 default:
-                    switch(glideSpeed)
+                    float newGlide = glideSpeed - glideDrag * Time.deltaTime;
+                    if(newGlide > 0) glideSpeed = newGlide;
+                    else glideSpeed = 0;
+                    /*switch(glideSpeed)
                     {
                         case > 0:
-                            float newGlide = glideSpeed - glideDrag * Time.deltaTime;
-                            if(newGlide > 0)
-                            {
-                                glideSpeed = newGlide;
-                            }
-                            else
-                            {
-                                glideSpeed = 0;
-                            }
-                            break;
+                            
                         case < 0:
                             newGlide = glideSpeed + glideDrag * Time.deltaTime;
                             if(newGlide < 0)
@@ -440,7 +414,7 @@ public class PlayerController : MonoBehaviour
                                 glideSpeed = 0;
                             }
                             break;
-                    }
+                    }*/
                     break;
             }
         
@@ -450,24 +424,15 @@ public class PlayerController : MonoBehaviour
 
         //Change thruster effect based on speed
         float thrusterSpeed = speed / thrusterSpeedDivisor;
-        if(thrusterSpeed > maxThrusterSpeed)
-        {
-            thrusterSpeed = maxThrusterSpeed;
-        }
-        else if(thrusterSpeed < 1)
-        {
-            thrusterSpeed = 1;
-        }
+        if(thrusterSpeed > maxThrusterSpeed) thrusterSpeed = maxThrusterSpeed;
+        else if(thrusterSpeed < 1) thrusterSpeed = 1;
         for(int i = 0; i < thrusterCount; i++)
         {
             ParticleSystem.MainModule thruster = thrusters[i];
             thruster.startSpeedMultiplier = thrusterSpeed;
         }
         float thrusterVolume = speed / thrusterVolumeDivisor;
-        if(thrusterVolume > maxThrusterVolume)
-        {
-            thrusterVolume = maxThrusterVolume;
-        }
+        if(thrusterVolume > maxThrusterVolume) thrusterVolume = maxThrusterVolume;
         fireSource.volume = thrusterVolume;
         thrusterSource.volume = thrusterVolume;
 
@@ -478,30 +443,14 @@ public class PlayerController : MonoBehaviour
         Vector3 playerChunk = spawnManager.playerChunks[playerIndex];
         if(chunk != playerChunk)
         {
-            if(chunk.x > playerChunk.x)
-            {
-                spawnManager.SpawnSectionsRight(playerIndex);
-            }
-            else if(chunk.x < playerChunk.x)
-            {
-                spawnManager.SpawnSectionsLeft(playerIndex);
-            }
-            if(chunk.y > playerChunk.y)
-            {
-                spawnManager.SpawnSectionsUp(playerIndex);
-            }
-            else if(chunk.y < playerChunk.y)
-            {
-                spawnManager.SpawnSectionsDown(playerIndex);
-            }
-            if(chunk.z > playerChunk.z)
-            {
-                spawnManager.SpawnSectionsForward(playerIndex);
-            }
-            else if(chunk.z < playerChunk.z)
-            {
-                spawnManager.SpawnSectionsBack(playerIndex);
-            }
+            if(chunk.x > playerChunk.x) spawnManager.SpawnSectionsRight(playerIndex);
+            else if(chunk.x < playerChunk.x) spawnManager.SpawnSectionsLeft(playerIndex);
+
+            if(chunk.y > playerChunk.y) spawnManager.SpawnSectionsUp(playerIndex);
+            else if(chunk.y < playerChunk.y) spawnManager.SpawnSectionsDown(playerIndex);
+
+            if(chunk.z > playerChunk.z) spawnManager.SpawnSectionsForward(playerIndex);
+            else if(chunk.z < playerChunk.z) spawnManager.SpawnSectionsBack(playerIndex);
         }
     
         //Show time
@@ -524,10 +473,7 @@ public class PlayerController : MonoBehaviour
         switch(playerCheckpoint)
         {
             case 0:
-                if(pos >= checkpointDistances[0])
-                {
-                    AddCheckpoint(playerCheckpoint);
-                }
+                if(pos >= checkpointDistances[0]) AddCheckpoint(playerCheckpoint);
                 break;
             
             case 8:
@@ -536,8 +482,10 @@ public class PlayerController : MonoBehaviour
                 {
                     if(collects < collectThreshold)
                     {
-                        rb.AddForce(-myTransform.position.normalized * rb.velocity.magnitude, ForceMode.VelocityChange);
+                        rb.AddForce(-myTransform.position.normalized * 2000, ForceMode.VelocityChange);
                         StartCoroutine(ChangeTextColor(collectText, 0.2f, Color.white, Color.red));
+                        caption.SetActive(true);
+                        StartCoroutine(ResetEffect(caption));
                         audioSource.PlayOneShot(errorSound);
                         break;
                     }
@@ -561,10 +509,7 @@ public class PlayerController : MonoBehaviour
                             break;
                     }
                     spawnManager.audioSource.PlayOneShot(checkpointSound);
-                    if(!MenuManager.loaded)
-                    {
-                        return;
-                    }
+                    if(!MenuManager.loaded) return;
                     int elapsedMilliseconds = milliseconds + seconds * 1000 + minutes * 60000;
                     if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
                     {
@@ -576,22 +521,13 @@ public class PlayerController : MonoBehaviour
                     MenuManager.collects += collects;
                     PlayerPrefs.SetInt("Collects", MenuManager.collects);
                 }
-                else if(pos <= checkpointDistances[7])
-                {
-                    RemoveCheckpoint(7);
-                }
+                else if(pos <= checkpointDistances[7]) RemoveCheckpoint(7);
                 break;
 
             default:
                 int lastCheckpoint = playerCheckpoint - 1;
-                if(pos >= checkpointDistances[playerCheckpoint])
-                {
-                    AddCheckpoint(playerCheckpoint);
-                }
-                else if(pos <= checkpointDistances[lastCheckpoint])
-                {
-                    RemoveCheckpoint(lastCheckpoint);
-                }
+                if(pos >= checkpointDistances[playerCheckpoint]) AddCheckpoint(playerCheckpoint);
+                else if(pos <= checkpointDistances[lastCheckpoint]) RemoveCheckpoint(lastCheckpoint);
                 break;
         }
 
@@ -605,10 +541,7 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
-        if(rb.isKinematic)
-        {
-            return;
-        }
+        if(rb.isKinematic) return;
         droneGroup.position = myTransform.position;
         arrow.localPosition = Vector3.zero;
         arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, Vector3.up);
@@ -618,16 +551,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(rb.isKinematic)
-        {
-            return;
-        }
+        if(rb.isKinematic) return;
 
         //Roll, pitch, yaw
-        if(rotation != Vector3.zero)
-        {
-            rb.AddRelativeTorque(rotation * rotationSpeed, ForceMode.Acceleration);
-        }
+        if(rotation != Vector3.zero) rb.AddRelativeTorque(rotation * rotationSpeed, ForceMode.Acceleration);
 
         //Thrust and glide
         switch(thrust)
@@ -646,10 +573,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(!canTrigger)
-        {
-            return;
-        }
+        if(!canTrigger) return;
 
         //Collected powerup
         if(other.gameObject.CompareTag("Collectable"))
@@ -664,17 +588,11 @@ public class PlayerController : MonoBehaviour
                 activationTime++;
                 currentActivation++;
             }
-            else if(number < abilityPercent || cooldownTime <= minCooldown)
-            {
-                abilityStrength += abilityIncrease;
-            }
+            else if(number < abilityPercent || cooldownTime <= minCooldown) abilityStrength += abilityIncrease;
             else
             {
                 cooldownTime--;
-                if(currentCooldown > 1)
-                {
-                    currentCooldown--;
-                }
+                if(currentCooldown > 1) currentCooldown--;
             }
             audioSource.PlayOneShot(collectSound);
         }
@@ -762,22 +680,15 @@ public class PlayerController : MonoBehaviour
     
     void OnCollisionEnter(Collision other)
     {
-        if(collided || !canCollide)
-        {
-            return;
-        }
+        if(collided || !canCollide) return;
 
         collided = true;
         float speed = rb.velocity.magnitude;
         float otherSpeed = other.rigidbody.velocity.magnitude;
-        if(speed < otherSpeed)
-        {
-            speed = otherSpeed;
-        }
+        if(otherSpeed > speed) speed = otherSpeed;
         Vector3 otherPos = other.transform.position;
         Vector3 pos = myTransform.position;
         rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
-        //rb.angularVelocity *= deflectionForce;
 
         if(!other.gameObject.CompareTag("Drone"))
         {
@@ -802,33 +713,17 @@ public class PlayerController : MonoBehaviour
         }
         
         //Lose speed on other
-        if(thrustSpeed > initialThrustSpeed * speedLossDivisor)
-        {
-            thrustSpeed /= speedLossDivisor;
-        }
-        else
-        {
-            thrustSpeed = initialThrustSpeed;
-        }
-        if(decSpeed > initialThrustSpeed * speedLossDivisor)
-        {
-            decSpeed /= speedLossDivisor;
-        }
-        else
-        {
-            decSpeed = initialThrustSpeed;
-        }
+        if(thrustSpeed > initialThrustSpeed * speedLossDivisor) thrustSpeed /= speedLossDivisor;
+        else thrustSpeed = initialThrustSpeed;
+
+        if(decSpeed > initialThrustSpeed * speedLossDivisor) decSpeed /= speedLossDivisor;
+        else decSpeed = initialThrustSpeed;
+
         glideSpeed /= speedLossDivisor;
 
         //Lose health on other
-        if(speed / healthLossDivisor > minHealthLoss)
-        {
-            health -= speed / healthLossDivisor;
-        }
-        else
-        {
-            health -= minHealthLoss;
-        }
+        if(speed / healthLossDivisor > minHealthLoss) health -= speed / healthLossDivisor;
+        else health -= minHealthLoss;
 
         //Player died
         switch(health)
@@ -846,10 +741,7 @@ public class PlayerController : MonoBehaviour
                 currentActivation = 0;
                 currentCooldown = 0;
                 aura.SetActive(false);
-                if(resetting != null)
-                {
-                    StopCoroutine(resetting);
-                }
+                if(resetting != null) StopCoroutine(resetting);
                 if(shipModel != "Venus")
                 {
                     for(int i = 0; i < auraCount; i++)
@@ -857,12 +749,9 @@ public class PlayerController : MonoBehaviour
                         auraParticles[i].loop = true;
                     }
                 }
-                else
-                {
-                    auraParticles[3].loop = true;
-                }
+                else auraParticles[3].loop = true;
 
-                for(int i = 0; i < allText.Length; i++)
+                for(int i = 0; i < 8; i++)
                 {
                     StartCoroutine(ChangeTextColor(allText[i], 0.5f, Color.white, Color.red));
                 }
@@ -882,10 +771,7 @@ public class PlayerController : MonoBehaviour
                         break;
                 }
 
-                for(int i = 0; i < activeDrones; i++)
-                {
-                    droneGroup.GetChild(i).GetComponent<Drone>().ResetDrone();
-                }
+                for(int i = 0; i < activeDrones; i++) droneGroup.GetChild(i).GetComponent<Drone>().ResetDrone();
 
                 thrustSpeed = initialThrustSpeed;
                 health = 100;
@@ -897,10 +783,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case <= 10:
-                if(healthText.color != Color.red)
-                {
-                    healthText.color = Color.red;
-                }
+                if(healthText.color != Color.red) healthText.color = Color.red;
                 break;
             
             default:
@@ -913,15 +796,8 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionExit(Collision other)
     {
-        if(!canCollide)
-        {
-            return;
-        }
-
-        if(other.gameObject.CompareTag("Asteroid") || other.gameObject.layer == 6 || other.gameObject.CompareTag("Drone"))
-        {
-            collided = false;
-        }
+        if(!canCollide) return;
+        if(other.gameObject.CompareTag("Asteroid") || other.gameObject.layer == 6 || other.gameObject.CompareTag("Drone")) collided = false;
     }
 
     IEnumerator Countdown(int countdownTime)
@@ -936,7 +812,8 @@ public class PlayerController : MonoBehaviour
         arrow.gameObject.SetActive(true);
         countdownText.SetText("Go!");
         yield return oneSecond;
-        for(int i = 0; i < checkpointDrones[0]; i++)
+        int initialCheckpointDrones = checkpointDrones[0];
+        for(int i = 0; i < initialCheckpointDrones; i++)
         {
             droneGroup.GetChild(activeDrones).gameObject.SetActive(true);
             activeDrones++;
@@ -951,19 +828,13 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator ChangeTextColor(TMP_Text text, float time, Color originalColor, Color newColor, int amount = 1)
     {
-        if(originalColor == newColor)
-        {
-            originalColor = Color.white;
-        }
+        if(originalColor == newColor) originalColor = Color.white;
         switch(amount)
         {
             case 1:
                 text.color = newColor;
                 yield return new WaitForSeconds(time);
-                if(text.color == newColor)
-                {
-                    text.color = originalColor;
-                }
+                if(text.color == newColor) text.color = originalColor;
                 break;
 
             default:
@@ -973,14 +844,8 @@ public class PlayerController : MonoBehaviour
                 {
                     text.color = newColor;
                     yield return wait;
-                    if(text.color == newColor)
-                    {
-                        text.color = originalColor;
-                    }
-                    if(i < amountMinusOne)
-                    {
-                        yield return wait;
-                    }
+                    if(text.color == newColor) text.color = originalColor;
+                    if(i < amountMinusOne) yield return wait;
                 }
                 break;
         }
@@ -1065,10 +930,7 @@ public class PlayerController : MonoBehaviour
     void AddCheckpoint(int playerCheckpoint)
     {
         playerCheckpoint ++;
-        if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint)
-        {
-            return;
-        }
+        if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
         checkpointText.SetText("Checkpoint: " + playerCheckpoint);
         int dronesToActivate = checkpointDrones[playerCheckpoint] - activeDrones;
@@ -1083,10 +945,7 @@ public class PlayerController : MonoBehaviour
 
     void RemoveCheckpoint(int playerCheckpoint)
     {
-        if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint)
-        {
-            return;
-        }
+        if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
         checkpointText.SetText("Checkpoint: " + playerCheckpoint);
         StartCoroutine(ChangeTextColor(checkpointText, 0.5f, Color.white, Color.red));
@@ -1125,10 +984,7 @@ public class PlayerController : MonoBehaviour
         currentActivation = activationTime;
         died = false;
         ability = Atmosphere();
-        for(int i = 0; i < 3; i++)
-        {
-            auraParticles[i].duration = auraParticles[i].startLifetimeMultiplier = activationTime;
-        }
+        for(int i = 0; i < 3; i++) auraParticles[i].duration = auraParticles[i].startLifetimeMultiplier = activationTime;
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
@@ -1169,22 +1025,13 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Activated: " + currentActivation);
             currentActivation --;
-            if(health + abilityStrength < 100)
-            {
-                health += abilityStrength;
-            }
-            else
-            {
-                health = 100;
-            }
+            if(health + abilityStrength < 100) health += abilityStrength;
+            else health = 100;
             health = (float) Math.Round(health, 2);
             healthText.SetText("Health: " + health.ToString("0.00"));
             yield return oneSecond;
         }
-        for(int i = 0; i < auraCount; i++)
-        {
-            auraParticles[i].loop = false;
-        }
+        for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(2));
         audioSource.PlayOneShot(expireSound);
 
@@ -1212,26 +1059,17 @@ public class PlayerController : MonoBehaviour
         ability = DustStorm();
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
-        for(int i = 0; i < droneNumber; i++)
-        {
-            drones[i].offset = abilityStrength;
-        }
+        for(int i = 0; i < droneNumber; i++) drones[i].offset = abilityStrength;
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation);
             currentActivation --;
             yield return oneSecond;
         }
-        for(int i = 0; i < auraCount; i++)
-        {
-            auraParticles[i].loop = false;
-        }
+        for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(2));
         audioSource.PlayOneShot(expireSound);
-        for(int i = 0; i < droneNumber; i++)
-        {
-            drones[i].offset = 0;
-        }
+        for(int i = 0; i < droneNumber; i++) drones[i].offset = 0;
 
         //Cooldown
         while(currentCooldown > 0)
@@ -1268,10 +1106,7 @@ public class PlayerController : MonoBehaviour
             currentActivation --;
             yield return oneSecond;
         }
-        for(int i = 0; i < auraCount; i++)
-        {
-            auraParticles[i].loop = false;
-        }
+        for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(2));
         audioSource.PlayOneShot(expireSound);
         speedLossDivisor = collisionInitials[0];
@@ -1311,10 +1146,7 @@ public class PlayerController : MonoBehaviour
             currentActivation --;
             yield return oneSecond;
         }
-        for(int i = 0; i < auraCount; i++)
-        {
-            auraParticles[i].loop = false;
-        }
+        for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(1));
         audioSource.PlayOneShot(expireSound);
 
@@ -1382,14 +1214,8 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         aura.SetActive(false);
-        for(int i = startIndex; i < auraCount; i++)
-        {
-            auraParticles[i].loop = true;
-        }
-        if(!canCollide)
-        {
-            canCollide = true;
-        }
+        for(int i = startIndex; i < auraCount; i++) auraParticles[i].loop = true;
+        if(!canCollide) canCollide = true;
     }
 }
 

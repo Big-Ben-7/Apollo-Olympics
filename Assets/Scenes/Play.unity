@@ -628,58 +628,6 @@ PrefabInstance:
       propertyPath: checkpointParent
       value: 
       objectReference: {fileID: 64442204}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: playerShips.Array.data[0]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[1]
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[2]
-      value: 1200
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[3]
-      value: 1400
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: accelerations.Array.data[4]
-      value: 1600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[1]
-      value: 20000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[2]
-      value: 24000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[3]
-      value: 28000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: maxThrustSpeeds.Array.data[4]
-      value: 32000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.data[1]
-      value: 2000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.data[2]
-      value: 2400
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.data[3]
-      value: 2800
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237278299908245202, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
-      propertyPath: initialThrustSpeeds.Array.data[4]
-      value: 3200
-      objectReference: {fileID: 0}
     - target: {fileID: 8277756364841921885, guid: a0a9dd15429494dabb5ed18834520491, type: 3}
       propertyPath: m_Name
       value: SpawnManager

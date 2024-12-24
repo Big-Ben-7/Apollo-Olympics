@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class Drone : MonoBehaviour
@@ -10,8 +11,6 @@ public class Drone : MonoBehaviour
     [SerializeField] float minAttackForce;
     [SerializeField] float maxAttackForce;
     [SerializeField] float rotationSpeed;
-    //[SerializeField] float maxOffset;
-    //[SerializeField] float overshoot;
     [SerializeField] float confusion;
     public float offset;
 
@@ -22,20 +21,19 @@ public class Drone : MonoBehaviour
     int explosionSoundsLength;
 
     float attackForce;
-    //Vector3 offset;
     Quaternion targetRotation;
     public Transform target;
+    Rigidbody rb;
     Rigidbody targetRb;
     Transform myTransform;
-    Rigidbody rb;
     bool collided;
     public AudioSource audioSource;
 
     void Awake()
     {
         explosion.SetActive(false);
+        rb = GetComponent<Rigidbody>();
         myTransform = transform;
-        rb = gameObject.GetComponent<Rigidbody>();
         explosionTransform = explosion.transform;
         explosionSoundsLength = explosionSounds.Length;
     }
@@ -60,7 +58,7 @@ public class Drone : MonoBehaviour
     void FixedUpdate()
     {
         //Move to target
-        rb.AddRelativeForce(Vector3.forward * attackForce);
+        rb.AddRelativeForce(new Vector3(0, 0, attackForce));
     }
 
     void OnCollisionEnter(Collision other)
@@ -70,12 +68,6 @@ public class Drone : MonoBehaviour
             return;
         }
         collided = true;
-        /*GameObject otherObject = other.gameObject;
-        Rigidbody otherRb = otherObject.GetComponent<Rigidbody>();
-        if(otherRb != null)
-        {
-            otherRb.AddExplosionForce(explosionForce, myTransform.position, explosionRadius, 0, ForceMode.Impulse);
-        }*/
         switch(other.gameObject.layer)
         {
             case 6:
@@ -96,9 +88,7 @@ public class Drone : MonoBehaviour
     IEnumerator UpdateTarget()
     {
         //Update target position
-        rb.isKinematic = true;
         yield return new WaitForSeconds(Random.Range(0, maxStartDelay));
-        rb.isKinematic = false;
         Vector3 targetVelocity;
         while(true)
         {

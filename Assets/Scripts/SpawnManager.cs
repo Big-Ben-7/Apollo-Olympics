@@ -18,7 +18,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject sectionPrefab;
     Vector3[] sectionChunks;
     GameObject[][] childrenList;
-    int sectionCount;
+    Rigidbody[][] rbList;
+    int sectionNumber;
 
     [Header("Checkpoints")]
     public int[] playerCheckpoints;
@@ -45,6 +46,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int partDisablePercent = 50;
     [SerializeField] int maxMovementForce = 40;
     [SerializeField] float maxRotationForce = 0.2f;
+    [SerializeField] float maxRotationSpeed = 20;
     [SerializeField] int wormholePercent = 8;
     [SerializeField] Vector3 wormholeProportions;
     [SerializeField] int minWormholeScale;
@@ -119,7 +121,7 @@ public class SpawnManager : MonoBehaviour
             playerShips = MenuManager.playerShips;
             difficulty = MenuManager.difficulty;
             audioSource.volume = PlayerController.audioVolume = MenuManager.effects * 0.4f;
-            backgroundMusic.volume = MenuManager.music * 0.2f;
+            backgroundMusic.volume = MenuManager.music * 0.5f;
             backgroundNoise.volume = MenuManager.noise;
             cursorHide = MenuManager.cursorHide;
             if(cursorHide)
@@ -184,12 +186,13 @@ public class SpawnManager : MonoBehaviour
         
         //Section spawning
         UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-        sectionCount = playerNumber * 27;
-        sectionChunks = new Vector3[sectionCount];
-        sectionPool = new GameObject[sectionCount];
-        childrenList = new GameObject[sectionCount][];
+        sectionNumber = playerNumber * 27;
+        sectionChunks = new Vector3[sectionNumber];
+        sectionPool = new GameObject[sectionNumber];
+        childrenList = new GameObject[sectionNumber][];
+        rbList = new Rigidbody[sectionNumber][];
         Vector3 spawnPos = Vector3.zero;
-        for(int i = 0; i < sectionCount; i++)
+        for(int i = 0; i < sectionNumber; i++)
         {
             switch(i)
             {
@@ -279,15 +282,7 @@ public class SpawnManager : MonoBehaviour
             GameObject section = sectionPool[i] = Instantiate(sectionPrefab, spawnPos, Quaternion.identity, sectionParent);
             section.SetActive(false);
             sectionChunks[i] = spawnPos / length;
-            childrenList[i] = new GameObject[interactableNumber];
-            SetSection(section.transform, i);
-        }
-
-        //Spawn initial sections
-        ActivateSection(0, baseDisableNumber, true, true);
-        for(int i = 1; i < 27; i++)
-        {
-            ActivateSection(i, baseDisableNumber, true);
+            SetSection(i);
         }
 
         //Spawn checkpoints
@@ -425,6 +420,7 @@ public class SpawnManager : MonoBehaviour
 
         GetComponent<AudioListener>().enabled = true;
         eventSystem.SetActive(true);
+        System.GC.Collect();
 
         //Start countdown
         while(initializedObjects < playerNumber)
@@ -443,7 +439,6 @@ public class SpawnManager : MonoBehaviour
         backgroundNoise.Play();
         backgroundMusic.Play();
         int countdownTime = 3;
-        System.GC.Collect();
         while(countdownTime > 0)
         {
             audioSource.PlayOneShot(countdownSound);
@@ -482,8 +477,8 @@ public class SpawnManager : MonoBehaviour
             allAudio[i].Pause();
         }
         StartCoroutine(PauseSounds());
-        System.GC.Collect();
         Time.timeScale = 0;
+        System.GC.Collect();
     }
 
     IEnumerator PauseSounds()
@@ -528,58 +523,232 @@ public class SpawnManager : MonoBehaviour
         SceneManager.LoadSceneAsync(index);
     }
 
-    void SetSection(Transform parent, int sectionIndex)
+    void SetSection(int sectionIndex)
     {
+        Transform parent = sectionPool[sectionIndex].transform;
         GameObject[] children = childrenList[sectionIndex] = new GameObject[interactableNumber];
+        Rigidbody[] rbs = rbList[sectionIndex] = new Rigidbody[asteroidNumber];
         GameObject interactable;
 
-        for(int i = 0; i < asteroidNumber; i++)
+        switch(sectionIndex)
         {
-            //Spawn random asteroid
-            int asteroidIndex = Random.Range(0, asteroidCount);
-            interactable = Instantiate(possibleAsteroids[asteroidIndex], Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+            case 0:
+                parent.gameObject.SetActive(true);
 
-            //Random scale
-            float newScale = Random.Range(minAsteroidScale, maxAsteroidScale);
-            interactable.transform.localScale = new Vector3(Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale));
-            interactable.GetComponent<Rigidbody>().mass = newScale * 2;
-
-            children[i] = interactable;
-        }
-    
-        for(int i = asteroidNumber; i < interactableNumber; i++)
-        {
-            float interactableType = Random.Range(0f, 100);
-            if(interactableType < wormholePercent)
-            {
-                //Spawn wormhole
-                interactable = Instantiate(wormholePrefab, Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
-                interactable.transform.localScale = wormholeProportions * Random.Range(minWormholeScale, maxWormholeScale);
-            }
-            else
-            {
-                //Spawn random collectable
-                int collectableIndex = Random.Range(0, collectableCount);
-                interactable = Instantiate(possibleCollectables[collectableIndex], Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
-                
-                //Break down satellites
-                GameObject[] parts = GetDeepestChildren(interactable.transform);
-                int partNumber = parts.Length;
-                int disabledParts = 1;
-                if(partNumber > 1)
+                for(int i = 0; i < asteroidNumber; i++)
                 {
-                    for(int j = 0; j < partNumber; j++)
+                    //Random position, avoid center
+                    float randomX = Random.Range(200, side);
+                    float randomY = Random.Range(200, side);
+                    float randomZ = Random.Range(200, side);
+                    if(Random.Range(0, 2) == 0)
                     {
-                        if(Random.Range(0, 100) < partDisablePercent && disabledParts != partNumber)
+                        randomX *= -1;
+                    }
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        randomY *= -1;
+                    }
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        randomZ *= -1;
+                    }
+
+                    //Spawn random asteroid
+                    int asteroidIndex = Random.Range(0, asteroidCount);
+                    interactable = children[i] = Instantiate(possibleAsteroids[asteroidIndex], new Vector3(randomX, randomY, randomZ), Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+
+                    //Random scale
+                    float newScale = Random.Range(minAsteroidScale, maxAsteroidScale);
+                    interactable.transform.localScale = new Vector3(Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale));
+                    Rigidbody rb = rbs[i] = interactable.GetComponent<Rigidbody>();
+                    rb.mass = newScale * 2;
+
+                    //Variable interactable amount
+                    if(i < baseDisableNumber)
+                    {
+                        interactable.SetActive(false);
+                        continue;
+                    }
+
+                    //Random force
+                    rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                    rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+                }
+            
+                for(int i = asteroidNumber; i < interactableNumber; i++)
+                {
+                    float interactableType = Random.Range(0f, 100);
+                    if(interactableType < wormholePercent)
+                    {
+                        //Spawn wormhole
+                        interactable = Instantiate(wormholePrefab, Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+                        interactable.transform.localScale = wormholeProportions * Random.Range(minWormholeScale, maxWormholeScale);
+                    }
+                    else
+                    {
+                        //Spawn random collectable
+                        int collectableIndex = Random.Range(0, collectableCount);
+                        interactable = Instantiate(possibleCollectables[collectableIndex], Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+                        interactable.GetComponent<Collectable>().rotation = new Vector3(Random.Range(-maxRotationSpeed, maxRotationSpeed), Random.Range(-maxRotationSpeed, maxRotationSpeed), Random.Range(-maxRotationSpeed, maxRotationSpeed));
+                        
+                        //Break down satellites
+                        GameObject[] parts = GetDeepestChildren(interactable.transform);
+                        int partNumber = parts.Length;
+                        int disabledParts = 1;
+                        if(partNumber > 2)
                         {
-                            Destroy(parts[j]);
-                            disabledParts ++;
+                            for(int j = 0; j < partNumber; j++)
+                            {
+                                if(Random.Range(0, 100) < partDisablePercent && disabledParts != partNumber)
+                                {
+                                    Destroy(parts[j]);
+                                    disabledParts ++;
+                                }
+                            }
                         }
                     }
+
+                    //Random position, avoid center
+                    float randomX = Random.Range(200, side);
+                    float randomY = Random.Range(200, side);
+                    float randomZ = Random.Range(200, side);
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        randomX *= -1;
+                    }
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        randomY *= -1;
+                    }
+                    if(Random.Range(0, 2) == 0)
+                    {
+                        randomZ *= -1;
+                    }
+                    interactable.transform.localPosition = new Vector3(randomX, randomY, randomZ);
+                    
+                    children[i] = interactable;
                 }
-            }
-            children[i] = interactable;
+                break;
+            
+            case < 27:
+                parent.gameObject.SetActive(true);
+
+                for(int i = 0; i < asteroidNumber; i++)
+                {
+                    //Spawn random asteroid
+                    int asteroidIndex = Random.Range(0, asteroidCount);
+                    interactable = children[i] = Instantiate(possibleAsteroids[asteroidIndex], Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+
+                    //Random position and scale
+                    interactable.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
+                    float newScale = Random.Range(minAsteroidScale, maxAsteroidScale);
+                    interactable.transform.localScale = new Vector3(Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale));
+                    Rigidbody rb = rbs[i] = interactable.GetComponent<Rigidbody>();
+                    rb.mass = newScale * 2;
+
+                    //Variable interactable amount
+                    if(i < baseDisableNumber)
+                    {
+                        interactable.SetActive(false);
+                        continue;
+                    }
+
+                    //Random force
+                    rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                    rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+                }
+
+                for(int i = asteroidNumber; i < interactableNumber; i++)
+                {
+                    float interactableType = Random.Range(0f, 100);
+                    if(interactableType < wormholePercent)
+                    {
+                        //Spawn wormhole
+                        interactable = Instantiate(wormholePrefab, Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+                        interactable.transform.localScale = wormholeProportions * Random.Range(minWormholeScale, maxWormholeScale);
+                    }
+                    else
+                    {
+                        //Spawn random collectable
+                        int collectableIndex = Random.Range(0, collectableCount);
+                        interactable = Instantiate(possibleCollectables[collectableIndex], Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+                        interactable.GetComponent<Collectable>().rotation = new Vector3(Random.Range(-maxRotationSpeed, maxRotationSpeed), Random.Range(-maxRotationSpeed, maxRotationSpeed), Random.Range(-maxRotationSpeed, maxRotationSpeed));
+                        
+                        //Break down satellites
+                        GameObject[] parts = GetDeepestChildren(interactable.transform);
+                        int partNumber = parts.Length;
+                        int disabledParts = 1;
+                        if(partNumber > 1)
+                        {
+                            for(int j = 0; j < partNumber; j++)
+                            {
+                                if(Random.Range(0, 100) < partDisablePercent && disabledParts != partNumber)
+                                {
+                                    Destroy(parts[j]);
+                                    disabledParts ++;
+                                }
+                            }
+                        }
+                    }
+
+                    interactable.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
+                    children[i] = interactable;
+                }
+                break;
+            
+            default:
+                for(int i = 0; i < asteroidNumber; i++)
+                {
+                    //Spawn random asteroid
+                    int asteroidIndex = Random.Range(0, asteroidCount);
+                    interactable = children[i] = Instantiate(possibleAsteroids[asteroidIndex], Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+
+                    //Random scale
+                    float newScale = Random.Range(minAsteroidScale, maxAsteroidScale);
+                    interactable.transform.localScale = new Vector3(Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale), Random.Range(minAsteroidScale, maxAsteroidScale));
+                    Rigidbody rb = rbs[i] = interactable.GetComponent<Rigidbody>();
+                    rb.mass = newScale * 2;
+                }
+
+                for(int i = asteroidNumber; i < interactableNumber; i++)
+                {
+                    float interactableType = Random.Range(0f, 100);
+                    if(interactableType < wormholePercent)
+                    {
+                        //Spawn wormhole
+                        interactable = Instantiate(wormholePrefab, Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+                        interactable.transform.localScale = wormholeProportions * Random.Range(minWormholeScale, maxWormholeScale);
+                    }
+                    else
+                    {
+                        //Spawn random collectable
+                        int collectableIndex = Random.Range(0, collectableCount);
+                        interactable = Instantiate(possibleCollectables[collectableIndex], Vector3.zero, Quaternion.Euler(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)), parent);
+                        interactable.GetComponent<Collectable>().rotation = new Vector3(Random.Range(-maxRotationSpeed, maxRotationSpeed), Random.Range(-maxRotationSpeed, maxRotationSpeed), Random.Range(-maxRotationSpeed, maxRotationSpeed));
+                        
+                        //Break down satellites
+                        GameObject[] parts = GetDeepestChildren(interactable.transform);
+                        int partNumber = parts.Length;
+                        int disabledParts = 1;
+                        if(partNumber > 1)
+                        {
+                            for(int j = 0; j < partNumber; j++)
+                            {
+                                if(Random.Range(0, 100) < partDisablePercent && disabledParts != partNumber)
+                                {
+                                    Destroy(parts[j]);
+                                    disabledParts ++;
+                                }
+                            }
+                        }
+                    }
+                    children[i] = interactable;
+                }
+                break;
+
         }
+
     }
 
     GameObject[] GetDeepestChildren(Transform parent)
@@ -756,7 +925,7 @@ public class SpawnManager : MonoBehaviour
     {
         int stage = 0;
         int disableNumber = disableByCheckpoint[playerCheckpoints[playerIndex]];
-        for(int i = 0; i < sectionCount; i++)
+        for(int i = 0; i < sectionNumber; i++)
         {
             GameObject section = sectionPool[i];
 
@@ -771,13 +940,13 @@ public class SpawnManager : MonoBehaviour
 
                 //Check if a section is already there
                 Vector3 newChunk = newPos / length;
-                for(int j = 0; j < sectionCount; j++)
+                for(int j = 0; j < sectionNumber; j++)
                 {
                     if(newChunk == sectionChunks[j])
                     {
                         if(!sectionPool[j].activeSelf)
                         {
-                            ActivateSection(j, disableNumber);
+                            StartCoroutine(ActivateSection(j, disableNumber));
                         }
                         valid = false;
                         break;
@@ -788,7 +957,7 @@ public class SpawnManager : MonoBehaviour
                     case true:
                         section.transform.position = newPos;
                         sectionChunks[i] = newChunk;
-                        ActivateSection(i, disableNumber);
+                        StartCoroutine(ActivateSection(i, disableNumber));
                         break;
                     
                     case false:
@@ -798,12 +967,6 @@ public class SpawnManager : MonoBehaviour
                 stage++;
             }
         }
-        //Transform newParent = sectionPool[Array.IndexOf(sectionChunks, playerChunks[playerIndex])].transform;
-        //players[playerIndex].transform.parent = newParent;
-        //foreach(Transform follower in followers[playerIndex])
-        //{
-        //    follower.parent = newParent;
-        //}
     }
 
     void DestroySection(GameObject section)
@@ -831,15 +994,14 @@ public class SpawnManager : MonoBehaviour
     public int PlayerFinish(int playerIndex)
     {
         playingPlayers.Remove(playerIndex);
-        for(int i = 0; i < sectionCount; i++)
+        for(int i = 0; i < sectionNumber; i++)
         {
             DestroySection(sectionPool[i]);
         }
         List<Transform> playerFollowers = followers[playerIndex];
-        //playerFollowers[0].parent = null;
-        for(int i = 1; i < playerFollowers.Count; i++)
+        int playerFollowerNumber = playerFollowers.Count;
+        for(int i = 1; i < playerFollowerNumber; i++)
         {
-            //playerFollowers[i].parent = null;
             playerFollowers[i].gameObject.SetActive(false);
         }
         //Game over
@@ -868,106 +1030,47 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    void ActivateSection(int sectionIndex, int disableNumber, bool initialSection = false, bool avoidCenter = false)
+    IEnumerator ActivateSection(int sectionIndex, int disableNumber)
     {
-        sectionPool[sectionIndex].SetActive(true);
         GameObject[] children = childrenList[sectionIndex];
-        switch(initialSection, avoidCenter)
+        Rigidbody[] rbs = rbList[sectionIndex];
+        for(int i = 0; i < interactableNumber; i++)
         {
-            case (false, false):
-                for(int i = 0; i < interactableNumber; i++)
-                {
-                    GameObject child = children[i];
+            children[i].SetActive(false);
+        }
+        sectionPool[sectionIndex].SetActive(true);
+        for(int i = 0; i < asteroidNumber; i++)
+        {
+            GameObject child = children[i];
 
-                    //Variable interactable amount
-                    if(i < disableNumber)
-                    {
-                        if(child.activeSelf)
-                        {
-                            child.SetActive(false);
-                        }
-                        continue;
-                    }
-                    if(!child.activeSelf)
-                    {
-                        child.SetActive(true);
-                    }
+            //Variable interactable amount
+            if(i < disableNumber)
+            {
+                continue;
+            }
+            child.SetActive(true);
 
-                    //Random position
-                    child.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
-                }
-                break;
-            
-            case (true, false):
-                for(int i = 0; i < interactableNumber; i++)
-                {
-                    GameObject child = children[i];
-
-                    //Variable interactable amount
-                    if(i < disableNumber)
-                    {
-                        if(child.activeSelf)
-                        {
-                            child.SetActive(false);
-                        }
-                        continue;
-                    }
-                    if(!child.activeSelf)
-                    {
-                        child.SetActive(true);
-                    }
-
-                    //Random position and force
-                    child.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
-                    if(!child.CompareTag("Wormhole"))
-                    {
-                        Rigidbody rb = child.GetComponent<Rigidbody>();
-                        rb.velocity = rb.angularVelocity = Vector3.zero;
-                        rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
-                        rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
-                    }
-                }
-                break;
-            
-            default:
-                for(int i = 0; i < interactableNumber; i++)
-                {
-                    GameObject child = children[i];
-
-                    //Variable interactable amount
-                    if(i < disableNumber)
-                    {
-                        child.SetActive(false);
-                        continue;
-                    }
-
-                    //Random position, avoid center
-                    float randomX = Random.Range(200, side);
-                    float randomY = Random.Range(200, side);
-                    float randomZ = Random.Range(200, side);
-                    if(Random.Range(0, 2) == 0)
-                    {
-                        randomX *= -1;
-                    }
-                    if(Random.Range(0, 2) == 0)
-                    {
-                        randomY *= -1;
-                    }
-                    if(Random.Range(0, 2) == 0)
-                    {
-                        randomZ *= -1;
-                    }
-                    child.transform.localPosition = new Vector3(randomX, randomY, randomZ);
-                    
-                    //Random force
-                    if(!child.CompareTag("Wormhole"))
-                    {
-                        Rigidbody rb = child.GetComponent<Rigidbody>();
-                        rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
-                        rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
-                    }
-                }
-                break;
+            //Random position and force
+            child.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
+            Rigidbody rb = rbs[i];
+            rb.velocity = rb.angularVelocity = Vector3.zero;
+            rb.AddRelativeForce(Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+            rb.AddRelativeTorque(Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+            if(i == 10 || i == 20 || i == 30 || i == 40 || i == 50 || i == 60 || i == 70 || i == 80 || i == 90 || i == 100)
+            {
+                yield return null;
+            }
+        }
+        for(int i = asteroidNumber; i < interactableNumber; i++)
+        {
+            //Random position
+            GameObject child = children[i];
+            child.SetActive(true);
+            child.transform.localPosition = new Vector3(Random.Range((float) -side, side), Random.Range((float) -side, side), Random.Range((float) -side, side));
+            if(i == 10 || i == 20 || i == 30 || i == 40 || i == 50 || i == 60 || i == 70 || i == 80 || i == 90 || i == 100)
+            {
+                yield return null;
+            }
         }
     }
 }

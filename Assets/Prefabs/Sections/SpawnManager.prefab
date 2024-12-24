@@ -63,7 +63,6 @@ MonoBehaviour:
   - {fileID: 130102, guid: 04d0bf4be9447154188d86f6e3b8dce9, type: 3}
   possibleCollectables:
   - {fileID: 6075084805237653659, guid: 2f3517d7122014a08b905abf499bac15, type: 3}
-  - {fileID: 4587344141743971495, guid: 6cc7e4208c3d34f89a9ff5c10e1ed95c, type: 3}
   - {fileID: 5252142220861717741, guid: 269de9359ecb44e1eb408a202c25ebcb, type: 3}
   - {fileID: 3131469598399110636, guid: a43a2b2be43a14729b838f7c622fb7ab, type: 3}
   - {fileID: 4601883293852469496, guid: 40f191741e6e74dbc8ffba5d3a8dfa10, type: 3}
@@ -91,8 +90,9 @@ MonoBehaviour:
   collectableNumber: 10
   collectableDecrease: 1
   partDisablePercent: 50
-  maxMovementForce: 40
+  maxMovementForce: 60
   maxRotationForce: 0.2
+  maxRotationSpeed: 30
   wormholePercent: 5
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
   minWormholeScale: 500
@@ -103,7 +103,7 @@ MonoBehaviour:
   intCheckpointDrones: 010000000100000002000000030000000400000005000000060000000700000008000000
   advCheckpointDrones: 020000000300000004000000050000000600000007000000080000000a0000000c000000
   expCheckpointDrones: 04000000050000000600000007000000080000000a0000000c0000000e00000010000000
-  playerNumber: 4
+  playerNumber: 2
   possiblePlayers:
   - {fileID: 6744162823093574734, guid: bb456dcf6cf4444fd8c3095cc4f2f8f8, type: 3}
   - {fileID: 6744162823093574734, guid: 34bf0daee831447459c8cf027f9b405e, type: 3}
@@ -113,18 +113,18 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerShips: 01000000050000000600000007000000
+  playerShips: 00000000000000000600000007000000
   playerChunks: []
   playingPlayers: 
-  initialThrustSpeeds: 4006000060090000800c0000a00f0000c0120000
-  accelerations: 20030000b004000040060000d007000060090000
-  maxThrustSpeeds: 803e0000c05d0000007d0000409c000080bb0000
+  initialThrustSpeeds: 40060000d007000060090000f00a0000800c0000
+  accelerations: 20030000e8030000b00400007805000040060000
+  maxThrustSpeeds: 803e0000204e0000c05d0000606d0000007d0000
   rotationSpeeds:
   - 2
-  - 3
-  - 4
+  - 3.5
   - 5
-  - 6
+  - 6.5
+  - 8
   healthLossDivisors: c8000000900100005802000020030000e8030000
   speedLossDivisors:
   - 5
@@ -160,7 +160,7 @@ MonoBehaviour:
   eventSystem: {fileID: 0}
   audioSource: {fileID: 0}
   menu: {fileID: 0}
-  initializedPlayers: 0
+  initializedObjects: 0
 --- !u!82 &4212043769208938346
 AudioSource:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9113a8a90b5a5ca42a7d9af05d6cf620, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.04
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
