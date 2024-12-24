@@ -516,7 +516,7 @@ public class PlayerController : MonoBehaviour
                         int index = MenuManager.difficulty;
                         MenuManager.times[index] = elapsedMilliseconds;
                         PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
-                        PlayerPrefs.SetString("Description" + index, " (" + MenuManager.playerNames[playerIndex] + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year + ")");
+                        PlayerPrefs.SetString("Description" + index, " - " + MenuManager.playerNames[playerIndex] + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year);
                     }
                     MenuManager.collects += collects;
                     PlayerPrefs.SetInt("Collects", MenuManager.collects);
@@ -774,6 +774,8 @@ public class PlayerController : MonoBehaviour
                 for(int i = 0; i < activeDrones; i++) droneGroup.GetChild(i).GetComponent<Drone>().ResetDrone();
 
                 thrustSpeed = initialThrustSpeed;
+                collects = 0;
+                collectText.SetText("Space Junk: 0");
                 health = 100;
                 audioSource.PlayOneShot(dieSound);
 
