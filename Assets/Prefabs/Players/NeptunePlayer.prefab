@@ -344,6 +344,7 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
+  graphic: {fileID: 9176598852586324252}
   shipModel: Neptune
   abilityPercent: 60
   activationTimePercent: 0
@@ -1069,6 +1070,11 @@ PrefabInstance:
 --- !u!4 &8363752568926116774 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5497571922015254458, guid: 26d8a77ffa920e842bd70c85631a743c, type: 3}
+  m_PrefabInstance: {fileID: 4060355896607992860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9176598852586324252 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5116260862512934144, guid: 26d8a77ffa920e842bd70c85631a743c, type: 3}
   m_PrefabInstance: {fileID: 4060355896607992860}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4502181925842326447

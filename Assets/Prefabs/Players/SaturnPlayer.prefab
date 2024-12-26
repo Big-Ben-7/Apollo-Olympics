@@ -372,6 +372,7 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
+  graphic: {fileID: 6480018586469105527}
   shipModel: Saturn
   abilityPercent: 40
   activationTimePercent: 40
@@ -878,6 +879,11 @@ PrefabInstance:
 --- !u!4 &3164727971931173299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1037685491059754701, guid: cb1b02eb4e1ae49d49b32eab83380913, type: 3}
+  m_PrefabInstance: {fileID: 2706036819685980030}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6480018586469105527 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8962269585129195529, guid: cb1b02eb4e1ae49d49b32eab83380913, type: 3}
   m_PrefabInstance: {fileID: 2706036819685980030}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4421876519611605586

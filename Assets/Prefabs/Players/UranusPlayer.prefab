@@ -297,6 +297,7 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
+  graphic: {fileID: 1173174235150565577}
   shipModel: Uranus
   abilityPercent: 40
   activationTimePercent: 40
@@ -950,6 +951,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b51f731a6f914c03a24f7bfff3ae15c, type: 3}
+--- !u!1 &1173174235150565577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5561258896329590677, guid: 9b51f731a6f914c03a24f7bfff3ae15c, type: 3}
+  m_PrefabInstance: {fileID: 6731329207688660828}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1862492066932302819 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4950189273132639423, guid: 9b51f731a6f914c03a24f7bfff3ae15c, type: 3}

@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int forwardPercent = 30;
     [SerializeField] int backPercent = 30;
     [SerializeField] GameObject dronePrefab;
+    [SerializeField] GameObject graphic;
 
     [Header("Ability")]
     [SerializeField] string shipModel;
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour
     public int collects;
     GameObject hitExplosionPrefab;
     public static int credits;
+    public static int creditIncrease;
 
     //Ability
     IEnumerator ability;
@@ -352,7 +354,7 @@ public class PlayerController : MonoBehaviour
         
         audioSource.volume = audioVolume;
 
-        allText = new TMP_Text[]{checkpointText, healthText, speedText, collectText, abilityText, timeText, posText, distanceText};
+        allText = new TMP_Text[]{nameText, checkpointText, healthText, speedText, collectText, abilityText, timeText, posText, distanceText};
         StartCoroutine(Countdown(3));
     }
 
@@ -471,8 +473,7 @@ public class PlayerController : MonoBehaviour
         else if(thrusterSpeed < 1) thrusterSpeed = 1;
         for(int i = 0; i < thrusterCount; i++)
         {
-            ParticleSystem.MainModule thruster = thrusters[i];
-            thruster.startSpeedMultiplier = thrusterSpeed;
+            thrusters[i].startSpeedMultiplier = thrusterSpeed;
         }
         float thrusterVolume = speed / thrusterVolumeDivisor;
         if(thrusterVolume > maxThrusterVolume) thrusterVolume = maxThrusterVolume;
@@ -610,7 +611,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                credits++;
+                credits += creditIncrease;
                 for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits);
                 StartCoroutine(ChangeTextColor(checkpointText, 0.2f, Color.white, Color.green));
             }
@@ -775,51 +776,17 @@ public class PlayerController : MonoBehaviour
                 }
                 else auraParticles[3].loop = true;
 
-                for(int i = 0; i < 8; i++)
+                health = 0;
+                healthText.SetText("Health: 0.00");
+                for(int i = 0; i < 9; i++)
                 {
                     StartCoroutine(ChangeTextColor(allText[i], 0.5f, Color.white, Color.red));
                 }
-
-                //Respawning
-                if(raceMode)
-                {
-                    int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
-                    switch(playerCheckpoint)
-                    {
-                        case 0:
-                            rb.position = startPos;
-                            rb.rotation = startRot;
-                            spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
-                            break;
-                        default:
-                            Vector3 newPos = startPos + normalizedStartPos * checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1];
-                            rb.position = newPos;
-                            rb.rotation = startRot;
-                            spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
-                            break;
-                    }
-                }
-                else
-                {
-                    rb.position = startPos;
-                    rb.rotation = startRot;
-                    spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
-                    credits -= collects;
-                    for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits);
-                }
-
                 for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
 
-                thrustSpeed = initialThrustSpeed;
-                collects = 0;
-                collectText.SetText("Space Junk: 0");
-                health = 100;
-                audioSource.PlayOneShot(dieSound);
-
-                rb.isKinematic = false;
-                canTrigger = true;
-                canCollide = true;
-                break;
+                //Respawning
+                StartCoroutine(Respawn());
+                return;
 
             case <= 10:
                 if(healthText.color != Color.red) healthText.color = Color.red;
@@ -831,6 +798,55 @@ public class PlayerController : MonoBehaviour
         }
         health = (float) Math.Round(health, 2);
         healthText.SetText("Health: " + health.ToString("0.00"));
+    }
+
+    IEnumerator Respawn()
+    {
+        graphic.SetActive(false);
+        thrusterParent.SetActive(false);
+        if(collectEffect.activeSelf) collectEffect.SetActive(false);
+        arrow.gameObject.SetActive(false);
+        audioSource.PlayOneShot(dieSound);
+
+        yield return new WaitForSeconds(1.5f);
+        if(raceMode)
+        {
+            int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
+            switch(playerCheckpoint)
+            {
+                case 0:
+                    rb.position = startPos;
+                    rb.rotation = startRot;
+                    spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
+                    break;
+                default:
+                    Vector3 newPos = startPos + normalizedStartPos * checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1];
+                    rb.position = newPos;
+                    rb.rotation = startRot;
+                    spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
+                    break;
+            }
+        }
+        else
+        {
+            rb.position = startPos;
+            rb.rotation = startRot;
+            spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
+            credits -= collects * creditIncrease;
+            for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits);
+        }
+        collects = 0;
+        collectText.SetText("Space Junk: 0");
+        thrustSpeed = initialThrustSpeed;
+        health = 100;
+        healthText.SetText("Health: 100.00");
+
+        graphic.SetActive(true);
+        thrusterParent.SetActive(true);
+        arrow.gameObject.SetActive(true);
+        rb.isKinematic = false;
+        canTrigger = true;
+        canCollide = true;
     }
 
     void OnCollisionExit(Collision other)

@@ -329,6 +329,7 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
+  graphic: {fileID: 6367987526358428599}
   shipModel: Mercury
   abilityPercent: 60
   activationTimePercent: 0
@@ -1096,6 +1097,11 @@ PrefabInstance:
 --- !u!4 &4367335176006170975 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1967373211273134726, guid: 2b2fc0b03f54f4571958eab326035a4f, type: 3}
+  m_PrefabInstance: {fileID: 2870595848212085721}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6367987526358428599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9190093520144306286, guid: 2b2fc0b03f54f4571958eab326035a4f, type: 3}
   m_PrefabInstance: {fileID: 2870595848212085721}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4502181925842326447

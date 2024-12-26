@@ -5194,6 +5194,7 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
+  graphic: {fileID: 8129901569319948940}
   shipModel: Mars
   abilityPercent: 40
   activationTimePercent: 40
@@ -5702,6 +5703,11 @@ PrefabInstance:
 --- !u!4 &1527764515842551754 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 875360029984907938, guid: 4c2c56673557a430a806ba52f7c16176, type: 3}
+  m_PrefabInstance: {fileID: 1807723511161982312}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8129901569319948940 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7621608529548959716, guid: 4c2c56673557a430a806ba52f7c16176, type: 3}
   m_PrefabInstance: {fileID: 1807723511161982312}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1889297497268727711

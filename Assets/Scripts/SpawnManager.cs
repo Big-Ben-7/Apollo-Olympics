@@ -47,9 +47,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int collectAsteroidDivisor = 2;
     [SerializeField] int minAsteroidScale = 20;
     [SerializeField] int maxAsteroidScale = 200;
-    [SerializeField] int[] collectableNumbers = new int[] {10, 8, 6, 4};
+    [SerializeField] int[] collectableNumbers = new int[] {14, 10, 6, 2};
     int collectableNumber;
-    [SerializeField] int collectCollectableMultiplier = 5;
+    [SerializeField] int collectCollectableMultiplier = 4;
     [SerializeField] int partDisablePercent = 70;
     [SerializeField] int maxMovementForce = 60;
     [SerializeField] float maxRotationForce = 0.2f;
@@ -195,8 +195,8 @@ public class SpawnManager : MonoBehaviour
             droneNumber /= collectDroneDivisor;
             PlayerController.checkpointTexts = new TMP_Text[playerNumber];
             PlayerController.playerNumber = playerNumber;
-            if(difficulty == 3) minutes = 1;
-            else minutes = 3 - difficulty;
+            PlayerController.creditIncrease = difficulty + 1;
+            minutes = 1;
         }
         interactableNumber = asteroidNumber + collectableNumber;
         asteroidCount = possibleAsteroids.Length;
@@ -1078,46 +1078,41 @@ public class SpawnManager : MonoBehaviour
                             break;
                         }
                     }
-                    switch(valid)
+                    if(valid)
                     {
-                        case true:
-                            section.transform.position = newPos;
-                            sectionChunks[i] = newChunk;
+                        section.transform.position = newPos;
+                        sectionChunks[i] = newChunk;
 
-                            //Randomize section
-                            GameObject[] children = childrenList[i];
-                            Rigidbody[] rbs = rbList[i];
-                            for(int j = 0; j < asteroidNumber; j++)
+                        //Randomize section
+                        GameObject[] children = childrenList[i];
+                        Rigidbody[] rbs = rbList[i];
+                        for(int j = 0; j < asteroidNumber; j++)
+                        {
+                            GameObject child = children[j];
+
+                            //Variable interactable amount
+                            if(raceMode && j < disableNumber)
                             {
-                                GameObject child = children[j];
-
-                                //Variable interactable amount
-                                if(raceMode && j < disableNumber)
-                                {
-                                    continue;
-                                }
-                                child.SetActive(true);
-
-                                //Random position and force
-                                child.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
-                                Rigidbody rb = rbs[j];
-                                rb.velocity = rb.angularVelocity = Vector3.zero;
-                                rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
-                                rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+                                continue;
                             }
-                            for(int j = asteroidNumber; j < interactableNumber; j++)
-                            {
-                                //Random position
-                                GameObject child = children[j];
-                                child.SetActive(true);
-                                child.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
-                            }
-                            break;
-                        
-                        case false:
-                            i--;
-                            break;
+                            child.SetActive(true);
+
+                            //Random position and force
+                            child.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+                            Rigidbody rb = rbs[j];
+                            rb.velocity = rb.angularVelocity = Vector3.zero;
+                            rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                            rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+                        }
+                        for(int j = asteroidNumber; j < interactableNumber; j++)
+                        {
+                            //Random position
+                            GameObject child = children[j];
+                            child.SetActive(true);
+                            child.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+                        }
                     }
+                    else i--;
                     stage++;
                 }
                 
@@ -1145,18 +1140,13 @@ public class SpawnManager : MonoBehaviour
                         break;
                     }
                 }
-                switch(valid)
+                if(valid)
                 {
-                    case true:
-                        section.transform.position = newPos;
-                        sectionChunks[i] = newChunk;
-                        StartCoroutine(ActivateSection(i, disableNumber));
-                        break;
-                    
-                    case false:
-                        i--;
-                        break;
+                    section.transform.position = newPos;
+                    sectionChunks[i] = newChunk;
+                    StartCoroutine(ActivateSection(i, disableNumber));
                 }
+                else i--;
                 stage++;
             }
         }

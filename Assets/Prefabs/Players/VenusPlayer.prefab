@@ -299,6 +299,7 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
+  graphic: {fileID: 6067182888555959147}
   shipModel: Venus
   abilityPercent: 0
   activationTimePercent: 70
@@ -802,6 +803,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6027091046057406fb8179ae2ab98d3a, type: 3}
+--- !u!1 &6067182888555959147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4702777379662749523, guid: 6027091046057406fb8179ae2ab98d3a, type: 3}
+  m_PrefabInstance: {fileID: 1545132340512984120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6814889474768900372 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5467986170343890220, guid: 6027091046057406fb8179ae2ab98d3a, type: 3}

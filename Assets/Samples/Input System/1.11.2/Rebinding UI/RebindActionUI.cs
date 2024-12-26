@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using TMPro;
 using System.Text;
+using UnityEngine.PlayerLoop;
 
 ////TODO: localization support
 
@@ -15,7 +16,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
     /// </summary>
     public class RebindActionUI : MonoBehaviour
     {
-
         private Dictionary<string, string> wordNames = new Dictionary<string, string>
         {
             {".", "Period"},
@@ -26,15 +26,10 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             {"=", "Equals"},
             {"[", "Left Bracket"},
             {"]", "Right Bracket"},
-            {"'", "Single Quote"},
+            {"'", "Apostrophe"},
             {";", "Semicolon"},
             {"`", "Backtick"},
         };
-
-        public void UpdateDisplay()
-        {
-            UpdateBindingDisplay();
-        }
 
         /// <summary>
         /// Reference to the action that is to be rebound.
@@ -220,26 +215,27 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             {
                 var bindingIndex = action.bindings.IndexOf(x => x.id.ToString() == m_BindingId);
                 if (bindingIndex != -1)
+                {
                     displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath, displayStringOptions);
-            }
-
-            if(wordNames.ContainsKey(displayString)) displayString = wordNames[displayString];
-            else if(displayString.Length > 1)
-            {
-                if(wordNames.ContainsKey(displayString[0].ToString()))
-                {
-                    StringBuilder sb = new StringBuilder(displayString);
-                    sb.Remove(0, 1);
-                    sb.Insert(0, wordNames[displayString[0].ToString()]);
-                    displayString = sb.ToString();
-                }
-                int lastIndex = displayString.Length - 1;
-                if(wordNames.ContainsKey(displayString[lastIndex].ToString()))
-                {
-                    StringBuilder sb = new StringBuilder(displayString);
-                    sb.Remove(lastIndex, 1);
-                    sb.Insert(lastIndex, wordNames[displayString[lastIndex].ToString()]);
-                    displayString = sb.ToString();
+                    if(wordNames.ContainsKey(displayString)) displayString = wordNames[displayString];
+                    else if(displayString.Length > 1)
+                    {
+                        if(wordNames.ContainsKey(displayString[0].ToString()))
+                        {
+                            StringBuilder sb = new StringBuilder(displayString);
+                            sb.Remove(0, 1);
+                            sb.Insert(0, wordNames[displayString[0].ToString()]);
+                            displayString = sb.ToString();
+                        }
+                        int lastIndex = displayString.Length - 1;
+                        if(wordNames.ContainsKey(displayString[lastIndex].ToString()))
+                        {
+                            StringBuilder sb = new StringBuilder(displayString);
+                            sb.Remove(lastIndex, 1);
+                            sb.Insert(lastIndex, wordNames[displayString[lastIndex].ToString()]);
+                            displayString = sb.ToString();
+                        }
+                    }
                 }
             }
 
@@ -311,7 +307,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .WithControlsExcluding("<Mouse>")
-                .WithCancelingThrough("<Keyboard>/escape")
+                .WithCancelingThrough("<Mouse>/leftButton")
                 .OnCancel(
                     operation =>
                     {
@@ -368,6 +364,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         protected void OnEnable()
         {
+            UpdateBindingDisplay();
             if (s_RebindActionUIs == null)
                 s_RebindActionUIs = new List<RebindActionUI>();
             s_RebindActionUIs.Add(this);
@@ -478,31 +475,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             {
                 var action = m_Action?.action;
                 m_ActionLabel.text = action != null ? action.name : string.Empty;
-                UseWordName(m_ActionLabel);
-            }
-        }
-
-        void UseWordName(TMP_Text text)
-        {
-            string phrase = text.text;
-            if(wordNames.ContainsKey(phrase)) text.text = wordNames[phrase];
-            else if(phrase.Length > 1)
-            {
-                if(wordNames.ContainsKey(phrase[0].ToString()))
-                {
-                    StringBuilder sb = new StringBuilder(phrase);
-                    sb.Remove(0, 1);
-                    sb.Insert(0, wordNames[phrase[0].ToString()]);
-                    phrase = text.text = sb.ToString();
-                }
-                int lastIndex = phrase.Length - 1;
-                if(wordNames.ContainsKey(phrase[lastIndex].ToString()))
-                {
-                    StringBuilder sb = new StringBuilder(phrase);
-                    sb.Remove(lastIndex, 1);
-                    sb.Insert(lastIndex, wordNames[phrase[lastIndex].ToString()]);
-                    text.text = sb.ToString();
-                }
             }
         }
 

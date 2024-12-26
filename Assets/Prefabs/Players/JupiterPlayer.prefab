@@ -375,6 +375,7 @@ MonoBehaviour:
   forwardPercent: 30
   backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
+  graphic: {fileID: 2096745121278956979}
   shipModel: Jupiter
   abilityPercent: 40
   activationTimePercent: 40
@@ -888,6 +889,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0899afa25a2f449b79901133bec7231e, type: 3}
+--- !u!1 &2096745121278956979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2003259545977024169, guid: 0899afa25a2f449b79901133bec7231e, type: 3}
+  m_PrefabInstance: {fileID: 492057177406798618}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8276250620810905093 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8362909021325835551, guid: 0899afa25a2f449b79901133bec7231e, type: 3}
