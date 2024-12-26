@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6690d4d9c37240af8e5ef86244c14f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRadius: 200
-  maxStartDelay: 10
+  spawnRadius: 500
+  maxStartDelay: 5
   updateInterval: 2
   minAttackForce: 50
   maxAttackForce: 150

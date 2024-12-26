@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] float decMultiplier = 0.9f;
-    [SerializeField] float glideDrag = 0.05f;
+    //[SerializeField] float glideDrag = 0.05f;
     [SerializeField] GameObject thrusterParent;
     [SerializeField] float thrusterSpeedDivisor = 40;
     [SerializeField] float maxThrusterSpeed = 20;
@@ -28,22 +28,22 @@ public class PlayerController : MonoBehaviour
     [Header("Collision")]
     [SerializeField] GameObject dieExplosion;
     [SerializeField] List<GameObject> hitExplosions;
+    [SerializeField] GameObject collectEffect;
     [SerializeField] int forwardPercent = 30;
     [SerializeField] int backPercent = 30;
-    [SerializeField] int collectThreshold = 10;
+    [SerializeField] GameObject dronePrefab;
 
     [Header("Ability")]
     [SerializeField] string shipModel;
     [SerializeField] int abilityPercent;
     [SerializeField] int activationTimePercent;
     [SerializeField] int minCooldown;
+    [SerializeField] string abilityCaption;
     [SerializeField] GameObject aura;
     [SerializeField] ParticleSystem[] auraSystems;
     [SerializeField] LayerMask abilityMask;
     Collider[] surroundingColliders = new Collider[5000];
-
-    [Header("Drone spawning")]
-    [SerializeField] GameObject dronePrefab;
+    
 
     [Header("UI/Audio")]
     [SerializeField] AudioSource audioSource;
@@ -73,7 +73,9 @@ public class PlayerController : MonoBehaviour
     float glideSpeed;
     InputAction thrustAction;
     float thrust;
-    InputAction rotateAction;
+    InputAction pitchAction;
+    InputAction yawAction;
+    InputAction rollAction;
     Vector3 rotation;
     float rotationSpeed;
     Vector3 startPos;
@@ -91,15 +93,15 @@ public class PlayerController : MonoBehaviour
     bool canTrigger;
     public static SpawnManager spawnManager;
     public static int length;
-    public static int side;
     public static int playerNumber;
     public static int[] checkpointDistances;
     float[] collisionInitials;
     ParticleSystem.MainModule[] thrusters;
     int thrusterCount;
     int hitSoundsCount;
-    int collects;
+    public int collects;
     GameObject hitExplosionPrefab;
+    public static int credits;
 
     //Ability
     IEnumerator ability;
@@ -112,37 +114,39 @@ public class PlayerController : MonoBehaviour
     Ring ring;
     bool died;
     Coroutine resetting;
-    WaitForSeconds oneSecond = new WaitForSeconds(1);
+    WaitForSeconds oneSecond;
+    WaitForSeconds twoSeconds;
+    WaitForSeconds fifthSecond = new WaitForSeconds(0.2f);
 
     //Drone
     Transform droneGroup;
     public static int droneNumber;
     public static int[] checkpointDrones;
     int activeDrones;
-    Drone[] drones;
+    Drone[] droneScripts;
+    GameObject[] drones;
 
     //UI
     public GameObject cameraObject;
     TMP_Text nameText;
-    TMP_Text checkpointText;
     TMP_Text healthText;
+    TMP_Text checkpointText;
+    public static TMP_Text[] checkpointTexts;
     TMP_Text collectText;
     TMP_Text abilityText;
     TMP_Text posText;
     TMP_Text distanceText;
     TMP_Text speedText;
     TMP_Text timeText;
+    TMP_Text caption;
+    GameObject finishShip;
     TMP_Text countdownText;
-    TMP_Text finishText;
-    GameObject caption;
     TMP_Text[] allText;
     GameObject finishBackground;
-    bool inCountdown = true;
-    int minutes;
-    int seconds;
-    int milliseconds;
     public static float maxThrusterVolume;
     public static float audioVolume;
+    public static bool showCaptions;
+    bool raceMode;
 
     void Awake()
     {
@@ -150,6 +154,7 @@ public class PlayerController : MonoBehaviour
         hitExplosionPrefab = hitExplosions[0];
         hitExplosionPrefab.SetActive(false);
         aura.SetActive(false);
+        collectEffect.SetActive(false);
         thrusterParent.SetActive(false);
         arrow.gameObject.SetActive(false);
         fireSource.volume = 0;
@@ -159,7 +164,6 @@ public class PlayerController : MonoBehaviour
         rb.isKinematic = true;
         myTransform = transform;
         startPos = myTransform.position;
-        normalizedStartPos = startPos.normalized;
         startRot = myTransform.rotation;
 
         Transform thrusterTransform = thrusterParent.transform;
@@ -189,10 +193,11 @@ public class PlayerController : MonoBehaviour
                 playerIndex = 3;
                 break;
         }
-        rotateAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Rotate");
+        pitchAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Pitch");
+        yawAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Yaw");
+        rollAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Roll");
         thrustAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Thrust");
         abilityAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Ability");
-        arrow.gameObject.layer = playerIndex + 6;
 
         //Customize
         speed --;
@@ -210,10 +215,13 @@ public class PlayerController : MonoBehaviour
         thrustSpeed = initialThrustSpeed;
         decSpeed = thrustSpeed;
 
+        Transform cameraStats = cameraObject.transform.GetChild(1);
+        Transform farCanvas = cameraStats.GetChild(0);
         switch(shipModel)
         {
             case "Mercury":
                 ability = SpeedUp();
+                finishShip = farCanvas.GetChild(11).GetChild(0).gameObject;
                 break;
             case "Venus":
                 ability = Atmosphere();
@@ -225,18 +233,22 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
+                finishShip = farCanvas.GetChild(11).GetChild(1).gameObject;
                 break;
             case "Earth":
                 ability = Regeneration();
+                finishShip = farCanvas.GetChild(11).GetChild(2).gameObject;
                 break;
             case "Mars":
                 ability = DustStorm();
+                finishShip = farCanvas.GetChild(11).GetChild(3).gameObject;
                 break;
             case "Jupiter":
                 ability = Juggernaut();
                 collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, minHealthLoss, deflectionForce};
+                finishShip = farCanvas.GetChild(11).GetChild(4).gameObject;
                 break;
-            case "Saturn" or "Uranus":
+            case "Saturn":
                 ability = Ring();
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
@@ -245,23 +257,39 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
+                finishShip = farCanvas.GetChild(11).GetChild(5).gameObject;
+                break;
+            case "Uranus":
+                ability = Ring();
+                aura = Instantiate(aura);
+                ring = aura.GetComponent<Ring>();
+                ring.target = myTransform;
+                ring.audioSource = audioSource;
+                auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
+                aura.SetActive(false);
+                SpawnManager.followers[playerIndex].Add(aura.transform);
+                finishShip = farCanvas.GetChild(11).GetChild(6).gameObject;
                 break;
             case "Neptune":
                 ability = WindStorm();
+                finishShip = farCanvas.GetChild(11).GetChild(7).gameObject;
                 break;
         }
+        finishShip.SetActive(false);
 
         //Spawn drones
         droneGroup = new GameObject("Drones " + playerNumberString).transform;
         droneGroup.gameObject.SetActive(false);
-        drones = new Drone[droneNumber];
+        droneScripts = new Drone[droneNumber];
+        drones = new GameObject[droneNumber];
         for(int i = 0; i < droneNumber; i++)
         {
             GameObject drone = Instantiate(dronePrefab, droneGroup);
             Drone droneScript = drone.GetComponent<Drone>();
             droneScript.target = myTransform;
             droneScript.audioSource = audioSource;
-            drones[i] = droneScript;
+            droneScripts[i] = droneScript;
+            drones[i] = drone;
             drone.SetActive(false);
             
         }
@@ -277,36 +305,51 @@ public class PlayerController : MonoBehaviour
         }
 
         //UI setup
-        Transform cameraStats = cameraObject.transform.GetChild(1);
-        Transform farCanvas = cameraStats.GetChild(0);
         finishBackground = farCanvas.GetChild(0).gameObject;
-        nameText = checkpointText = farCanvas.GetChild(1).GetComponent<TMP_Text>();
-        checkpointText = farCanvas.GetChild(2).GetComponent<TMP_Text>();
-        healthText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
+        nameText = farCanvas.GetChild(1).GetComponent<TMP_Text>();
+        healthText = farCanvas.GetChild(2).GetComponent<TMP_Text>();
+        checkpointText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
         collectText = farCanvas.GetChild(4).GetComponent<TMP_Text>();
         abilityText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
         posText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
         distanceText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
         speedText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
         timeText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
-        finishText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
-        caption = farCanvas.GetChild(11).gameObject;
+        caption = farCanvas.GetChild(10).GetComponent<TMP_Text>();
         countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
-        nameText.SetText(MenuManager.playerNames[playerIndex]);
-        checkpointText.SetText("Checkpoint: 0");
+        if(MenuManager.loaded) nameText.SetText(MenuManager.playerNames[playerIndex]);
+        else nameText.SetText("Player " + playerNumberString);
         healthText.SetText("Health: 100.00");
         collectText.SetText("Space Junk: 0");
         abilityText.SetText("");
         posText.SetText("Pos: 0.0,0.0,0.0");
         distanceText.SetText("Distance: 0.00");
         speedText.SetText("Speed: 0.00");
-        timeText.SetText("Time: 0:00.000");
+        if(showCaptions) caption.SetText("");
+        else caption.gameObject.SetActive(false);
         countdownText.SetText("");
-        finishText.SetText("");
-        caption.SetActive(false);
+        oneSecond = spawnManager.oneSecond;
+        twoSeconds = spawnManager.twoSeconds;
 
+        raceMode = spawnManager.raceMode;
+        if(raceMode)
+        {
+            normalizedStartPos = startPos.normalized;
+            arrow.GetChild(0).GetComponent<Canvas>().worldCamera = cameraObject.transform.GetChild(0).GetComponent<Camera>();
+            arrow.gameObject.layer = playerIndex + 6;
+            checkpointText.SetText("Checkpoint: 0");
+            timeText.SetText("Time: 0:00.000");
+        }
+        else
+        {
+            checkpointTexts[playerIndex] = checkpointText;
+            credits = MenuManager.credits;
+            checkpointText.SetText("Credits: " + credits);
+            timeText.SetText("Time: " + spawnManager.minutes + ":00.000");
+        }
+        
         audioSource.volume = audioVolume;
 
         allText = new TMP_Text[]{checkpointText, healthText, speedText, collectText, abilityText, timeText, posText, distanceText};
@@ -352,14 +395,14 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(inCountdown) return;
+        if(spawnManager.inCountdown) return;
 
         float speed = rb.velocity.magnitude;
         
         if(!rb.isKinematic)
         {
             //Movement input
-            rotation = rotateAction.ReadValue<Vector3>();
+            rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), -rollAction.ReadValue<float>());
             thrust = thrustAction.ReadValue<float>();
 
             //Thrust/glide control
@@ -395,7 +438,7 @@ public class PlayerController : MonoBehaviour
 
                     break;
                 
-                default:
+                /*default:
                     float newGlide = glideSpeed - glideDrag * Time.deltaTime;
                     if(newGlide > 0) glideSpeed = newGlide;
                     else glideSpeed = 0;
@@ -414,8 +457,8 @@ public class PlayerController : MonoBehaviour
                                 glideSpeed = 0;
                             }
                             break;
-                    }*/
-                    break;
+                    }
+                    break;*/
             }
         
             //Show speed in km/h, multiply by 2.23694 for mph
@@ -437,6 +480,7 @@ public class PlayerController : MonoBehaviour
         thrusterSource.volume = thrusterVolume;
 
         Vector3 position = myTransform.position;
+        float pos = position.magnitude;
 
         //Check if passed section
         Vector3 chunk = new Vector3((int) Mathf.Round(position.x / length), (int) Mathf.Round(position.y / length), (int) Mathf.Round(position.z / length));
@@ -454,81 +498,40 @@ public class PlayerController : MonoBehaviour
         }
     
         //Show time
-        milliseconds += (int) (Time.deltaTime * 1000);
-        if(milliseconds >= 1000)
+        timeText.SetText(spawnManager.timeString);
+        
+        //Check if passed checkpoint
+        if(raceMode)
         {
-            milliseconds = 0;
-            seconds ++;
-            if(seconds >= 60)
+            int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
+            switch(playerCheckpoint)
             {
-                seconds = 0;
-                minutes ++;
+                case 0:
+                    if(pos >= checkpointDistances[0]) AddCheckpoint(playerCheckpoint);
+                    break;
+                
+                case 8:
+                    //Passed finish line
+                    if(pos >= checkpointDistances[8])
+                    {
+                        Finish();
+                        return;
+                    }
+                    else if(pos <= checkpointDistances[7]) RemoveCheckpoint(7);
+                    break;
+
+                default:
+                    int lastCheckpoint = playerCheckpoint - 1;
+                    if(pos >= checkpointDistances[playerCheckpoint]) AddCheckpoint(playerCheckpoint);
+                    else if(pos <= checkpointDistances[lastCheckpoint]) RemoveCheckpoint(lastCheckpoint);
+                    break;
             }
         }
-        timeText.SetText("Time: " + minutes + ":" + seconds.ToString("00") + "." + milliseconds.ToString("000"));
-
-        //Check if passed checkpoint
-        float pos = position.magnitude;
-        int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
-        switch(playerCheckpoint)
+        else if(pos >= 100000)
         {
-            case 0:
-                if(pos >= checkpointDistances[0]) AddCheckpoint(playerCheckpoint);
-                break;
-            
-            case 8:
-                //Passed finish line
-                if(pos >= checkpointDistances[8])
-                {
-                    if(collects < collectThreshold)
-                    {
-                        rb.AddForce(-myTransform.position.normalized * 2000, ForceMode.VelocityChange);
-                        StartCoroutine(ChangeTextColor(collectText, 0.2f, Color.white, Color.red));
-                        caption.SetActive(true);
-                        StartCoroutine(ResetEffect(caption));
-                        audioSource.PlayOneShot(errorSound);
-                        break;
-                    }
-                    int playingPlayers = spawnManager.PlayerFinish(playerIndex);
-                    DateTime finishTime = DateTime.Now;
-                    gameObject.SetActive(false);
-                    finishBackground.SetActive(true);
-                    switch(playerNumber - playingPlayers)
-                    {
-                        case 1:
-                            finishText.SetText("1st\nPlace!");
-                            break;
-                        case 2:
-                            finishText.SetText("2nd\nPlace!");
-                            break;
-                        case 3:
-                            finishText.SetText("3rd\nPlace!");
-                            break;
-                        default:
-                            finishText.SetText("4th\nPlace!");
-                            break;
-                    }
-                    spawnManager.audioSource.PlayOneShot(checkpointSound);
-                    if(!MenuManager.loaded) return;
-                    int elapsedMilliseconds = milliseconds + seconds * 1000 + minutes * 60000;
-                    if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
-                    {
-                        int index = MenuManager.difficulty;
-                        MenuManager.times[index] = elapsedMilliseconds;
-                        PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
-                        PlayerPrefs.SetString("Description" + index, " - " + MenuManager.playerNames[playerIndex] + ", " + shipModel + " - " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year);
-                    }
-                    MenuManager.collects += collects;
-                    PlayerPrefs.SetInt("Collects", MenuManager.collects);
-                }
-                else if(pos <= checkpointDistances[7]) RemoveCheckpoint(7);
-                break;
-
-            default:
-                int lastCheckpoint = playerCheckpoint - 1;
-                if(pos >= checkpointDistances[playerCheckpoint]) AddCheckpoint(playerCheckpoint);
-                else if(pos <= checkpointDistances[lastCheckpoint]) RemoveCheckpoint(lastCheckpoint);
-                break;
+            rb.AddForce(-myTransform.position.normalized * 2000, ForceMode.VelocityChange);
+            StartCoroutine(ChangeTextColor(distanceText, 0.2f, Color.white, Color.red));
+            audioSource.PlayOneShot(errorSound);
         }
 
         //Show position in km, divide by 1609 for mi
@@ -543,6 +546,8 @@ public class PlayerController : MonoBehaviour
     {
         if(rb.isKinematic) return;
         droneGroup.position = myTransform.position;
+
+        if(!raceMode) return;
         arrow.localPosition = Vector3.zero;
         arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, Vector3.up);
         Vector3 rot = arrow.rotation.eulerAngles;
@@ -582,17 +587,37 @@ public class PlayerController : MonoBehaviour
             collects++;
             collectText.SetText("Space Junk: " + collects);
             StartCoroutine(ChangeTextColor(collectText, 0.2f, Color.white, Color.green));
-            int number = UnityEngine.Random.Range(0, 100);
-            if(number < abilityPercent + activationTimePercent)
+            if(raceMode)
             {
-                activationTime++;
-                currentActivation++;
+                int number = UnityEngine.Random.Range(0, 100);
+                if(number < abilityPercent)
+                {
+                    abilityStrength += abilityIncrease;
+                    if(showCaptions) StartCoroutine(ResetText(caption, abilityCaption));
+                }
+                else if(number < abilityPercent + activationTimePercent || cooldownTime <= minCooldown)
+                {
+                    activationTime++;
+                    currentActivation++;
+                    if(showCaptions) StartCoroutine(ResetText(caption, "+1 Ability Duration"));
+                }
+                else
+                {
+                    cooldownTime--;
+                    if(currentCooldown > 1) currentCooldown--;
+                    if(showCaptions) StartCoroutine(ResetText(caption, "-1 Ability Cooldown"));
+                }
             }
-            else if(number < abilityPercent || cooldownTime <= minCooldown) abilityStrength += abilityIncrease;
             else
             {
-                cooldownTime--;
-                if(currentCooldown > 1) currentCooldown--;
+                credits++;
+                for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits);
+                StartCoroutine(ChangeTextColor(checkpointText, 0.2f, Color.white, Color.green));
+            }
+            if(!collectEffect.activeSelf)
+            {
+                collectEffect.SetActive(true);
+                StartCoroutine(ResetCollect(collectEffect));
             }
             audioSource.PlayOneShot(collectSound);
         }
@@ -686,9 +711,8 @@ public class PlayerController : MonoBehaviour
         float speed = rb.velocity.magnitude;
         float otherSpeed = other.rigidbody.velocity.magnitude;
         if(otherSpeed > speed) speed = otherSpeed;
-        Vector3 otherPos = other.transform.position;
-        Vector3 pos = myTransform.position;
-        rb.AddTorque(new Vector3(otherPos.y - pos.y, otherPos.x - pos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
+        Vector3 otherPos = myTransform.InverseTransformPoint(other.transform.position);
+        rb.AddTorque(new Vector3(-otherPos.y, otherPos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
 
         if(!other.gameObject.CompareTag("Drone"))
         {
@@ -709,7 +733,7 @@ public class PlayerController : MonoBehaviour
             explosion.transform.position = other.GetContact(0).point;
             explosion.SetActive(true);
             audioSource.PlayOneShot(hitSounds[UnityEngine.Random.Range(0, hitSoundsCount)]);
-            StartCoroutine(ResetEffect(explosion));
+            StartCoroutine(ResetHit(explosion));
         }
         
         //Lose speed on other
@@ -735,7 +759,7 @@ public class PlayerController : MonoBehaviour
 
                 dieExplosion.transform.position = other.GetContact(0).point;
                 dieExplosion.SetActive(true);
-                StartCoroutine(ResetEffect(dieExplosion));
+                StartCoroutine(ResetHit(dieExplosion));
 
                 died = true;
                 currentActivation = 0;
@@ -757,21 +781,34 @@ public class PlayerController : MonoBehaviour
                 }
 
                 //Respawning
-                int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
-                switch(playerCheckpoint)
+                if(raceMode)
                 {
-                    case 0:
-                        myTransform.SetPositionAndRotation(startPos, startRot);
-                        spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
-                        break;
-                    default:
-                        Vector3 newPos = startPos + normalizedStartPos * checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1];
-                        myTransform.SetPositionAndRotation(newPos, startRot);
-                        spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
-                        break;
+                    int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
+                    switch(playerCheckpoint)
+                    {
+                        case 0:
+                            rb.position = startPos;
+                            rb.rotation = startRot;
+                            spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
+                            break;
+                        default:
+                            Vector3 newPos = startPos + normalizedStartPos * checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1];
+                            rb.position = newPos;
+                            rb.rotation = startRot;
+                            spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
+                            break;
+                    }
+                }
+                else
+                {
+                    rb.position = startPos;
+                    rb.rotation = startRot;
+                    spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
+                    credits -= collects;
+                    for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits);
                 }
 
-                for(int i = 0; i < activeDrones; i++) droneGroup.GetChild(i).GetComponent<Drone>().ResetDrone();
+                for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
 
                 thrustSpeed = initialThrustSpeed;
                 collects = 0;
@@ -811,21 +848,29 @@ public class PlayerController : MonoBehaviour
             countdownTime --;
             yield return oneSecond;
         }
-        arrow.gameObject.SetActive(true);
         countdownText.SetText("Go!");
         yield return oneSecond;
-        int initialCheckpointDrones = checkpointDrones[0];
-        for(int i = 0; i < initialCheckpointDrones; i++)
+        if(raceMode)
         {
-            droneGroup.GetChild(activeDrones).gameObject.SetActive(true);
-            activeDrones++;
+            arrow.gameObject.SetActive(true);
+            activeDrones = checkpointDrones[0];
+            for(int i = 0; i < activeDrones; i++)
+            {
+                drones[i].SetActive(true);
+            }
+        }
+        else
+        {
+            for(int i = 0; i < droneNumber; i++)
+            {
+                drones[i].SetActive(true);
+            }
         }
         countdownText.gameObject.SetActive(false);
         thrusterParent.SetActive(true);
         rb.isKinematic = false;
         canCollide = true;
         canTrigger = true;
-        inCountdown = false;
     }
 
     IEnumerator ChangeTextColor(TMP_Text text, float time, Color originalColor, Color newColor, int amount = 1)
@@ -853,10 +898,57 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator ResetEffect(GameObject effect, int waitTime = 2)
+    IEnumerator ResetHit(GameObject effect)
     {
-        yield return new WaitForSeconds(waitTime);
+        yield return twoSeconds;
         effect.SetActive(false);
+    }
+
+    IEnumerator ResetCollect(GameObject effect)
+    {
+        yield return fifthSecond;
+        effect.SetActive(false);
+    }
+
+    IEnumerator ResetText(TMP_Text text, string phrase)
+    {
+        text.SetText(phrase);
+        yield return oneSecond;
+        if(text.text == phrase)
+        {
+            text.SetText("");
+        }
+    }
+
+    public void Finish()
+    {
+        gameObject.SetActive(false);
+        if(showCaptions) caption.gameObject.SetActive(false);
+        abilityText.gameObject.SetActive(false);
+        finishBackground.SetActive(true);
+        finishShip.SetActive(true);
+        if(!raceMode) timeText.SetText("Time: 0:00.000");
+        else
+        {
+            spawnManager.PlayerFinish(playerIndex);
+            if(MenuManager.loaded)
+            {
+                DateTime finishTime = DateTime.Now;
+                int elapsedMilliseconds = spawnManager.milliseconds + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
+                if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
+                {
+                    int index = MenuManager.difficulty;
+                    MenuManager.times[index] = elapsedMilliseconds;
+                    PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
+                    PlayerPrefs.SetString("Description" + index, ", " + MenuManager.playerNames[playerIndex] + "-" + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year);
+                }
+            }
+        }
+        if(collects != 0 && MenuManager.loaded)
+        {
+            MenuManager.collects += collects;
+            PlayerPrefs.SetInt("Collects", MenuManager.collects);
+        }
     }
 
     public void Teleport()
@@ -866,63 +958,67 @@ public class PlayerController : MonoBehaviour
         int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
         int direction = UnityEngine.Random.Range(0, 100);
         float distance;
-        switch(playerCheckpoint)
+        if(raceMode)
         {
-            case 0:
-                if(direction < forwardPercent)
-                {
-                    AddCheckpoint(playerCheckpoint);
-                    playerCheckpoint ++;
+            switch(playerCheckpoint)
+            {
+                case 0:
+                    if(direction < forwardPercent)
+                    {
+                        AddCheckpoint(playerCheckpoint);
+                        playerCheckpoint ++;
+                        distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
+                        break;
+                    }
+                    distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - 20);
+                    break;
+
+                case 1:
+                    if(direction < forwardPercent)
+                    {
+                        AddCheckpoint(playerCheckpoint);
+                        playerCheckpoint ++;
+                        distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
+                        break;
+                    }
+                    else if(direction < forwardPercent + backPercent)
+                    {
+                        playerCheckpoint --;
+                        RemoveCheckpoint(playerCheckpoint);
+                        distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - 5);
+                        break;
+                    }
                     distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
                     break;
-                }
-                distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - 20);
-                break;
-
-            case 1:
-                if(direction < forwardPercent)
-                {
-                    AddCheckpoint(playerCheckpoint);
-                    playerCheckpoint ++;
+                
+                case 8:
+                    if(direction < backPercent)
+                    {
+                        playerCheckpoint --;
+                        RemoveCheckpoint(playerCheckpoint);
+                    }
                     distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
                     break;
-                }
-                else if(direction < forwardPercent + backPercent)
-                {
-                    playerCheckpoint --;
-                    RemoveCheckpoint(playerCheckpoint);
-                    distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - 5);
-                    break;
-                }
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
-                break;
-            
-            case 8:
-                if(direction < backPercent)
-                {
-                    playerCheckpoint --;
-                    RemoveCheckpoint(playerCheckpoint);
-                }
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
-                break;
 
-            default:
-                if(direction < forwardPercent)
-                {
-                    AddCheckpoint(playerCheckpoint);
-                    playerCheckpoint ++;
-                }
-                else if(direction < forwardPercent + backPercent)
-                {
-                    playerCheckpoint --;
-                    RemoveCheckpoint(playerCheckpoint);
-                }
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
-                break;
+                default:
+                    if(direction < forwardPercent)
+                    {
+                        AddCheckpoint(playerCheckpoint);
+                        playerCheckpoint ++;
+                    }
+                    else if(direction < forwardPercent + backPercent)
+                    {
+                        playerCheckpoint --;
+                        RemoveCheckpoint(playerCheckpoint);
+                    }
+                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
+                    break;
+            }
         }
+        else distance = UnityEngine.Random.Range(0f, 99080);
+
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), 0) * new Vector3(0, 0, distance);
-        //myTransform.parent = null;
-        myTransform.position = newPos;
+        rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);
         audioSource.PlayOneShot(wormholeSound);
         canCollide = true;
@@ -935,12 +1031,12 @@ public class PlayerController : MonoBehaviour
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
         checkpointText.SetText("Checkpoint: " + playerCheckpoint);
-        int dronesToActivate = checkpointDrones[playerCheckpoint] - activeDrones;
-        for(int i = 0; i < dronesToActivate; i++)
+        int newDrones = checkpointDrones[playerCheckpoint];
+        for(int i = activeDrones; i < newDrones; i++)
         {
-            droneGroup.GetChild(activeDrones).gameObject.SetActive(true);
-            activeDrones++;
+            drones[i].gameObject.SetActive(true);
         }
+        activeDrones = newDrones;
         StartCoroutine(ChangeTextColor(checkpointText, 0.5f, Color.white, Color.green));
         audioSource.PlayOneShot(checkpointSound);
     }
@@ -961,7 +1057,8 @@ public class PlayerController : MonoBehaviour
         ability = SpeedUp();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        rb.AddForce(rb.velocity + rb.velocity.normalized * abilityStrength, ForceMode.VelocityChange);
+        rb.AddRelativeForce(Vector3.forward * (rb.velocity.magnitude + abilityStrength), ForceMode.VelocityChange);
+        glideSpeed += abilityStrength;
         resetting = StartCoroutine(ResetAura(2));
 
         //Cooldown
@@ -1061,7 +1158,7 @@ public class PlayerController : MonoBehaviour
         ability = DustStorm();
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
-        for(int i = 0; i < droneNumber; i++) drones[i].offset = abilityStrength;
+        for(int i = 0; i < droneNumber; i++) droneScripts[i].offset = abilityStrength;
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation);
@@ -1071,7 +1168,7 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(2));
         audioSource.PlayOneShot(expireSound);
-        for(int i = 0; i < droneNumber; i++) drones[i].offset = 0;
+        for(int i = 0; i < droneNumber; i++) droneScripts[i].offset = 0;
 
         //Cooldown
         while(currentCooldown > 0)
@@ -1114,7 +1211,7 @@ public class PlayerController : MonoBehaviour
         speedLossDivisor = collisionInitials[0];
         healthLossDivisor = (int) collisionInitials[1];
         minHealthLoss = collisionInitials[2];
-        deflectionForce = (int) collisionInitials[3];
+        deflectionForce = collisionInitials[3];
         rb.mass /= abilityStrength;
 
         //Cooldown
@@ -1186,7 +1283,7 @@ public class PlayerController : MonoBehaviour
             }
             if(collider.gameObject.CompareTag("Drone"))
             {
-                collider.GetComponent<Drone>().Explode(collider.transform.position, transform);
+                collider.GetComponent<Drone>().Explode(collider.transform.position, myTransform);
             }
             else
             {

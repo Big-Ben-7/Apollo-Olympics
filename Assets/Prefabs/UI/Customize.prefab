@@ -807,7 +807,7 @@ PrefabInstance:
         Uranus uses its tilted rings to push surrounding objects vertically. Hold
         down ability key to rotate rings.
 
-        Activation: 20s          Cooldown:
+        Duration: 20s          Cooldown:
         20s'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1766,7 +1766,7 @@ PrefabInstance:
         Saturn''s rings push surrounding objects laterally. Hold down ability key
         to rotate rings.
 
-        Activation: 20s          Cooldown: 20s'
+        Duration: 20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -2887,7 +2887,7 @@ PrefabInstance:
 
         Ability: A Mars dust storm confuses space pirates.
 
-        Activation:
+        Duration:
         20s          Cooldown: 10s'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3101,7 +3101,7 @@ PrefabInstance:
         Venus uses its toxic atmosphere to shield itself from asteroids. No effect
         on drones.
 
-        Activation: 20s          Cooldown: 20s'
+        Duration: 20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -3268,7 +3268,7 @@ PrefabInstance:
         Ability:
         Jupiter''s mass increases such that its momentum can knock back asteroids.
 
-        Activation:
+        Duration:
         20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4749,7 +4749,7 @@ PrefabInstance:
 
         Ability: Earth regenerates its health each second.
 
-        Activation:
+        Duration:
         10s          Cooldown: 10s'
       objectReference: {fileID: 0}
     m_RemovedComponents: []

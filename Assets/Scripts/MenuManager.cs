@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class MenuManager : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class MenuManager : MonoBehaviour
 
     [Header("Main Menu")]
     [SerializeField] TMP_Text racesText;
+    [SerializeField] TMP_Text creditsText;
     [SerializeField] TMP_Text collectsText;
     [SerializeField] TMP_Text begTime;
     [SerializeField] TMP_Text intTime;
@@ -25,8 +28,13 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text expTime;
 
     [Header("Game Settings")]
+    [SerializeField] TMP_Text creditsText2;
+    [SerializeField] TMP_Text raceText;
+    [SerializeField] TMP_Text collectionText;
     [SerializeField] Slider difficultySlider;
     [SerializeField] Slider playersSlider;
+    [SerializeField] TMP_Text playText;
+    [SerializeField] Color selectedColor;
 
     [Header("Customization")]
     [SerializeField] GameObject[] ships;
@@ -51,6 +59,7 @@ public class MenuManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] Slider fovSlider;
     [SerializeField] Slider depthSlider;
+    [SerializeField] Toggle captionToggle;
     [SerializeField] Toggle cursorToggle;
     [SerializeField] Slider musicSlider;
     [SerializeField] Slider noiseSlider;
@@ -64,21 +73,28 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text thrusterText;
     [SerializeField] TMP_Text effectsText;
 
+    [SerializeField] GameObject[] controls;
+    [SerializeField] TMP_Text[] nameTexts;
+
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioSource backgroundMusic;
     [SerializeField] AudioClip majorClick;
     [SerializeField] AudioClip minorClick;
+    [SerializeField] AudioClip errorSound;
     
     public static bool loaded;
     public static int playerNumber;
+    public static bool raceMode;
     public static int difficulty;
     public static int[] playerShips = new int[4];
     public static int[] times = new int[4];
     public static int collects;
     public static int races;
+    public static int credits;
     public static float fov;
     public static float depth;
+    public static bool showCaptions;
     public static bool cursorHide;
     public static float music;
     public static float noise;
@@ -94,8 +110,13 @@ public class MenuManager : MonoBehaviour
             playerNames[i] = PlayerPrefs.GetString("Name" + i, "Player " + (i + 1));
         }
 
+        //Get main menu variables
         races = PlayerPrefs.GetInt("Races");
         racesText.SetText("Races: " + races);
+        credits = PlayerPrefs.GetInt("Credits", 500);
+        string newCredits = "Credits: " + credits;
+        creditsText.SetText(newCredits);
+        creditsText2.SetText(newCredits);
         collects = PlayerPrefs.GetInt("Collects");
         collectsText.SetText("Space Junk Collected: " + collects);
         TimeSpan begSpan = TimeSpan.FromMilliseconds(times[0]);
@@ -113,6 +134,7 @@ public class MenuManager : MonoBehaviour
         vaSettings.SetActive(true);
         controlSettings.SetActive(false);
 
+        //Get customization variables
         shipCount = ships.Length;
         models = new Transform[shipCount];
         abilities = new GameObject[shipCount];
@@ -126,6 +148,25 @@ public class MenuManager : MonoBehaviour
             selectTexts[i] = ship.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         }
 
+        //Get game settings variables
+        if(PlayerPrefs.GetInt("Mode") == 0)
+        {
+            raceMode = true;
+            raceText.fontStyle = FontStyles.UpperCase;
+            raceText.color = selectedColor;
+            collectionText.fontStyle = FontStyles.Normal;
+            collectionText.color = Color.white;
+            playText.SetText("Play  -  200 credits");
+        }
+        else
+        {
+            raceMode = false;
+            raceText.fontStyle = FontStyles.Normal;
+            raceText.color = Color.white;
+            collectionText.fontStyle = FontStyles.UpperCase;
+            collectionText.color = selectedColor;
+            playText.SetText("Play");
+        }
         playerNumber = PlayerPrefs.GetInt("PlayerNumber", 1);
         difficulty = PlayerPrefs.GetInt("Difficulty");
         playersSlider.value = playerNumber;
@@ -133,6 +174,7 @@ public class MenuManager : MonoBehaviour
         nameObject = nameInput.gameObject;
         nameInput.text = "";
 
+        //Get settings variables
         fov = PlayerPrefs.GetFloat("Fov", 35);
         fovSlider.value = fov;
         fovText.SetText(fov.ToString("0.#"));
@@ -142,6 +184,16 @@ public class MenuManager : MonoBehaviour
         music = PlayerPrefs.GetFloat("Music", 0.2f);
         musicSlider.value = music;
         musicText.SetText(music.ToString("0.##"));
+        if(PlayerPrefs.GetInt("ShowCaptions", 1) == 0)
+        {
+            showCaptions = false;
+            captionToggle.isOn = false;
+        }
+        else
+        {
+            showCaptions = true;
+            captionToggle.isOn = true;
+        }
         if(PlayerPrefs.GetInt("CursorHide", 1) == 0)
         {
             cursorHide = false;
@@ -158,16 +210,19 @@ public class MenuManager : MonoBehaviour
         thruster = PlayerPrefs.GetFloat("Thruster", 0.2f);
         thrusterSlider.value = thruster;
         thrusterText.SetText(thruster.ToString("0.##"));
-        effects = PlayerPrefs.GetFloat("Effects", 0.5f);
+        effects = PlayerPrefs.GetFloat("Effects", 0.2f);
         effectsSlider.value = effects;
         effectsText.SetText(effects.ToString("0.##"));
+        string rebinds = PlayerPrefs.GetString("Bindings");
+        if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
+
         UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         loaded = true;
     }
 
     void Update()
     {
-        if(customization.activeInHierarchy)
+        if(customization.activeSelf)
         {
             activeModel.Rotate(0, rotationSpeed, 0);
         }
@@ -175,18 +230,18 @@ public class MenuManager : MonoBehaviour
 
     public void ShowMain()
     {
-        mainMenu.SetActive(true);
         gameSettings.SetActive(false);
         customization.SetActive(false);
         settings.SetActive(false);
         loading.SetActive(false);
+        mainMenu.SetActive(true);
         audioSource.PlayOneShot(majorClick);
     }
 
     public void GameSettings()
     {
-        gameSettings.SetActive(true);
         mainMenu.SetActive(false);
+        gameSettings.SetActive(true);
         audioSource.PlayOneShot(majorClick);
     }
 
@@ -224,13 +279,59 @@ public class MenuManager : MonoBehaviour
 
     public void Settings()
     {
-        settings.SetActive(true);
         mainMenu.SetActive(false);
+        activePlayer = 0;
+        for(int i = 1; i < 4; i++)
+        {
+            controls[i].SetActive(false);
+            nameTexts[i].SetText(playerNames[i]);
+        }
+        nameTexts[0].SetText(playerNames[0]);
+        controls[0].SetActive(true);
+        settings.SetActive(true);
         audioSource.PlayOneShot(majorClick);
+    }
+
+    public void ChangeMode(bool racing)
+    {
+        if(racing)
+        {
+            raceMode = true;
+            raceText.fontStyle = FontStyles.UpperCase;
+            raceText.color = selectedColor;
+            collectionText.fontStyle = FontStyles.Normal;
+            collectionText.color = Color.white;
+            playText.SetText("Play  -  200 credits");
+        }
+        else
+        {
+            raceMode = false;
+            raceText.fontStyle = FontStyles.Normal;
+            raceText.color = Color.white;
+            collectionText.fontStyle = FontStyles.UpperCase;
+            collectionText.color = selectedColor;
+            playText.SetText("Play");
+        }
+        audioSource.PlayOneShot(minorClick);
     }
 
     public void Play()
     {
+        if(raceMode)
+        {
+            if(credits < 200)
+            {
+                StartCoroutine(ChangeText(playText, 0.5f, Color.white, Color.red, "Play  -  200 credits", "Not enough credits"));
+                StartCoroutine(ChangeText(creditsText2, 0.5f, Color.white, Color.red));
+                audioSource.PlayOneShot(errorSound);
+                return;
+            }
+            credits -= 200;
+            string newCredits = "Credits: " + credits;
+            creditsText.SetText(newCredits);
+            creditsText2.SetText(newCredits);
+            PlayerPrefs.SetInt("Credits", credits);
+        }
         SavePrefs();
         gameSettings.SetActive(false);
         loading.SetActive(true);
@@ -268,10 +369,7 @@ public class MenuManager : MonoBehaviour
         playerText.SetText(playerNames[activePlayer]);
         activeShip = playerShips[activePlayer];
         ChangeShip();
-        for(int i = 0; i < shipCount; i++)
-        {
-            selectTexts[i].SetText("Select");
-        }
+        for(int i = 0; i < shipCount; i++) selectTexts[i].SetText("Select");
         selectTexts[activeShip].SetText("Selected");
         audioSource.PlayOneShot(minorClick);
     }
@@ -326,7 +424,6 @@ public class MenuManager : MonoBehaviour
     {
         nameObject.SetActive(false);
         nameEnter.SetActive(false);
-        audioSource.PlayOneShot(minorClick);
         string newName = nameInput.text;
         bool valid = true;
         for(int i = 0; i < 4; i++)
@@ -342,6 +439,13 @@ public class MenuManager : MonoBehaviour
             playerText.SetText(newName);
             playerNames[activePlayer] = newName;
             PlayerPrefs.SetString("Name" + activePlayer, newName);
+            audioSource.PlayOneShot(minorClick);
+        }
+        else
+        {
+            if(string.IsNullOrEmpty(newName)) StartCoroutine(ChangeText(playerText, 0.5f, Color.white, Color.red, playerNames[activePlayer], "Invalid name"));
+            else StartCoroutine(ChangeText(playerText, 0.5f, Color.white, Color.red, playerNames[activePlayer], "Name already taken"));
+            audioSource.PlayOneShot(errorSound);
         }
         playerText.enabled = true;
         nameEdit.SetActive(true);
@@ -350,7 +454,7 @@ public class MenuManager : MonoBehaviour
     public void Ability()
     {
         GameObject activeAbility = abilities[activeShip];
-        if(!activeAbility.activeInHierarchy || activeShip == 7)
+        if(!activeAbility.activeSelf || activeShip == 7)
         {
             switch(activeShip)
             {
@@ -381,9 +485,10 @@ public class MenuManager : MonoBehaviour
 
     public void NextSetting()
     {
-        bool vaActive = vaSettings.activeInHierarchy;
+        bool vaActive = vaSettings.activeSelf;
         vaSettings.SetActive(!vaActive);
         controlSettings.SetActive(vaActive);
+        audioSource.PlayOneShot(minorClick);
     }
 
     public void ChangeFOV()
@@ -432,23 +537,38 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetString("Name" + i, "Player " + (i + 1));
             playerNames[i] = "Player " + (i + 1);
         }
+        PlayerPrefs.SetInt("Mode", 0);
         PlayerPrefs.SetInt("PlayerNumber", 1);
         PlayerPrefs.SetInt("Difficulty", 0);
         PlayerPrefs.SetInt("Races", 0);
+        PlayerPrefs.SetInt("Credits", 0);
         PlayerPrefs.SetInt("Collects", 0);
         PlayerPrefs.SetFloat("Fov", 35);
         PlayerPrefs.SetFloat("Depth", 4000);
         PlayerPrefs.SetFloat("Music", 0.2f);
+        PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetFloat("Noise", 0.2f);
         PlayerPrefs.SetFloat("Thruster", 0.2f);
-        PlayerPrefs.SetFloat("Effects", 0.5f);
+        PlayerPrefs.SetFloat("Effects", 0.2f);
+
+        races = 0;
         racesText.SetText("Races: 0");
+        credits = 0;
+        creditsText.SetText("Credits: 0");
+        creditsText2.SetText("Credits: 0");
+        collects = 0;
         collectsText.SetText("Space Junk Collected: 0");
         begTime.SetText("Beginner: 0:00:000");
         intTime.SetText("Intermediate: 0:00:000");
         advTime.SetText("Advanced: 0:00:000");
         expTime.SetText("Expert: 0:00:000");
+        raceMode = true;
+        raceText.fontStyle = FontStyles.UpperCase;
+        raceText.color = selectedColor;
+        collectionText.fontStyle = FontStyles.Normal;
+        collectionText.color = Color.white;
+        playText.SetText("Play  -  200 credits");
         playersSlider.value = 1;
         difficultySlider.value = 0;
         fovSlider.value = 35;
@@ -457,22 +577,70 @@ public class MenuManager : MonoBehaviour
         depthText.SetText("4000");
         musicSlider.value = 0.2f;
         musicText.SetText("0.2");
+        showCaptions = true;
+        captionToggle.isOn = true;
         cursorHide = true;
         cursorToggle.isOn = true;
         noiseSlider.value = 0.2f;
         noiseText.SetText("0.2");
         thrusterSlider.value = 0.2f;
         thrusterText.SetText("0.2");
-        effectsSlider.value = 0.5f;
-        effectsText.SetText("0.5");
+        effectsSlider.value = 0.2f;
+        effectsText.SetText("0.2");
         audioSource.PlayOneShot(majorClick);
     }
 
-    public void Quit()
+    public void ResetSettings()
     {
-        SavePrefs();
-        audioSource.PlayOneShot(majorClick);
-        StartCoroutine(QuitApplication());
+        PlayerPrefs.SetFloat("Fov", 35);
+        PlayerPrefs.SetFloat("Depth", 4000);
+        PlayerPrefs.SetFloat("Music", 0.2f);
+        PlayerPrefs.SetInt("ShowCaptions", 1);
+        PlayerPrefs.SetInt("CursorHide", 1);
+        PlayerPrefs.SetFloat("Noise", 0.2f);
+        PlayerPrefs.SetFloat("Thruster", 0.2f);
+        PlayerPrefs.SetFloat("Effects", 0.2f);
+
+        fovSlider.value = 35;
+        fovText.SetText("35");
+        depthSlider.value = 4000;
+        depthText.SetText("4000");
+        musicSlider.value = 0.2f;
+        musicText.SetText("0.2");
+        showCaptions = true;
+        captionToggle.isOn = true;
+        cursorHide = true;
+        cursorToggle.isOn = true;
+        noiseSlider.value = 0.2f;
+        noiseText.SetText("0.2");
+        thrusterSlider.value = 0.2f;
+        thrusterText.SetText("0.2");
+        effectsSlider.value = 0.2f;
+        effectsText.SetText("0.2");
+        audioSource.PlayOneShot(minorClick);
+    }
+
+    public void NextPlayerControls(int increment)
+    {
+        activePlayer += increment;
+        switch(activePlayer)
+        {
+            case 4:
+                activePlayer = 0;
+                break;
+            case -1:
+                activePlayer = 3;
+                break;
+        }
+        for(int i = 0; i < 4; i++) controls[i].SetActive(false);
+        controls[activePlayer].SetActive(true);
+        audioSource.PlayOneShot(minorClick);
+    }
+
+    public void ResetControls()
+    {
+        InputSystem.actions.FindActionMap("Player" + (activePlayer + 1)).RemoveAllBindingOverrides();
+        audioSource.PlayOneShot(minorClick);
     }
 
     public void MinorClick()
@@ -485,37 +653,40 @@ public class MenuManager : MonoBehaviour
         audioSource.PlayOneShot(majorClick);
     }
 
+    public void Fullscreen()
+    {
+        Screen.fullScreen = !Screen.fullScreen;
+        audioSource.PlayOneShot(majorClick);
+    }
+
     void SavePrefs()
     {
+        if(raceMode) PlayerPrefs.SetInt("Mode", 0);
+        else PlayerPrefs.SetInt("Mode", 1);
         playerNumber = (int) playersSlider.value;
         difficulty = (int) difficultySlider.value;
         PlayerPrefs.SetInt("PlayerNumber", playerNumber);
         PlayerPrefs.SetInt("Difficulty", difficulty);
-        for(int i = 0; i < 4; i++)
-        {
-            PlayerPrefs.SetInt("Ship" + i, playerShips[i]);
-        }
+        for(int i = 0; i < 4; i++) PlayerPrefs.SetInt("Ship" + i, playerShips[i]);
         fov = fovSlider.value;
         PlayerPrefs.SetFloat("Fov", fov);
         depth = depthSlider.value;
         PlayerPrefs.SetFloat("Depth", depth);
         music = musicSlider.value;
         PlayerPrefs.SetFloat("Music", music);
+        showCaptions = captionToggle.isOn;
+        if(showCaptions) PlayerPrefs.SetInt("ShowCaptions", 1);
+        else PlayerPrefs.SetInt("ShowCaptions", 0);
         cursorHide = cursorToggle.isOn;
-        if(cursorHide)
-        {
-            PlayerPrefs.SetInt("CursorHide", 1);
-        }
-        else
-        {
-            PlayerPrefs.SetInt("CursorHide", 0);
-        }
+        if(cursorHide) PlayerPrefs.SetInt("CursorHide", 1);
+        else PlayerPrefs.SetInt("CursorHide", 0);
         noise = noiseSlider.value;
         PlayerPrefs.SetFloat("Noise", noise);
         thruster = thrusterSlider.value;
         PlayerPrefs.SetFloat("Thruster", thruster);
         effects = effectsSlider.value;
         PlayerPrefs.SetFloat("Effects", effects);
+        PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
     }
 
     IEnumerator ResetEffect(GameObject effect, int waitTime, bool sound = false)
@@ -528,23 +699,47 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    IEnumerator ChangeText(TMP_Text text, float time, Color originalColor, Color newColor, string originalString = "", string newString = "", int amount = 1)
+    {
+        if(originalString != newString) text.text = newString;
+        if(originalColor == newColor) originalColor = Color.white;
+        switch(amount)
+        {
+            case 1:
+                text.color = newColor;
+                yield return new WaitForSeconds(time);
+                if(text.color == newColor) text.color = originalColor;
+                break;
+
+            default:
+                int amountMinusOne = amount - 1;
+                WaitForSeconds wait = new WaitForSeconds(time);
+                for(int i = 0; i < amount; i++)
+                {
+                    text.color = newColor;
+                    yield return wait;
+                    if(text.color == newColor) text.color = originalColor;
+                    if(i < amountMinusOne) yield return wait;
+                }
+                break;
+        }
+        if(originalString != newString) text.text = originalString;
+    }
+
     IEnumerator LoadGame()
     {
+        yield return new WaitForSeconds(1);
         AsyncOperation load = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
         while(!load.isDone)
         {
             yield return null;
         }
         SceneManager.UnloadSceneAsync(0);
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Play"));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
     }
 
-    IEnumerator QuitApplication()
+    void OnApplicationQuit()
     {
-        yield return new WaitForSeconds(majorClick.length);
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
-        Application.Quit();
+        SavePrefs();
     }
 }

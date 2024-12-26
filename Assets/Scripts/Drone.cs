@@ -5,13 +5,13 @@ public class Drone : MonoBehaviour
 {
     [Header("Attack")]
     [SerializeField] int spawnRadius;
-    [SerializeField] float maxStartDelay;
     [SerializeField] float updateInterval;
     [SerializeField] float minAttackForce;
     [SerializeField] float maxAttackForce;
     [SerializeField] float rotationSpeed;
     [SerializeField] float confusion;
     public float offset;
+    WaitForSeconds attackWait;
 
     [Header("Explosion")]
     [SerializeField] GameObject explosion;
@@ -35,16 +35,12 @@ public class Drone : MonoBehaviour
         myTransform = transform;
         explosionTransform = explosion.transform;
         explosionSoundsLength = explosionSounds.Length;
-    }
-
-    void Start()
-    {
-        targetRb = target.GetComponent<Rigidbody>();
-        StartCoroutine(UpdateTarget());
+        attackWait = new WaitForSeconds(updateInterval);
     }
 
     void OnEnable()
     {
+        if(targetRb == null) targetRb = target.GetComponent<Rigidbody>();
         ResetDrone();
     }
 
@@ -87,22 +83,15 @@ public class Drone : MonoBehaviour
     IEnumerator UpdateTarget()
     {
         //Update target position
-        yield return new WaitForSeconds(Random.Range(0, maxStartDelay));
-        Vector3 targetVelocity;
         while(true)
         {
-            switch(targetRb.velocity.magnitude)
+            Vector3 targetVelocity = targetRb.velocity;
+            if(targetVelocity.magnitude > 1)
             {
-                case > 1:
-                    targetVelocity = targetRb.velocity.normalized;
-                    break;
-                    
-                default:
-                    targetVelocity = targetRb.velocity;
-                    break;
+                targetVelocity = targetVelocity.normalized;
             }
             targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + targetVelocity * (targetRb.angularVelocity.magnitude * confusion) * updateInterval - myTransform.position);
-            yield return new WaitForSeconds(updateInterval);
+            yield return attackWait;
         }
     }
 
@@ -126,7 +115,6 @@ public class Drone : MonoBehaviour
         myTransform.RotateAround(targetPos, Vector3.forward, Random.Range(0f, 360));
         myTransform.RotateAround(targetPos, Vector3.right, Random.Range(0f, 360));
         attackForce = Random.Range(minAttackForce, maxAttackForce);
-        //offset = new Vector3(Random.Range(-maxOffset, maxOffset), Random.Range(-maxOffset, maxOffset), Random.Range(-maxOffset, maxOffset));
         StartCoroutine(UpdateTarget());
     }
 
