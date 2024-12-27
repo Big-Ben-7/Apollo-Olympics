@@ -861,12 +861,12 @@ MonoBehaviour:
   sectionParent: {fileID: 1935171737}
   sectionPrefab: {fileID: 566563954241801917, guid: 30a9808a47135427c9ecd3e3ee56857d, type: 3}
   playerCheckpoints: 
-  checkpointDistances: 4c1d0000983a0000e457000030750000409c000050c30000e8fd000080380100a0860100
+  checkpointDistances: a861000050c30000f8240100a086010098ab020090d003003057050020a1070060ae0a00
   checkpointParent: {fileID: 64442204}
   checkpointPrefab: {fileID: 1524319548756128656, guid: cf191d8315c8d4bcbb649de43114089f, type: 3}
   finishMat: {fileID: 2100000, guid: 11a6088f9cac6426a90e9b064c81cc2e, type: 2}
   raceMode: 1
-  difficulty: 3
+  difficulty: 2
   possibleAsteroids:
   - {fileID: 151664, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
   - {fileID: 141316, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
@@ -906,15 +906,15 @@ MonoBehaviour:
   wormholePercent: 5
   collectWormholeDivisor: 2
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
-  minWormholeScale: 500
-  maxWormholeScale: 1500
+  minWormholeScale: 1000
+  maxWormholeScale: 2000
   droneNumbers: 04000000080000000c00000010000000
   collectDroneDivisor: 2
   begCheckpointDrones: 000000000000000001000000010000000200000002000000030000000300000004000000
   intCheckpointDrones: 010000000100000002000000030000000400000005000000060000000700000008000000
   advCheckpointDrones: 020000000300000004000000050000000600000007000000080000000a0000000c000000
   expCheckpointDrones: 04000000050000000600000007000000080000000a0000000c0000000e00000010000000
-  playerNumber: 1
+  playerNumber: 3
   possiblePlayers:
   - {fileID: 6744162823093574734, guid: bb456dcf6cf4444fd8c3095cc4f2f8f8, type: 3}
   - {fileID: 6744162823093574734, guid: 34bf0daee831447459c8cf027f9b405e, type: 3}
@@ -924,7 +924,7 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerShips: 00000000020000000400000006000000
+  playerShips: 02000000030000000700000007000000
   playerChunks: []
   playingPlayers: 
   initialThrustSpeeds: 40060000d007000060090000f00a0000800c0000
@@ -936,6 +936,12 @@ MonoBehaviour:
   - 5
   - 6.5
   - 8
+  decMultipliers:
+  - 1
+  - 0.95
+  - 0.9
+  - 0.85
+  - 0.8
   healthLossDivisors: c8000000900100005802000020030000e8030000
   speedLossDivisors:
   - 5
@@ -972,6 +978,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   menu: {fileID: 1265169702}
   initializedObjects: 0
+  finishTexts: []
   milliseconds: 0
   seconds: 0
   minutes: 0

@@ -53,7 +53,7 @@ public class Drone : MonoBehaviour
     void FixedUpdate()
     {
         //Move to target
-        rb.AddRelativeForce(new Vector3(0, 0, attackForce));
+        rb.AddRelativeForce(new Vector3(0, 0, attackForce), ForceMode.Acceleration);
     }
 
     void OnCollisionEnter(Collision other)
