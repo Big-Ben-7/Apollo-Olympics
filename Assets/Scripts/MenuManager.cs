@@ -731,7 +731,8 @@ public class MenuManager : MonoBehaviour
 
     public void Fullscreen()
     {
-        Screen.fullScreen = !Screen.fullScreen;
+        if(Screen.fullScreen) Screen.fullScreenMode = FullScreenMode.Windowed;
+        else Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
         MinorClick();
     }
 
