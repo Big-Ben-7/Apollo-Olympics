@@ -336,10 +336,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 .OnComplete(
                     operation =>
                     {
-                        if (m_RebindOverlay != null)
-                            m_RebindOverlay.SetActive(false);
-                        m_RebindStopEvent?.Invoke(this, operation);
-
                         if(CheckDuplicateBindings(action, bindingIndex, allCompositeParts))
                         {
                             if(!errorText.activeSelf) errorText.SetActive(true);
@@ -351,6 +347,10 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                             return;
                         }
                         else if(errorText.activeSelf) errorText.SetActive(false);
+                        
+                        if (m_RebindOverlay != null)
+                            m_RebindOverlay.SetActive(false);
+                        m_RebindStopEvent?.Invoke(this, operation);
 
                         UpdateBindingDisplay();
                         CleanUp();
