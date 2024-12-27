@@ -7,9 +7,7 @@ using Cinemachine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
 using System;
-using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.Rendering;
 
 public class SpawnManager : MonoBehaviour
@@ -217,7 +215,7 @@ public class SpawnManager : MonoBehaviour
         }
         
         //Section spawning
-        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        DebugManager.instance.enableRuntimeUI = false;
         sectionNumber = playerNumber * 27;
         sectionChunks = new Vector3[sectionNumber];
         sectionPool = new GameObject[sectionNumber];

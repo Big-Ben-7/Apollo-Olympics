@@ -119,6 +119,7 @@ public class PlayerController : MonoBehaviour
     WaitForSeconds oneSecond;
     WaitForSeconds twoSeconds;
     WaitForSeconds fifthSecond = new WaitForSeconds(0.2f);
+    WaitForSeconds oneAndHalfSecond = new WaitForSeconds(1.5f);
 
     //Drone
     Transform droneGroup;
@@ -326,7 +327,7 @@ public class PlayerController : MonoBehaviour
         healthText.SetText("Health: 100.00");
         collectText.SetText("Space Junk: 0");
         abilityText.SetText("");
-        posText.SetText("Pos: 0.0,0.0,0.0");
+        posText.SetText("Pos: 0,0,0");
         distanceText.SetText("Distance: 0.00");
         speedText.SetText("Speed: 0.00");
         if(showCaptions) caption.SetText("");
@@ -537,7 +538,7 @@ public class PlayerController : MonoBehaviour
 
         //Show position in km, divide by 1609 for mi
         Vector3 kmPos = position / 1000;
-        posText.SetText("Pos: " + kmPos.x.ToString("0.0") + "," + kmPos.y.ToString("0.0") + "," + kmPos.z.ToString("0.0"));
+        posText.SetText("Pos: " + kmPos.x.ToString("0") + "," + kmPos.y.ToString("0") + "," + kmPos.z.ToString("0"));
 
         //Show distance from origin
         distanceText.SetText("Distance: " + pos.ToString("0.00"));
@@ -808,7 +809,7 @@ public class PlayerController : MonoBehaviour
         arrow.gameObject.SetActive(false);
         audioSource.PlayOneShot(dieSound);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return oneAndHalfSecond;
         if(raceMode)
         {
             int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];

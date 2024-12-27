@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
+using UnityEngine.Rendering;
 
 public class MenuManager : MonoBehaviour
 {
@@ -63,6 +63,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Slider depthSlider;
     [SerializeField] Toggle captionToggle;
     [SerializeField] Toggle cursorToggle;
+    [SerializeField] Toggle fullscreenToggle;
     [SerializeField] Slider musicSlider;
     [SerializeField] Slider noiseSlider;
     [SerializeField] Slider thrusterSlider;
@@ -225,7 +226,7 @@ public class MenuManager : MonoBehaviour
         string rebinds = PlayerPrefs.GetString("Bindings");
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
 
-        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        DebugManager.instance.enableRuntimeUI = false;
         backgroundMusic.Play();
         loaded = true;
     }
@@ -236,6 +237,7 @@ public class MenuManager : MonoBehaviour
         {
             activeModel.Rotate(0, rotationSpeed, 0);
         }
+        if(vaSettings.activeInHierarchy && fullscreenToggle.isOn != Screen.fullScreen) fullscreenToggle.isOn = Screen.fullScreen;
     }
 
     public void ShowMain()
@@ -339,8 +341,7 @@ public class MenuManager : MonoBehaviour
         {
             if(credits < 100)
             {
-                StartCoroutine(ChangeText(playText, 0.5f, Color.white, Color.red, "Play  -  100 credits", "Not enough credits"));
-                StartCoroutine(ChangeText(creditsText2, 0.5f, Color.white, Color.red));
+                StartCoroutine(ChangeText(playText, 0.5f, Color.white, Color.red, "Play  -  100 credits", "Not enough credits", FontStyles.Italic));
                 audioSource.PlayOneShot(errorSound);
                 return;
             }
@@ -462,8 +463,8 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            if(string.IsNullOrEmpty(newName)) StartCoroutine(ChangeText(playerText, 0.5f, Color.white, Color.red, playerNames[activePlayer], "Invalid name"));
-            else StartCoroutine(ChangeText(playerText, 0.5f, Color.white, Color.red, playerNames[activePlayer], "Name already taken"));
+            if(string.IsNullOrEmpty(newName)) StartCoroutine(ChangeText(playerText, 0.5f, Color.white, Color.red, playerNames[activePlayer], "Invalid name", FontStyles.Italic));
+            else StartCoroutine(ChangeText(playerText, 0.5f, Color.white, Color.red, playerNames[activePlayer], "Name taken", FontStyles.Italic));
             audioSource.PlayOneShot(errorSound);
         }
         playerText.enabled = true;
@@ -744,10 +745,11 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    IEnumerator ChangeText(TMP_Text text, float time, Color originalColor, Color newColor, string originalString = "", string newString = "", int amount = 1)
+    IEnumerator ChangeText(TMP_Text text, float time, Color originalColor, Color newColor, string originalString = "", string newString = "", FontStyles style = FontStyles.Normal, int amount = 1)
     {
         if(originalString != newString) text.text = newString;
         if(originalColor == newColor) originalColor = Color.white;
+        if(text.fontStyle != style) text.fontStyle = style;
         switch(amount)
         {
             case 1:
@@ -769,6 +771,7 @@ public class MenuManager : MonoBehaviour
                 break;
         }
         if(originalString != newString) text.text = originalString;
+        if(text.fontStyle != FontStyles.Normal) text.fontStyle = FontStyles.Normal;
     }
 
     IEnumerator LoadGame()

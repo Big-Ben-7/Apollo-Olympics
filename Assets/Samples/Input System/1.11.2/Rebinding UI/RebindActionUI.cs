@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using TMPro;
 using System.Text;
-using UnityEngine.PlayerLoop;
+using UnityEngine.UIElements;
+using System.Collections;
 
 ////TODO: localization support
 
@@ -254,18 +255,33 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         {
             if (!ResolveActionAndBinding(out var action, out var bindingIndex))
                 return;
-
             if (action.bindings[bindingIndex].isComposite)
             {
                 // It's a composite. Remove overrides from part bindings.
                 for (var i = bindingIndex + 1; i < action.bindings.Count && action.bindings[i].isPartOfComposite; ++i)
-                    action.RemoveBindingOverride(i);
+                    ResetBinding(action, i);
             }
             else
             {
-                action.RemoveBindingOverride(bindingIndex);
+                ResetBinding(action, bindingIndex);
             }
             UpdateBindingDisplay();
+        }
+
+        void ResetBinding(InputAction action, int bindingIndex)
+        {
+            InputBinding newBinding = action.bindings[bindingIndex];
+            string oldOverridePath = newBinding.overridePath;
+            action.RemoveBindingOverride(bindingIndex);
+            foreach(InputAction otherAction in action.actionMap.actions)
+            {
+                if(otherAction == action) continue;
+                for(int i = 0; i < otherAction.bindings.Count; i++)
+                {
+                    InputBinding binding = otherAction.bindings[i];
+                    if(binding.overridePath == newBinding.path) otherAction.ApplyBindingOverride(i, oldOverridePath);
+                }
+            }
         }
 
         /// <summary>
@@ -323,6 +339,19 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         if (m_RebindOverlay != null)
                             m_RebindOverlay.SetActive(false);
                         m_RebindStopEvent?.Invoke(this, operation);
+
+                        if(CheckDuplicateBindings(action, bindingIndex, allCompositeParts))
+                        {
+                            if(!errorText.activeSelf) errorText.SetActive(true);
+                            StartCoroutine(ResetObject(errorText));
+                            audioSource.PlayOneShot(errorSound);
+                            action.RemoveBindingOverride(bindingIndex);
+                            CleanUp();
+                            PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
+                            return;
+                        }
+                        else if(errorText.activeSelf) errorText.SetActive(false);
+
                         UpdateBindingDisplay();
                         CleanUp();
 
@@ -360,6 +389,45 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_RebindStartEvent?.Invoke(this, m_RebindOperation);
 
             m_RebindOperation.Start();
+        }
+
+        WaitForSeconds oneAndHalfSecond = new WaitForSeconds(1.5f);
+
+        IEnumerator ResetObject(GameObject go)
+        {
+            bool canDisable = disableSwitch = !disableSwitch;
+            yield return oneAndHalfSecond;
+            if(go.activeSelf && canDisable == disableSwitch) go.SetActive(false);
+        }
+
+        bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts = false)
+        {
+            InputBinding newBinding = action.bindings[bindingIndex];
+            foreach(InputBinding binding in action.actionMap.bindings)
+            {
+                if(binding.action == newBinding.action) continue;
+                if(binding.effectivePath == newBinding.effectivePath) return true;
+            }
+            if(allCompositeParts)
+            {
+                for(int i = 1; i < bindingIndex; i++)
+                {
+                    if(action.bindings[i].effectivePath == newBinding.overridePath) return true;
+                }
+            }
+            return false;
+        }
+        
+        GameObject errorText;
+        AudioSource audioSource;
+        [SerializeField] AudioClip errorSound;
+        bool disableSwitch;
+
+        void Awake()
+        {
+            GameObject menuManager = GameObject.FindWithTag("GameController");
+            audioSource = menuManager.GetComponents<AudioSource>()[0];
+            errorText = m_RebindOverlay.transform.GetChild(1).gameObject;
         }
 
         protected void OnEnable()
