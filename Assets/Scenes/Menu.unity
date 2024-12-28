@@ -219,7 +219,7 @@ MonoBehaviour:
   depthSlider: {fileID: 677924262}
   captionToggle: {fileID: 1823126831}
   cursorToggle: {fileID: 1301012194}
-  fullscreenToggle: {fileID: 1262049242}
+  arrowToggle: {fileID: 1262049242}
   musicSlider: {fileID: 977933963}
   noiseSlider: {fileID: 984598492}
   thrusterSlider: {fileID: 967870116}

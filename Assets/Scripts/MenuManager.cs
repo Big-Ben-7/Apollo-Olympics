@@ -63,7 +63,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Slider depthSlider;
     [SerializeField] Toggle captionToggle;
     [SerializeField] Toggle cursorToggle;
-    [SerializeField] Toggle fullscreenToggle;
+    [SerializeField] Toggle arrowToggle;
     [SerializeField] Slider musicSlider;
     [SerializeField] Slider noiseSlider;
     [SerializeField] Slider thrusterSlider;
@@ -99,6 +99,7 @@ public class MenuManager : MonoBehaviour
     public static float depth;
     public static bool showCaptions;
     public static bool cursorHide;
+    public static bool showArrow;
     public static float music;
     public static float noise;
     public static float thruster;
@@ -217,6 +218,16 @@ public class MenuManager : MonoBehaviour
             cursorHide = true;
             cursorToggle.isOn = true;
         }
+        if(PlayerPrefs.GetInt("ShowArrow", 1) == 0)
+        {
+            showArrow = false;
+            arrowToggle.isOn = false;
+        }
+        else
+        {
+            showArrow = true;
+            arrowToggle.isOn = true;
+        }
         noise = PlayerPrefs.GetFloat("Noise", 0.2f);
         noiseSlider.value = noise;
         noiseText.SetText(noise.ToString("0.##"));
@@ -240,7 +251,6 @@ public class MenuManager : MonoBehaviour
         {
             activeModel.Rotate(0, rotationSpeed, 0);
         }
-        if(vaSettings.activeInHierarchy && fullscreenToggle.isOn != Screen.fullScreen) fullscreenToggle.isOn = Screen.fullScreen;
     }
 
     public void ShowMain()
@@ -580,6 +590,14 @@ public class MenuManager : MonoBehaviour
         MinorClick();
     }
 
+    public void ChangeArrow()
+    {
+        showArrow = arrowToggle.isOn;
+        if(showArrow) PlayerPrefs.SetInt("ShowArrow", 1);
+        else PlayerPrefs.SetInt("ShowArrow", 0);
+        MinorClick();
+    }
+
     public void ChangeDifficulty()
     {
         difficulty = (int) difficultySlider.value;
@@ -619,6 +637,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Music", 0.2f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
+        PlayerPrefs.SetInt("ShowArrow", 1);
         PlayerPrefs.SetFloat("Noise", 0.2f);
         PlayerPrefs.SetFloat("Thruster", 0.2f);
         PlayerPrefs.SetFloat("Effects", 0.2f);
@@ -650,10 +669,7 @@ public class MenuManager : MonoBehaviour
         depthText.SetText("7000");
         musicSlider.value = 0.2f;
         musicText.SetText("0.2");
-        showCaptions = true;
-        captionToggle.isOn = true;
-        cursorHide = true;
-        cursorToggle.isOn = true;
+        showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
         noiseSlider.value = 0.2f;
         noiseText.SetText("0.2");
         thrusterSlider.value = 0.2f;
@@ -674,6 +690,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Music", 0.2f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
+        PlayerPrefs.SetInt("ShowArrow", 1);
         PlayerPrefs.SetFloat("Noise", 0.2f);
         PlayerPrefs.SetFloat("Thruster", 0.2f);
         PlayerPrefs.SetFloat("Effects", 0.2f);
@@ -684,10 +701,7 @@ public class MenuManager : MonoBehaviour
         depthText.SetText("7000");
         musicSlider.value = 0.2f;
         musicText.SetText("0.2");
-        showCaptions = true;
-        captionToggle.isOn = true;
-        cursorHide = true;
-        cursorToggle.isOn = true;
+        showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
         noiseSlider.value = 0.2f;
         noiseText.SetText("0.2");
         thrusterSlider.value = 0.2f;
@@ -728,13 +742,6 @@ public class MenuManager : MonoBehaviour
     public void MajorClick()
     {
         if(loaded) audioSource.PlayOneShot(majorClick);
-    }
-
-    public void Fullscreen()
-    {
-        if(fullscreenToggle.isOn && Screen.fullScreenMode != FullScreenMode.FullScreenWindow) Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
-        else if(!fullscreenToggle.isOn && Screen.fullScreenMode != FullScreenMode.Windowed) Screen.fullScreenMode = FullScreenMode.Windowed;
-        MinorClick();
     }
 
     IEnumerator ResetEffect(GameObject effect, WaitForSeconds wait, bool sound = false)

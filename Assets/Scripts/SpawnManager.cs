@@ -32,6 +32,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject checkpointPrefab;
     [SerializeField] Material finishMat;
     int checkpointCount;
+    int lastCheckpointDistance;
 
     [Header("Interactables")]
     public bool raceMode;
@@ -154,12 +155,13 @@ public class SpawnManager : MonoBehaviour
             view.m_Lens.FarClipPlane = MenuManager.depth;
             PlayerController.maxThrusterVolume = MenuManager.thruster;
             PlayerController.showCaptions = MenuManager.showCaptions;
+            PlayerController.showArrow = MenuManager.showArrow;
         }
         else
         {
             PlayerController.audioVolume = 0.2f;
             PlayerController.maxThrusterVolume = 0.2f;
-            PlayerController.showCaptions = true;
+            PlayerController.showCaptions = PlayerController.showArrow = true;
         }
 
         //Setting difficulty-dependent variables
@@ -186,10 +188,9 @@ public class SpawnManager : MonoBehaviour
                 }
                 disableByCheckpoint[i] = baseDisableNumber - increment * i;
             }
+
             PlayerController.checkpointDistances = checkpointDistances;
             PlayerController.checkpointDrones = checkpointDrones;
-            if(difficulty < 2) PlayerController.showArrow = true;
-            else PlayerController.showArrow = false;
         }
         else
         {
@@ -197,6 +198,7 @@ public class SpawnManager : MonoBehaviour
             collectableNumber *= collectCollectableMultiplier;
             droneNumber /= collectDroneDivisor;
             minutes = 1;
+
             PlayerController.checkpointTexts = new TMP_Text[playerNumber];
             PlayerController.playerNumber = playerNumber;
             PlayerController.creditIncrease = difficulty + 1;
@@ -213,9 +215,7 @@ public class SpawnManager : MonoBehaviour
         PlayerController.oneSecond = oneSecond = MenuManager.oneSecond;
         PlayerController.twoSeconds = Drone.twoSeconds = twoSeconds = MenuManager.twoSeconds;
         PlayerController.fifthSecond = new WaitForSeconds(0.2f);
-        PlayerController.oneAndHalfSecond = new WaitForSeconds(1.5f);
         PlayerController.halfSecond = MenuManager.halfSecond;
-        PlayerController.lastCheckpoint = checkpointDistances[checkpointCount - 1];
         pauseAction = InputSystem.actions.FindAction("Pause");
         StartCoroutine(Initialize());
     }
@@ -338,12 +338,13 @@ public class SpawnManager : MonoBehaviour
                 newScale = checkpointDistances[i] * 2;
                 checkpoint.localScale = new Vector3(newScale, newScale, newScale);
             }
-            newScale = checkpointDistances[lastCheckpoint] * 2 + 1000;
         }
-        else newScale = checkpointDistances[lastCheckpoint] * 2 + 2000;
+        newScale = checkpointDistances[lastCheckpoint] * 2 + 2000;
         Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
         finish.localScale = new Vector3(newScale, newScale, newScale);
         finish.GetComponent<Renderer>().material = finishMat;
+        PlayerController.lastCheckpointDistance = lastCheckpointDistance = checkpointDistances[lastCheckpoint];
+        lastCheckpointDistance = lastCheckpoint * lastCheckpoint - 2000;
 
         //Spawn players
         players = new GameObject[playerNumber];
@@ -354,6 +355,38 @@ public class SpawnManager : MonoBehaviour
         finishTexts = new TMP_Text[playerNumber];
         playerControllers = new PlayerController[playerNumber];
 
+        Vector3[] startPos = new Vector3[] {new Vector3(0, 0, 300), new Vector3(0, 0, -300), new Vector3(300, 0, 0), new Vector3(-300, 0, 0)};
+        Quaternion[] startRots = new Quaternion[] {Quaternion.identity, Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, -90, 0)};
+        Vector2 scaleVector;
+        Vector2[] cameraRects;
+        string[] tags;
+        switch(playerNumber)
+        {
+            case 1:
+                scaleVector = Vector2.one;
+                cameraRects = new Vector2[] {Vector2.zero};
+                tags = new string[] {"1"};
+                break;
+
+            case 2:
+                scaleVector = new Vector2(0.5f, 1);
+                cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.5f, 0)};
+                tags = new string[] {"1", "2"};
+                break;
+
+            case 3:
+                scaleVector = new Vector2(0.333f, 1);
+                cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.333f, 0), new Vector2(0.667f, 0)};
+                tags = new string[] {"1", "3", "2"};
+                break;
+            
+            default:
+                scaleVector = new Vector2(0.5f, 0.5f);
+                cameraRects = new Vector2[] {new Vector2(0, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(0.5f, 0)};
+                tags = new string[] {"1", "4", "3", "2"};
+                break;
+        }
+
         for(int i = 0; i < playerNumber; i++)
         {
             playerChunks[i] = Vector3.zero;
@@ -361,107 +394,24 @@ public class SpawnManager : MonoBehaviour
             playingPlayers.Add(i);
             Transform cameraObject = cameraObjects[i] = Instantiate(cameraPrefab).transform;
             Transform viewObject = cameraObject.GetChild(0);
-            views[i] = viewObject.GetComponent<Camera>();
+            Camera view = views[i] = viewObject.GetComponent<Camera>();
             GameObject thirdPersonObject = viewObject.GetChild(0).gameObject;
             thirdPersonObject.layer = i + 9;
-            thirdPersons[i] = thirdPersonObject.GetComponent<CinemachineVirtualCamera>();
-            views[i].cullingMask = cameraMasks[i];
+            CinemachineVirtualCamera viewCam = thirdPersons[i] = thirdPersonObject.GetComponent<CinemachineVirtualCamera>();
+            view.cullingMask = cameraMasks[i];
             followers[i] = new List<Transform>() {cameraObjects[i]};
-        }
 
-        GameObject player1;
-        GameObject player2;
-        GameObject player3;
-        GameObject player4;
-        switch(playerNumber)
-        {
-            case 1:
-                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 300), Quaternion.identity);
-                player1.tag = "1";
-                players[0] = player1;
-
-                //Set up cameras
-                PlayerController playerController = playerControllers[0] = players[0].GetComponent<PlayerController>();
-                playerController.cameraObject = cameraObjects[0].gameObject;
-                CinemachineVirtualCamera viewCam = thirdPersons[0];
-                viewCam.Follow = viewCam.LookAt = player1.transform.GetChild(2);
-                views[0].rect = new Rect(Vector2.zero, new Vector2(1, 1));
-                break;
-
-            case 2:
-                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 300), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(0, 0, -300), Quaternion.Euler(0, 180, 0));
-                player1.tag = "1";
-                player2.tag = "2";
-                players[0] = player1;
-                players[1] = player2;
-
-                //Set up cameras
-                for(int i = 0; i < 2; i++)
-                {
-                    playerController = playerControllers[i] = players[i].GetComponent<PlayerController>();
-                    playerController.cameraObject = cameraObjects[i].gameObject;
-                    viewCam = thirdPersons[i];
-                    viewCam.Follow = viewCam.LookAt = players[i].transform.GetChild(2);
-                }
-                Vector2 scaleVector = new Vector2(0.5f, 1);
-                views[0].rect = new Rect(Vector2.zero, scaleVector);
-                views[1].rect = new Rect(new Vector2(0.5f, 0), scaleVector);
-                break;
-
-            case 3:
-                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 300), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(300, 0, 0), Quaternion.Euler(0, 90, 0));
-                player3 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(0, 0, -300), Quaternion.Euler(0, 180, 0));
-                player1.tag = "1";
-                player2.tag = "3";
-                player3.tag = "2";
-                players[0] = player1;
-                players[1] = player2;
-                players[2] = player3;
-
-                //Set up cameras
-                for(int i = 0; i < 3; i++)
-                {
-                    playerController = playerControllers[i] = players[i].GetComponent<PlayerController>();
-                    playerController.cameraObject = cameraObjects[i].gameObject;
-                    viewCam = thirdPersons[i];
-                    viewCam.Follow = viewCam.LookAt = players[i].transform.GetChild(2);
-                }
-                scaleVector = new Vector2(0.333f, 1);
-                views[0].rect = new Rect(Vector2.zero, scaleVector);
-                views[1].rect = new Rect(new Vector2(0.333f, 0), scaleVector);
-                views[2].rect = new Rect(new Vector2(0.667f, 0), scaleVector);
-                break;
-
-            case 4:
-                player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 300), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(300, 0, 0), Quaternion.Euler(0, 90, 0));
-                player3 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(-300, 0, 0), Quaternion.Euler(0, 270, 0));
-                player4 = Instantiate(possiblePlayers[playerShips[3]], new Vector3(0, 0, -300), Quaternion.Euler(0, 180, 0));
-                player1.tag = "1";
-                player2.tag = "4";
-                player3.tag = "3";
-                player4.tag = "2";
-                players[0] = player1;
-                players[1] = player2;
-                players[2] = player3;
-                players[3] = player4;
-
-                //Set up cameras
-                for(int i = 0; i < 4; i++)
-                {
-                    playerController = playerControllers[i] = players[i].GetComponent<PlayerController>();
-                    playerController.cameraObject = cameraObjects[i].gameObject;
-                    viewCam = thirdPersons[i];
-                    viewCam.Follow = viewCam.LookAt = players[i].transform.GetChild(2);
-                }
-                scaleVector = new Vector2(0.5f, 0.5f);
-                views[0].rect = new Rect(new Vector2(0, 0.5f), scaleVector);
-                views[1].rect = new Rect(new Vector2(0.5f, 0.5f), scaleVector);
-                views[2].rect = new Rect(Vector2.zero, scaleVector);
-                views[3].rect = new Rect(new Vector2(0.5f, 0), scaleVector);
-                break;
+            Vector3 pos = startPos[i];
+            Quaternion rot = startRots[i];
+            GameObject player = players[i] = Instantiate(possiblePlayers[playerShips[i]], pos, rot);
+            player.tag = tags[i];
+            PlayerController playerController = playerControllers[i] = player.GetComponent<PlayerController>();
+            playerController.cameraObject = cameraObject;
+            playerController.startPos = pos;
+            playerController.normalizedStartPos = pos.normalized;
+            playerController.startRot = rot;
+            viewCam.Follow = viewCam.LookAt = player.transform.GetChild(2);
+            view.rect = new Rect(cameraRects[i], scaleVector);
         }
 
         GetComponent<AudioListener>().enabled = true;
@@ -1269,10 +1219,16 @@ public class SpawnManager : MonoBehaviour
             {
                 continue;
             }
-            child.SetActive(true);
 
             //Random position and force
-            child.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+            Vector3 newPos = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+            if(newPos.sqrMagnitude < lastCheckpointDistance)
+            {
+                child.transform.localPosition = newPos;
+                child.SetActive(true);
+            }
+            else continue;
+
             Rigidbody rb = rbs[i];
             rb.velocity = rb.angularVelocity = Vector3.zero;
             rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
@@ -1286,8 +1242,13 @@ public class SpawnManager : MonoBehaviour
         {
             //Random position
             GameObject child = children[i];
-            child.SetActive(true);
-            child.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+            Vector3 newPos = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+            if(newPos.sqrMagnitude < lastCheckpointDistance)
+            {
+                child.transform.localPosition = newPos;
+                child.SetActive(true);
+            }
+            else continue;
             if(i == 10 || i == 20 || i == 30 || i == 40 || i == 50 || i == 60 || i == 70 || i == 80 || i == 90 || i == 100)
             {
                 yield return null;

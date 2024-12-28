@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4388947112716342}
   - component: {fileID: 198917022394846920}
   - component: {fileID: 199630755385234010}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BigExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4564415660777050}
   - {fileID: 4657243524966140}
@@ -4952,13 +4952,13 @@ GameObject:
   - component: {fileID: 4657243524966140}
   - component: {fileID: 198805160044956896}
   - component: {fileID: 199271172029159390}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Embers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4657243524966140
 Transform:
   m_ObjectHideFlags: 0
@@ -4969,8 +4969,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 200, y: 200, z: 200}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4116738740604250}
   m_Father: {fileID: 4388947112716342}
@@ -9772,13 +9772,13 @@ GameObject:
   - component: {fileID: 4285441741452706}
   - component: {fileID: 198751835582626154}
   - component: {fileID: 199877337873867354}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SmokeTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4285441741452706
 Transform:
   m_ObjectHideFlags: 0
@@ -9790,7 +9790,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.6040001, y: 0.80581105, z: -0.0047779083}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4810292286833524}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -14614,7 +14614,7 @@ GameObject:
   - component: {fileID: 4116738740604250}
   - component: {fileID: 198844874048127756}
   - component: {fileID: 199459376760036170}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Embers (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19433,13 +19433,13 @@ GameObject:
   - component: {fileID: 4564415660777050}
   - component: {fileID: 198918736123329914}
   - component: {fileID: 199729880478975070}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4564415660777050
 Transform:
   m_ObjectHideFlags: 0
@@ -24333,7 +24333,7 @@ GameObject:
   - component: {fileID: 4810292286833524}
   - component: {fileID: 198003277540838118}
   - component: {fileID: 199565671101574698}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Debris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24350,8 +24350,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4285441741452706}
   m_Father: {fileID: 4388947112716342}
@@ -24439,7 +24439,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.5
+      scalar: 3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -29234,7 +29234,7 @@ GameObject:
   - component: {fileID: 4834897586904354}
   - component: {fileID: 198604367962915600}
   - component: {fileID: 199375762842987212}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AdditonalSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29251,8 +29251,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4388947112716342}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -34152,7 +34152,7 @@ GameObject:
   - component: {fileID: 4584238095464974}
   - component: {fileID: 198166025632870074}
   - component: {fileID: 199280120914940710}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shockwave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34169,8 +34169,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4388947112716342}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -34257,7 +34257,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2

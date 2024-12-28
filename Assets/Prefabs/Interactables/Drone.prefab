@@ -104,7 +104,7 @@ MonoBehaviour:
   minAttackForce: 500
   maxAttackForce: 2000
   rotationSpeed: 20
-  confusion: 500
+  confusion: 100
   offset: 0
   explosion: {fileID: 3521837129305150364}
   explosionSounds:
@@ -117,7 +117,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1b1e870555539084e867c27366722812, type: 3}
   - {fileID: 8300000, guid: 3bbe242bc37c8614fbe02c843ed5b465, type: 3}
   - {fileID: 8300000, guid: 00567c9401ce5364fa0b2830749f785a, type: 3}
+  crashCaptions:
+  - Nice move!
+  - Well played!
+  - Too slow!
+  - Not so fast!
+  - Got 'em!
+  - Too late!
+  - Wipe out!
+  - Clean sweep!
+  - Impressive!
   target: {fileID: 0}
+  targetRb: {fileID: 0}
+  playerController: {fileID: 0}
   audioSource: {fileID: 0}
 --- !u!65 &2642116177115702373
 BoxCollider:
@@ -241,15 +253,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4361801158873524, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       propertyPath: m_LocalScale.x
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4361801158873524, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4361801158873524, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       propertyPath: m_LocalScale.z
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4361801158873524, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -297,15 +309,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4674075810942894, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4674075810942894, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4674075810942894, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       propertyPath: m_LocalScale.z
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4674075810942894, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       propertyPath: m_ConstrainProportionsScale

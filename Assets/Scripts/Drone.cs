@@ -12,11 +12,14 @@ public class Drone : MonoBehaviour
     [SerializeField] float confusion;
     public float offset;
     WaitForSeconds attackWait;
+    WaitForSeconds randomWait;
 
     [Header("Explosion")]
     [SerializeField] GameObject explosion;
     Transform explosionTransform;
     [SerializeField] AudioClip[] explosionSounds;
+    [SerializeField] string[] crashCaptions;
+    int captionNumber;
     int explosionSoundsLength;
     public static WaitForSeconds twoSeconds;
 
@@ -24,10 +27,13 @@ public class Drone : MonoBehaviour
     Quaternion targetRotation;
     public Transform target;
     Rigidbody rb;
-    Rigidbody targetRb;
+    public Rigidbody targetRb;
+    public PlayerController playerController;
     Transform myTransform;
     bool collided;
     public AudioSource audioSource;
+    Vector3 confusionCalc;
+    float targetDistance;
 
     void Awake()
     {
@@ -37,11 +43,12 @@ public class Drone : MonoBehaviour
         explosionTransform = explosion.transform;
         explosionSoundsLength = explosionSounds.Length;
         attackWait = new WaitForSeconds(updateInterval);
+        randomWait = new WaitForSeconds(Random.Range(0f, updateInterval));
+        captionNumber = crashCaptions.Length;
     }
 
     void OnEnable()
     {
-        if(targetRb == null) targetRb = target.GetComponent<Rigidbody>();
         ResetDrone();
     }
 
@@ -49,6 +56,7 @@ public class Drone : MonoBehaviour
     {
         //Rotate to target
         myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        targetDistance = (target.transform.position - myTransform.position).sqrMagnitude;
     }
 
     void FixedUpdate()
@@ -70,6 +78,16 @@ public class Drone : MonoBehaviour
                 Explode(other.GetContact(0).point, other.transform);
                 break;
 
+            case 14:
+                if(confusionCalc.sqrMagnitude >= 30000 && targetDistance < 2300000) StartCoroutine(playerController.SetCaption(crashCaptions[Random.Range(0, captionNumber)], twoSeconds));
+                Explode(other.GetContact(0).point);
+                break;
+            
+            case 15:
+                if(confusionCalc.sqrMagnitude >= 38000 && targetDistance < 2250000) StartCoroutine(playerController.SetCaption(crashCaptions[Random.Range(0, captionNumber)], twoSeconds));
+                Explode(other.GetContact(0).point);
+                break;
+            
             default:
                 Explode(other.GetContact(0).point);
                 break;
@@ -83,15 +101,18 @@ public class Drone : MonoBehaviour
 
     IEnumerator UpdateTarget()
     {
+        yield return randomWait;
+
         //Update target position
         while(true)
         {
             Vector3 targetVelocity = targetRb.velocity;
-            if(targetVelocity.magnitude > 1)
+            if(targetVelocity.sqrMagnitude > 1)
             {
                 targetVelocity = targetVelocity.normalized;
             }
-            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + targetVelocity * (targetRb.angularVelocity.magnitude * confusion) * updateInterval - myTransform.position);
+            confusionCalc = targetVelocity * targetRb.angularVelocity.magnitude * confusion;
+            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + confusionCalc * updateInterval - myTransform.position);
             yield return attackWait;
         }
     }

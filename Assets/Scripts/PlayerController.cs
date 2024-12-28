@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int backPercent = 30;
     [SerializeField] GameObject dronePrefab;
     [SerializeField] GameObject graphic;
+    [SerializeField] string[] crashCaptions = new string[] {"Ouch!", "Watch Out!", "Uh Oh!", "Watch your step!", "Brace for impact!"};
+    [SerializeField] string[] deathCaptions = new string[] {"You Died!", "Mission Failed!", "Better luck next time", "Death is inevitable", "So close, yet so far"};
 
     [Header("Ability")]
     [SerializeField] string shipModel;
@@ -78,9 +80,9 @@ public class PlayerController : MonoBehaviour
     Vector3 rotation;
     float rotationSpeed;
     float decMultiplier;
-    Vector3 startPos;
-    Vector3 normalizedStartPos;
-    Quaternion startRot;
+    public Vector3 startPos;
+    public Vector3 normalizedStartPos;
+    public Quaternion startRot;
 
     //Collisions/triggers
     float speedLossDivisor;
@@ -103,7 +105,9 @@ public class PlayerController : MonoBehaviour
     GameObject hitExplosionPrefab;
     public static int credits;
     public static int creditIncrease;
-    public static int lastCheckpoint;
+    public static int lastCheckpointDistance;
+    int crashNumber;
+    int deathNumber;
 
     //Ability
     IEnumerator ability;
@@ -119,7 +123,6 @@ public class PlayerController : MonoBehaviour
     public static WaitForSeconds oneSecond;
     public static WaitForSeconds twoSeconds;
     public static WaitForSeconds fifthSecond;
-    public static WaitForSeconds oneAndHalfSecond;
     public static WaitForSeconds halfSecond;
 
     //Drone
@@ -131,7 +134,7 @@ public class PlayerController : MonoBehaviour
     GameObject[] drones;
 
     //UI
-    public GameObject cameraObject;
+    public Transform cameraObject;
     TMP_Text nameText;
     TMP_Text healthText;
     TMP_Text checkpointText;
@@ -169,14 +172,14 @@ public class PlayerController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         rb.isKinematic = true;
         myTransform = transform;
-        startPos = myTransform.position;
-        startRot = myTransform.rotation;
 
         Transform thrusterTransform = thrusterParent.transform;
         thrusterCount = thrusterTransform.childCount;
         thrusters = new ParticleSystem.MainModule[thrusterCount];
         for(int i = 0; i < thrusterCount; i++) thrusters[i] = thrusterTransform.GetChild(i).GetComponent<ParticleSystem>().main;
         hitSoundsCount = hitSounds.Length;
+        crashNumber = crashCaptions.Length;
+        deathNumber = deathCaptions.Length;
     }
 
     //Player is tagged by SpawnManager after Awake
@@ -222,7 +225,7 @@ public class PlayerController : MonoBehaviour
         thrustSpeed = initialThrustSpeed;
         decSpeed = thrustSpeed;
 
-        Transform cameraStats = cameraObject.transform.GetChild(1);
+        Transform cameraStats = cameraObject.GetChild(1);
         Transform farCanvas = cameraStats.GetChild(0);
         switch(shipModel)
         {
@@ -291,12 +294,12 @@ public class PlayerController : MonoBehaviour
         drones = new GameObject[droneNumber];
         for(int i = 0; i < droneNumber; i++)
         {
-            GameObject drone = Instantiate(dronePrefab, droneGroup);
-            Drone droneScript = drone.GetComponent<Drone>();
+            GameObject drone = drones[i] = Instantiate(dronePrefab, droneGroup);
+            Drone droneScript = droneScripts[i] = drone.GetComponent<Drone>();
             droneScript.target = myTransform;
+            droneScript.targetRb = rb;
+            droneScript.playerController = this;
             droneScript.audioSource = audioSource;
-            droneScripts[i] = droneScript;
-            drones[i] = drone;
             drone.SetActive(false);
             
         }
@@ -344,10 +347,9 @@ public class PlayerController : MonoBehaviour
         raceMode = spawnManager.raceMode;
         if(raceMode)
         {
-            normalizedStartPos = startPos.normalized;
             if(showArrow)
             {
-                arrow.GetChild(0).GetComponent<Canvas>().worldCamera = cameraObject.transform.GetChild(0).GetComponent<Camera>();
+                arrow.GetChild(0).GetComponent<Canvas>().worldCamera = cameraObject.GetChild(0).GetComponent<Camera>();
                 arrow.gameObject.layer = playerIndex + 6;
             }
             checkpointText.SetText("Checkpoint: 0");
@@ -542,7 +544,7 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
-        else if(posMag >= 700000)
+        else if(posMag >= lastCheckpointDistance)
         {
             rb.AddForce(-myTransform.position.normalized * 2000, ForceMode.VelocityChange);
             StartCoroutine(ChangeTextColor(distanceText, fifthSecond, Color.white, Color.red));
@@ -609,18 +611,18 @@ public class PlayerController : MonoBehaviour
                 {
                     activationTime++;
                     currentActivation++;
-                    if(showCaptions) StartCoroutine(ResetText(caption, "+1 Ability Duration"));
+                    if(showCaptions) StartCoroutine(SetCaption("+1 Ability Duration", oneSecond));
                 }
                 else if(number < abilityPercent + activationTimePercent || cooldownTime <= minCooldown)
                 {
                     abilityStrength += abilityIncrease;
-                    if(showCaptions) StartCoroutine(ResetText(caption, abilityCaption));
+                    if(showCaptions) StartCoroutine(SetCaption(abilityCaption, oneSecond));
                 }
                 else
                 {
                     cooldownTime--;
                     if(currentCooldown > 1) currentCooldown--;
-                    if(showCaptions) StartCoroutine(ResetText(caption, "-1 Ability Cooldown"));
+                    if(showCaptions) StartCoroutine(SetCaption("-1 Ability Cooldown", oneSecond));
                 }
             }
             else
@@ -809,6 +811,7 @@ public class PlayerController : MonoBehaviour
 
             case <= 10:
                 if(healthText.color != Color.red) healthText.color = Color.red;
+                StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], twoSeconds));
                 break;
             
             default:
@@ -825,11 +828,12 @@ public class PlayerController : MonoBehaviour
         thrusterParent.SetActive(false);
         if(collectEffect.activeSelf) collectEffect.SetActive(false);
         if(showArrow) arrow.gameObject.SetActive(false);
+        if(showCaptions) caption.SetText("");
         finishText.color = Color.red;
-        finishText.SetText("You Died!");
+        finishText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
         audioSource.PlayOneShot(dieSound);
 
-        yield return oneAndHalfSecond;
+        yield return twoSeconds;
         finishText.SetText("");
         finishText.color = Color.white;
         if(raceMode)
@@ -943,13 +947,13 @@ public class PlayerController : MonoBehaviour
         effect.SetActive(false);
     }
 
-    IEnumerator ResetText(TMP_Text text, string phrase)
+    public IEnumerator SetCaption(string phrase, WaitForSeconds wait)
     {
-        text.SetText(phrase);
-        yield return oneSecond;
-        if(text.text == phrase)
+        caption.SetText(phrase);
+        yield return wait;
+        if(caption.text == phrase)
         {
-            text.SetText("");
+            caption.SetText("");
         }
     }
 
@@ -1053,6 +1057,7 @@ public class PlayerController : MonoBehaviour
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), 0) * new Vector3(0, 0, distance);
         rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);
+        for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
         audioSource.PlayOneShot(wormholeSound);
         canCollide = true;
         canTrigger = true;
@@ -1090,7 +1095,7 @@ public class PlayerController : MonoBehaviour
         ability = SpeedUp();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        rb.AddForce(myTransform.position.normalized * (rb.velocity.magnitude + abilityStrength), ForceMode.VelocityChange);
+        rb.AddRelativeForce(Vector3.forward * (rb.velocity.magnitude + abilityStrength), ForceMode.VelocityChange);
         glideSpeed += abilityStrength;
         resetting = StartCoroutine(ResetAura(twoSeconds));
 

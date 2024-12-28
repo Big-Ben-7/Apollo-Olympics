@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 4487629475653210}
   - component: {fileID: 198942329355805636}
   - component: {fileID: 199509474368905042}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shockwave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4487629475653210
 Transform:
   m_ObjectHideFlags: 0
@@ -4911,7 +4911,7 @@ GameObject:
   - component: {fileID: 4441266138185142}
   - component: {fileID: 198175801688348628}
   - component: {fileID: 199922078765427110}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TinyExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4928,8 +4928,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4683521235247790}
   - {fileID: 4487629475653210}
@@ -9849,13 +9849,13 @@ GameObject:
   - component: {fileID: 4683521235247790}
   - component: {fileID: 198814760465859298}
   - component: {fileID: 199900680197929382}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Embers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4683521235247790
 Transform:
   m_ObjectHideFlags: 0
