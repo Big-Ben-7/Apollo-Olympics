@@ -77,7 +77,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text effectsText;
 
     [SerializeField] GameObject[] controls;
-    [SerializeField] TMP_Text[] nameTexts;
 
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
@@ -192,7 +191,7 @@ public class MenuManager : MonoBehaviour
         fov = PlayerPrefs.GetFloat("Fov", 35);
         fovSlider.value = fov;
         fovText.SetText(fov.ToString("0.#"));
-        depth = PlayerPrefs.GetFloat("Depth", 8000);
+        depth = PlayerPrefs.GetFloat("Depth", 7000);
         depthSlider.value = depth;
         depthText.SetText(depth.ToString("0"));
         music = PlayerPrefs.GetFloat("Music", 0.2f);
@@ -302,9 +301,7 @@ public class MenuManager : MonoBehaviour
         for(int i = 1; i < 4; i++)
         {
             controls[i].SetActive(false);
-            nameTexts[i].SetText(playerNames[i]);
         }
-        nameTexts[0].SetText(playerNames[0]);
         controls[0].SetActive(true);
         settings.SetActive(true);
         MajorClick();
@@ -618,7 +615,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("Credits", 0);
         PlayerPrefs.SetInt("Collects", 0);
         PlayerPrefs.SetFloat("Fov", 35);
-        PlayerPrefs.SetFloat("Depth", 8000);
+        PlayerPrefs.SetFloat("Depth", 7000);
         PlayerPrefs.SetFloat("Music", 0.2f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
@@ -649,8 +646,8 @@ public class MenuManager : MonoBehaviour
         difficultySlider.value = 0;
         fovSlider.value = 35;
         fovText.SetText("35");
-        depthSlider.value = 8000;
-        depthText.SetText("8000");
+        depthSlider.value = 7000;
+        depthText.SetText("7000");
         musicSlider.value = 0.2f;
         musicText.SetText("0.2");
         showCaptions = true;
@@ -673,7 +670,7 @@ public class MenuManager : MonoBehaviour
     public void ResetSettings()
     {
         PlayerPrefs.SetFloat("Fov", 35);
-        PlayerPrefs.SetFloat("Depth", 8000);
+        PlayerPrefs.SetFloat("Depth", 7000);
         PlayerPrefs.SetFloat("Music", 0.2f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
@@ -683,8 +680,8 @@ public class MenuManager : MonoBehaviour
 
         fovSlider.value = 35;
         fovText.SetText("35");
-        depthSlider.value = 8000;
-        depthText.SetText("8000");
+        depthSlider.value = 7000;
+        depthText.SetText("7000");
         musicSlider.value = 0.2f;
         musicText.SetText("0.2");
         showCaptions = true;

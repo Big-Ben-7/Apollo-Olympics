@@ -215,6 +215,7 @@ public class SpawnManager : MonoBehaviour
         PlayerController.fifthSecond = new WaitForSeconds(0.2f);
         PlayerController.oneAndHalfSecond = new WaitForSeconds(1.5f);
         PlayerController.halfSecond = MenuManager.halfSecond;
+        PlayerController.lastCheckpoint = checkpointDistances[checkpointCount - 1];
         pauseAction = InputSystem.actions.FindAction("Pause");
         StartCoroutine(Initialize());
     }
@@ -352,6 +353,7 @@ public class SpawnManager : MonoBehaviour
         Transform[] cameraObjects = new Transform[playerNumber];
         finishTexts = new TMP_Text[playerNumber];
         playerControllers = new PlayerController[playerNumber];
+
         for(int i = 0; i < playerNumber; i++)
         {
             playerChunks[i] = Vector3.zero;
@@ -409,11 +411,11 @@ public class SpawnManager : MonoBehaviour
 
             case 3:
                 player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 300), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(-300, 0, 0), Quaternion.Euler(0, 270, 0));
-                player3 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(300, 0, 0), Quaternion.Euler(0, 90, 0));
+                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(300, 0, 0), Quaternion.Euler(0, 90, 0));
+                player3 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(0, 0, -300), Quaternion.Euler(0, 180, 0));
                 player1.tag = "1";
-                player2.tag = "2";
-                player3.tag = "3";
+                player2.tag = "3";
+                player3.tag = "2";
                 players[0] = player1;
                 players[1] = player2;
                 players[2] = player3;
@@ -428,19 +430,19 @@ public class SpawnManager : MonoBehaviour
                 }
                 scaleVector = new Vector2(0.333f, 1);
                 views[0].rect = new Rect(Vector2.zero, scaleVector);
-                views[1].rect = new Rect(new Vector2(0.667f, 0), scaleVector);
-                views[2].rect = new Rect(new Vector2(0.333f, 0), scaleVector);
+                views[1].rect = new Rect(new Vector2(0.333f, 0), scaleVector);
+                views[2].rect = new Rect(new Vector2(0.667f, 0), scaleVector);
                 break;
 
             case 4:
                 player1 = Instantiate(possiblePlayers[playerShips[0]], new Vector3(0, 0, 300), Quaternion.identity);
-                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(-300, 0, 0), Quaternion.Euler(0, 270, 0));
-                player3 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(300, 0, 0), Quaternion.Euler(0, 90, 0));
+                player2 = Instantiate(possiblePlayers[playerShips[1]], new Vector3(300, 0, 0), Quaternion.Euler(0, 90, 0));
+                player3 = Instantiate(possiblePlayers[playerShips[2]], new Vector3(-300, 0, 0), Quaternion.Euler(0, 270, 0));
                 player4 = Instantiate(possiblePlayers[playerShips[3]], new Vector3(0, 0, -300), Quaternion.Euler(0, 180, 0));
                 player1.tag = "1";
-                player2.tag = "2";
+                player2.tag = "4";
                 player3.tag = "3";
-                player4.tag = "4";
+                player4.tag = "2";
                 players[0] = player1;
                 players[1] = player2;
                 players[2] = player3;
@@ -456,9 +458,9 @@ public class SpawnManager : MonoBehaviour
                 }
                 scaleVector = new Vector2(0.5f, 0.5f);
                 views[0].rect = new Rect(new Vector2(0, 0.5f), scaleVector);
-                views[1].rect = new Rect(new Vector2(0.5f, 0), scaleVector);
-                views[2].rect = new Rect(new Vector2(0.5f, 0.5f), scaleVector);
-                views[3].rect = new Rect(Vector2.zero, scaleVector);
+                views[1].rect = new Rect(new Vector2(0.5f, 0.5f), scaleVector);
+                views[2].rect = new Rect(Vector2.zero, scaleVector);
+                views[3].rect = new Rect(new Vector2(0.5f, 0), scaleVector);
                 break;
         }
 

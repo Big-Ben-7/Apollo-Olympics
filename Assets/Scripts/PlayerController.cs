@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour
     GameObject hitExplosionPrefab;
     public static int credits;
     public static int creditIncrease;
+    public static int lastCheckpoint;
 
     //Ability
     IEnumerator ability;

@@ -33,8 +33,8 @@ RectTransform:
   - {fileID: 8432892950791609453}
   - {fileID: 6091778819196114678}
   - {fileID: 3210142556190339000}
-  - {fileID: 6941952679332279231}
   - {fileID: 3319580970884136274}
+  - {fileID: 6941952679332279231}
   - {fileID: 497228226346281845}
   - {fileID: 6456355236041510001}
   - {fileID: 8944772977145919523}
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player 2
+  m_text: Controls 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -384,7 +384,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4000
+  m_text: 7000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -1193,7 +1193,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player 1
+  m_text: Controls 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -1742,7 +1742,7 @@ GameObject:
   - component: {fileID: 4426848800229442238}
   - component: {fileID: 5954770964716793668}
   m_Layer: 5
-  m_Name: Player3
+  m_Name: Player4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1800,7 +1800,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player 3
+  m_text: Controls 4
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -2186,7 +2186,7 @@ GameObject:
   - component: {fileID: 5157328677107653540}
   - component: {fileID: 5653733330407798643}
   m_Layer: 5
-  m_Name: Player4
+  m_Name: Player3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2244,7 +2244,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player 4
+  m_text: Controls 3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -13379,11 +13379,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_Value
-      value: 6000
+      value: 7000
       objectReference: {fileID: 0}
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_MaxValue
-      value: 6000
+      value: 7000
       objectReference: {fileID: 0}
     - target: {fileID: 560255118684643186, guid: cea2bd1f6577a46c3922735506c7f295, type: 3}
       propertyPath: m_MinValue
