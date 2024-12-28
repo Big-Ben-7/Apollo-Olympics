@@ -32,7 +32,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject checkpointPrefab;
     [SerializeField] Material finishMat;
     int checkpointCount;
-    int lastCheckpointDistance;
+    float lastCheckpointDistance;
 
     [Header("Interactables")]
     public bool raceMode;
@@ -154,14 +154,14 @@ public class SpawnManager : MonoBehaviour
             view.m_Lens.FieldOfView = MenuManager.fov;
             view.m_Lens.FarClipPlane = MenuManager.depth;
             PlayerController.maxThrusterVolume = MenuManager.thruster;
-            PlayerController.showCaptions = MenuManager.showCaptions;
+            PlayerController.showCaptions = Drone.showCaptions = MenuManager.showCaptions;
             PlayerController.showArrow = MenuManager.showArrow;
         }
         else
         {
             PlayerController.audioVolume = 0.2f;
             PlayerController.maxThrusterVolume = 0.2f;
-            PlayerController.showCaptions = PlayerController.showArrow = true;
+            PlayerController.showCaptions = Drone.showCaptions = PlayerController.showArrow = true;
         }
 
         //Setting difficulty-dependent variables
@@ -214,6 +214,7 @@ public class SpawnManager : MonoBehaviour
         PlayerController.droneNumber = droneNumber;
         PlayerController.oneSecond = oneSecond = MenuManager.oneSecond;
         PlayerController.twoSeconds = Drone.twoSeconds = twoSeconds = MenuManager.twoSeconds;
+        PlayerController.threeSeconds = new WaitForSeconds(3);
         PlayerController.fifthSecond = new WaitForSeconds(0.2f);
         PlayerController.halfSecond = MenuManager.halfSecond;
         pauseAction = InputSystem.actions.FindAction("Pause");
@@ -339,12 +340,12 @@ public class SpawnManager : MonoBehaviour
                 checkpoint.localScale = new Vector3(newScale, newScale, newScale);
             }
         }
-        newScale = checkpointDistances[lastCheckpoint] * 2 + 2000;
+        newScale = checkpointDistances[lastCheckpoint] * 2 + 1000;
         Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
         finish.localScale = new Vector3(newScale, newScale, newScale);
         finish.GetComponent<Renderer>().material = finishMat;
-        PlayerController.lastCheckpointDistance = lastCheckpointDistance = checkpointDistances[lastCheckpoint];
-        lastCheckpointDistance = lastCheckpoint * lastCheckpoint - 2000;
+        lastCheckpointDistance = PlayerController.lastCheckpointDistance = checkpointDistances[lastCheckpoint];
+        lastCheckpointDistance = (lastCheckpointDistance + 500) * (lastCheckpointDistance + 500);
 
         //Spawn players
         players = new GameObject[playerNumber];
@@ -1048,21 +1049,31 @@ public class SpawnManager : MonoBehaviour
                             {
                                 continue;
                             }
-                            child.SetActive(true);
 
                             //Random position and force
-                            child.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
-                            Rigidbody rb = rbs[j];
-                            rb.velocity = rb.angularVelocity = Vector3.zero;
-                            rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
-                            rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+                            Vector3 newPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+                            if((newPos + newPosition).sqrMagnitude < lastCheckpointDistance)
+                            {
+                                child.transform.localPosition = newPosition;
+                                if(!child.activeSelf) child.SetActive(true);
+                                Rigidbody rb = rbs[j];
+                                rb.velocity = rb.angularVelocity = Vector3.zero;
+                                rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                                rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
+                            }
+                            else if(child.activeSelf) child.SetActive(false);
                         }
                         for(int j = asteroidNumber; j < interactableNumber; j++)
                         {
                             //Random position
                             GameObject child = children[j];
-                            child.SetActive(true);
-                            child.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+                            Vector3 newPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+                            if((newPos + newPosition).sqrMagnitude < lastCheckpointDistance)
+                            {
+                                child.transform.localPosition = newPosition;
+                                if(!child.activeSelf) child.SetActive(true);
+                            }
+                            else if(child.activeSelf) child.SetActive(false);
                         }
                     }
                     else i--;
@@ -1209,7 +1220,9 @@ public class SpawnManager : MonoBehaviour
     {
         GameObject[] children = childrenList[sectionIndex];
         Rigidbody[] rbs = rbList[sectionIndex];
-        sectionPool[sectionIndex].SetActive(true);
+        GameObject section = sectionPool[sectionIndex];
+        section.SetActive(true);
+        Vector3 sectionPos = section.transform.position;
         for(int i = 0; i < asteroidNumber; i++)
         {
             GameObject child = children[i];
@@ -1222,17 +1235,16 @@ public class SpawnManager : MonoBehaviour
 
             //Random position and force
             Vector3 newPos = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
-            if(newPos.sqrMagnitude < lastCheckpointDistance)
+            if((sectionPos + newPos).sqrMagnitude < lastCheckpointDistance)
             {
                 child.transform.localPosition = newPos;
                 child.SetActive(true);
+                Rigidbody rb = rbs[i];
+                rb.velocity = rb.angularVelocity = Vector3.zero;
+                rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
             }
-            else continue;
 
-            Rigidbody rb = rbs[i];
-            rb.velocity = rb.angularVelocity = Vector3.zero;
-            rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
-            rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
             if(i == 10 || i == 20 || i == 30 || i == 40 || i == 50 || i == 60 || i == 70 || i == 80 || i == 90 || i == 100)
             {
                 yield return null;
@@ -1243,12 +1255,12 @@ public class SpawnManager : MonoBehaviour
             //Random position
             GameObject child = children[i];
             Vector3 newPos = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
-            if(newPos.sqrMagnitude < lastCheckpointDistance)
+            if((sectionPos + newPos).sqrMagnitude < lastCheckpointDistance)
             {
                 child.transform.localPosition = newPos;
                 child.SetActive(true);
             }
-            else continue;
+
             if(i == 10 || i == 20 || i == 30 || i == 40 || i == 50 || i == 60 || i == 70 || i == 80 || i == 90 || i == 100)
             {
                 yield return null;

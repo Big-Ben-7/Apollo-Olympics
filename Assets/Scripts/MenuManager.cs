@@ -54,7 +54,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] AudioClip[] abilitySounds;
     [SerializeField] AudioClip debuffSound;
     Transform activeModel;
-    float rotationSpeed;
+    int rotationSpeed;
     Coroutine resetting;
     public static string[] playerNames = new string[4];
 
@@ -249,7 +249,7 @@ public class MenuManager : MonoBehaviour
     {
         if(customization.activeSelf)
         {
-            activeModel.Rotate(0, rotationSpeed, 0);
+            activeModel.Rotate(0, rotationSpeed * Time.deltaTime, 0);
         }
     }
 
@@ -285,14 +285,11 @@ public class MenuManager : MonoBehaviour
         selectTexts[activeShip].SetText("Selected");
         activeModel = models[activeShip];
         activeModel.rotation = Quaternion.Euler(30, 180, 0);
-        if(activeShip > 3 && rotationSpeed != 0.05)
+        if(activeShip > 3)
         {
-            rotationSpeed = 0.05f;
+            if(rotationSpeed != 40) rotationSpeed = 40;
         }
-        else if(rotationSpeed != 0.1)
-        {
-            rotationSpeed = 0.1f;
-        }
+        else if(rotationSpeed != 80) rotationSpeed = 80;
         nameObject.SetActive(false);
         nameEnter.SetActive(false);
         nameEdit.SetActive(true);
@@ -419,14 +416,11 @@ public class MenuManager : MonoBehaviour
         Quaternion newRot = activeModel.rotation;
         activeModel = models[activeShip];
         activeModel.rotation = newRot;
-        if(activeShip > 3 && rotationSpeed != 0.05)
+        if(activeShip > 3)
         {
-            rotationSpeed = 0.05f;
+            if(rotationSpeed != 40) rotationSpeed = 40;
         }
-        else if(rotationSpeed != 0.1)
-        {
-            rotationSpeed = 0.1f;
-        }
+        else if(rotationSpeed != 80) rotationSpeed = 80;
     }
 
     void SelectShip()

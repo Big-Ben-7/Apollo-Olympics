@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -31,8 +33,29 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int backPercent = 30;
     [SerializeField] GameObject dronePrefab;
     [SerializeField] GameObject graphic;
-    [SerializeField] string[] crashCaptions = new string[] {"Ouch!", "Watch Out!", "Uh Oh!", "Watch your step!", "Brace for impact!"};
-    [SerializeField] string[] deathCaptions = new string[] {"You Died!", "Mission Failed!", "Better luck next time", "Death is inevitable", "So close, yet so far"};
+    string[] crashCaptions = new string[] 
+    {
+        "Ouch!",
+        "Watch Out!",
+        "Uh Oh!",
+        "Watch your health!",
+        "Brace for impact!",
+        "Watch your step!",
+        "Be careful!"
+    };
+    string[] deathCaptions = new string[] 
+    {
+        "Mission Impossible?",
+        "Better luck next time...",
+        "So close, yet so far...",
+        "Lost in space...",
+        "Never give up!",
+        "Keep going!",
+        "Down, but not out!",
+        "Nice try!",
+        "The best is yet to come...",
+        "Well, could've gone worse...",
+    };
 
     [Header("Ability")]
     [SerializeField] string shipModel;
@@ -122,8 +145,12 @@ public class PlayerController : MonoBehaviour
     Coroutine resetting;
     public static WaitForSeconds oneSecond;
     public static WaitForSeconds twoSeconds;
+    public static WaitForSeconds threeSeconds;
     public static WaitForSeconds fifthSecond;
     public static WaitForSeconds halfSecond;
+    int initialCooldown;
+    int initialActivation;
+    float initialStrength;
 
     //Drone
     Transform droneGroup;
@@ -172,6 +199,10 @@ public class PlayerController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         rb.isKinematic = true;
         myTransform = transform;
+
+        initialCooldown = cooldownTime;
+        initialActivation = activationTime;
+        initialStrength = abilityStrength;
 
         Transform thrusterTransform = thrusterParent.transform;
         thrusterCount = thrusterTransform.childCount;
@@ -399,11 +430,11 @@ public class PlayerController : MonoBehaviour
             switch(shipModel)
             {
                 case "Saturn":
-                    ring.rotationOffset *= Quaternion.Euler(Vector3.right);
+                    ring.rotationOffset *= Quaternion.Euler(new Vector3(360, 0, 0) * Time.deltaTime);
                     break;
                 
                 case "Uranus":
-                    ring.rotationOffset *= Quaternion.Euler(new Vector3(0, 2, 0));
+                    ring.rotationOffset *= Quaternion.Euler(new Vector3(0, 360, 0) * Time.deltaTime);
                     break;
             }
         }
@@ -796,6 +827,9 @@ public class PlayerController : MonoBehaviour
                     }
                 }
                 else auraParticles[3].loop = true;
+                activationTime = initialActivation;
+                cooldownTime = initialCooldown;
+                abilityStrength = initialStrength;
 
                 health = 0;
                 healthText.SetText("Health: 0.00");
@@ -811,11 +845,12 @@ public class PlayerController : MonoBehaviour
 
             case <= 10:
                 if(healthText.color != Color.red) healthText.color = Color.red;
-                StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], twoSeconds));
+                if(showCaptions) StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], twoSeconds));
                 break;
             
             default:
-                StartCoroutine(ChangeTextColor(healthText, fifthSecond, healthText.color, Color.red, 2));
+                if(shipModel == "Earth" && currentCooldown > 1) StartCoroutine(ChangeTextColor(healthText, fifthSecond, healthText.color, Color.red, 2));
+                else StartCoroutine(ChangeTextColor(healthText, fifthSecond, Color.white, Color.red, 2));
                 break;
         }
         health = (float) Math.Round(health, 2);
@@ -833,7 +868,7 @@ public class PlayerController : MonoBehaviour
         finishText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
         audioSource.PlayOneShot(dieSound);
 
-        yield return twoSeconds;
+        yield return threeSeconds;
         finishText.SetText("");
         finishText.color = Color.white;
         if(raceMode)
@@ -947,8 +982,9 @@ public class PlayerController : MonoBehaviour
         effect.SetActive(false);
     }
 
-    public IEnumerator SetCaption(string phrase, WaitForSeconds wait)
+    public IEnumerator SetCaption(string phrase, WaitForSeconds wait, bool lowPriority = false)
     {
+        if((lowPriority && caption.text != "") || crashCaptions.Contains(caption.text)) yield break;
         caption.SetText(phrase);
         yield return wait;
         if(caption.text == phrase)
@@ -1157,6 +1193,7 @@ public class PlayerController : MonoBehaviour
         died = false;
         ability = Regeneration();
         aura.SetActive(true);
+        healthText.color = Color.green;
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
         {
@@ -1170,6 +1207,7 @@ public class PlayerController : MonoBehaviour
         }
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(twoSeconds));
+        healthText.color = Color.white;
         audioSource.PlayOneShot(expireSound);
 
         //Cooldown

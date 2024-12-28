@@ -99,12 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6690d4d9c37240af8e5ef86244c14f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRadius: 3000
+  spawnRadius: 4000
   updateInterval: 2
-  minAttackForce: 500
+  minAttackForce: 1000
   maxAttackForce: 2000
   rotationSpeed: 20
-  confusion: 100
+  confusion: 200
   offset: 0
   explosion: {fileID: 3521837129305150364}
   explosionSounds:
@@ -120,13 +120,17 @@ MonoBehaviour:
   crashCaptions:
   - Nice move!
   - Well played!
-  - Too slow!
-  - Not so fast!
   - Got 'em!
-  - Too late!
   - Wipe out!
   - Clean sweep!
   - Impressive!
+  - Bravo!
+  - Pirates out!
+  - Bye-bye Pirates!
+  - Well done!
+  - Outstanding!
+  - Terriffic!
+  - Awesome!
   target: {fileID: 0}
   targetRb: {fileID: 0}
   playerController: {fileID: 0}

@@ -869,7 +869,7 @@ MonoBehaviour:
   checkpointPrefab: {fileID: 1524319548756128656, guid: cf191d8315c8d4bcbb649de43114089f, type: 3}
   finishMat: {fileID: 2100000, guid: 11a6088f9cac6426a90e9b064c81cc2e, type: 2}
   raceMode: 1
-  difficulty: 0
+  difficulty: 3
   possibleAsteroids:
   - {fileID: 151664, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
   - {fileID: 141316, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
@@ -916,7 +916,7 @@ MonoBehaviour:
   intCheckpointDrones: 010000000100000002000000030000000400000005000000060000000700000008000000
   advCheckpointDrones: 020000000300000004000000050000000600000007000000080000000a0000000c000000
   expCheckpointDrones: 04000000050000000600000007000000080000000a0000000c0000000e00000010000000
-  playerNumber: 1
+  playerNumber: 3
   possiblePlayers:
   - {fileID: 6744162823093574734, guid: bb456dcf6cf4444fd8c3095cc4f2f8f8, type: 3}
   - {fileID: 6744162823093574734, guid: 34bf0daee831447459c8cf027f9b405e, type: 3}
@@ -926,7 +926,7 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerShips: 00000000030000000700000007000000
+  playerShips: 00000000030000000600000007000000
   playerChunks: []
   playingPlayers: 
   initialThrustSpeeds: 800c0000100e0000a00f000030110000c0120000

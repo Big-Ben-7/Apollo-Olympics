@@ -33,7 +33,7 @@ public class Drone : MonoBehaviour
     bool collided;
     public AudioSource audioSource;
     Vector3 confusionCalc;
-    float targetDistance;
+    public static bool showCaptions;
 
     void Awake()
     {
@@ -56,7 +56,6 @@ public class Drone : MonoBehaviour
     {
         //Rotate to target
         myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        targetDistance = (target.transform.position - myTransform.position).sqrMagnitude;
     }
 
     void FixedUpdate()
@@ -78,14 +77,14 @@ public class Drone : MonoBehaviour
                 Explode(other.GetContact(0).point, other.transform);
                 break;
 
-            case 14:
-                if(confusionCalc.sqrMagnitude >= 30000 && targetDistance < 2300000) StartCoroutine(playerController.SetCaption(crashCaptions[Random.Range(0, captionNumber)], twoSeconds));
-                Explode(other.GetContact(0).point);
-                break;
-            
-            case 15:
-                if(confusionCalc.sqrMagnitude >= 38000 && targetDistance < 2250000) StartCoroutine(playerController.SetCaption(crashCaptions[Random.Range(0, captionNumber)], twoSeconds));
-                Explode(other.GetContact(0).point);
+            case 14 or 15:
+                float targetDistance = (target.position - myTransform.position).sqrMagnitude;
+                if(showCaptions && ((confusionCalc.sqrMagnitude >= 300000 && target.InverseTransformPoint(myTransform.position).z > 0 && targetDistance < 2300000) || (targetDistance < 500000)))
+                {
+                    StartCoroutine(playerController.SetCaption(crashCaptions[Random.Range(0, captionNumber)], twoSeconds, true));
+                    Explode(other.GetContact(0).point);
+                }
+                else Explode(other.GetContact(0).point, null, false);
                 break;
             
             default:
@@ -112,17 +111,17 @@ public class Drone : MonoBehaviour
                 targetVelocity = targetVelocity.normalized;
             }
             confusionCalc = targetVelocity * targetRb.angularVelocity.magnitude * confusion;
-            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + confusionCalc * updateInterval - myTransform.position);
+            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + confusionCalc - myTransform.position);
             yield return attackWait;
         }
     }
 
-    public void Explode(Vector3 pos, Transform parent = null)
+    public void Explode(Vector3 pos, Transform parent = null, bool playSound = true)
     {
         explosionTransform.parent = parent;
         explosionTransform.position = pos;
         explosion.SetActive(true);
-        audioSource.PlayOneShot(explosionSounds[Random.Range(0, explosionSoundsLength)]);
+        if(playSound) audioSource.PlayOneShot(explosionSounds[Random.Range(0, explosionSoundsLength)]);
         StartCoroutine(ResetEffect(explosion, twoSeconds));
         ResetDrone();
     }
