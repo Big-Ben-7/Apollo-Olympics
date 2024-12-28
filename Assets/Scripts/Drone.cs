@@ -18,6 +18,7 @@ public class Drone : MonoBehaviour
     Transform explosionTransform;
     [SerializeField] AudioClip[] explosionSounds;
     int explosionSoundsLength;
+    public static WaitForSeconds twoSeconds;
 
     float attackForce;
     Quaternion targetRotation;
@@ -101,7 +102,7 @@ public class Drone : MonoBehaviour
         explosionTransform.position = pos;
         explosion.SetActive(true);
         audioSource.PlayOneShot(explosionSounds[Random.Range(0, explosionSoundsLength)]);
-        StartCoroutine(ResetEffect(explosion));
+        StartCoroutine(ResetEffect(explosion, twoSeconds));
         ResetDrone();
     }
 
@@ -118,9 +119,9 @@ public class Drone : MonoBehaviour
         StartCoroutine(UpdateTarget());
     }
 
-    IEnumerator ResetEffect(GameObject effect, int waitTime = 2)
+    IEnumerator ResetEffect(GameObject effect, WaitForSeconds wait)
     {
-        yield return new WaitForSeconds(waitTime);
+        yield return wait;
         effect.SetActive(false);
     }
 }

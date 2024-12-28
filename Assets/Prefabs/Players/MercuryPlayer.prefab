@@ -332,7 +332,7 @@ MonoBehaviour:
   shipModel: Mercury
   abilityPercent: 60
   activationTimePercent: 0
-  minCooldown: 3
+  minCooldown: 2
   abilityCaption: +1 Ability Speed Boost
   aura: {fileID: 7012232295257560415}
   auraSystems: []

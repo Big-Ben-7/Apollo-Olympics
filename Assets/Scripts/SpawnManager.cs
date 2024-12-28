@@ -11,7 +11,7 @@ using UnityEngine.Rendering;
 public class SpawnManager : MonoBehaviour
 {
     [Header("Sections")]
-    [SerializeField] int side = 2000;
+    [SerializeField] int side = 3000;
     int length;
     GameObject[] sectionPool;
     [SerializeField] Transform sectionParent;
@@ -23,7 +23,11 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Checkpoints")]
     public int[] playerCheckpoints;
-    [SerializeField] int[] checkpointDistances = new int[] {25000, 50000, 75000, 100000, 175000, 250000, 350000, 500000, 700000};
+    [SerializeField] int[] begCheckpointDistances;
+    [SerializeField] int[] intCheckpointDistances;
+    [SerializeField] int[] advCheckpointDistances;
+    [SerializeField] int[] expCheckpointDistances;
+    int[] checkpointDistances;
     [SerializeField] Transform checkpointParent;
     [SerializeField] GameObject checkpointPrefab;
     [SerializeField] Material finishMat;
@@ -46,15 +50,14 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int[] collectableNumbers = new int[] {10, 8, 6, 4};
     int collectableNumber;
     [SerializeField] int collectCollectableMultiplier = 5;
-    [SerializeField] int partDisablePercent = 70;
+    [SerializeField] int partDisablePercent = 60;
     [SerializeField] int maxMovementForce = 60;
     [SerializeField] float maxRotationForce = 0.2f;
     [SerializeField] float maxRotationSpeed = 30;
     [SerializeField] int wormholePercent = 5;
-    [SerializeField] int collectWormholeDivisor = 2; 
     [SerializeField] Vector3 wormholeProportions = new Vector3(0.5f, 0.4f, 0.8f);
-    [SerializeField] int minWormholeScale = 500;
-    [SerializeField] int maxWormholeScale = 1500;
+    [SerializeField] int minWormholeScale = 1000;
+    [SerializeField] int maxWormholeScale = 2000;
     int interactableNumber;
 
     [Header("Drones")]
@@ -109,9 +112,9 @@ public class SpawnManager : MonoBehaviour
     public int initializedObjects;
     bool cursorHide;
     InputAction pauseAction;
-    public WaitForSeconds oneSecond = new WaitForSeconds(1);
-    public WaitForSeconds twoSeconds = new WaitForSeconds(2);
-    public WaitForSecondsRealtime oneRealSecond = new WaitForSecondsRealtime(1);
+    WaitForSeconds oneSecond;
+    WaitForSeconds twoSeconds;
+    WaitForSecondsRealtime oneRealSecond = new WaitForSecondsRealtime(1);
     public TMP_Text[] finishTexts;
     public int milliseconds;
     public int seconds;
@@ -163,13 +166,14 @@ public class SpawnManager : MonoBehaviour
         asteroidNumber = asteroidNumbers[difficulty];
         collectableNumber = collectableNumbers[difficulty];
         droneNumber = droneNumbers[difficulty];
+        checkpointDistances = new int[][]{begCheckpointDistances, intCheckpointDistances, advCheckpointDistances, expCheckpointDistances}[difficulty];
+        checkpointCount = checkpointDistances.Length;
         if(raceMode)
         {
             checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
 
             //Stats for each checkpoint
             baseDisableNumber = asteroidNumber / 3;
-            checkpointCount = checkpointDistances.Length;
             disableByCheckpoint = new int[checkpointCount];
             int increment = baseDisableNumber / (checkpointCount - 1);
             for(int i = 0; i < checkpointCount; i++)
@@ -191,7 +195,6 @@ public class SpawnManager : MonoBehaviour
         {
             asteroidNumber /= collectAsteroidDivisor;
             collectableNumber *= collectCollectableMultiplier;
-            wormholePercent /= collectWormholeDivisor;
             droneNumber /= collectDroneDivisor;
             minutes = 1;
             PlayerController.checkpointTexts = new TMP_Text[playerNumber];
@@ -207,11 +210,11 @@ public class SpawnManager : MonoBehaviour
         PlayerController.spawnManager = this;
         PlayerController.length = length;
         PlayerController.droneNumber = droneNumber;
-        PlayerController.oneSecond = oneSecond;
-        PlayerController.twoSeconds = twoSeconds;
+        PlayerController.oneSecond = oneSecond = MenuManager.oneSecond;
+        PlayerController.twoSeconds = Drone.twoSeconds = twoSeconds = MenuManager.twoSeconds;
         PlayerController.fifthSecond = new WaitForSeconds(0.2f);
         PlayerController.oneAndHalfSecond = new WaitForSeconds(1.5f);
-        PlayerController.halfSecond = new WaitForSeconds(0.5f);
+        PlayerController.halfSecond = MenuManager.halfSecond;
         pauseAction = InputSystem.actions.FindAction("Pause");
         StartCoroutine(Initialize());
     }
@@ -324,10 +327,10 @@ public class SpawnManager : MonoBehaviour
         }
 
         //Spawn checkpoints
-        int newScale = 702000;
+        int lastCheckpoint = checkpointCount - 1;
+        int newScale;
         if(raceMode)
         {
-            int lastCheckpoint = checkpointCount - 1;
             for(int i = 0; i < lastCheckpoint; i++)
             {
                 Transform checkpoint = Instantiate(checkpointPrefab, checkpointParent).transform;
@@ -336,6 +339,7 @@ public class SpawnManager : MonoBehaviour
             }
             newScale = checkpointDistances[lastCheckpoint] * 2 + 1000;
         }
+        else newScale = checkpointDistances[lastCheckpoint] * 2 + 2000;
         Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
         finish.localScale = new Vector3(newScale, newScale, newScale);
         finish.GetComponent<Renderer>().material = finishMat;

@@ -857,16 +857,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e1c552506d04ac3b1d7703e0e75665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  side: 2000
+  side: 3500
   sectionParent: {fileID: 1935171737}
   sectionPrefab: {fileID: 566563954241801917, guid: 30a9808a47135427c9ecd3e3ee56857d, type: 3}
   playerCheckpoints: 
-  checkpointDistances: a861000050c30000f8240100a086010098ab020090d003003057050020a1070060ae0a00
+  begCheckpointDistances: 204e0000409c000060ea000080380100c0d401000071020070820300e0930400801a0600
+  intCheckpointDistances: a861000050c30000f8240100a0860100f0490200400d0300d06c040060cc050020a10700
+  advCheckpointDistances: 3075000060ea0000905f0100c0d4010020bf020080a9030020300500c0b60600c0270900
+  expCheckpointDistances: b888000070110100289a0100e022020050340300c0450400801a060040ef070060ae0a00
   checkpointParent: {fileID: 64442204}
   checkpointPrefab: {fileID: 1524319548756128656, guid: cf191d8315c8d4bcbb649de43114089f, type: 3}
   finishMat: {fileID: 2100000, guid: 11a6088f9cac6426a90e9b064c81cc2e, type: 2}
   raceMode: 1
-  difficulty: 2
+  difficulty: 0
   possibleAsteroids:
   - {fileID: 151664, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
   - {fileID: 141316, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
@@ -896,25 +899,24 @@ MonoBehaviour:
   asteroidNumbers: 18000000300000004800000060000000
   collectAsteroidDivisor: 2
   minAsteroidScale: 20
-  maxAsteroidScale: 200
+  maxAsteroidScale: 500
   collectableNumbers: 0a000000080000000600000004000000
   collectCollectableMultiplier: 5
   partDisablePercent: 60
   maxMovementForce: 60
   maxRotationForce: 0.2
   maxRotationSpeed: 30
-  wormholePercent: 5
-  collectWormholeDivisor: 2
+  wormholePercent: 2
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
   minWormholeScale: 1000
-  maxWormholeScale: 2000
+  maxWormholeScale: 3000
   droneNumbers: 04000000080000000c00000010000000
   collectDroneDivisor: 2
   begCheckpointDrones: 000000000000000001000000010000000200000002000000030000000300000004000000
   intCheckpointDrones: 010000000100000002000000030000000400000005000000060000000700000008000000
   advCheckpointDrones: 020000000300000004000000050000000600000007000000080000000a0000000c000000
   expCheckpointDrones: 04000000050000000600000007000000080000000a0000000c0000000e00000010000000
-  playerNumber: 3
+  playerNumber: 1
   possiblePlayers:
   - {fileID: 6744162823093574734, guid: bb456dcf6cf4444fd8c3095cc4f2f8f8, type: 3}
   - {fileID: 6744162823093574734, guid: 34bf0daee831447459c8cf027f9b405e, type: 3}
@@ -924,10 +926,10 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerShips: 02000000030000000700000007000000
+  playerShips: 00000000030000000700000007000000
   playerChunks: []
   playingPlayers: 
-  initialThrustSpeeds: 40060000d007000060090000f00a0000800c0000
+  initialThrustSpeeds: 800c0000100e0000a00f000030110000c0120000
   accelerations: 20030000e8030000b00400007805000040060000
   maxThrustSpeeds: 803e0000204e0000c05d0000606d0000007d0000
   rotationSpeeds:
@@ -942,7 +944,7 @@ MonoBehaviour:
   - 0.9
   - 0.85
   - 0.8
-  healthLossDivisors: c8000000900100005802000020030000e8030000
+  healthLossDivisors: 9001000020030000b004000040060000d0070000
   speedLossDivisors:
   - 5
   - 4

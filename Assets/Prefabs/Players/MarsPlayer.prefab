@@ -5180,8 +5180,8 @@ MonoBehaviour:
   stability: 2
   activationTime: 20
   cooldownTime: 10
-  abilityStrength: 50
-  abilityIncrease: 25
+  abilityStrength: 1000
+  abilityIncrease: 500
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20

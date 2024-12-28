@@ -104,6 +104,10 @@ public class MenuManager : MonoBehaviour
     public static float noise;
     public static float thruster;
     public static float effects;
+    public static WaitForSeconds halfSecond = new WaitForSeconds(0.5f);
+    public static WaitForSeconds oneSecond = new WaitForSeconds(1);
+    public static WaitForSeconds twoSeconds = new WaitForSeconds(2);
+    WaitForSeconds fiveSeconds = new WaitForSeconds(5);
 
     void Awake()
     {
@@ -188,7 +192,7 @@ public class MenuManager : MonoBehaviour
         fov = PlayerPrefs.GetFloat("Fov", 35);
         fovSlider.value = fov;
         fovText.SetText(fov.ToString("0.#"));
-        depth = PlayerPrefs.GetFloat("Depth", 4000);
+        depth = PlayerPrefs.GetFloat("Depth", 8000);
         depthSlider.value = depth;
         depthText.SetText(depth.ToString("0"));
         music = PlayerPrefs.GetFloat("Music", 0.2f);
@@ -341,7 +345,7 @@ public class MenuManager : MonoBehaviour
         {
             if(credits < 100)
             {
-                StartCoroutine(ChangeText(playText, 0.5f, Color.white, Color.red, "Play  -  100 credits", "Not enough credits", FontStyles.Italic));
+                StartCoroutine(ChangeText(playText, halfSecond, Color.white, Color.red, "Play  -  100 credits", "Not enough credits", FontStyles.Italic));
                 audioSource.PlayOneShot(errorSound);
                 return;
             }
@@ -463,8 +467,8 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            if(string.IsNullOrEmpty(newName)) StartCoroutine(ChangeText(playerText, 0.5f, Color.white, Color.red, playerNames[activePlayer], "Invalid name", FontStyles.Italic));
-            else StartCoroutine(ChangeText(playerText, 0.5f, Color.white, Color.red, playerNames[activePlayer], "Name taken", FontStyles.Italic));
+            if(string.IsNullOrEmpty(newName)) StartCoroutine(ChangeText(playerText, halfSecond, Color.white, Color.red, playerNames[activePlayer], "Invalid name", FontStyles.Italic));
+            else StartCoroutine(ChangeText(playerText, halfSecond, Color.white, Color.red, playerNames[activePlayer], "Name taken", FontStyles.Italic));
             audioSource.PlayOneShot(errorSound);
         }
         playerText.enabled = true;
@@ -479,14 +483,14 @@ public class MenuManager : MonoBehaviour
             switch(activeShip)
             {
                 case 0:
-                    resetting = StartCoroutine(ResetEffect(activeAbility, 2));
+                    resetting = StartCoroutine(ResetEffect(activeAbility, twoSeconds));
                     break;
                 case 1:
-                    resetting = StartCoroutine(ResetEffect(activeAbility, 5, true));
+                    resetting = StartCoroutine(ResetEffect(activeAbility, fiveSeconds, true));
                     break;
                 case 7:
                     activeAbility.SetActive(false);
-                    resetting = StartCoroutine(ResetEffect(activeAbility, 2));
+                    resetting = StartCoroutine(ResetEffect(activeAbility, twoSeconds));
                     break;
             }
             activeAbility.SetActive(true);
@@ -614,7 +618,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("Credits", 0);
         PlayerPrefs.SetInt("Collects", 0);
         PlayerPrefs.SetFloat("Fov", 35);
-        PlayerPrefs.SetFloat("Depth", 4000);
+        PlayerPrefs.SetFloat("Depth", 8000);
         PlayerPrefs.SetFloat("Music", 0.2f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
@@ -645,8 +649,8 @@ public class MenuManager : MonoBehaviour
         difficultySlider.value = 0;
         fovSlider.value = 35;
         fovText.SetText("35");
-        depthSlider.value = 4000;
-        depthText.SetText("4000");
+        depthSlider.value = 8000;
+        depthText.SetText("8000");
         musicSlider.value = 0.2f;
         musicText.SetText("0.2");
         showCaptions = true;
@@ -669,7 +673,7 @@ public class MenuManager : MonoBehaviour
     public void ResetSettings()
     {
         PlayerPrefs.SetFloat("Fov", 35);
-        PlayerPrefs.SetFloat("Depth", 4000);
+        PlayerPrefs.SetFloat("Depth", 8000);
         PlayerPrefs.SetFloat("Music", 0.2f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
@@ -679,8 +683,8 @@ public class MenuManager : MonoBehaviour
 
         fovSlider.value = 35;
         fovText.SetText("35");
-        depthSlider.value = 4000;
-        depthText.SetText("4000");
+        depthSlider.value = 8000;
+        depthText.SetText("8000");
         musicSlider.value = 0.2f;
         musicText.SetText("0.2");
         showCaptions = true;
@@ -736,9 +740,9 @@ public class MenuManager : MonoBehaviour
         MinorClick();
     }
 
-    IEnumerator ResetEffect(GameObject effect, int waitTime, bool sound = false)
+    IEnumerator ResetEffect(GameObject effect, WaitForSeconds wait, bool sound = false)
     {
-        yield return new WaitForSeconds(waitTime);
+        yield return wait;
         effect.SetActive(false);
         if(sound)
         {
@@ -746,7 +750,7 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    IEnumerator ChangeText(TMP_Text text, float time, Color originalColor, Color newColor, string originalString = "", string newString = "", FontStyles style = FontStyles.Normal, int amount = 1)
+    IEnumerator ChangeText(TMP_Text text, WaitForSeconds wait, Color originalColor, Color newColor, string originalString = "", string newString = "", FontStyles style = FontStyles.Normal, int amount = 1)
     {
         if(originalString != newString) text.text = newString;
         if(originalColor == newColor) originalColor = Color.white;
@@ -755,13 +759,12 @@ public class MenuManager : MonoBehaviour
         {
             case 1:
                 text.color = newColor;
-                yield return new WaitForSeconds(time);
+                yield return wait;
                 if(text.color == newColor) text.color = originalColor;
                 break;
 
             default:
                 int amountMinusOne = amount - 1;
-                WaitForSeconds wait = new WaitForSeconds(time);
                 for(int i = 0; i < amount; i++)
                 {
                     text.color = newColor;

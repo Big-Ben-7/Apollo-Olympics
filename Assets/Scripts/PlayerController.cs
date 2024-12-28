@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject aura;
     [SerializeField] ParticleSystem[] auraSystems;
     [SerializeField] LayerMask abilityMask;
-    Collider[] surroundingColliders = new Collider[5000];
+    Collider[] surroundingColliders = new Collider[10000];
     
 
     [Header("UI/Audio")]
@@ -604,16 +604,16 @@ public class PlayerController : MonoBehaviour
             if(raceMode)
             {
                 int number = UnityEngine.Random.Range(0, 100);
-                if(number < abilityPercent)
-                {
-                    abilityStrength += abilityIncrease;
-                    if(showCaptions) StartCoroutine(ResetText(caption, abilityCaption));
-                }
-                else if(number < abilityPercent + activationTimePercent || cooldownTime <= minCooldown)
+                if(activationTimePercent != 0 && number < activationTimePercent)
                 {
                     activationTime++;
                     currentActivation++;
                     if(showCaptions) StartCoroutine(ResetText(caption, "+1 Ability Duration"));
+                }
+                else if(number < abilityPercent + activationTimePercent || cooldownTime <= minCooldown)
+                {
+                    abilityStrength += abilityIncrease;
+                    if(showCaptions) StartCoroutine(ResetText(caption, abilityCaption));
                 }
                 else
                 {
@@ -725,8 +725,10 @@ public class PlayerController : MonoBehaviour
         float speed = rb.velocity.magnitude;
         float otherSpeed = other.rigidbody.velocity.magnitude;
         if(otherSpeed > speed) speed = otherSpeed;
-        Vector3 otherPos = myTransform.InverseTransformPoint(other.transform.position);
-        rb.AddTorque(new Vector3(-otherPos.y, otherPos.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
+        Vector3 otherPos = other.transform.position;
+        rb.AddForce((myTransform.position - otherPos).normalized * speed, ForceMode.VelocityChange);
+        Vector3 otherPosLocal = myTransform.InverseTransformPoint(otherPos);
+        rb.AddTorque(new Vector3(-otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
 
         if(!other.gameObject.CompareTag("Drone"))
         {
@@ -877,6 +879,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Countdown(int countdownTime)
     {
+        yield return null;
         spawnManager.initializedObjects ++;
         while(countdownTime > 0)
         {
@@ -1086,7 +1089,7 @@ public class PlayerController : MonoBehaviour
         ability = SpeedUp();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        rb.AddRelativeForce(Vector3.forward * (rb.velocity.magnitude + abilityStrength), ForceMode.VelocityChange);
+        rb.AddForce(myTransform.position.normalized * (rb.velocity.magnitude + abilityStrength), ForceMode.VelocityChange);
         glideSpeed += abilityStrength;
         resetting = StartCoroutine(ResetAura(twoSeconds));
 
@@ -1224,7 +1227,7 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         speedLossDivisor = 1;
-        healthLossDivisor = 1000;
+        healthLossDivisor = 2000;
         minHealthLoss = 0;
         deflectionForce = 0;
         rb.mass *= abilityStrength;
@@ -1300,8 +1303,10 @@ public class PlayerController : MonoBehaviour
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        Array.Clear(surroundingColliders, 0, 5000);
-        int colliders = Physics.OverlapSphereNonAlloc(myTransform.position, 5000, surroundingColliders, abilityMask);
+        Array.Clear(surroundingColliders, 0, 10000);
+        float radius = 10000;
+        if(abilityStrength < 7000) radius = abilityStrength + 3000;
+        int colliders = Physics.OverlapSphereNonAlloc(myTransform.position, radius, surroundingColliders, abilityMask);
         for(int i = 0; i < colliders; i++)
         {
             Collider collider = surroundingColliders[i];
