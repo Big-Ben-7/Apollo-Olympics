@@ -32,8 +32,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text raceText;
     [SerializeField] TMP_Text collectionText;
     [SerializeField] Slider difficultySlider;
+    [SerializeField] TMP_Text[] difficulties;
     [SerializeField] Slider playersSlider;
+    [SerializeField] TMP_Text[] playerNumbers;
     [SerializeField] TMP_Text playText;
+    [SerializeField] Color normalColor;
     [SerializeField] Color selectedColor;
     [SerializeField] GameObject racePlay;
     [SerializeField] GameObject collectionPlay;
@@ -162,10 +165,10 @@ public class MenuManager : MonoBehaviour
         if(PlayerPrefs.GetInt("Mode") == 0)
         {
             raceMode = true;
-            raceText.fontStyle = FontStyles.UpperCase;
+            raceText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
             raceText.color = selectedColor;
             collectionText.fontStyle = FontStyles.Normal;
-            collectionText.color = Color.white;
+            collectionText.color = normalColor;
             racePlay.SetActive(true);
             collectionPlay.SetActive(false);
             playText.SetText("Play  -  100 credits");
@@ -174,17 +177,21 @@ public class MenuManager : MonoBehaviour
         {
             raceMode = false;
             raceText.fontStyle = FontStyles.Normal;
-            raceText.color = Color.white;
-            collectionText.fontStyle = FontStyles.UpperCase;
+            raceText.color = normalColor;
+            collectionText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
             collectionText.color = selectedColor;
             racePlay.SetActive(false);
             collectionPlay.SetActive(true);
             playText.SetText("Play");
         }
         playerNumber = PlayerPrefs.GetInt("PlayerNumber", 1);
-        difficulty = PlayerPrefs.GetInt("Difficulty");
         playersSlider.value = playerNumber;
+        for(int i = 0; i < 4; i++) playerNumbers[i].color = normalColor;
+        playerNumbers[playerNumber - 1].color = selectedColor;
+        difficulty = PlayerPrefs.GetInt("Difficulty");
         difficultySlider.value = difficulty;
+        for(int i = 0; i < 4; i++) difficulties[i].color = normalColor;
+        difficulties[difficulty].color = selectedColor;
         nameObject = nameInput.gameObject;
         nameInput.text = "";
 
@@ -319,10 +326,10 @@ public class MenuManager : MonoBehaviour
         if(racing)
         {
             raceMode = true;
-            raceText.fontStyle = FontStyles.UpperCase;
+            raceText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
             raceText.color = selectedColor;
             collectionText.fontStyle = FontStyles.Normal;
-            collectionText.color = Color.white;
+            collectionText.color = normalColor;
             racePlay.SetActive(true);
             collectionPlay.SetActive(false);
             playText.SetText("Play  -  100 credits");
@@ -332,8 +339,8 @@ public class MenuManager : MonoBehaviour
         {
             raceMode = false;
             raceText.fontStyle = FontStyles.Normal;
-            raceText.color = Color.white;
-            collectionText.fontStyle = FontStyles.UpperCase;
+            raceText.color = normalColor;
+            collectionText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
             collectionText.color = selectedColor;
             racePlay.SetActive(false);
             collectionPlay.SetActive(true);
@@ -596,6 +603,8 @@ public class MenuManager : MonoBehaviour
     {
         difficulty = (int) difficultySlider.value;
         PlayerPrefs.SetInt("Difficulty", difficulty);
+        for(int i = 0; i < 4; i++) difficulties[i].color = normalColor;
+        difficulties[difficulty].color = selectedColor;
         MinorClick();
     }
 
@@ -603,6 +612,8 @@ public class MenuManager : MonoBehaviour
     {
         playerNumber = (int) playersSlider.value;
         PlayerPrefs.SetInt("PlayerNumber", playerNumber);
+        for(int i = 0; i < 4; i++) playerNumbers[i].color = normalColor;
+        playerNumbers[playerNumber - 1].color = selectedColor;
         MinorClick();
     }
 
@@ -648,15 +659,19 @@ public class MenuManager : MonoBehaviour
         advTime.SetText("Advanced: 0:00:000");
         expTime.SetText("Expert: 0:00:000");
         raceMode = true;
-        raceText.fontStyle = FontStyles.UpperCase;
+        raceText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
         raceText.color = selectedColor;
         collectionText.fontStyle = FontStyles.Normal;
-        collectionText.color = Color.white;
+        collectionText.color = normalColor;
         racePlay.SetActive(true);
         collectionPlay.SetActive(false);
         playText.SetText("Play  -  100 credits");
         playersSlider.value = 1;
+        for(int i = 1; i < 4; i++) playerNumbers[i].color = normalColor;
+        playerNumbers[0].color = selectedColor;
         difficultySlider.value = 0;
+        for(int i = 1; i < 4; i++) difficulties[i].color = normalColor;
+        difficulties[0].color = selectedColor;
         fovSlider.value = 35;
         fovText.SetText("35");
         depthSlider.value = 7000;

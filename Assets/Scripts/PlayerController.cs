@@ -48,13 +48,15 @@ public class PlayerController : MonoBehaviour
         "Mission Impossible?",
         "Better luck next time...",
         "So close, yet so far...",
-        "Lost in space...",
-        "Never give up!",
-        "Keep going!",
+        "Lost in Space...",
+        "Never      Give Up!",
+        "Keep Going!",
         "Down, but not out!",
-        "Nice try!",
+        "Nice Try!",
         "The best is yet to come...",
-        "Well, could've gone worse...",
+        "Ready to bounce back",
+        "Persistance is Key",
+        "Inspirational Effort"
     };
 
     [Header("Ability")]
@@ -1128,6 +1130,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator SpeedUp()
     {
         //Activation
+        died = false;
         ability = SpeedUp();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
@@ -1139,8 +1142,8 @@ public class PlayerController : MonoBehaviour
         while(currentCooldown > 0)
         {
             abilityText.SetText("Charging: " + currentCooldown);
-            currentCooldown --;
             yield return oneSecond;
+            currentCooldown --;
         }
         if(!died)
         {
@@ -1163,8 +1166,8 @@ public class PlayerController : MonoBehaviour
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation);
-            currentActivation --;
             yield return oneSecond;
+            currentActivation --;
         }
         auraParticles[2].loop = false;
         resetting = StartCoroutine(ResetAura(twoSeconds, 3));
@@ -1174,8 +1177,8 @@ public class PlayerController : MonoBehaviour
         while(currentCooldown > 0)
         {
             abilityText.SetText("Charging: " + currentCooldown);
-            currentCooldown --;
             yield return oneSecond;
+            currentCooldown --;
         }
         if(!died)
         {
@@ -1198,12 +1201,12 @@ public class PlayerController : MonoBehaviour
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation);
-            currentActivation --;
             if(health + abilityStrength < 100) health += abilityStrength;
             else health = 100;
             health = (float) Math.Round(health, 2);
             healthText.SetText("Health: " + health.ToString("0.00"));
             yield return oneSecond;
+            currentActivation --;
         }
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(twoSeconds));
@@ -1214,8 +1217,8 @@ public class PlayerController : MonoBehaviour
         while(currentCooldown > 0)
         {
             abilityText.SetText("Charging: " + currentCooldown);
-            currentCooldown --;
             yield return oneSecond;
+            currentCooldown --;
         }
         if(!died)
         {
@@ -1238,8 +1241,8 @@ public class PlayerController : MonoBehaviour
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation);
-            currentActivation --;
             yield return oneSecond;
+            currentActivation --;
         }
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(twoSeconds));
@@ -1250,8 +1253,8 @@ public class PlayerController : MonoBehaviour
         while(currentCooldown > 0)
         {
             abilityText.SetText("Charging: " + currentCooldown);
-            currentCooldown --;
             yield return oneSecond;
+            currentCooldown --;
         }
         if(!died)
         {
@@ -1278,8 +1281,8 @@ public class PlayerController : MonoBehaviour
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation);
-            currentActivation --;
             yield return oneSecond;
+            currentActivation --;
         }
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(twoSeconds));
@@ -1294,8 +1297,8 @@ public class PlayerController : MonoBehaviour
         while(currentCooldown > 0)
         {
             abilityText.SetText("Charging: " + currentCooldown);
-            currentCooldown --;
             yield return oneSecond;
+            currentCooldown --;
         }
         if(!died)
         {
@@ -1318,8 +1321,8 @@ public class PlayerController : MonoBehaviour
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation);
-            currentActivation --;
             yield return oneSecond;
+            currentActivation --;
         }
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(oneSecond));
@@ -1329,8 +1332,8 @@ public class PlayerController : MonoBehaviour
         while(currentCooldown > 0)
         {
             abilityText.SetText("Charging: " + currentCooldown);
-            currentCooldown --;
             yield return oneSecond;
+            currentCooldown --;
         }
         if(!died)
         {
@@ -1344,6 +1347,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator WindStorm()
     {
         //Activation
+        died = false;
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
@@ -1375,8 +1379,8 @@ public class PlayerController : MonoBehaviour
         while(currentCooldown > 0)
         {
             abilityText.SetText("Charging: " + currentCooldown);
-            currentCooldown --;
             yield return oneSecond;
+            currentCooldown --;
         }
         if(!died)
         {

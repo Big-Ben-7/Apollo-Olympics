@@ -926,7 +926,7 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerShips: 00000000030000000600000007000000
+  playerShips: 03000000030000000600000007000000
   playerChunks: []
   playingPlayers: 
   initialThrustSpeeds: 800c0000100e0000a00f000030110000c0120000
@@ -958,11 +958,11 @@ MonoBehaviour:
   - 0.25
   - 0
   deflectionForces:
-  - 20
-  - 2
-  - 0.2
-  - 0.02
-  - 0.002
+  - 10
+  - 1
+  - 0.1
+  - 0.01
+  - 0.001
   cameraPrefab: {fileID: 8803354073669428790, guid: cf38e19b88e5647c19ea89b7f8dacb7a, type: 3}
   cameraMasks:
   - serializedVersion: 2

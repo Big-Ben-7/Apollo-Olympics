@@ -79,9 +79,13 @@ public class Drone : MonoBehaviour
 
             case 14 or 15:
                 float targetDistance = (target.position - myTransform.position).sqrMagnitude;
-                if(showCaptions && ((confusionCalc.sqrMagnitude >= 300000 && target.InverseTransformPoint(myTransform.position).z > 0 && targetDistance < 2300000) || (targetDistance < 500000)))
+                float confusionMag = confusionCalc.sqrMagnitude;
+                float relativePos = target.InverseTransformPoint(myTransform.position).z;
+                
+                if(offset == 0) Explode(other.GetContact(0).point);
+                else if((confusionMag > 140000 && relativePos > 0 && targetDistance < 2500000) || (confusionMag > 1 && targetDistance < 1000000 && relativePos > -100))
                 {
-                    StartCoroutine(playerController.SetCaption(crashCaptions[Random.Range(0, captionNumber)], twoSeconds, true));
+                    if(showCaptions) StartCoroutine(playerController.SetCaption(crashCaptions[Random.Range(0, captionNumber)], twoSeconds, true));
                     Explode(other.GetContact(0).point);
                 }
                 else Explode(other.GetContact(0).point, null, false);

@@ -330,7 +330,7 @@ public class SpawnManager : MonoBehaviour
 
         //Spawn checkpoints
         int lastCheckpoint = checkpointCount - 1;
-        int newScale;
+        float newScale;
         if(raceMode)
         {
             for(int i = 0; i < lastCheckpoint; i++)
@@ -340,12 +340,12 @@ public class SpawnManager : MonoBehaviour
                 checkpoint.localScale = new Vector3(newScale, newScale, newScale);
             }
         }
-        newScale = checkpointDistances[lastCheckpoint] * 2 + 1000;
+        newScale = checkpointDistances[lastCheckpoint] * 2;
         Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
         finish.localScale = new Vector3(newScale, newScale, newScale);
         finish.GetComponent<Renderer>().material = finishMat;
         lastCheckpointDistance = PlayerController.lastCheckpointDistance = checkpointDistances[lastCheckpoint];
-        lastCheckpointDistance = (lastCheckpointDistance + 500) * (lastCheckpointDistance + 500);
+        lastCheckpointDistance = lastCheckpointDistance * lastCheckpointDistance;
 
         //Spawn players
         players = new GameObject[playerNumber];
