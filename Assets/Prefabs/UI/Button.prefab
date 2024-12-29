@@ -159,7 +159,7 @@ MonoBehaviour:
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Disabled
+    m_PressedTrigger: Normal
     m_SelectedTrigger: Normal
     m_DisabledTrigger: Normal
   m_Interactable: 1
