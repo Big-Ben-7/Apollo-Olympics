@@ -689,86 +689,6 @@ public class PlayerController : MonoBehaviour
             audioSource.PlayOneShot(collectSound);
         }
     }
-
-    /*void OnTriggerExit(Collider other)
-    {
-        if(!canTrigger)
-        {
-            return;
-        }
-
-        //Spawn new sections on trigger
-        if(other.gameObject.CompareTag("Section"))
-        {
-            Vector3 sectionPos = other.transform.position;
-            Vector3 posMag = rb.position;
-            float myX = posMag.x;
-            float myY = posMag.y;
-            float myZ = posMag.z;
-            if(sectionPos.x == myX - side || sectionPos.x == myX + side)
-            {
-                rb.position += Vector3.right;
-            }
-            if(sectionPos.z == myZ - side || sectionPos.z == myZ + side)
-            {
-                rb.position += Vector3.forward;
-            }
-            if(sectionPos.y == myY - side || sectionPos.y == myY + side)
-            {
-                rb.position += Vector3.up;
-            }
-            switch(other.name)
-            {
-                //Player moved forward or back
-                case "SectionFront":
-                    if(!sectionFront && myX > sectionPos.x - side && myX < sectionPos.x + side && myY > sectionPos.y - side && myY < sectionPos.y + side)
-                    {
-                        sectionFront = true;
-                        if(myZ >= sectionPos.z)
-                        {
-                            spawnManager.SpawnSectionsForward(sectionPos, playerIndex);
-                        }
-                        else
-                        {
-                            spawnManager.SpawnSectionsBack(sectionPos, playerIndex);
-                        }
-                    }
-                    break;
-
-                //Player moved left or right
-                case "SectionSide":
-                    if(!sectionSide && myZ > sectionPos.z - side && myZ < sectionPos.z + side && myY > sectionPos.y - side && myY < sectionPos.y + side)
-                    {
-                        sectionSide = true;
-                        if(myX >= sectionPos.x)
-                        {
-                            spawnManager.SpawnSectionsRight(sectionPos, playerIndex);
-                        }
-                        else
-                        {
-                            spawnManager.SpawnSectionsLeft(sectionPos, playerIndex);
-                        }
-                    }
-                    break;
-
-                //Player moved up or down
-                case "SectionUp":
-                    if(!sectionUp && myX > sectionPos.x - side && myX < sectionPos.x + side && myZ > sectionPos.z - side && myZ < sectionPos.z + side)
-                    {
-                        sectionUp = true;
-                        if(myY >= sectionPos.y)
-                        {
-                            spawnManager.SpawnSectionsUp(sectionPos, playerIndex);
-                        }
-                        else
-                        {
-                            spawnManager.SpawnSectionsDown(sectionPos, playerIndex);
-                        }
-                    }
-                    break;
-            }
-        }
-    }*/
     
     void OnCollisionEnter(Collision other)
     {
@@ -825,8 +745,7 @@ public class PlayerController : MonoBehaviour
         switch(health)
         {
             case <= 0:
-                canCollide = false;
-                canTrigger = false;
+                canCollide = canTrigger = false;
                 rb.isKinematic = true;
 
                 dieExplosion.transform.position = other.GetContact(0).point;
@@ -926,14 +845,14 @@ public class PlayerController : MonoBehaviour
         thrusterParent.SetActive(true);
         if(showArrow) arrow.gameObject.SetActive(true);
         rb.isKinematic = false;
-        canTrigger = true;
-        canCollide = true;
+        canCollide = canTrigger = true;
+        if(collided) collided = false;
     }
 
     void OnCollisionExit(Collision other)
     {
         if(!canCollide) return;
-        if(other.gameObject.CompareTag("Asteroid") || other.gameObject.layer == 6 || other.gameObject.CompareTag("Drone")) collided = false;
+        collided = false;
     }
 
     IEnumerator Countdown(int countdownTime)
@@ -967,8 +886,8 @@ public class PlayerController : MonoBehaviour
         countdownText.gameObject.SetActive(false);
         thrusterParent.SetActive(true);
         rb.isKinematic = false;
-        canCollide = true;
-        canTrigger = true;
+        canCollide = canTrigger = true;
+        if(collided) collided = false;
     }
 
     IEnumerator ChangeTextColor(TMP_Text text, WaitForSeconds wait, Color originalColor, Color newColor, int amount = 1)
@@ -1058,8 +977,7 @@ public class PlayerController : MonoBehaviour
 
     public void Teleport()
     {
-        canTrigger = false;
-        canCollide = false;
+        canCollide = canTrigger = false;
         int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
         int direction = UnityEngine.Random.Range(0, 100);
         float distance;
@@ -1127,8 +1045,8 @@ public class PlayerController : MonoBehaviour
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);
         for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
         audioSource.PlayOneShot(wormholeSound);
-        canCollide = true;
-        canTrigger = true;
+        canCollide = canTrigger = true;
+        if(collided) collided = false;
     }
 
     void AddCheckpoint(int playerCheckpoint)

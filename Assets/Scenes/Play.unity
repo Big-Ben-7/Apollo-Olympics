@@ -427,7 +427,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -869,7 +869,7 @@ MonoBehaviour:
   checkpointPrefab: {fileID: 1524319548756128656, guid: cf191d8315c8d4bcbb649de43114089f, type: 3}
   finishMat: {fileID: 2100000, guid: 11a6088f9cac6426a90e9b064c81cc2e, type: 2}
   raceMode: 1
-  difficulty: 3
+  difficulty: 0
   possibleAsteroids:
   - {fileID: 151664, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
   - {fileID: 141316, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
@@ -926,7 +926,7 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerShips: 04000000030000000600000007000000
+  playerShips: 00000000030000000600000007000000
   playerChunks: []
   playingPlayers: 
   playerNames: []
@@ -986,7 +986,7 @@ MonoBehaviour:
   seconds: 0
   minutes: 0
   timeString: 
-  inCountdown: 1
+  paused: 1
 --- !u!4 &1730903515
 Transform:
   m_ObjectHideFlags: 0
