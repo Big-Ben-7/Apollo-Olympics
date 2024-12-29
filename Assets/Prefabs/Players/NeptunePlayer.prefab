@@ -335,7 +335,7 @@ MonoBehaviour:
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
-  thrusterVolumeDivisor: 4000
+  thrusterVolumeDivisor: 8000
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
@@ -379,6 +379,7 @@ MonoBehaviour:
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   arrow: {fileID: 7200272891621461937}
+  rotation: {x: 0, y: 0, z: 0}
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}

@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject thrusterParent;
     [SerializeField] float thrusterSpeedDivisor = 40;
     [SerializeField] float maxThrusterSpeed = 20;
-    [SerializeField] float thrusterVolumeDivisor = 4000;
+    [SerializeField] float thrusterVolumeDivisor = 8000;
 
     [Header("Collision")]
     [SerializeField] GameObject dieExplosion;
@@ -33,31 +33,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int backPercent = 30;
     [SerializeField] GameObject dronePrefab;
     [SerializeField] GameObject graphic;
-    string[] crashCaptions = new string[] 
-    {
-        "Ouch!",
-        "Watch Out!",
-        "Uh Oh!",
-        "Watch your health!",
-        "Brace for impact!",
-        "Watch your step!",
-        "Be careful!"
-    };
-    string[] deathCaptions = new string[] 
-    {
-        "Mission Impossible?",
-        "Better luck next time...",
-        "So close, yet so far...",
-        "Lost in Space...",
-        "Never      Give Up!",
-        "Keep Going!",
-        "Down, but not out!",
-        "Nice Try!",
-        "The best is yet to come...",
-        "Ready to bounce back",
-        "Persistance is Key",
-        "Inspirational Effort"
-    };
 
     [Header("Ability")]
     [SerializeField] string shipModel;
@@ -102,7 +77,7 @@ public class PlayerController : MonoBehaviour
     InputAction pitchAction;
     InputAction yawAction;
     InputAction rollAction;
-    Vector3 rotation;
+    public Vector3 rotation;
     float rotationSpeed;
     float decMultiplier;
     public Vector3 startPos;
@@ -131,6 +106,48 @@ public class PlayerController : MonoBehaviour
     public static int credits;
     public static int creditIncrease;
     public static int lastCheckpointDistance;
+    string[] droneCaptions = new string[]
+    {
+        "Nice Move!",
+        "Well Played!",
+        "Got 'em!",
+        "Wipeout!",
+        "Clean Sweep!",
+        "Impressive!",
+        "Bravo!",
+        "Pirates Out!",
+        "Bye-bye Pirates!",
+        "Well Done!",
+        "Outstanding!",
+        "Terriffic!",
+        "Awesome!"
+    };
+    string[] crashCaptions = new string[] 
+    {
+        "Ouch!",
+        "Watch Out!",
+        "Uh Oh!",
+        "Watch your health!",
+        "Brace for impact!",
+        "Watch your step!",
+        "Be careful!"
+    };
+    string[] deathCaptions = new string[] 
+    {
+        "Mission Impossible?",
+        "Better luck next time...",
+        "So close, yet so far...",
+        "Lost in Space...",
+        "Never      Give Up!",
+        "Keep Going!",
+        "Down, but not out!",
+        "Nice Try!",
+        "The best is yet to come...",
+        "Ready to bounce back",
+        "Persistance is Key",
+        "Inspirational Effort"
+    };
+    int droneCaptionNumber;
     int crashNumber;
     int deathNumber;
 
@@ -211,6 +228,8 @@ public class PlayerController : MonoBehaviour
         thrusters = new ParticleSystem.MainModule[thrusterCount];
         for(int i = 0; i < thrusterCount; i++) thrusters[i] = thrusterTransform.GetChild(i).GetComponent<ParticleSystem>().main;
         hitSoundsCount = hitSounds.Length;
+
+        droneCaptionNumber = droneCaptions.Length;
         crashNumber = crashCaptions.Length;
         deathNumber = deathCaptions.Length;
     }
@@ -984,9 +1003,22 @@ public class PlayerController : MonoBehaviour
         effect.SetActive(false);
     }
 
-    public IEnumerator SetCaption(string phrase, WaitForSeconds wait, bool lowPriority = false)
+    IEnumerator SetCaption(string phrase, WaitForSeconds wait)
     {
-        if((lowPriority && caption.text != "") || crashCaptions.Contains(caption.text)) yield break;
+        if(crashCaptions.Contains(caption.text)) yield break;
+        caption.SetText(phrase);
+        yield return wait;
+        if(caption.text == phrase)
+        {
+            caption.SetText("");
+        }
+    }
+
+    public IEnumerator SetDroneCaption(WaitForSeconds wait)
+    {
+        string text = caption.text;
+        if(crashCaptions.Contains(text) || droneCaptions.Contains(text)) yield break;
+        string phrase = droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)];
         caption.SetText(phrase);
         yield return wait;
         if(caption.text == phrase)

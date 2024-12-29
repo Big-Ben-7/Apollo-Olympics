@@ -635,7 +635,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerNumber", 1);
         PlayerPrefs.SetInt("Difficulty", 0);
         PlayerPrefs.SetInt("Races", 0);
-        PlayerPrefs.SetInt("Credits", 0);
+        PlayerPrefs.SetInt("Credits", 500);
         PlayerPrefs.SetInt("Collects", 0);
         PlayerPrefs.SetFloat("Fov", 35);
         PlayerPrefs.SetFloat("Depth", 7000);
@@ -649,9 +649,9 @@ public class MenuManager : MonoBehaviour
 
         races = 0;
         racesText.SetText("Races: 0");
-        credits = 0;
-        creditsText.SetText("Credits: 0");
-        creditsText2.SetText("Credits: 0");
+        credits = 500;
+        creditsText.SetText("Credits: 500");
+        creditsText2.SetText("Credits: 500");
         collects = 0;
         collectsText.SetText("Space Junk Collected: 0");
         begTime.SetText("Beginner: 0:00:000");

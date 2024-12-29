@@ -131,6 +131,9 @@ MonoBehaviour:
   - Outstanding!
   - Terriffic!
   - Awesome!
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 32832
   target: {fileID: 0}
   targetRb: {fileID: 0}
   playerController: {fileID: 0}

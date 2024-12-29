@@ -902,7 +902,7 @@ MonoBehaviour:
   maxAsteroidScale: 500
   collectableNumbers: 0a000000080000000600000004000000
   collectCollectableMultiplier: 5
-  partDisablePercent: 60
+  partDisablePercent: 50
   maxMovementForce: 60
   maxRotationForce: 0.2
   maxRotationSpeed: 30
@@ -916,7 +916,7 @@ MonoBehaviour:
   intCheckpointDrones: 010000000100000002000000030000000400000005000000060000000700000008000000
   advCheckpointDrones: 020000000300000004000000050000000600000007000000080000000a0000000c000000
   expCheckpointDrones: 04000000050000000600000007000000080000000a0000000c0000000e00000010000000
-  playerNumber: 3
+  playerNumber: 1
   possiblePlayers:
   - {fileID: 6744162823093574734, guid: bb456dcf6cf4444fd8c3095cc4f2f8f8, type: 3}
   - {fileID: 6744162823093574734, guid: 34bf0daee831447459c8cf027f9b405e, type: 3}
@@ -926,7 +926,7 @@ MonoBehaviour:
   - {fileID: 6744162823093574734, guid: ccbce7257857742889e785eaa6a6c27f, type: 3}
   - {fileID: 6744162823093574734, guid: e7a93dc089f1d4049b1ab7136bc1604f, type: 3}
   - {fileID: 6744162823093574734, guid: 55c63c02cd484466fad4c923fa336309, type: 3}
-  playerShips: 03000000030000000600000007000000
+  playerShips: 04000000030000000600000007000000
   playerChunks: []
   playingPlayers: 
   initialThrustSpeeds: 800c0000100e0000a00f000030110000c0120000

@@ -13,13 +13,13 @@ public class Drone : MonoBehaviour
     public float offset;
     WaitForSeconds attackWait;
     WaitForSeconds randomWait;
+    Vector3 confusionCalc;
 
     [Header("Explosion")]
     [SerializeField] GameObject explosion;
     Transform explosionTransform;
     [SerializeField] AudioClip[] explosionSounds;
-    [SerializeField] string[] crashCaptions;
-    int captionNumber;
+    [SerializeField] LayerMask raycastMask;
     int explosionSoundsLength;
     public static WaitForSeconds twoSeconds;
 
@@ -32,7 +32,6 @@ public class Drone : MonoBehaviour
     Transform myTransform;
     bool collided;
     public AudioSource audioSource;
-    Vector3 confusionCalc;
     public static bool showCaptions;
 
     void Awake()
@@ -44,7 +43,6 @@ public class Drone : MonoBehaviour
         explosionSoundsLength = explosionSounds.Length;
         attackWait = new WaitForSeconds(updateInterval);
         randomWait = new WaitForSeconds(Random.Range(0f, updateInterval));
-        captionNumber = crashCaptions.Length;
     }
 
     void OnEnable()
@@ -78,17 +76,35 @@ public class Drone : MonoBehaviour
                 break;
 
             case 14 or 15:
-                float targetDistance = (target.position - myTransform.position).sqrMagnitude;
-                float confusionMag = confusionCalc.sqrMagnitude;
-                float relativePos = target.InverseTransformPoint(myTransform.position).z;
-                
-                if(offset == 0) Explode(other.GetContact(0).point);
-                else if((confusionMag > 140000 && relativePos > 0 && targetDistance < 2500000) || (confusionMag > 1 && targetDistance < 1000000 && relativePos > -100))
+
+                Vector3 direction = target.position - myTransform.position;
+                float distance = direction.sqrMagnitude;
+                Vector3 localPos = target.InverseTransformPoint(myTransform.position);
+
+                //If drone is too far, behind, or occluded from player, no explosion
+                if(distance > 1500000 || localPos.z < 0 || localPos.y > 100 || localPos.y < -100 || localPos.x > 200 || localPos.x < -200)
                 {
-                    if(showCaptions) StartCoroutine(playerController.SetCaption(crashCaptions[Random.Range(0, captionNumber)], twoSeconds, true));
-                    Explode(other.GetContact(0).point);
+                    ResetDrone();
+                    return;
                 }
-                else Explode(other.GetContact(0).point, null, false);
+                bool badHit = false;
+                if(Physics.Raycast(myTransform.position, direction.normalized, out RaycastHit hit, raycastMask))
+                {
+                    if(hit.collider.gameObject.layer != 6) badHit = true;
+                }
+                else badHit = true;
+                if(badHit)
+                {
+                    ResetDrone();
+                    return;
+                }
+
+                //If drone is not outmaneuvered, no caption
+                Explode(other.GetContact(0).point);
+                if(offset > 0) return;
+
+                //If drone is outmaneuvered, show caption
+                if(((playerController.rotation != Vector3.zero && confusionCalc.sqrMagnitude > 300000) || distance < 1200000) && showCaptions) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
                 break;
             
             default:
@@ -120,13 +136,13 @@ public class Drone : MonoBehaviour
         }
     }
 
-    public void Explode(Vector3 pos, Transform parent = null, bool playSound = true)
+    public void Explode(Vector3 pos, Transform parent = null)
     {
         explosionTransform.parent = parent;
         explosionTransform.position = pos;
         explosion.SetActive(true);
-        if(playSound) audioSource.PlayOneShot(explosionSounds[Random.Range(0, explosionSoundsLength)]);
         StartCoroutine(ResetEffect(explosion, twoSeconds));
+        audioSource.PlayOneShot(explosionSounds[Random.Range(0, explosionSoundsLength)]);
         ResetDrone();
     }
 

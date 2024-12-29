@@ -51,7 +51,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int[] collectableNumbers = new int[] {10, 8, 6, 4};
     int collectableNumber;
     [SerializeField] int collectCollectableMultiplier = 5;
-    [SerializeField] int partDisablePercent = 60;
+    [SerializeField] int partDisablePercent = 50;
     [SerializeField] int maxMovementForce = 60;
     [SerializeField] float maxRotationForce = 0.2f;
     [SerializeField] float maxRotationSpeed = 30;
@@ -111,6 +111,7 @@ public class SpawnManager : MonoBehaviour
     int audioCount;
     [SerializeField] GameObject menu;
     public int initializedObjects;
+    bool initialized;
     bool cursorHide;
     InputAction pauseAction;
     WaitForSeconds oneSecond;
@@ -443,6 +444,8 @@ public class SpawnManager : MonoBehaviour
             countdownTime--;
         }
         audioSource.PlayOneShot(goSound);
+        InputSystem.actions.Disable();
+        InputSystem.actions.Enable();
         inCountdown = false;
     }
     void Update()
