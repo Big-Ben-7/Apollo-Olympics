@@ -7,6 +7,8 @@ using TMPro;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.Rendering;
+using System.Reflection;
+using System.Linq.Expressions;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -83,6 +85,7 @@ public class SpawnManager : MonoBehaviour
     public static List<Transform>[] followers;
     bool finished;
     PlayerController[] playerControllers;
+    public string[] playerNames;
 
     [Header("Customization")]
     public int[] initialThrustSpeeds;
@@ -111,7 +114,6 @@ public class SpawnManager : MonoBehaviour
     int audioCount;
     [SerializeField] GameObject menu;
     public int initializedObjects;
-    bool initialized;
     bool cursorHide;
     InputAction pauseAction;
     WaitForSeconds oneSecond;
@@ -122,7 +124,7 @@ public class SpawnManager : MonoBehaviour
     public int seconds;
     public int minutes;
     public string timeString;
-    public bool inCountdown = true;
+    public bool paused = true;
     
     void Awake()
     {
@@ -142,6 +144,7 @@ public class SpawnManager : MonoBehaviour
             playerNumber = MenuManager.playerNumber;
             playerShips = MenuManager.playerShips;
             difficulty = MenuManager.difficulty;
+            playerNames = MenuManager.playerNames;
             audioSource.volume = PlayerController.audioVolume = MenuManager.effects;
             backgroundMusic.volume = MenuManager.music * 0.5f;
             backgroundNoise.volume = MenuManager.noise;
@@ -160,6 +163,7 @@ public class SpawnManager : MonoBehaviour
         }
         else
         {
+            playerNames = new string[] {"Player 1", "Player 2", "Player 3", "Player 4"};
             PlayerController.audioVolume = 0.2f;
             PlayerController.maxThrusterVolume = 0.2f;
             PlayerController.showCaptions = Drone.showCaptions = PlayerController.showArrow = true;
@@ -368,24 +372,28 @@ public class SpawnManager : MonoBehaviour
                 scaleVector = Vector2.one;
                 cameraRects = new Vector2[] {Vector2.zero};
                 tags = new string[] {"1"};
+                playerNames = new string[] {playerNames[0]};
                 break;
 
             case 2:
                 scaleVector = new Vector2(0.5f, 1);
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.5f, 0)};
                 tags = new string[] {"1", "2"};
+                playerNames = new string[] {playerNames[0], playerNames[1]};
                 break;
 
             case 3:
                 scaleVector = new Vector2(0.333f, 1);
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.333f, 0), new Vector2(0.667f, 0)};
                 tags = new string[] {"1", "3", "2"};
+                playerNames = new string[] {playerNames[0], playerNames[2], playerNames[1]};
                 break;
             
             default:
                 scaleVector = new Vector2(0.5f, 0.5f);
                 cameraRects = new Vector2[] {new Vector2(0, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(0.5f, 0)};
                 tags = new string[] {"1", "4", "3", "2"};
+                playerNames = new string[] {playerNames[0], playerNames[3], playerNames[2], playerNames[1]};
                 break;
         }
 
@@ -446,7 +454,7 @@ public class SpawnManager : MonoBehaviour
         audioSource.PlayOneShot(goSound);
         InputSystem.actions.Disable();
         InputSystem.actions.Enable();
-        inCountdown = false;
+        paused = false;
     }
     void Update()
     {
@@ -464,7 +472,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         //Update time
-        if(inCountdown) return;
+        if(paused) return;
         if(raceMode)
         {
             milliseconds += (int) (Time.deltaTime * 1000);
@@ -493,7 +501,7 @@ public class SpawnManager : MonoBehaviour
                     if(minutes < 0)
                     {
                         //Game over
-                        inCountdown = true;
+                        paused = true;
                         sectionParent.gameObject.SetActive(false);
                         int[] collectsList = new int[playerNumber];
                         int[] sortedList = new int[playerNumber];
@@ -550,6 +558,7 @@ public class SpawnManager : MonoBehaviour
 
     public void Pause()
     {
+        paused = true;
         menu.SetActive(true);
         if(cursorHide)
         {
@@ -587,6 +596,7 @@ public class SpawnManager : MonoBehaviour
             allAudio[i].UnPause();
         }
         audioSource.PlayOneShot(pauseSound);
+        paused = false;
     }
 
     public void Restart()
@@ -603,6 +613,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator LoadScene(int index)
     {
+        paused = false;
         yield return oneRealSecond;
         Time.timeScale = 1;
         SceneManager.LoadSceneAsync(index);

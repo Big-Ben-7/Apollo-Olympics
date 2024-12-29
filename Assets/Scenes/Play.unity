@@ -427,7 +427,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -929,6 +929,7 @@ MonoBehaviour:
   playerShips: 04000000030000000600000007000000
   playerChunks: []
   playingPlayers: 
+  playerNames: []
   initialThrustSpeeds: 800c0000100e0000a00f000030110000c0120000
   accelerations: 20030000e8030000b00400007805000040060000
   maxThrustSpeeds: 803e0000204e0000c05d0000606d0000007d0000

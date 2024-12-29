@@ -382,8 +382,7 @@ public class PlayerController : MonoBehaviour
         countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
-        if(MenuManager.loaded) nameText.SetText(MenuManager.playerNames[playerIndex]);
-        else nameText.SetText("Player " + playerNumberString);
+        nameText.SetText(spawnManager.playerNames[playerIndex]);
         healthText.SetText("Health: 100.00");
         collectText.SetText("Space Junk: 0");
         abilityText.SetText("");
@@ -424,6 +423,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(spawnManager.paused) return;
+
         //Activate special ability
         if(abilityAction.WasPressedThisFrame())
         {
@@ -460,10 +461,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(spawnManager.inCountdown) return;
-
         float speed = rb.velocity.magnitude;
-        
         if(!rb.isKinematic)
         {
             //Movement input
@@ -673,7 +671,7 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     cooldownTime--;
-                    if(currentCooldown > 1) currentCooldown--;
+                    if(currentCooldown > 1) currentCooldown --;
                     if(showCaptions) StartCoroutine(SetCaption("-1 Ability Cooldown", oneSecond));
                 }
             }
@@ -1047,7 +1045,7 @@ public class PlayerController : MonoBehaviour
                     int index = MenuManager.difficulty;
                     MenuManager.times[index] = elapsedMilliseconds;
                     PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
-                    PlayerPrefs.SetString("Description" + index, ", " + MenuManager.playerNames[playerIndex] + "-" + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year);
+                    PlayerPrefs.SetString("Description" + index, ", " + spawnManager.playerNames[playerIndex] + "-" + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year);
                 }
             }
         }
@@ -1175,7 +1173,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             yield return oneSecond;
-            currentCooldown --;
+            if(currentCooldown > 0) currentCooldown --;
         }
         if(!died)
         {
@@ -1210,7 +1208,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             yield return oneSecond;
-            currentCooldown --;
+            if(currentCooldown > 0) currentCooldown --;
         }
         if(!died)
         {
@@ -1250,7 +1248,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             yield return oneSecond;
-            currentCooldown --;
+            if(currentCooldown > 0) currentCooldown --;
         }
         if(!died)
         {
@@ -1286,7 +1284,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             yield return oneSecond;
-            currentCooldown --;
+            if(currentCooldown > 0) currentCooldown --;
         }
         if(!died)
         {
@@ -1330,7 +1328,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             yield return oneSecond;
-            currentCooldown --;
+            if(currentCooldown > 0) currentCooldown --;
         }
         if(!died)
         {
@@ -1365,7 +1363,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             yield return oneSecond;
-            currentCooldown --;
+            if(currentCooldown > 0) currentCooldown --;
         }
         if(!died)
         {
@@ -1412,7 +1410,7 @@ public class PlayerController : MonoBehaviour
         {
             abilityText.SetText("Charging: " + currentCooldown);
             yield return oneSecond;
-            currentCooldown --;
+            if(currentCooldown > 0) currentCooldown --;
         }
         if(!died)
         {
