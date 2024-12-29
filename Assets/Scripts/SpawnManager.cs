@@ -120,7 +120,7 @@ public class SpawnManager : MonoBehaviour
     WaitForSeconds twoSeconds;
     WaitForSecondsRealtime oneRealSecond = new WaitForSecondsRealtime(1);
     public TMP_Text[] finishTexts;
-    public int milliseconds;
+    public float milliseconds;
     public int seconds;
     public int minutes;
     public string timeString;
@@ -475,7 +475,7 @@ public class SpawnManager : MonoBehaviour
         if(paused) return;
         if(raceMode)
         {
-            milliseconds += (int) (Time.deltaTime * 1000);
+            milliseconds += Time.deltaTime * 1000;
             if(milliseconds >= 1000)
             {
                 milliseconds = 0;
@@ -489,7 +489,7 @@ public class SpawnManager : MonoBehaviour
         }
         else
         {
-            milliseconds -= (int) (Time.deltaTime * 1000);
+            milliseconds -= Time.deltaTime * 1000;
             if(milliseconds < 0)
             {
                 milliseconds = 999;
@@ -613,8 +613,8 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator LoadScene(int index)
     {
-        paused = false;
         yield return oneRealSecond;
+        paused = false;
         Time.timeScale = 1;
         SceneManager.LoadSceneAsync(index);
     }
@@ -853,6 +853,7 @@ public class SpawnManager : MonoBehaviour
         List<GameObject> deepestChildren = new List<GameObject>();
         foreach(Transform child in parent)
         {
+            if(child.name == "Collider") continue;
             if (child.childCount == 0)
             {
                 //Child is deepest

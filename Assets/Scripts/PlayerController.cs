@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     InputAction pitchAction;
     InputAction yawAction;
     InputAction rollAction;
-    public Vector3 rotation;
+    Vector3 rotation;
     float rotationSpeed;
     float decMultiplier;
     public Vector3 startPos;
@@ -958,7 +958,7 @@ public class PlayerController : MonoBehaviour
             if(MenuManager.loaded)
             {
                 DateTime finishTime = DateTime.Now;
-                int elapsedMilliseconds = spawnManager.milliseconds + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
+                int elapsedMilliseconds = Mathf.RoundToInt(spawnManager.milliseconds) + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
                 if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
                 {
                     int index = MenuManager.difficulty;

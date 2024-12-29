@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6670431421444451406}
   - component: {fileID: 6485560937711419373}
   - component: {fileID: 6072274433177229408}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: boom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7827339992750615040}
   - component: {fileID: 7325802216074548089}
   - component: {fileID: 1913903502132573720}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: solarWing_LeftBacking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 7976573064141320279}
   - component: {fileID: 8889196851630835224}
   - component: {fileID: 8924377817935062821}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CoolingSystem_frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 4092812550471867384}
   - component: {fileID: 8410500945697914732}
   - component: {fileID: 4988111107849968529}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: solarWing_RightBacking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 1758113872616046105}
   - component: {fileID: 2801315072349497893}
   - component: {fileID: 6565539721122542633}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: magnetometers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +427,8 @@ GameObject:
   - component: {fileID: 5612474687048132762}
   - component: {fileID: 700493782641066713}
   - component: {fileID: -3656223253568565317}
-  m_Layer: 0
+  - component: {fileID: 7493017145268125218}
+  m_Layer: 8
   m_Name: ParkerSolarProbe
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -484,6 +485,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &7493017145268125218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5091410988160283168}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.1470585, y: 6.0110164, z: 7.8929787}
+  m_Center: {x: 0, y: 0, z: 1.4738253}
 --- !u!1 &5094830428904776822
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +517,7 @@ GameObject:
   - component: {fileID: 8859565383385542560}
   - component: {fileID: 4502431396731382942}
   - component: {fileID: 242624694882669798}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: heatShield_Mounting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,7 +600,7 @@ GameObject:
   - component: {fileID: 6278641732899258905}
   - component: {fileID: 3522631226309339017}
   - component: {fileID: 5760251968082276518}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: electricAntennas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -661,7 +683,7 @@ GameObject:
   - component: {fileID: 2226806704245945741}
   - component: {fileID: 5259544370352476026}
   - component: {fileID: 3056579767826259876}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BUS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -752,7 +774,7 @@ GameObject:
   - component: {fileID: 1178726430125389270}
   - component: {fileID: 4493846884257882142}
   - component: {fileID: 3146844760757353878}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CoolingSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -835,7 +857,7 @@ GameObject:
   - component: {fileID: 7556307322945880032}
   - component: {fileID: 6308742662160550302}
   - component: {fileID: 5545011742344371178}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: _root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +941,7 @@ GameObject:
   - component: {fileID: 5844754685508792990}
   - component: {fileID: 4432832738310821502}
   - component: {fileID: 792968900013031555}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HGA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1002,7 +1024,7 @@ GameObject:
   - component: {fileID: 2260485676175176161}
   - component: {fileID: 1917269700891439881}
   - component: {fileID: 4800178137793095463}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: vents
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1085,7 +1107,7 @@ GameObject:
   - component: {fileID: 1006998857633406927}
   - component: {fileID: 4728082312618673166}
   - component: {fileID: 5952160124271105120}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: solarArray_arms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1171,7 +1193,7 @@ GameObject:
   - component: {fileID: 4270098083025889089}
   - component: {fileID: 8442240481275597866}
   - component: {fileID: 9109340529044614476}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Instruments
   m_TagString: Untagged
   m_Icon: {fileID: 0}

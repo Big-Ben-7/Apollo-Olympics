@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6259561056215853604}
   - component: {fileID: 4016076338459543965}
   - component: {fileID: 4682775435368777685}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acrimsat_vFINAL [Layer4]
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1469441252585919395}
   - component: {fileID: 1478789725274125063}
   - component: {fileID: 8505761478869177220}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acrimsat_vFINAL [Layer6]
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 6044130139642115925}
   - component: {fileID: 8013293011476232404}
   - component: {fileID: 2734458658753571956}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acrimsat_vFINAL [Layer2]
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 4796359007322768279}
   - component: {fileID: 6226854705270998173}
   - component: {fileID: 2845081315066743801}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acrimsat_vFINAL [Layer8]
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 5685854017596900692}
   - component: {fileID: 2895779904995720852}
   - component: {fileID: 4848955694420236969}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acrimsat_vFINAL [Layer9]
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 7122741577147514457}
   - component: {fileID: 3129587763887597349}
   - component: {fileID: 2301657542202556252}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acrimsat_vFINAL [Layer7]
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -518,7 +518,7 @@ GameObject:
   - component: {fileID: 3217142734168362517}
   - component: {fileID: 8584468514206990125}
   - component: {fileID: 7667381676434063434}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acrimsat_vFINAL [Layer1]
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -601,7 +601,8 @@ GameObject:
   - component: {fileID: 6846836880716077601}
   - component: {fileID: 7249925092331857670}
   - component: {fileID: -1365483319980551485}
-  m_Layer: 0
+  - component: {fileID: -6607783283373765847}
+  m_Layer: 8
   m_Name: Active Cavity Irradiance Monitor Satellite
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -666,6 +667,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &-6607783283373765847
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6075084805237653659}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 111.81185, y: 163.25316, z: 94.92802}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7192194136062880830
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,7 +699,7 @@ GameObject:
   - component: {fileID: 7447472026061524195}
   - component: {fileID: 4623063287997335791}
   - component: {fileID: 2712608001373727028}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acrimsat_vFINAL [Layer3]
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -768,7 +790,7 @@ GameObject:
   - component: {fileID: 4098327742483507926}
   - component: {fileID: 6578648486501616135}
   - component: {fileID: 4163663633830185671}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Acrimsat_vFINAL [Layer5]
   m_TagString: Collectable
   m_Icon: {fileID: 0}

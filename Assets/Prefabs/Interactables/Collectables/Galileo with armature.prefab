@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6491825466008217059}
   - component: {fileID: 475339857645791212}
   - component: {fileID: 2877353707118476300}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: antenna_bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5980019028885243591}
   - component: {fileID: 2479774730166319914}
   - component: {fileID: 7525305867856626068}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ___Actual_ribs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 2367934072797691183}
   - component: {fileID: 273002028682185103}
   - component: {fileID: 2578139850111699242}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 2419876421947769811}
   - component: {fileID: 1869543693547671592}
   - component: {fileID: 7071148454307168761}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: booms_other
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 5570685374962402104}
   - component: {fileID: 8731973335557391360}
   - component: {fileID: 2335332544161040168}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: deployed_ribs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 666795118302741739}
   - component: {fileID: 8585889102264053791}
   - component: {fileID: 524249623832849651}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: mag_boom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 5650923457124242606}
   - component: {fileID: 4792049017359227256}
   - component: {fileID: 6550439338209699098}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: antenna_belly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,7 +599,7 @@ GameObject:
   - component: {fileID: 1523187162320196326}
   - component: {fileID: 6263176552689003371}
   - component: {fileID: 885531306981101988}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: vents
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -682,7 +682,7 @@ GameObject:
   - component: {fileID: 8995258644787764804}
   - component: {fileID: 7118185735658902159}
   - component: {fileID: 3371227501223577103}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: body_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -767,7 +767,7 @@ GameObject:
   - component: {fileID: 341455961470010824}
   - component: {fileID: 694257847800567061}
   - component: {fileID: 5381183133009657468}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ___Stowed_ribs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -850,7 +850,7 @@ GameObject:
   - component: {fileID: 7656146255851539225}
   - component: {fileID: 8697996651597949616}
   - component: {fileID: 1331448604324230349}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ___Actual_antenna
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -933,7 +933,7 @@ GameObject:
   - component: {fileID: 5000919050666525199}
   - component: {fileID: 5384476485903737740}
   - component: {fileID: 5659069541214594176}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gold_foil_stuff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1016,7 +1016,8 @@ GameObject:
   - component: {fileID: 7428410143611407854}
   - component: {fileID: 7186338158065032570}
   - component: {fileID: 54667045599757431}
-  m_Layer: 0
+  - component: {fileID: 3581241834360842124}
+  m_Layer: 8
   m_Name: Galileo with armature
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -1078,6 +1079,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &3581241834360842124
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7808347883478816596}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9.2827, y: 8.074193, z: 14.765195}
+  m_Center: {x: 0, y: 0.32423216, z: -4.2003}
 --- !u!1 &8353234002484018495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,7 +1111,7 @@ GameObject:
   - component: {fileID: 2598614308722307191}
   - component: {fileID: 4581408496245048324}
   - component: {fileID: 5248389401996372620}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: lower_sun_shade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1172,7 +1194,7 @@ GameObject:
   - component: {fileID: 2664977420328342829}
   - component: {fileID: 186630210365671999}
   - component: {fileID: 5182438559139378196}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gold_foil_stuff.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1255,7 +1277,7 @@ GameObject:
   - component: {fileID: 4767593671822596756}
   - component: {fileID: 9041442789594983658}
   - component: {fileID: 7351940144291888798}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: _root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1349,7 +1371,7 @@ GameObject:
   - component: {fileID: 4412531296780758051}
   - component: {fileID: 9043928166130579737}
   - component: {fileID: 8044858900974751715}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: upper_sun_shade_etc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1433,7 +1455,7 @@ GameObject:
   - component: {fileID: 7165041485846464978}
   - component: {fileID: 7559704514484270849}
   - component: {fileID: 2200808193628467687}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ___Stowed_antenna
   m_TagString: Untagged
   m_Icon: {fileID: 0}

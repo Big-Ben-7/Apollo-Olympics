@@ -19,8 +19,8 @@ public class Wormhole : MonoBehaviour
             switch(otherObject.layer)
             {
                 case 6:
-                    other.GetComponent<PlayerController>().Teleport();
                     triggeredObjects.Add(otherObject);
+                    other.GetComponent<PlayerController>().Teleport();
                     return;
                 
                 case not 13:

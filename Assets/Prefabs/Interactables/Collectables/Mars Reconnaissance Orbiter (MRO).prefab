@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3378346828219692049}
   - component: {fileID: 6787606208878049346}
   - component: {fileID: 7869972161796391777}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: mro_proxy7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,8 @@ GameObject:
   - component: {fileID: 1715534627620417208}
   - component: {fileID: 1051533984755616145}
   - component: {fileID: -9154099975647292855}
-  m_Layer: 0
+  - component: {fileID: 6653398837082536780}
+  m_Layer: 8
   m_Name: Mars Reconnaissance Orbiter (MRO)
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -165,6 +166,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &6653398837082536780
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055080738407199746}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 49.484848, y: 74.131424, z: 104.059425}
+  m_Center: {x: -1.6347183, y: -2.6407044, z: -1.2574662}
 --- !u!1 &3164618354608298460
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +198,7 @@ GameObject:
   - component: {fileID: 7301056191880476477}
   - component: {fileID: 335253865878507666}
   - component: {fileID: 458359381368442626}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: mro_proxy6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +284,7 @@ GameObject:
   - component: {fileID: 8702137118770663588}
   - component: {fileID: 4920178430661238036}
   - component: {fileID: 6256171314894457401}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: mro_proxy4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +367,7 @@ GameObject:
   - component: {fileID: 4182701643235814173}
   - component: {fileID: 2196433977510545922}
   - component: {fileID: 3765750721143098776}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: mro_proxy3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +451,7 @@ GameObject:
   - component: {fileID: 5908352724071001710}
   - component: {fileID: 8758465468577957624}
   - component: {fileID: 1953371102035761311}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: mro_proxy5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -515,7 +537,7 @@ GameObject:
   - component: {fileID: 2805753736772902761}
   - component: {fileID: 877674451221560372}
   - component: {fileID: 8184027345934005860}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: mro_proxy2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

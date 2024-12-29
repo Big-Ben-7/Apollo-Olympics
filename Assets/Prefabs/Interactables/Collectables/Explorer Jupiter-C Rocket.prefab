@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4262047367764432832}
   - component: {fileID: 3014118412999059856}
   - component: {fileID: 171727765050972844}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pCylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 4883058556416498851}
   - component: {fileID: 9106761323561311223}
   - component: {fileID: 5908581168052497142}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pCube3 jup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 6413033659479334148}
   - component: {fileID: 4625964332245676543}
   - component: {fileID: 8337220497733326309}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pCube5 ju1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 268698403108102270}
   - component: {fileID: 7002389419445152788}
   - component: {fileID: 193846755525330383}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pCube5 jup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 4392979309578178422}
   - component: {fileID: 7766392631241691456}
   - component: {fileID: 1617985702898007120}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 5490131324850253082}
   - component: {fileID: 7522021119610944704}
   - component: {fileID: 1978481184524938401}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -512,7 +512,7 @@ GameObject:
   - component: {fileID: 8894167162834471955}
   - component: {fileID: 7328491545079851862}
   - component: {fileID: 5261422592800970837}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pCylinder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -596,7 +596,7 @@ GameObject:
   - component: {fileID: 6335335936978082887}
   - component: {fileID: 2456809246906368401}
   - component: {fileID: 6138377387276459062}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -679,7 +679,7 @@ GameObject:
   - component: {fileID: 3088264745410412653}
   - component: {fileID: 1759657420622890692}
   - component: {fileID: 1998578449848165495}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -762,7 +762,7 @@ GameObject:
   - component: {fileID: 7574995575125631541}
   - component: {fileID: 4277760220680129827}
   - component: {fileID: 7162039460465697548}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -845,7 +845,7 @@ GameObject:
   - component: {fileID: 1149715659847829594}
   - component: {fileID: 8467689775829546997}
   - component: {fileID: 458456853903139703}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -928,7 +928,8 @@ GameObject:
   - component: {fileID: 3789494131614667330}
   - component: {fileID: 1871766086871352216}
   - component: {fileID: 8073222082800318333}
-  m_Layer: 0
+  - component: {fileID: 3162328803494427664}
+  m_Layer: 8
   m_Name: Explorer Jupiter-C Rocket
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -1007,6 +1008,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &3162328803494427664
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4601883293852469496}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.7747118, y: 20.85161, z: 4.9322653}
+  m_Center: {x: 0, y: 9.925802, z: 0}
 --- !u!1 &5544747065762085703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,7 +1040,7 @@ GameObject:
   - component: {fileID: 5370348801780649927}
   - component: {fileID: 3627501743763720981}
   - component: {fileID: 6716929759923432711}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1101,7 +1123,7 @@ GameObject:
   - component: {fileID: 388857133703240137}
   - component: {fileID: 3699337248986377429}
   - component: {fileID: 3898936432888942763}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1184,7 +1206,7 @@ GameObject:
   - component: {fileID: 3724751903416088129}
   - component: {fileID: 934609868373497316}
   - component: {fileID: 5903197801093296081}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1267,7 +1289,7 @@ GameObject:
   - component: {fileID: 8364785767484826132}
   - component: {fileID: 3170175857121321954}
   - component: {fileID: 9200506778861854730}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_g
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1350,7 +1372,7 @@ GameObject:
   - component: {fileID: 8153582494599370464}
   - component: {fileID: 5024737145119928529}
   - component: {fileID: 2272297109047443924}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1436,7 +1458,7 @@ GameObject:
   - component: {fileID: 8620115645675229049}
   - component: {fileID: 6834095862414662872}
   - component: {fileID: 5848794751364467246}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1519,7 +1541,7 @@ GameObject:
   - component: {fileID: 737944264048024223}
   - component: {fileID: 2184306992326976585}
   - component: {fileID: 4080540012081023724}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1602,7 +1624,7 @@ GameObject:
   - component: {fileID: 3401932109590801782}
   - component: {fileID: 3743745680849300768}
   - component: {fileID: 1223074796547385204}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pCylinder3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1686,7 +1708,7 @@ GameObject:
   - component: {fileID: 5070182976279365183}
   - component: {fileID: 7598717640474719098}
   - component: {fileID: 7423597682666580731}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1769,7 +1791,7 @@ GameObject:
   - component: {fileID: 3618034110280313210}
   - component: {fileID: 2374050812761355757}
   - component: {fileID: 2258892613549081511}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1852,7 +1874,7 @@ GameObject:
   - component: {fileID: 1295871594658269417}
   - component: {fileID: 8803400272510966029}
   - component: {fileID: 8513836063043697508}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1935,7 +1957,7 @@ GameObject:
   - component: {fileID: 4249288715984089992}
   - component: {fileID: 1871794594982525471}
   - component: {fileID: 6610508560098603240}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: jupiterc_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}

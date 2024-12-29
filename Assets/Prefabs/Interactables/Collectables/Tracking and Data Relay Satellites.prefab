@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 6537802456139459774}
   - component: {fileID: 9095424533559204948}
   - component: {fileID: -992835360126970518}
-  m_Layer: 0
+  - component: {fileID: 4642908311214749556}
+  m_Layer: 8
   m_Name: Tracking and Data Relay Satellites
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -68,6 +69,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &4642908311214749556
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904535897187956228}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9588243, y: 0.5556357, z: 0.5760448}
+  m_Center: {x: 0, y: 0.16323283, z: 0}
 --- !u!1 &7120539093317357564
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +101,7 @@ GameObject:
   - component: {fileID: 6918872750455178892}
   - component: {fileID: 3601635024817301440}
   - component: {fileID: 8910391715562127609}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: polySurface5
   m_TagString: Untagged
   m_Icon: {fileID: 0}

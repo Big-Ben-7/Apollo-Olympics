@@ -360,7 +360,7 @@ MonoBehaviour:
   durability: 3
   stability: 5
   activationTime: 20
-  cooldownTime: 20
+  cooldownTime: 10
   abilityStrength: 5
   abilityIncrease: 2.5
   thrusterParent: {fileID: 684149586399486677}

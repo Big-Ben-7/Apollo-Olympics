@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2905584549757074445}
   - component: {fileID: 2485017324665138674}
   - component: {fileID: 602840347835041715}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer18]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7666335646833285099}
   - component: {fileID: 6440305871832234752}
   - component: {fileID: 6319573706546001634}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer4]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 9187172323185723905}
   - component: {fileID: 5991884772131127631}
   - component: {fileID: 7167519961410185378}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer16]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 3181058773201870060}
   - component: {fileID: 6498755319546296852}
   - component: {fileID: 5517428869986265273}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer7]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 4802258427341785991}
   - component: {fileID: 2505054300660787759}
   - component: {fileID: 5313447426796873223}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer3]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   - component: {fileID: 5953190631013991587}
   - component: {fileID: 7651445188204013713}
   - component: {fileID: 5208040581227677721}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer20]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 8181235378051250041}
   - component: {fileID: 55051835081834835}
   - component: {fileID: 6417078295749806858}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer12]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -592,7 +592,7 @@ GameObject:
   - component: {fileID: 2870374845586586404}
   - component: {fileID: 7384909793808875025}
   - component: {fileID: 3978108720978872377}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer13]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -675,7 +675,7 @@ GameObject:
   - component: {fileID: 6009391242446122157}
   - component: {fileID: 4979313761989620219}
   - component: {fileID: 5913200405271070244}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer23]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -758,7 +758,7 @@ GameObject:
   - component: {fileID: 1113248078020955589}
   - component: {fileID: 175409830070710117}
   - component: {fileID: 4392430893336432263}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer14]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -841,7 +841,7 @@ GameObject:
   - component: {fileID: 7736042105386277876}
   - component: {fileID: 8264451720779660372}
   - component: {fileID: 9049730748507839669}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer19]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -924,7 +924,7 @@ GameObject:
   - component: {fileID: 5753838687797400140}
   - component: {fileID: 3336104132896560270}
   - component: {fileID: 6972572984591015245}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer2]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1007,7 +1007,7 @@ GameObject:
   - component: {fileID: 4622236191234924332}
   - component: {fileID: 368102596995870698}
   - component: {fileID: 3801314971328579029}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer6]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1090,7 +1090,7 @@ GameObject:
   - component: {fileID: 3217546780005310130}
   - component: {fileID: 7816763725412027252}
   - component: {fileID: 8536270008534684398}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Layer26]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1173,7 +1173,7 @@ GameObject:
   - component: {fileID: 5711347121797932212}
   - component: {fileID: 7832964309061405673}
   - component: {fileID: 7573388467044484118}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer17]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1256,7 +1256,7 @@ GameObject:
   - component: {fileID: 1629088937717665618}
   - component: {fileID: 2485304459620300483}
   - component: {fileID: 9155175884237561293}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer21]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1339,7 +1339,8 @@ GameObject:
   - component: {fileID: 5782164823155452480}
   - component: {fileID: 4405364398411190483}
   - component: {fileID: -3563006766902185258}
-  m_Layer: 0
+  - component: {fileID: 7965510401076084096}
+  m_Layer: 8
   m_Name: Aqua
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -1423,6 +1424,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &7965510401076084096
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6590368148363473146}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 20.198341, y: 6.974449, z: 10.808456}
+  m_Center: {x: -7.5, y: -0.5, z: -0.5}
 --- !u!1 &6650793020789524349
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,7 +1456,7 @@ GameObject:
   - component: {fileID: 9108130146116032722}
   - component: {fileID: 5668577023281038461}
   - component: {fileID: 8908702589769969264}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer11]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1517,7 +1539,7 @@ GameObject:
   - component: {fileID: 3232962491588134807}
   - component: {fileID: 7759517686917094007}
   - component: {fileID: 3990957629104205689}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer5]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1600,7 +1622,7 @@ GameObject:
   - component: {fileID: 1515954117805003409}
   - component: {fileID: 4939709223631397072}
   - component: {fileID: 4724303138318955218}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Layer27]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1683,7 +1705,7 @@ GameObject:
   - component: {fileID: 4258796687982072080}
   - component: {fileID: 1006283405628074148}
   - component: {fileID: 7317791136693814956}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer10]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1766,7 +1788,7 @@ GameObject:
   - component: {fileID: 2628663830452953850}
   - component: {fileID: 5103608145019000389}
   - component: {fileID: 2212620650148359245}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer8]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1849,7 +1871,7 @@ GameObject:
   - component: {fileID: 1366707898930674330}
   - component: {fileID: 1774626077786715278}
   - component: {fileID: 4379220000602282674}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Layer25]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1932,7 +1954,7 @@ GameObject:
   - component: {fileID: 3967518838992428837}
   - component: {fileID: 1592913864941014665}
   - component: {fileID: 1138298435381596531}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [(unnamed)]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2015,7 +2037,7 @@ GameObject:
   - component: {fileID: 4302093741022976917}
   - component: {fileID: 8756650952601119022}
   - component: {fileID: 3718324361289567604}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer9]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2098,7 +2120,7 @@ GameObject:
   - component: {fileID: 7564847254417278321}
   - component: {fileID: 9004025613264001755}
   - component: {fileID: 3350606243294186669}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Layer24]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2181,7 +2203,7 @@ GameObject:
   - component: {fileID: 5503494374245157858}
   - component: {fileID: 3177987155854138504}
   - component: {fileID: 4928259548876033678}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Layer28]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2264,7 +2286,7 @@ GameObject:
   - component: {fileID: 6568066194637889930}
   - component: {fileID: 3033559237378973475}
   - component: {fileID: 6896325408230463717}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer22]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2347,7 +2369,7 @@ GameObject:
   - component: {fileID: 6268767517744451830}
   - component: {fileID: 7107602315947642704}
   - component: {fileID: 1894065069143725789}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aqua_Reduced_v0014 [Aqua_Layered_02 [Layer15]]
   m_TagString: Untagged
   m_Icon: {fileID: 0}

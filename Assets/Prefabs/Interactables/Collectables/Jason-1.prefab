@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 287883964652332128}
   - component: {fileID: 7951573004702277996}
   - component: {fileID: 4433369246177821255}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [White Surfaces_Smooth]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1917503141348170635}
   - component: {fileID: 1966470836831764693}
   - component: {fileID: 8410753719581254099}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [Solar Panels]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 8456568130974024854}
   - component: {fileID: 9068832932699081498}
   - component: {fileID: 2402740368143069129}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [Dark Gold Surfaces]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 5044191063062777675}
   - component: {fileID: 6369269559221079206}
   - component: {fileID: 8381555877436484365}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [Dark Grey]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 2477772334083794108}
   - component: {fileID: 4826020729132874625}
   - component: {fileID: 3399718259383623649}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [Main Body_Foil]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 3534295325700295815}
   - component: {fileID: 4309477734433493282}
   - component: {fileID: 2991880760298298709}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [White Surfaces]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 4285753123617423057}
   - component: {fileID: 971918315417768185}
   - component: {fileID: 8761221429365084023}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [Black Surfaces]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -609,7 +609,8 @@ GameObject:
   - component: {fileID: 7069962300228795670}
   - component: {fileID: 4905700486087310678}
   - component: {fileID: -9090002316934927351}
-  m_Layer: 0
+  - component: {fileID: 8176149268913147214}
+  m_Layer: 8
   m_Name: Jason-1
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -676,6 +677,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &8176149268913147214
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590357491821193132}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 738.19214, y: 222.08604, z: 337.33984}
+  m_Center: {x: 0, y: 0, z: 30}
 --- !u!1 &7790024599194547685
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,7 +709,7 @@ GameObject:
   - component: {fileID: 8814330941121253869}
   - component: {fileID: 6614571260589802176}
   - component: {fileID: 8548354782215502893}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [Grey Surfaces]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -772,7 +794,7 @@ GameObject:
   - component: {fileID: 3968618639835231561}
   - component: {fileID: 1861769891654804642}
   - component: {fileID: 5555352560617556002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [Light Grey Surfaces]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -855,7 +877,7 @@ GameObject:
   - component: {fileID: 1796941920076633583}
   - component: {fileID: 4227464946564821751}
   - component: {fileID: 8530692217072512669}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [Foil Color Surfaces]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -946,7 +968,7 @@ GameObject:
   - component: {fileID: 434897073709075892}
   - component: {fileID: 7897809334952608176}
   - component: {fileID: 6514866008230045625}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jason-1_vFINAL [Steel Panels]
   m_TagString: Untagged
   m_Icon: {fileID: 0}

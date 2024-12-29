@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 234098151132405612}
   - component: {fileID: 728568999729331489}
   - component: {fileID: 5038763157576677303}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer19]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 801337947036292281}
   - component: {fileID: 3585897951132640647}
   - component: {fileID: 3888868239405132839}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer23]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 7146474857547187467}
   - component: {fileID: 4425501588792220743}
   - component: {fileID: 3838053202638121697}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer5]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 8304028627133001091}
   - component: {fileID: 844868757663153128}
   - component: {fileID: 3993694067510924587}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer16]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 237159705845511500}
   - component: {fileID: 7729616781134977819}
   - component: {fileID: 4329789635561842944}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer36]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 9110582025217746906}
   - component: {fileID: 4889144087737332821}
   - component: {fileID: 7654297165215172897}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer8]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +510,7 @@ GameObject:
   - component: {fileID: 2353749446208806099}
   - component: {fileID: 2485663594297966624}
   - component: {fileID: 6235296275068159986}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer30]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 7152578448527880415}
   - component: {fileID: 3209800774581705520}
   - component: {fileID: 3764580977714669659}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer27]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 4209816154908342169}
   - component: {fileID: 7539744047616359686}
   - component: {fileID: 3927890672834422387}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer13]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -759,7 +759,7 @@ GameObject:
   - component: {fileID: 4943710688663068931}
   - component: {fileID: 7132196795287643190}
   - component: {fileID: 7037729790968255250}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer33]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -842,7 +842,7 @@ GameObject:
   - component: {fileID: 8705424551809656534}
   - component: {fileID: 8164100263613530320}
   - component: {fileID: 3045758487212732295}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer25]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -925,7 +925,7 @@ GameObject:
   - component: {fileID: 1899095278212068227}
   - component: {fileID: 7285120115482872805}
   - component: {fileID: 4326406372549186158}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer6]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1008,7 +1008,7 @@ GameObject:
   - component: {fileID: 7006810646630463185}
   - component: {fileID: 1215015149685948477}
   - component: {fileID: 1744651701057435367}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer3]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1091,7 +1091,7 @@ GameObject:
   - component: {fileID: 6445056691612631415}
   - component: {fileID: 5486964472657974777}
   - component: {fileID: 5201536324175262170}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer31]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1174,7 +1174,7 @@ GameObject:
   - component: {fileID: 4221117484786281054}
   - component: {fileID: 6315698801153301260}
   - component: {fileID: 1104471584633111164}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer15]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1257,7 +1257,7 @@ GameObject:
   - component: {fileID: 5620858824603482710}
   - component: {fileID: 2354298401927416027}
   - component: {fileID: 9185660210443393525}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer34]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1340,7 +1340,7 @@ GameObject:
   - component: {fileID: 1812521106965731597}
   - component: {fileID: 8550388838758911384}
   - component: {fileID: 8670754447658802392}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer4]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1423,7 +1423,7 @@ GameObject:
   - component: {fileID: 4706193619367282659}
   - component: {fileID: 8244378420483479800}
   - component: {fileID: 697814679222936504}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer14]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1506,7 +1506,7 @@ GameObject:
   - component: {fileID: 2955213893980344384}
   - component: {fileID: 4626608811895102536}
   - component: {fileID: 7116911113189843276}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer11]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1589,7 +1589,7 @@ GameObject:
   - component: {fileID: 4290870280777142891}
   - component: {fileID: 4551686177763520896}
   - component: {fileID: 4012387088798083554}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer2]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1672,7 +1672,7 @@ GameObject:
   - component: {fileID: 5633050710775666262}
   - component: {fileID: 6626638978761170976}
   - component: {fileID: 58823731518547773}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer20]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1755,7 +1755,7 @@ GameObject:
   - component: {fileID: 1698220258692425745}
   - component: {fileID: 932574023297898607}
   - component: {fileID: 5605249159141484406}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer17]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1838,7 +1838,8 @@ GameObject:
   - component: {fileID: 6355430670962251516}
   - component: {fileID: 2577072338141400165}
   - component: {fileID: 3588410633276675670}
-  m_Layer: 0
+  - component: {fileID: 6329583188989058218}
+  m_Layer: 8
   m_Name: Ocean Surface Topography Mission
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -1930,6 +1931,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &6329583188989058218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6014792775208504390}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5365753, y: 1.256096, z: 0.8886558}
+  m_Center: {x: 0.005570435, y: 0.0167016, z: -0.03897139}
 --- !u!1 &6335025611575210260
 GameObject:
   m_ObjectHideFlags: 0
@@ -1941,7 +1963,7 @@ GameObject:
   - component: {fileID: 6899078827087556497}
   - component: {fileID: 7510902182681179872}
   - component: {fileID: 7543287706522338965}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer24]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2024,7 +2046,7 @@ GameObject:
   - component: {fileID: 7399291346862280079}
   - component: {fileID: 8046202459337799231}
   - component: {fileID: 4380640553945639810}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer35]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2107,7 +2129,7 @@ GameObject:
   - component: {fileID: 2440504482460449832}
   - component: {fileID: 4570178503766194374}
   - component: {fileID: 267435230104697018}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer9]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2190,7 +2212,7 @@ GameObject:
   - component: {fileID: 4056812130509850197}
   - component: {fileID: 2866928281722776056}
   - component: {fileID: 7230720894791289886}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer12]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2273,7 +2295,7 @@ GameObject:
   - component: {fileID: 5170665992741385579}
   - component: {fileID: 1514025769315707461}
   - component: {fileID: 7192315295152731004}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer18]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2356,7 +2378,7 @@ GameObject:
   - component: {fileID: 6496539687874043384}
   - component: {fileID: 7603516649584414459}
   - component: {fileID: 98418511709159078}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer26]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2439,7 +2461,7 @@ GameObject:
   - component: {fileID: 6329635536832869860}
   - component: {fileID: 5772842228172062339}
   - component: {fileID: 8447591266186204019}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer28]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2522,7 +2544,7 @@ GameObject:
   - component: {fileID: 1027695790241476954}
   - component: {fileID: 3096203142480595204}
   - component: {fileID: 830937601019470939}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer21]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2605,7 +2627,7 @@ GameObject:
   - component: {fileID: 6566158024314465490}
   - component: {fileID: 7982421801303682976}
   - component: {fileID: 2405983697439459367}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer22]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2688,7 +2710,7 @@ GameObject:
   - component: {fileID: 3924260226010717329}
   - component: {fileID: 1850447677774421408}
   - component: {fileID: 7981215904401754526}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer10]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2771,7 +2793,7 @@ GameObject:
   - component: {fileID: 3025544837961188232}
   - component: {fileID: 4065697863053033475}
   - component: {fileID: 8052902954687646609}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer32]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2854,7 +2876,7 @@ GameObject:
   - component: {fileID: 7688681273850044309}
   - component: {fileID: 4074764895307086202}
   - component: {fileID: 4124909678208831284}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [(unnamed)]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2937,7 +2959,7 @@ GameObject:
   - component: {fileID: 8626299629010993448}
   - component: {fileID: 7932112823906994225}
   - component: {fileID: 8694169395579372140}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer29]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3020,7 +3042,7 @@ GameObject:
   - component: {fileID: 5223329273021685871}
   - component: {fileID: 5144673359065338307}
   - component: {fileID: 8915315147455493727}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OSTM-Jason2_Layered_016 [Layer7]
   m_TagString: Untagged
   m_Icon: {fileID: 0}

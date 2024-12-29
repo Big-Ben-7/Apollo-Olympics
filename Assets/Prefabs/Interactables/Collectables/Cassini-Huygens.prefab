@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5764413817128730700}
   - component: {fileID: 8662511286552972695}
   - component: {fileID: 5282664894343256739}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: foil_gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7872879103588417075}
   - component: {fileID: 1985714415394651830}
   - component: {fileID: 5777413097378916532}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: foil_gold_h
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 1174253930915082558}
   - component: {fileID: 7480454122721856752}
   - component: {fileID: 813333251723573342}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: foil_gold_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 3524187167135428969}
   - component: {fileID: 8057947620690083556}
   - component: {fileID: 2911530041739842208}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: black_krinkle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 6025802455303626939}
   - component: {fileID: 8701336747448277121}
   - component: {fileID: 6332280211353926744}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tex_01_h
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,8 @@ GameObject:
   - component: {fileID: 4875299605962253911}
   - component: {fileID: 2106714121506635435}
   - component: {fileID: 5924710341124599801}
-  m_Layer: 0
+  - component: {fileID: 4219271034797236468}
+  m_Layer: 8
   m_Name: Cassini-Huygens
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -483,6 +484,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &4219271034797236468
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5252142220861717741}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 20.657782, y: 15.674031, z: 15.929207}
+  m_Center: {x: 0, y: -2.3028526, z: -4.369526}
 --- !u!1 &5493395031734465051
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +516,7 @@ GameObject:
   - component: {fileID: 1451594585455408044}
   - component: {fileID: 1342866600081674915}
   - component: {fileID: 9078982171222067092}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: dish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -577,7 +599,7 @@ GameObject:
   - component: {fileID: 7392216428293943597}
   - component: {fileID: 6468894001347282771}
   - component: {fileID: 4807836804048033063}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: _root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -670,7 +692,7 @@ GameObject:
   - component: {fileID: 4575162986947296594}
   - component: {fileID: 3141225319093154274}
   - component: {fileID: 839902362080225262}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tex_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -753,7 +775,7 @@ GameObject:
   - component: {fileID: 2772692155652951934}
   - component: {fileID: 7400324809812542131}
   - component: {fileID: 8765922538394233278}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: plastic_dark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -836,7 +858,7 @@ GameObject:
   - component: {fileID: 8849700030721777046}
   - component: {fileID: 2798801229051518988}
   - component: {fileID: 7802543786207505027}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: aluminum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +941,7 @@ GameObject:
   - component: {fileID: 1408972484808696549}
   - component: {fileID: 5796361458424160435}
   - component: {fileID: 985163227771223795}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: plastic_white
   m_TagString: Untagged
   m_Icon: {fileID: 0}

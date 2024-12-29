@@ -74,19 +74,19 @@ public class Drone : MonoBehaviour
             case 6:
                 Explode(other.GetContact(0).point, other.transform);
                 break;
-
+            
             case 14 or 15:
-
                 Vector3 direction = target.position - myTransform.position;
                 float distance = direction.sqrMagnitude;
                 Vector3 localPos = target.InverseTransformPoint(myTransform.position);
 
                 //If drone is too far, behind, or occluded from player, no explosion
-                if(distance > 1500000 || localPos.z < 0 || localPos.y > 100 || localPos.y < -100 || localPos.x > 200 || localPos.x < -200)
+                if(distance > 2000000 || localPos.z < 0 || localPos.y > 80 || localPos.y < -80 || localPos.x > 150 || localPos.x < -150)
                 {
                     ResetDrone();
                     return;
                 }
+
                 bool badHit = false;
                 if(Physics.Raycast(myTransform.position, direction.normalized, out RaycastHit hit, raycastMask))
                 {
@@ -104,7 +104,7 @@ public class Drone : MonoBehaviour
                 if(offset > 0) return;
 
                 //If drone is outmaneuvered, show caption
-                if(((playerController.rotation != Vector3.zero && confusionCalc.sqrMagnitude > 300000) || distance < 1200000) && showCaptions) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                if((confusionCalc.sqrMagnitude > 250000 || distance < 1000000) && showCaptions) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
                 break;
             
             default:

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1691675938530136349}
   - component: {fileID: 5123555313084494150}
   - component: {fileID: 4924722968232316245}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer9]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 5666785285099057529}
   - component: {fileID: 6337477740181246314}
   - component: {fileID: 4938776985207686471}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer7]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 1715905340425169859}
   - component: {fileID: 4925231242842171318}
   - component: {fileID: 881798944982393415}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer2]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 6478922124715529849}
   - component: {fileID: 6717136325077465896}
   - component: {fileID: 3269641160163953880}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer5]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 1157018942774421175}
   - component: {fileID: 963454644312851322}
   - component: {fileID: 929610970695434801}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer4]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -463,7 +463,7 @@ GameObject:
   - component: {fileID: 6636398194315564285}
   - component: {fileID: 7301025554036019652}
   - component: {fileID: 9128984770328002956}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer3]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -547,7 +547,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4855301016716659830}
   - component: {fileID: -7709334437403057117}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Earth Observing-1
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -604,7 +604,7 @@ GameObject:
   - component: {fileID: 2378625637878759958}
   - component: {fileID: 1228139803684013186}
   - component: {fileID: 8668437398454786267}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer10]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -689,7 +689,8 @@ GameObject:
   m_Component:
   - component: {fileID: 934353277290534888}
   - component: {fileID: 6804930501427786076}
-  m_Layer: 0
+  - component: {fileID: 8234835786836005180}
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -732,6 +733,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 188.6162, y: 76.509674, z: 57.34836}
   m_Center: {x: -50.327103, y: 0, z: 2.211024}
+--- !u!65 &8234835786836005180
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378876727495632575}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 188.6162, y: 76.509674, z: 57.34836}
+  m_Center: {x: -50.327103, y: 0, z: 2.211024}
 --- !u!1 &6880491809048809973
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,7 +765,7 @@ GameObject:
   - component: {fileID: 6130400360055923574}
   - component: {fileID: 1937561561303347790}
   - component: {fileID: 8902778896398738423}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer8]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -834,7 +856,7 @@ GameObject:
   - component: {fileID: 7641941190084726079}
   - component: {fileID: 5425692769130649769}
   - component: {fileID: 1835152016760536499}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer6]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +941,7 @@ GameObject:
   - component: {fileID: 6928238456620978580}
   - component: {fileID: 2084422329098910769}
   - component: {fileID: 2663980597492975408}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EO-1_vFINAL [Layer1]
   m_TagString: Untagged
   m_Icon: {fileID: 0}

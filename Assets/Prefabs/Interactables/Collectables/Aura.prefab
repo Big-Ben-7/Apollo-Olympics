@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1544954178389905055}
   - component: {fileID: 4703013038772515226}
   - component: {fileID: 7669854606610481945}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer7]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 3749240164975355134}
   - component: {fileID: 3126695104800221302}
   - component: {fileID: 3345098963150590615}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer8]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 6918645601554968751}
   - component: {fileID: 7713437848516981217}
   - component: {fileID: 5424814889440864117}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer13]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 6252537365477273300}
   - component: {fileID: 7343387303569184117}
   - component: {fileID: 7734232813550409257}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer11]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 8275372707807998026}
   - component: {fileID: 8421901618082039063}
   - component: {fileID: 5299517482023098379}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer5]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   - component: {fileID: 5676322944552543659}
   - component: {fileID: 7991337620274286592}
   - component: {fileID: 5376049297436331091}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer10]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 4316897663389057862}
   - component: {fileID: 4668627666899514158}
   - component: {fileID: 8666828172753985857}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer4]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -592,7 +592,8 @@ GameObject:
   - component: {fileID: 5465251633859864112}
   - component: {fileID: 882937934186279605}
   - component: {fileID: -7809544813428755223}
-  m_Layer: 0
+  - component: {fileID: 5758402492896215877}
+  m_Layer: 8
   m_Name: Aura
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -664,6 +665,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &5758402492896215877
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653249530402667658}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.2663746, y: 11.420373, z: 23.544184}
+  m_Center: {x: -0.5, y: 0, z: -6.867871}
 --- !u!1 &5562065255171452879
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,7 +697,7 @@ GameObject:
   - component: {fileID: 2338001134536177294}
   - component: {fileID: 8145295156483568050}
   - component: {fileID: 5565942926799404609}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer15]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -758,7 +780,7 @@ GameObject:
   - component: {fileID: 2324234249126484240}
   - component: {fileID: 1455236459774009269}
   - component: {fileID: 991113784032280783}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer6]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -841,7 +863,7 @@ GameObject:
   - component: {fileID: 383853960377067852}
   - component: {fileID: 7191164786917759364}
   - component: {fileID: 3138964606815212850}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer1]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -924,7 +946,7 @@ GameObject:
   - component: {fileID: 9212114115298570054}
   - component: {fileID: 1294911071841760622}
   - component: {fileID: 7550142440207588899}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer16]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1007,7 +1029,7 @@ GameObject:
   - component: {fileID: 3320474698603364086}
   - component: {fileID: 505484494335724432}
   - component: {fileID: 7770299785519170545}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer12]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1090,7 +1112,7 @@ GameObject:
   - component: {fileID: 349624278870771541}
   - component: {fileID: 6914166719235557529}
   - component: {fileID: 2025266488372201757}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer14]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1173,7 +1195,7 @@ GameObject:
   - component: {fileID: 7827284423493658388}
   - component: {fileID: 2663438126871601261}
   - component: {fileID: 2748465594707863132}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer9]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1256,7 +1278,7 @@ GameObject:
   - component: {fileID: 211418287707398837}
   - component: {fileID: 5603177837982041931}
   - component: {fileID: 5991294461995995842}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer2]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1339,7 +1361,7 @@ GameObject:
   - component: {fileID: 2751300176419132156}
   - component: {fileID: 3923028080911291483}
   - component: {fileID: 6886482991794386361}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura_v024-B_trip [Layer3]
   m_TagString: Untagged
   m_Icon: {fileID: 0}

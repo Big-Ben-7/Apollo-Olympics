@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4207405750744364440}
   - component: {fileID: 585708845750320728}
   - component: {fileID: 5706109094143718731}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 8784351972642489996}
   - component: {fileID: 1171014745903629148}
   - component: {fileID: 2478702730937233901}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 1533591577656110980}
   - component: {fileID: 8462046771064523611}
   - component: {fileID: 2509121328487060687}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 8899895319525751081}
   - component: {fileID: 9010644064978310385}
   - component: {fileID: 7635247938874441221}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 8887108081129138956}
   - component: {fileID: 7964331254200847194}
   - component: {fileID: 8310824858288751829}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,8 @@ GameObject:
   - component: {fileID: 2323549195353704278}
   - component: {fileID: 3706556980605697179}
   - component: {fileID: 8982176882572341718}
-  m_Layer: 0
+  - component: {fileID: 889457004261074744}
+  m_Layer: 8
   m_Name: Cloud-Aerosol Lidar and Infrared Pathfinder Satellite
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -499,6 +500,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &889457004261074744
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3131469598399110636}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 110.91949, y: 33.808163, z: 39.385468}
+  m_Center: {x: 0.5758789, y: 0.5656662, z: -0.19615173}
 --- !u!1 &3248797013584978047
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,7 +532,7 @@ GameObject:
   - component: {fileID: 8750414984143543074}
   - component: {fileID: 7367277196340028034}
   - component: {fileID: 4529333659312292311}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +615,7 @@ GameObject:
   - component: {fileID: 2526003250498467514}
   - component: {fileID: 4588114262232989486}
   - component: {fileID: 1199071730897863590}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +698,7 @@ GameObject:
   - component: {fileID: 7191492162038026674}
   - component: {fileID: 708118882456178832}
   - component: {fileID: 3477538134468683061}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -759,7 +781,7 @@ GameObject:
   - component: {fileID: 3232062016700107376}
   - component: {fileID: 6845554071193876135}
   - component: {fileID: 3243924681540636419}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -842,7 +864,7 @@ GameObject:
   - component: {fileID: 2315507363751694260}
   - component: {fileID: 2073007054317646004}
   - component: {fileID: 1854236965984777105}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -925,7 +947,7 @@ GameObject:
   - component: {fileID: 8776174647750446397}
   - component: {fileID: 8763366776789997058}
   - component: {fileID: 1328822326656534581}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1008,7 +1030,7 @@ GameObject:
   - component: {fileID: 8938576860368038572}
   - component: {fileID: 575394298681166892}
   - component: {fileID: 1650283378761871319}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 'Mesh '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1091,7 +1113,7 @@ GameObject:
   - component: {fileID: 3031714403688348858}
   - component: {fileID: 2412358844989304031}
   - component: {fileID: 6759480165288461502}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1172,7 +1194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1834010121041296137}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1205,7 +1227,7 @@ GameObject:
   - component: {fileID: 4559533137819770135}
   - component: {fileID: 1758190421422493349}
   - component: {fileID: 3558993152883504666}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1288,7 +1310,7 @@ GameObject:
   - component: {fileID: 3883392849248484894}
   - component: {fileID: 122100122859130309}
   - component: {fileID: 2744246812954085769}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1371,7 +1393,7 @@ GameObject:
   - component: {fileID: 4596196045872525526}
   - component: {fileID: 1269309084468881696}
   - component: {fileID: 6563668001515494635}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh  15
   m_TagString: Untagged
   m_Icon: {fileID: 0}

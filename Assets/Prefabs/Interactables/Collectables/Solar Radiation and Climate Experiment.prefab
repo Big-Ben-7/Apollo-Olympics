@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3758311969441659738}
   - component: {fileID: 9177908819386817181}
   - component: {fileID: 3056797570929249716}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer7]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1601528092143540460}
   - component: {fileID: 8194998192680951900}
   - component: {fileID: 4050890316882507908}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer1]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 7242829866206604870}
   - component: {fileID: 5376767142232971353}
   - component: {fileID: 1998135026134737378}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer13]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 3667494407181561886}
   - component: {fileID: 2066088452291668601}
   - component: {fileID: 6075972373730379504}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer11]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 4507769209646576134}
   - component: {fileID: 5535162034635059489}
   - component: {fileID: 8713337553047860713}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer5]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 704433902969376141}
   - component: {fileID: 6143458556549963076}
   - component: {fileID: 1992208993437653326}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer9]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -520,7 +520,7 @@ GameObject:
   - component: {fileID: 1965826806630175911}
   - component: {fileID: 963037906228678979}
   - component: {fileID: 5491011216507847920}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer3]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ GameObject:
   - component: {fileID: 4017636069674568758}
   - component: {fileID: 8906573959292889980}
   - component: {fileID: 3813756721200294985}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer2]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 395483003381934940}
   - component: {fileID: 309443072701122325}
   - component: {fileID: 509047983095965824}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer14]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -770,7 +770,7 @@ GameObject:
   - component: {fileID: 1631131161278051805}
   - component: {fileID: 4555164001149602346}
   - component: {fileID: 407499151759997777}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer4]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -853,7 +853,7 @@ GameObject:
   - component: {fileID: 8774858364747250117}
   - component: {fileID: 7231661019449412081}
   - component: {fileID: 2107901323066048139}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer12]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -936,7 +936,8 @@ GameObject:
   - component: {fileID: 5078137960751605928}
   - component: {fileID: 3328381871652080154}
   - component: {fileID: -235895694511186378}
-  m_Layer: 0
+  - component: {fileID: 1096486526168889870}
+  m_Layer: 8
   m_Name: Solar Radiation and Climate Experiment
   m_TagString: Collectable
   m_Icon: {fileID: 0}
@@ -1007,6 +1008,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
+--- !u!65 &1096486526168889870
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5562784731008266770}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 281.2426, y: 241.17493, z: 140.98969}
+  m_Center: {x: 0, y: 0, z: -20}
 --- !u!1 &6707511701685342076
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,7 +1040,7 @@ GameObject:
   - component: {fileID: 3629993922294730089}
   - component: {fileID: 5828537954081792901}
   - component: {fileID: 7781505342116217974}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer15]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1102,7 +1124,7 @@ GameObject:
   - component: {fileID: 1828303780630769286}
   - component: {fileID: 1415180099283136033}
   - component: {fileID: 4739886765431968330}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer6]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1185,7 +1207,7 @@ GameObject:
   - component: {fileID: 8968864861095901065}
   - component: {fileID: 7400465537398511901}
   - component: {fileID: 6865528939046328958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer10]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1272,7 +1294,7 @@ GameObject:
   - component: {fileID: 2286238424031454648}
   - component: {fileID: 8757994422051353880}
   - component: {fileID: 1355124628460916523}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SORCE_vFINAL [Layer8]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
