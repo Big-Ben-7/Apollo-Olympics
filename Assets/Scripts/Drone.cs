@@ -93,7 +93,7 @@ public class Drone : MonoBehaviour
                 if(offset > 0 || !showCaptions) return;
 
                 //Show caption if drone is outmaneuvered
-                if(confusionCalc.sqrMagnitude > 250000 || distance < 1000000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                if(confusionCalc.sqrMagnitude > 250000 || distance < 1200000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
                 break;
             
             default:

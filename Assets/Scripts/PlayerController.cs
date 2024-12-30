@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int cooldownTime;
     [SerializeField] float abilityStrength;
     [SerializeField] float abilityIncrease;
+    [SerializeField] int abilityStrength2;
+    [SerializeField] int abilityIncrease2;
 
     [Header("Movement")]
     [SerializeField] GameObject thrusterParent;
@@ -35,9 +37,11 @@ public class PlayerController : MonoBehaviour
     [Header("Ability")]
     [SerializeField] string shipModel;
     [SerializeField] int abilityPercent;
+    [SerializeField] int abilityPercent2;
     [SerializeField] int activationTimePercent;
     [SerializeField] int minCooldown;
     [SerializeField] string abilityCaption;
+    [SerializeField] string abilityCaption2;
     [SerializeField] GameObject aura;
     [SerializeField] ParticleSystem[] auraSystems;
     [SerializeField] LayerMask abilityMask;
@@ -56,11 +60,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip errorSound;
     [SerializeField] AudioClip wormholeSound;
     [SerializeField] AudioClip dieSound;
-    [SerializeField] Transform arrow;
     
     //Movement control
     Rigidbody rb;
-    Transform myTransform;
+    public Transform myTransform;
     string playerNumberString;
     int playerIndex;
     float initialThrustSpeed;
@@ -181,7 +184,7 @@ public class PlayerController : MonoBehaviour
     GameObject[] drones;
 
     //UI
-    public Transform cameraObject;
+    public Transform cameraStats;
     TMP_Text nameText;
     TMP_Text healthText;
     TMP_Text checkpointText;
@@ -198,6 +201,7 @@ public class PlayerController : MonoBehaviour
     TMP_Text countdownText;
     TMP_Text[] allText;
     GameObject finishBackground;
+    public Transform arrow;
     public static float maxThrusterVolume;
     public static float audioVolume;
     public static bool showCaptions;
@@ -212,13 +216,11 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(false);
         collectEffect.SetActive(false);
         thrusterParent.SetActive(false);
-        arrow.gameObject.SetActive(false);
         fireSource.volume = 0;
         thrusterSource.volume = 0;
 
         rb = gameObject.GetComponent<Rigidbody>();
         rb.isKinematic = true;
-        myTransform = transform;
 
         initialCooldown = cooldownTime;
         initialActivation = activationTime;
@@ -278,7 +280,6 @@ public class PlayerController : MonoBehaviour
         thrustSpeed = initialThrustSpeed;
         decSpeed = thrustSpeed;
 
-        Transform cameraStats = cameraObject.GetChild(1);
         Transform farCanvas = cameraStats.GetChild(0);
         switch(shipModel)
         {
@@ -399,11 +400,6 @@ public class PlayerController : MonoBehaviour
         raceMode = spawnManager.raceMode;
         if(raceMode)
         {
-            if(showArrow)
-            {
-                arrow.GetChild(0).GetComponent<Canvas>().worldCamera = cameraObject.GetChild(0).GetComponent<Camera>();
-                arrow.gameObject.layer = playerIndex + 6;
-            }
             checkpointText.SetText("Checkpoint: 0");
             timeText.SetText("Time: 0:00.000");
         }
@@ -650,20 +646,27 @@ public class PlayerController : MonoBehaviour
         //Collected powerup
         if(other.gameObject.CompareTag("Collectable"))
         {
-            other.gameObject.SetActive(false);
+            if(other.name != "Collider") other.gameObject.SetActive(false);
+            else other.transform.parent.gameObject.SetActive(false);
             collects++;
             collectText.SetText("Space Junk: " + collects.ToString());
             StartCoroutine(ChangeTextColor(collectText, fifthSecond, Color.white, Color.green));
             if(raceMode)
             {
                 int number = UnityEngine.Random.Range(0, 100);
-                if(activationTimePercent != 0 && number < activationTimePercent)
+                int intermediate = activationTimePercent + abilityPercent2;
+                if(number < abilityPercent2)
+                {
+                    abilityStrength2 += abilityIncrease2;
+                    if(showCaptions) StartCoroutine(SetCaption(abilityCaption2, oneSecond));
+                }
+                else if(number < intermediate)
                 {
                     activationTime++;
                     currentActivation++;
                     if(showCaptions) StartCoroutine(SetCaption("+1 Ability Duration", oneSecond));
                 }
-                else if(number < abilityPercent + activationTimePercent || cooldownTime <= minCooldown)
+                else if(number < intermediate + abilityPercent || cooldownTime <= minCooldown)
                 {
                     abilityStrength += abilityIncrease;
                     if(showCaptions) StartCoroutine(SetCaption(abilityCaption, oneSecond));
@@ -1299,8 +1302,7 @@ public class PlayerController : MonoBehaviour
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        Array.Clear(surroundingColliders, 0, 10000);
-        int colliders = Physics.OverlapSphereNonAlloc(myTransform.position, 10000, surroundingColliders, abilityMask);
+        int colliders = Physics.OverlapSphereNonAlloc(myTransform.position, abilityStrength2, surroundingColliders, abilityMask);
         for(int i = 0; i < colliders; i++)
         {
             Collider collider = surroundingColliders[i];

@@ -224,11 +224,11 @@ Transform:
   - {fileID: 6289117378035806089}
   - {fileID: 8276250620810905093}
   - {fileID: 9126550721500897137}
+  - {fileID: 5353075654820281820}
   - {fileID: 3827430154073751035}
   - {fileID: 4500610204598238105}
   - {fileID: 9185173712662558733}
   - {fileID: 2877793005058096854}
-  - {fileID: 5353075654820281820}
   - {fileID: 6841742871795942843}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -363,6 +363,8 @@ MonoBehaviour:
   cooldownTime: 10
   abilityStrength: 4
   abilityIncrease: 1
+  abilityStrength2: 0
+  abilityIncrease2: 0
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -374,10 +376,12 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 2096745121278956979}
   shipModel: Jupiter
-  abilityPercent: 35
-  activationTimePercent: 45
+  abilityPercent: 30
+  abilityPercent2: 0
+  activationTimePercent: 50
   minCooldown: 3
   abilityCaption: +1 Juggernaut Strength
+  abilityCaption2: 
   aura: {fileID: 4124214209506075182}
   auraSystems:
   - {fileID: 356728834899632146}
@@ -407,13 +411,14 @@ MonoBehaviour:
   errorSound: {fileID: 8300000, guid: 1ed8fb76fc64e4e46847348138782234, type: 3}
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
-  arrow: {fileID: 5353075654820281820}
+  myTransform: {fileID: 0}
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}
   canCollide: 0
   collects: 0
-  cameraObject: {fileID: 0}
+  cameraStats: {fileID: 0}
+  arrow: {fileID: 5353075654820281820}
 --- !u!82 &283605144193943937
 AudioSource:
   m_ObjectHideFlags: 0
@@ -712,7 +717,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2748693327781128714, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3263209329041807953, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_Name
@@ -720,7 +725,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3263209329041807953, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5240355892240562329, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -764,7 +769,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6595579008842795775, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

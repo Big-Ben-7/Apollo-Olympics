@@ -7,8 +7,6 @@ using TMPro;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.Rendering;
-using System.Reflection;
-using System.Linq.Expressions;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -407,7 +405,6 @@ public class SpawnManager : MonoBehaviour
             Transform viewObject = cameraObject.GetChild(0);
             Camera view = views[i] = viewObject.GetComponent<Camera>();
             GameObject thirdPersonObject = viewObject.GetChild(0).gameObject;
-            thirdPersonObject.layer = i + 9;
             CinemachineVirtualCamera viewCam = thirdPersons[i] = thirdPersonObject.GetComponent<CinemachineVirtualCamera>();
             view.cullingMask = cameraMasks[i];
             followers[i] = new List<Transform>() {cameraObjects[i]};
@@ -417,11 +414,18 @@ public class SpawnManager : MonoBehaviour
             GameObject player = players[i] = Instantiate(possiblePlayers[playerShips[i]], pos, rot);
             player.tag = tags[i];
             PlayerController playerController = playerControllers[i] = player.GetComponent<PlayerController>();
-            playerController.cameraObject = cameraObject;
+            Transform playerTransform = playerController.myTransform = player.transform;
+            playerController.cameraStats = cameraObject.GetChild(1);
             playerController.startPos = pos;
             playerController.normalizedStartPos = pos.normalized;
             playerController.startRot = rot;
-            viewCam.Follow = viewCam.LookAt = player.transform.GetChild(2);
+
+            Transform arrow = playerController.arrow = playerTransform.GetChild(3);
+            arrow.gameObject.SetActive(false);
+            GameObject arrowObject = arrow.GetChild(0).gameObject;
+            arrowObject.GetComponent<Canvas>().worldCamera = view;
+            arrowObject.layer = thirdPersonObject.layer = i + 9;
+            viewCam.Follow = viewCam.LookAt = playerTransform.GetChild(2);
             view.rect = new Rect(cameraRects[i], scaleVector);
         }
 

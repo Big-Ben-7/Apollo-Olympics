@@ -796,15 +796,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_text
-      value: 'Speed: 2         Agility: 2         Durability: 4         Stability:
+      value: 'Speed: 2          Agility: 2          Durability: 4          Stability:
         4
 
         Uranus is the 7th and coldest planet from the Sun. It''s also
         the only planet with its equator tilted at a right angle to its orbit, most
         likely due to a collision with an Earth-sized object long ago.
 
-        Vertical
-        Rings: Uranus uses its tilted rings to deflect surrounding objects.
+        Ability
+        - Tilted Rings: Uranus uses its rings to deflect surrounding objects.
 
         Duration:
         20s          Cooldown: 20s (min. 5)'
@@ -1328,13 +1328,14 @@ PrefabInstance:
         1
 
         Mercury is the closest, smallest, and fastest planet from the
-        Sun. In fact, Mercury is the about the size of our moon and orbits the Sun
-        in just 88 days. Mercury also has the thinnest atmosphere of all the planets.
+        Sun. In fact, Mercury is about the size of our moon and orbits the Sun in
+        just 88 days. Mercury also has the thinnest atmosphere of all the planets.
 
-        Speedster:
-        Mercury uses an explosive speed boost.
+        Ability
+        - Speedster: Mercury receives an explosive speed boost.
 
-        Cooldown: 5s (min. 2)'
+        Cooldown:
+        5s (min. 2)'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -1828,11 +1829,11 @@ PrefabInstance:
         4
 
         Saturn is the 6th planet from the Sun, and the only one less dense
-        than water. It has 146 moons, the most in the Solar System, and its famous
+        than water. It has 146 moons, the most in the Solar System, and its iconic
         rings are mostly made of chunks of ice and rock.
 
-        Lateral Rings:
-        Saturn''s rings deflect surrounding objects.
+        Ability - Spectacular
+        Rings: Saturn''s rings deflect surrounding objects.
 
         Duration: 20s         
         Cooldown: 20s (min. 5)'
@@ -2981,15 +2982,15 @@ PrefabInstance:
       value: 'Speed: 3          Agility: 4          Durability: 5          Stability:
         2
 
-        Mars is the 4th planet from the Sun, nicknamed the "Red Planet"
+        Mars is the 4th planet from the Sun, often called the "Red Planet"
         for the iron rust on its surface. Mars also has the largest volcano and valley
         of the Solar System, and dust storms can engulf the planet for weeks.
 
-        Dust
-        Storm: Martian dusts confuse space pirates.
+        Ability
+        - Dust Storm: A Martian dust storm confuses space pirates.
 
-        Duration: 20s         
-        Cooldown: 20s (min. 5)'
+        Duration:
+        20s          Cooldown: 20s (min. 5)'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -3215,15 +3216,15 @@ PrefabInstance:
       value: 'Speed: 4          Agility: 3          Durability: 2          Stability:
         2
 
-        Venus is the 2nd planet from the Sun. Its dense, acidic atmosphere
-        traps greenhouse gases, making it the  hottest and deadliest planet, hot
-        enough to burn lead.
+        Venus is the 2nd planet from the Sun. Its dense atmosphere rains
+        acid and traps greenhouse gases, making it the  hottest and deadliest planet,
+        and hot enough to even burn lead.
 
-        Toxic Shield: Venus uses its thick atmosphere
-        to protect itself from asteroids.
+        Ability - Toxic Shield: Venus
+        uses its thick atmosphere to protect itself from asteroids.
 
-        Duration: 20s          Cooldown:
-        20s (min. 5)'
+        Duration:
+        20s          Cooldown: 20s (min. 5)'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -3403,15 +3404,15 @@ PrefabInstance:
       value: 'Speed: 2          Agility: 1          Durability: 3          Stability:
         5
 
-        Jupiter is the 5th planet from the Sun and is by far the largest,
-        2.5 times more massive than all the other planets combined. Jupiter also
-        contains the Great Red Spot, a storm itself bigger then Earth.
+        Jupiter is the 5th and largest planet from the Sun, and is 2.5
+        times more massive than all the other planets combined. Jupiter also contains
+        the famous Great Red Spot, a storm itself bigger then Earth.
 
-        Juggernaut:
-        Jupiter''s uses its mass and momentum to power through asteroids.
+        Ability
+        - Juggernaut: Jupiter uses its immense mass and momentum to power through
+        asteroids.
 
-        Duration:
-        20s          Cooldown: 10s (min. 3)'
+        Duration: 20s          Cooldown: 10s (min. 3)'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -4905,15 +4906,15 @@ PrefabInstance:
       value: 'Speed: 3          Agility: 3          Durability: 4          Stability:
         3
 
-        Earth is the 3rd planet from the Sun. Its ideal conditions, from
-        its chemical composition and magnetic field to its place in the Solar System''s
-        Goldilocks zone, make it the only place known to harbor life.
+        Earth is the 3rd and densest planet from the Sun. Its ideal conditions,
+        from its chemical composition and magnetic field to its place in the Solar
+        System''s Goldilocks zone, make it the only place known with life.
 
-        Planet
-        of Life: Earth gradually regenerates its health.
+        Ability
+        - Planet of Life: Earth regenerates its health every second while activated.
 
-        Duration: 10s         
-        Cooldown: 10s (min. 3)'
+        Duration:
+        10s          Cooldown: 10s (min. 3)'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -5280,17 +5281,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_text
-      value: 'Speed: 1          Agility: 2          Durability: 4         Stability:
+      value: 'Speed: 1          Agility: 2          Durability: 4          Stability:
         4
 
         Neptune is the furthest planet from the Sun, an icy giant made
         of water, ammonia, and methane. It''s known for its massive storms with the
         fastest winds in the Solar System.
 
-        Supersonic Winds: A Neptune storm
-        blasts nearby asteroids and pirates away.
+        Ability - Supersonic Winds: A
+        Neptune storm blasts nearby objects away.
 
-        Cooldown: 10s (min. 3)'
+        Cooldown: 20s (min. 3)'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize

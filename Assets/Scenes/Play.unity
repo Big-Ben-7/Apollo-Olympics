@@ -1558,7 +1558,7 @@ MonoBehaviour:
   advCheckpointDistances: 3075000060ea0000905f0100c0d4010020bf020080a9030020300500c0b60600c0270900
   expCheckpointDistances: b888000070110100289a0100e022020050340300c0450400801a060040ef070060ae0a00
   checkpointParent: {fileID: 64442204}
-  checkpointPrefab: {fileID: 1524319548756128656, guid: cf191d8315c8d4bcbb649de43114089f, type: 3}
+  checkpointPrefab: {fileID: 5693663519667222683, guid: 40d6b472ed0bc40b3ae50fc3dbf81602, type: 3}
   finishMat: {fileID: 2100000, guid: 11a6088f9cac6426a90e9b064c81cc2e, type: 2}
   raceMode: 1
   difficulty: 0
@@ -1602,9 +1602,6 @@ MonoBehaviour:
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
   minWormholeScale: 1000
   maxWormholeScale: 3000
-  onlyAsteroids:
-    serializedVersion: 2
-    m_Bits: 32768
   droneNumbers: 04000000080000000c00000010000000
   collectDroneDivisor: 2
   begCheckpointDrones: 000000000000000001000000010000000200000002000000030000000300000004000000

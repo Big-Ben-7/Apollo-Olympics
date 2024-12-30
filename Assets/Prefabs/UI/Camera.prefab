@@ -278,7 +278,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 1
+  near clip plane: 10
   far clip plane: 7000
   field of view: 35
   orthographic: 0
@@ -293,9 +293,9 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!114 &8631040374598542802
@@ -694,7 +694,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 3768286351885571955}
-  m_PlaneDistance: 5
+  m_PlaneDistance: 15
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -2103,7 +2103,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 35
     OrthographicSize: 5
-    NearClipPlane: 1
+    NearClipPlane: 10
     FarClipPlane: 7000
     Dutch: 0
     ModeOverride: 0

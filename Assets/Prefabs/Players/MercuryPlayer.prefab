@@ -220,11 +220,11 @@ Transform:
   - {fileID: 6289117378035806089}
   - {fileID: 4367335176006170975}
   - {fileID: 7675326459988510224}
+  - {fileID: 1189042490095786437}
   - {fileID: 7886244489059895946}
   - {fileID: 4500610204598238105}
   - {fileID: 9185173712662558733}
   - {fileID: 4731447614634147989}
-  - {fileID: 1189042490095786437}
   - {fileID: 6933693767190187673}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -317,6 +317,8 @@ MonoBehaviour:
   cooldownTime: 5
   abilityStrength: 6000
   abilityIncrease: 1000
+  abilityStrength2: 0
+  abilityIncrease2: 0
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -329,9 +331,11 @@ MonoBehaviour:
   graphic: {fileID: 6367987526358428599}
   shipModel: Mercury
   abilityPercent: 90
+  abilityPercent2: 0
   activationTimePercent: 0
   minCooldown: 2
-  abilityCaption: +1 Speed Boost
+  abilityCaption: +1 Speedster Boost
+  abilityCaption2: 
   aura: {fileID: 7012232295257560415}
   auraSystems: []
   abilityMask:
@@ -358,13 +362,14 @@ MonoBehaviour:
   errorSound: {fileID: 8300000, guid: 1ed8fb76fc64e4e46847348138782234, type: 3}
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
-  arrow: {fileID: 1189042490095786437}
+  myTransform: {fileID: 0}
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}
   canCollide: 0
   collects: 0
-  cameraObject: {fileID: 0}
+  cameraStats: {fileID: 0}
+  arrow: {fileID: 1189042490095786437}
 --- !u!82 &283605144193943937
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1233,7 +1238,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2748693327781128714, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3263209329041807953, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_Name
@@ -1241,7 +1246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3263209329041807953, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5240355892240562329, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1297,7 +1302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6595579008842795775, guid: 27af878dbd49d4aea8e3699769598dd5, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
