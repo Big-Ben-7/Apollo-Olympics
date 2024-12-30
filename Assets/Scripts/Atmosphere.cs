@@ -4,7 +4,6 @@ public class Atmosphere : MonoBehaviour
 {
     public Rigidbody target;
     Rigidbody rb;
-    PlayerController player;
     public AudioSource audioSource;
     [SerializeField] AudioClip hitClip;
 
@@ -15,6 +14,11 @@ public class Atmosphere : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
+        if(other.gameObject.CompareTag("Drone") || other.gameObject.layer == 13) return;
+        Rigidbody otherRb = other.rigidbody;
+        Vector3 direction = otherRb.position - rb.position;
+        otherRb.AddForce(direction * 2, ForceMode.VelocityChange);
+        target.AddForce(-direction * 2, ForceMode.VelocityChange);
         audioSource.PlayOneShot(hitClip);
     }
 

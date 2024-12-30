@@ -1121,8 +1121,8 @@ public class PlayerController : MonoBehaviour
             yield return oneSecond;
             currentActivation --;
         }
-        auraParticles[2].loop = false;
-        resetting = StartCoroutine(ResetAura(twoSeconds, 3));
+        auraParticles[3].loop = false;
+        resetting = StartCoroutine(ResetAura(fifthSecond, 3));
         audioSource.PlayOneShot(expireSound);
 
         //Cooldown
@@ -1343,7 +1343,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator ResetAura(WaitForSeconds wait, int startIndex = 0)
     {
         yield return wait;
-        aura.SetActive(false);
+        if(aura.activeSelf) aura.SetActive(false);
         for(int i = startIndex; i < auraCount; i++) auraParticles[i].loop = true;
         if(!canCollide) canCollide = true;
     }

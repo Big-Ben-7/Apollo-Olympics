@@ -4900,7 +4900,7 @@ GameObject:
   - component: {fileID: 7261490003925142051}
   - component: {fileID: 7420868778259435359}
   - component: {fileID: 3753775676460273024}
-  - component: {fileID: 544368994987034785}
+  - component: {fileID: 6890027678863349368}
   m_Layer: 13
   m_Name: VenusAtmosphere
   m_TagString: Untagged
@@ -4946,7 +4946,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1645438820640331853}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: cf0856a4bffc04473affa511c79936f1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4958,7 +4958,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 50
+  m_Radius: 30
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &3753775676460273024
 SphereCollider:
@@ -4967,7 +4967,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1645438820640331853}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: cf0856a4bffc04473affa511c79936f1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4981,7 +4981,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &544368994987034785
+--- !u!54 &6890027678863349368
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5049,7 +5049,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3515386618921853408}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 0.1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -14820,8 +14820,8 @@ Transform:
   m_GameObject: {fileID: 5789165384320885587}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -6, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalPosition: {x: 0, y: -7, z: 0}
+  m_LocalScale: {x: 7, y: 7, z: 7}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8545202084700655547}

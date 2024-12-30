@@ -21,6 +21,7 @@ public class Ring : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
+        if(other.gameObject.CompareTag("Drone") || other.gameObject.layer == 13) return;
         Rigidbody otherRb = other.rigidbody;
         if(!otherRb.isKinematic)
         {
