@@ -5178,7 +5178,7 @@ MonoBehaviour:
   agility: 4
   durability: 5
   stability: 2
-  activationTime: 20
+  activationTime: 10
   cooldownTime: 10
   abilityStrength: 1000
   abilityIncrease: 500
@@ -5195,9 +5195,9 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 8129901569319948940}
   shipModel: Mars
-  abilityPercent: 40
-  activationTimePercent: 40
-  minCooldown: 3
+  abilityPercent: 45
+  activationTimePercent: 45
+  minCooldown: 5
   abilityCaption: +1 Dust Storm Strength
   aura: {fileID: 1452392579131037511}
   auraSystems:
@@ -5227,7 +5227,6 @@ MonoBehaviour:
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   arrow: {fileID: 7303635377737201954}
-  rotation: {x: 0, y: 0, z: 0}
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}

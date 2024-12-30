@@ -376,9 +376,9 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 2096745121278956979}
   shipModel: Jupiter
-  abilityPercent: 40
-  activationTimePercent: 40
-  minCooldown: 5
+  abilityPercent: 30
+  activationTimePercent: 30
+  minCooldown: 3
   abilityCaption: +1 Ability Strength
   aura: {fileID: 4124214209506075182}
   auraSystems:
@@ -410,7 +410,6 @@ MonoBehaviour:
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   arrow: {fileID: 5353075654820281820}
-  rotation: {x: 0, y: 0, z: 0}
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}

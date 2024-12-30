@@ -334,7 +334,7 @@ MonoBehaviour:
   shipModel: Earth
   abilityPercent: 40
   activationTimePercent: 40
-  minCooldown: 5
+  minCooldown: 3
   abilityCaption: +0.5 Regeneration Strength
   aura: {fileID: 7906576623811564693}
   auraSystems:
@@ -365,7 +365,6 @@ MonoBehaviour:
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   arrow: {fileID: 4512064021348999379}
-  rotation: {x: 0, y: 0, z: 0}
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}

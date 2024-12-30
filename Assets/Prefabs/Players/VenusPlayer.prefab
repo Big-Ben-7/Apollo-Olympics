@@ -301,7 +301,7 @@ MonoBehaviour:
   graphic: {fileID: 6067182888555959147}
   shipModel: Venus
   abilityPercent: 0
-  activationTimePercent: 70
+  activationTimePercent: 80
   minCooldown: 5
   abilityCaption: +1 Atmosphere Strength
   aura: {fileID: 1645438820640331853, guid: 7843525c7d07846c0a80dbad20a48ee3, type: 3}
@@ -331,7 +331,6 @@ MonoBehaviour:
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   arrow: {fileID: 7972407930528604895}
-  rotation: {x: 0, y: 0, z: 0}
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}

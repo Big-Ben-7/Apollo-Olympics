@@ -96,8 +96,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 3fa69b7db513847cc82832648433fafb, type: 2}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 81eb52bcc5085471c8fe2c941580f0e8, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: caf533437d0114cdfaa98ce2e58a70ea, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2457,10 +2457,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
-    - target: {fileID: 363959617085331102, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -165
-      objectReference: {fileID: 0}
     - target: {fileID: 439145310939834354, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2541,14 +2537,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 507510218298271380, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -165
-      objectReference: {fileID: 0}
-    - target: {fileID: 1261175154939756957, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -165
-      objectReference: {fileID: 0}
     - target: {fileID: 1476789594034413650, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2561,10 +2549,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
-    - target: {fileID: 3436003792778832346, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -165
-      objectReference: {fileID: 0}
     - target: {fileID: 5223870351887055132, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_Name
       value: Main

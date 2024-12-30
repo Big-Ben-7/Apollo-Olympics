@@ -796,19 +796,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_text
-      value: 'Speed: 2          Agility: 2          Durability: 4          Stability:
+      value: 'Speed: 2         Agility: 2         Durability: 4         Stability:
         4
 
         Uranus is the 7th and coldest planet from the Sun. It''s also
         the only planet with its equator tilted at a right angle to its orbit, most
         likely due to a collision with an Earth-sized object long ago.
 
-        Ability:
-        Uranus uses its tilted rings to push surrounding objects vertically. Hold
-        down ability key to rotate rings.
+        Vertical
+        Rings: Uranus uses its tilted rings to deflect surrounding objects.
 
-        Duration: 20s          Cooldown:
-        20s'
+        Duration:
+        20s          Cooldown: 20s (min. 5)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126017245239741863, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -1044,6 +1063,10 @@ PrefabInstance:
     - target: {fileID: 7561086962860914245, guid: d776006e5c454477084d1541a4eaa0a6, type: 3}
       propertyPath: m_SortingLayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7955492894106053913, guid: d776006e5c454477084d1541a4eaa0a6, type: 3}
+      propertyPath: m_Intensity
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7986602841058122343, guid: d776006e5c454477084d1541a4eaa0a6, type: 3}
       propertyPath: m_SortingLayer
@@ -1287,6 +1310,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mercury
       objectReference: {fileID: 0}
+    - target: {fileID: 6900478694365018517, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7050629891922492046, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_SortingLayer
       value: 0
@@ -1294,6 +1321,36 @@ PrefabInstance:
     - target: {fileID: 7081282634614813646, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_SortingLayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 5          Agility: 5          Durability: 1          Stability:
+        1
+
+        Mercury is the closest, smallest, and fastest planet from the
+        Sun. In fact, Mercury is the about the size of our moon and orbits the Sun
+        in just 88 days. Mercury also has the thinnest atmosphere of all the planets.
+
+        Speedster:
+        Mercury uses an explosive speed boost.
+
+        Cooldown: 5s (min. 2)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7563387978647473738, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_SortingLayer
@@ -1303,9 +1360,17 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8126017245239741863, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
+      objectReference: {fileID: 0}
     - target: {fileID: 8127832915707407859, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_SortingLayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8508950285903524986, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_Intensity
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8881548543315701569, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_SortingLayer
@@ -1561,6 +1626,10 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8051823774066487020, guid: b1828535bbc4a4370a473a94592a4c93, type: 3}
+      propertyPath: m_Intensity
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8263016921242244927, guid: b1828535bbc4a4370a473a94592a4c93, type: 3}
       propertyPath: m_SortingLayer
       value: 0
@@ -1758,15 +1827,35 @@ PrefabInstance:
       value: 'Speed: 2          Agility: 2          Durability: 3          Stability:
         4
 
-        Saturn is the 6th and least dense planet from the Sun - it''s
-        in fact less dense than water. It has 146 moons, the most in the Solar System,
-        and its famous rings are mostly made of chunks of ice and rock.
+        Saturn is the 6th planet from the Sun, and the only one less dense
+        than water. It has 146 moons, the most in the Solar System, and its famous
+        rings are mostly made of chunks of ice and rock.
 
-        Ability:
-        Saturn''s rings push surrounding objects laterally. Hold down ability key
-        to rotate rings.
+        Lateral Rings:
+        Saturn''s rings deflect surrounding objects.
 
-        Duration: 20s          Cooldown: 20s'
+        Duration: 20s         
+        Cooldown: 20s (min. 5)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126017245239741863, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -2145,6 +2234,10 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7823871371393951684, guid: e6fa9b4a1c09c45278e8f25e6313def9, type: 3}
+      propertyPath: m_Intensity
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7993390780390841636, guid: e6fa9b4a1c09c45278e8f25e6313def9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -405
@@ -2342,6 +2435,10 @@ PrefabInstance:
     - target: {fileID: 4663753687660906298, guid: 67c5e25388fcc441ea0b0f4e112c1025, type: 3}
       propertyPath: m_SortingLayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4771541522405549421, guid: 67c5e25388fcc441ea0b0f4e112c1025, type: 3}
+      propertyPath: m_Intensity
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5131761493477566552, guid: 67c5e25388fcc441ea0b0f4e112c1025, type: 3}
       propertyPath: m_SortingLayer
@@ -2725,6 +2822,10 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8823321488313355507, guid: 383b4fed5eab044ed832e2cb4142e484, type: 3}
+      propertyPath: m_Intensity
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9191672185881644368, guid: 383b4fed5eab044ed832e2cb4142e484, type: 3}
       propertyPath: m_SortingLayer
       value: 0
@@ -2880,15 +2981,35 @@ PrefabInstance:
       value: 'Speed: 3          Agility: 4          Durability: 5          Stability:
         2
 
-        Mars is the 4th planet from the Sun, often called the "Red Planet"
-        due to the iron rust on its surface. Mars has the largest volcano and valley
-        of the Solar System, and its dust storms can engulf the area of continenets
-        for weeks.
+        Mars is the 4th planet from the Sun, nicknamed the "Red Planet"
+        for the iron rust on its surface. Mars also has the largest volcano and valley
+        of the Solar System, and dust storms can engulf the planet for weeks.
 
-        Ability: A Mars dust storm confuses space pirates.
+        Dust
+        Storm: Martian dusts confuse space pirates.
 
-        Duration:
-        20s          Cooldown: 10s'
+        Duration: 10s         
+        Cooldown: 10s (min. 5)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126017245239741863, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -3094,14 +3215,35 @@ PrefabInstance:
       value: 'Speed: 4          Agility: 3          Durability: 2          Stability:
         2
 
-        Venus is the 2nd planet from the Sun. Its dense atmosphere traps
-        greenhouse gases, making it the hottest and deadliest planet.
+        Venus is the 2nd planet from the Sun. Its dense, acidic atmosphere
+        traps greenhouse gases, making it the  hottest and deadliest planet, hot
+        enough to burn lead.
 
-        Ability:
-        Venus uses its toxic atmosphere to shield itself from asteroids. No effect
-        on drones.
+        Toxic Shield: Venus uses its thick atmosphere
+        to protect itself from asteroids.
 
-        Duration: 20s          Cooldown: 20s'
+        Duration: 20s          Cooldown:
+        20s (min. 5)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126017245239741863, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -3261,15 +3403,35 @@ PrefabInstance:
       value: 'Speed: 2          Agility: 1          Durability: 3          Stability:
         5
 
-        Jupiter is the 5th planet from the Sun and is by far the largest
-        - 2.5 times more massive than the other planets combined. Jupiter also contains
-        the Great Red Spot, a storm by itself bigger then Earth.
+        Jupiter is the 5th planet from the Sun and is by far the largest,
+        2.5 times more massive than all the other planets combined. Jupiter also
+        contains the Great Red Spot, a storm itself bigger then Earth.
 
-        Ability:
-        Jupiter''s mass increases such that its momentum can knock back asteroids.
+        Juggernaut:
+        Jupiter''s uses its mass and momentum to power through asteroids.
 
         Duration:
-        20s          Cooldown: 20s'
+        20s          Cooldown: 10s (min. 3)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126017245239741863, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -4744,13 +4906,34 @@ PrefabInstance:
         3
 
         Earth is the 3rd planet from the Sun. Its ideal conditions, from
-        chemical composition to its magnetic field, make it the only place known
-        to harbor life.
+        its chemical composition and magnetic field to its place in the Solar System''s
+        Goldilocks zone, make it the only place known to harbor life.
 
-        Ability: Earth regenerates its health each second.
+        Planet
+        of Life: Earth gradually regenerates its health.
 
-        Duration:
-        10s          Cooldown: 10s'
+        Duration: 10s         
+        Cooldown: 10s (min. 3)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126017245239741863, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -4920,6 +5103,10 @@ PrefabInstance:
     - target: {fileID: 7044469754869011484, guid: e9220b89984574878b7e31d4b4c2e0ee, type: 3}
       propertyPath: m_SortingLayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7732925689038951168, guid: e9220b89984574878b7e31d4b4c2e0ee, type: 3}
+      propertyPath: m_Intensity
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8200029079040685972, guid: e9220b89984574878b7e31d4b4c2e0ee, type: 3}
       propertyPath: m_SortingLayer
@@ -5096,14 +5283,34 @@ PrefabInstance:
       value: 'Speed: 1          Agility: 2          Durability: 4         Stability:
         4
 
-        Neptune is the furthest planet from the Sun. It''s known for its
-        massive storms with supersonic winds, the fastest in the solar system.
+        Neptune is the furthest planet from the Sun, an icy giant made
+        of water, ammonia, and methane. It''s known for its massive storms with the
+        fastest winds in the Solar System.
 
-        Ability:
-        Neptune''s supersonic winds blast surrounding objects away.
+        Supersonic Winds: A Neptune storm
+        blasts nearby asteroids and pirates away.
 
-        Cooldown:
-        10s'
+        Cooldown: 10s (min. 3)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSize
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8126017245239741863, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -5369,6 +5576,10 @@ PrefabInstance:
     - target: {fileID: 522503149275708168, guid: e2229f311fe7d454981189736a8cb1d8, type: 3}
       propertyPath: m_SortingLayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263062771057539264, guid: e2229f311fe7d454981189736a8cb1d8, type: 3}
+      propertyPath: m_Intensity
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1317212159145409023, guid: e2229f311fe7d454981189736a8cb1d8, type: 3}
       propertyPath: m_SortingLayer

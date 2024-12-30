@@ -118,28 +118,28 @@ public class MenuManager : MonoBehaviour
 
         for(int i = 0; i < 4; i++)
         {
-            times[i] = PlayerPrefs.GetInt("Time" + i);
-            playerShips[i] = PlayerPrefs.GetInt("Ship" + i);
-            playerNames[i] = PlayerPrefs.GetString("Name" + i, "Player " + (i + 1));
+            times[i] = PlayerPrefs.GetInt("Time" + i.ToString());
+            playerShips[i] = PlayerPrefs.GetInt("Ship" + i.ToString());
+            playerNames[i] = PlayerPrefs.GetString("Name" + i.ToString(), "Player " + (i + 1).ToString());
         }
 
         //Get main menu variables
         races = PlayerPrefs.GetInt("Races");
-        racesText.SetText("Races: " + races);
+        racesText.SetText("Races: " + races.ToString());
         credits = PlayerPrefs.GetInt("Credits", 500);
-        string newCredits = "Credits: " + credits;
+        string newCredits = "Credits: " + credits.ToString();
         creditsText.SetText(newCredits);
         creditsText2.SetText(newCredits);
         collects = PlayerPrefs.GetInt("Collects");
-        collectsText.SetText("Space Junk Collected: " + collects);
+        collectsText.SetText("Space Junk Collected: " + collects.ToString());
         TimeSpan begSpan = TimeSpan.FromMilliseconds(times[0]);
-        begTime.SetText("Beginner: " + begSpan.Minutes + ":" + begSpan.Seconds.ToString("00") + "." + begSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description0"));
+        begTime.SetText("Beginner: " + begSpan.Minutes.ToString() + ":" + begSpan.Seconds.ToString("00") + "." + begSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description0"));
         TimeSpan intSpan = TimeSpan.FromMilliseconds(times[1]);
-        intTime.SetText("Intermediate: " + intSpan.Minutes + ":" + intSpan.Seconds.ToString("00") + "." + intSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description1"));
+        intTime.SetText("Intermediate: " + intSpan.Minutes.ToString() + ":" + intSpan.Seconds.ToString("00") + "." + intSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description1"));
         TimeSpan advSpan = TimeSpan.FromMilliseconds(times[2]);
-        advTime.SetText("Advanced: " + advSpan.Minutes + ":" + advSpan.Seconds.ToString("00") + "." + advSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description2"));
+        advTime.SetText("Advanced: " + advSpan.Minutes.ToString() + ":" + advSpan.Seconds.ToString("00") + "." + advSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description2"));
         TimeSpan expSpan = TimeSpan.FromMilliseconds(times[3]);
-        expTime.SetText("Expert: " + expSpan.Minutes + ":" + expSpan.Seconds.ToString("00") + "." + expSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description3"));
+        expTime.SetText("Expert: " + expSpan.Minutes.ToString() + ":" + expSpan.Seconds.ToString("00") + "." + expSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description3"));
         gameSettings.SetActive(false);
         customization.SetActive(false);
         settings.SetActive(false);
@@ -361,7 +361,7 @@ public class MenuManager : MonoBehaviour
                 return;
             }
             credits -= 100;
-            string newCredits = "Credits: " + credits;
+            string newCredits = "Credits: " + credits.ToString();
             creditsText.SetText(newCredits);
             creditsText2.SetText(newCredits);
             PlayerPrefs.SetInt("Credits", credits);
@@ -438,8 +438,8 @@ public class MenuManager : MonoBehaviour
             selectTexts[i].SetText("Select");
         }
         selectTexts[activeShip].SetText("Selected");
-        PlayerPrefs.SetInt("Ship" + activePlayer, activeShip);
-        MinorClick();
+        PlayerPrefs.SetInt("Ship" + activePlayer.ToString(), activeShip);
+        MajorClick();
     }
 
     public void EditName()
@@ -470,7 +470,7 @@ public class MenuManager : MonoBehaviour
         {
             playerText.SetText(newName);
             playerNames[activePlayer] = newName;
-            PlayerPrefs.SetString("Name" + activePlayer, newName);
+            PlayerPrefs.SetString("Name" + activePlayer.ToString(), newName);
             MinorClick();
         }
         else
@@ -623,13 +623,13 @@ public class MenuManager : MonoBehaviour
 
         for(int i = 0; i < 4; i++)
         {
-            PlayerPrefs.SetInt("Time" + i, 0);
+            PlayerPrefs.SetInt("Time" + i.ToString(), 0);
             times[i] = 0;
-            PlayerPrefs.SetString("Description" + i, "");
-            PlayerPrefs.SetInt("Ship" + i, 0);
+            PlayerPrefs.SetString("Description" + i.ToString(), "");
+            PlayerPrefs.SetInt("Ship" + i.ToString(), 0);
             playerShips[i] = 0;
-            PlayerPrefs.SetString("Name" + i, "Player " + (i + 1));
-            playerNames[i] = "Player " + (i + 1);
+            PlayerPrefs.SetString("Name" + i.ToString(), "Player " + (i + 1).ToString());
+            playerNames[i] = "Player " + (i + 1).ToString();
         }
         PlayerPrefs.SetInt("Mode", 0);
         PlayerPrefs.SetInt("PlayerNumber", 1);
@@ -739,7 +739,7 @@ public class MenuManager : MonoBehaviour
 
     public void ResetControls()
     {
-        InputSystem.actions.FindActionMap("Player" + (activePlayer + 1)).RemoveAllBindingOverrides();
+        InputSystem.actions.FindActionMap("Player" + (activePlayer + 1).ToString()).RemoveAllBindingOverrides();
         MinorClick();
     }
 

@@ -345,7 +345,7 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 9176598852586324252}
   shipModel: Neptune
-  abilityPercent: 60
+  abilityPercent: 80
   activationTimePercent: 0
   minCooldown: 3
   abilityCaption: +1 Storm Strength
@@ -379,7 +379,6 @@ MonoBehaviour:
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   arrow: {fileID: 7200272891621461937}
-  rotation: {x: 0, y: 0, z: 0}
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}

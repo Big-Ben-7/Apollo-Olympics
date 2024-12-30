@@ -33,6 +33,7 @@ public class Drone : MonoBehaviour
     bool collided;
     public AudioSource audioSource;
     public static bool showCaptions;
+    MeshRenderer render;
 
     void Awake()
     {
@@ -43,6 +44,7 @@ public class Drone : MonoBehaviour
         explosionSoundsLength = explosionSounds.Length;
         attackWait = new WaitForSeconds(updateInterval);
         randomWait = new WaitForSeconds(Random.Range(0f, updateInterval));
+        render = gameObject.GetComponent<MeshRenderer>();
     }
 
     void OnEnable()
@@ -78,33 +80,20 @@ public class Drone : MonoBehaviour
             case 14 or 15:
                 Vector3 direction = target.position - myTransform.position;
                 float distance = direction.sqrMagnitude;
-                Vector3 localPos = target.InverseTransformPoint(myTransform.position);
 
-                //If drone is too far, behind, or occluded from player, no explosion
-                if(distance > 2000000 || localPos.z < 0 || localPos.y > 80 || localPos.y < -80 || localPos.x > 150 || localPos.x < -150)
+                //No explosion if drone is too far not in camera view
+                if(distance > 3000000 || (!render.isVisible && distance > 10000))
                 {
                     ResetDrone();
                     return;
                 }
 
-                bool badHit = false;
-                if(Physics.Raycast(myTransform.position, direction.normalized, out RaycastHit hit, raycastMask))
-                {
-                    if(hit.collider.gameObject.layer != 6) badHit = true;
-                }
-                else badHit = true;
-                if(badHit)
-                {
-                    ResetDrone();
-                    return;
-                }
-
-                //If drone is not outmaneuvered, no caption
+                //Explode if drone is inside camera view and not occluded
                 Explode(other.GetContact(0).point);
-                if(offset > 0) return;
+                if(offset > 0 || !showCaptions) return;
 
-                //If drone is outmaneuvered, show caption
-                if((confusionCalc.sqrMagnitude > 250000 || distance < 1000000) && showCaptions) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                //Show caption if drone is outmaneuvered
+                if(confusionCalc.sqrMagnitude > 250000 || distance < 1000000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
                 break;
             
             default:

@@ -106,6 +106,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
     [SerializeField] AudioClip pauseSound;
+    [SerializeField] AudioClip buySound;
+    [SerializeField] AudioClip errorSound;
     [SerializeField] GameObject eventSystem;
     public AudioSource audioSource;
     AudioSource backgroundMusic;
@@ -113,11 +115,16 @@ public class SpawnManager : MonoBehaviour
     AudioSource[] allAudio;
     int audioCount;
     [SerializeField] GameObject menu;
+    [SerializeField] GameObject raceFinish;
+    [SerializeField] TMP_Text creditsText;
+    [SerializeField] TMP_Text playText;
+    [SerializeField] GameObject collectFinish;
     public int initializedObjects;
     bool cursorHide;
     InputAction pauseAction;
     WaitForSeconds oneSecond;
     WaitForSeconds twoSeconds;
+    WaitForSeconds halfSecond;
     WaitForSecondsRealtime oneRealSecond = new WaitForSecondsRealtime(1);
     public TMP_Text[] finishTexts;
     public float milliseconds;
@@ -125,10 +132,13 @@ public class SpawnManager : MonoBehaviour
     public int minutes;
     public string timeString;
     public bool paused = true;
+    int credits = 100;
     
     void Awake()
     {
         menu.SetActive(false);
+        raceFinish.SetActive(false);
+        collectFinish.SetActive(false);
         length = side * 2;
 
         //Audio setup
@@ -138,36 +148,26 @@ public class SpawnManager : MonoBehaviour
         backgroundNoise = audioSources[2];
 
         //Getting variabes from main menu
-        if(MenuManager.loaded)
+        raceMode = MenuManager.raceMode;
+        playerNumber = MenuManager.playerNumber;
+        playerShips = MenuManager.playerShips;
+        difficulty = MenuManager.difficulty;
+        playerNames = MenuManager.playerNames;
+        audioSource.volume = PlayerController.audioVolume = MenuManager.effects;
+        backgroundMusic.volume = MenuManager.music * 0.5f;
+        backgroundNoise.volume = MenuManager.noise;
+        cursorHide = MenuManager.cursorHide;
+        if(cursorHide)
         {
-            raceMode = MenuManager.raceMode;
-            playerNumber = MenuManager.playerNumber;
-            playerShips = MenuManager.playerShips;
-            difficulty = MenuManager.difficulty;
-            playerNames = MenuManager.playerNames;
-            audioSource.volume = PlayerController.audioVolume = MenuManager.effects;
-            backgroundMusic.volume = MenuManager.music * 0.5f;
-            backgroundNoise.volume = MenuManager.noise;
-            cursorHide = MenuManager.cursorHide;
-            if(cursorHide)
-            {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
-            view.m_Lens.FieldOfView = MenuManager.fov;
-            view.m_Lens.FarClipPlane = MenuManager.depth;
-            PlayerController.maxThrusterVolume = MenuManager.thruster;
-            PlayerController.showCaptions = Drone.showCaptions = MenuManager.showCaptions;
-            PlayerController.showArrow = MenuManager.showArrow;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
-        else
-        {
-            playerNames = new string[] {"Player 1", "Player 2", "Player 3", "Player 4"};
-            PlayerController.audioVolume = 0.2f;
-            PlayerController.maxThrusterVolume = 0.2f;
-            PlayerController.showCaptions = Drone.showCaptions = PlayerController.showArrow = true;
-        }
+        CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
+        view.m_Lens.FieldOfView = MenuManager.fov;
+        view.m_Lens.FarClipPlane = MenuManager.depth;
+        PlayerController.maxThrusterVolume = MenuManager.thruster;
+        PlayerController.showCaptions = Drone.showCaptions = MenuManager.showCaptions;
+        PlayerController.showArrow = MenuManager.showArrow;
 
         //Setting difficulty-dependent variables
         asteroidNumber = asteroidNumbers[difficulty];
@@ -217,11 +217,12 @@ public class SpawnManager : MonoBehaviour
         PlayerController.spawnManager = this;
         PlayerController.length = length;
         PlayerController.droneNumber = droneNumber;
+        PlayerController.credits = PlayerController.initialCredits = credits = MenuManager.credits;
         PlayerController.oneSecond = oneSecond = MenuManager.oneSecond;
         PlayerController.twoSeconds = Drone.twoSeconds = twoSeconds = MenuManager.twoSeconds;
         PlayerController.threeSeconds = new WaitForSeconds(3);
         PlayerController.fifthSecond = new WaitForSeconds(0.2f);
-        PlayerController.halfSecond = MenuManager.halfSecond;
+        PlayerController.halfSecond = halfSecond = MenuManager.halfSecond;
         pauseAction = InputSystem.actions.FindAction("Pause");
         StartCoroutine(Initialize());
     }
@@ -458,7 +459,8 @@ public class SpawnManager : MonoBehaviour
     }
     void Update()
     {
-        if(pauseAction.WasPressedThisFrame() && !finished)
+        if(finished) return;
+        if(pauseAction.WasPressedThisFrame())
         {
             switch(Time.timeScale)
             {
@@ -501,7 +503,7 @@ public class SpawnManager : MonoBehaviour
                     if(minutes < 0)
                     {
                         //Game over
-                        paused = true;
+                        finished = true;
                         sectionParent.gameObject.SetActive(false);
                         int[] collectsList = new int[playerNumber];
                         int[] sortedList = new int[playerNumber];
@@ -536,24 +538,20 @@ public class SpawnManager : MonoBehaviour
                                     break;
                             }
                         }
-                        audioSource.PlayOneShot(goSound);
-                        StartCoroutine(FinishMenu());
-
-                        if(MenuManager.loaded)
+                        int playerCredits = PlayerController.credits;
+                        if(credits != playerCredits)
                         {
-                            int credits = PlayerController.credits;
-                            if(MenuManager.credits != credits)
-                            {
-                                MenuManager.credits = credits;
-                                PlayerPrefs.SetInt("Credits", credits);
-                            }
+                            MenuManager.credits = playerCredits;
+                            PlayerPrefs.SetInt("Credits", playerCredits);
                         }
+                        audioSource.PlayOneShot(goSound);
+                        StartCoroutine(CollectFinish());
                         return;
                     }
                 }
             }
         }
-        timeString = "Time: " + minutes + ":" + seconds.ToString("00") + "." + milliseconds.ToString("000");
+        timeString = "Time: " + minutes.ToString() + ":" + seconds.ToString("00") + "." + milliseconds.ToString("000");
     }
 
     public void Pause()
@@ -599,7 +597,52 @@ public class SpawnManager : MonoBehaviour
         paused = false;
     }
 
-    public void Restart()
+    public void RacePlay()
+    {
+        if(credits < 100)
+        {
+            StartCoroutine(ChangeText(playText, halfSecond, Color.white, Color.red, "Play  -  100 credits", "Not enough credits", FontStyles.Italic));
+            audioSource.PlayOneShot(errorSound);
+            return;
+        }
+        credits -= 100;
+        string newCredits = "Credits: " + credits;
+        creditsText.SetText(newCredits);
+        PlayerPrefs.SetInt("Credits", credits);
+        audioSource.PlayOneShot(buySound);
+        audioSource.PlayOneShot(pauseSound);
+        StartCoroutine(LoadScene(1));
+    }
+
+    IEnumerator ChangeText(TMP_Text text, WaitForSeconds wait, Color originalColor, Color newColor, string originalString = "", string newString = "", FontStyles style = FontStyles.Normal, int amount = 1)
+    {
+        if(originalString != newString) text.text = newString;
+        if(originalColor == newColor) originalColor = Color.white;
+        if(text.fontStyle != style) text.fontStyle = style;
+        switch(amount)
+        {
+            case 1:
+                text.color = newColor;
+                yield return wait;
+                if(text.color == newColor) text.color = originalColor;
+                break;
+
+            default:
+                int amountMinusOne = amount - 1;
+                for(int i = 0; i < amount; i++)
+                {
+                    text.color = newColor;
+                    yield return wait;
+                    if(text.color == newColor) text.color = originalColor;
+                    if(i < amountMinusOne) yield return wait;
+                }
+                break;
+        }
+        if(originalString != newString) text.text = originalString;
+        if(text.fontStyle != FontStyles.Normal) text.fontStyle = FontStyles.Normal;
+    }
+
+    public void CollectPlay()
     {
         audioSource.PlayOneShot(pauseSound);
         StartCoroutine(LoadScene(1));
@@ -1209,20 +1252,31 @@ public class SpawnManager : MonoBehaviour
             finished = true;
             MenuManager.races++;
             PlayerPrefs.SetInt("Races", MenuManager.races);
-            StartCoroutine(FinishMenu());
+            StartCoroutine(RaceFinish());
         }
 
         audioSource.PlayOneShot(goSound);
     }
 
-    IEnumerator FinishMenu()
+    IEnumerator RaceFinish()
     {
         yield return twoSeconds;
-        Transform menuTransform = menu.transform.GetChild(1);
-        menuTransform.GetChild(2).gameObject.SetActive(false);
-        menuTransform.GetChild(3).gameObject.SetActive(true);
-        menuTransform.GetChild(1).GetChild(1).GetComponent<TMP_Text>().SetText("Game Over");
-        menu.SetActive(true);
+        if(menu.activeSelf) menu.SetActive(false);
+        creditsText.SetText("Credits: " + credits.ToString());
+        raceFinish.SetActive(true);
+        if(cursorHide)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        audioSource.PlayOneShot(pauseSound);
+    }
+
+    IEnumerator CollectFinish()
+    {
+        yield return twoSeconds;
+        if(menu.activeSelf) menu.SetActive(false);
+        collectFinish.SetActive(true);
         if(cursorHide)
         {
             Cursor.visible = true;

@@ -29,8 +29,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject dieExplosion;
     [SerializeField] List<GameObject> hitExplosions;
     [SerializeField] GameObject collectEffect;
-    [SerializeField] int forwardPercent = 30;
-    [SerializeField] int backPercent = 30;
     [SerializeField] GameObject dronePrefab;
     [SerializeField] GameObject graphic;
 
@@ -43,7 +41,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject aura;
     [SerializeField] ParticleSystem[] auraSystems;
     [SerializeField] LayerMask abilityMask;
-    Collider[] surroundingColliders = new Collider[10000];
     
 
     [Header("UI/Audio")]
@@ -104,8 +101,11 @@ public class PlayerController : MonoBehaviour
     public int collects;
     GameObject hitExplosionPrefab;
     public static int credits;
+    public static int initialCredits;
     public static int creditIncrease;
     public static int lastCheckpointDistance;
+    int forwardPercent = 35;
+    int backPercent = 25;
     string[] droneCaptions = new string[]
     {
         "Nice Move!",
@@ -170,6 +170,7 @@ public class PlayerController : MonoBehaviour
     int initialCooldown;
     int initialActivation;
     float initialStrength;
+    Collider[] surroundingColliders = new Collider[10000];
 
     //Drone
     Transform droneGroup;
@@ -409,8 +410,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             checkpointTexts[playerIndex] = checkpointText;
-            credits = MenuManager.credits;
-            checkpointText.SetText("Credits: " + credits);
+            checkpointText.SetText("Credits: " + credits.ToString());
             timeText.SetText("Time: " + spawnManager.minutes + ":00.000");
         }
         
@@ -652,7 +652,7 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             collects++;
-            collectText.SetText("Space Junk: " + collects);
+            collectText.SetText("Space Junk: " + collects.ToString());
             StartCoroutine(ChangeTextColor(collectText, fifthSecond, Color.white, Color.green));
             if(raceMode)
             {
@@ -678,7 +678,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 credits += creditIncrease;
-                for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits);
+                for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits.ToString());
                 StartCoroutine(ChangeTextColor(checkpointText, fifthSecond, Color.white, Color.green));
             }
             if(!collectEffect.activeSelf)
@@ -782,8 +782,11 @@ public class PlayerController : MonoBehaviour
                 return;
 
             case <= 10:
-                if(healthText.color != Color.red) healthText.color = Color.red;
-                if(showCaptions) StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], twoSeconds));
+                if(healthText.color != Color.red)
+                {
+                    healthText.color = Color.red;
+                    if(showCaptions) StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], twoSeconds));
+                }
                 break;
             
             default:
@@ -832,8 +835,8 @@ public class PlayerController : MonoBehaviour
             rb.position = startPos;
             rb.rotation = startRot;
             spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
-            credits -= collects * creditIncrease;
-            for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits);
+            credits = initialCredits;
+            for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits.ToString());
         }
         collects = 0;
         collectText.SetText("Space Junk: 0");
@@ -955,20 +958,17 @@ public class PlayerController : MonoBehaviour
         else
         {
             spawnManager.PlayerFinish(playerIndex);
-            if(MenuManager.loaded)
+            DateTime finishTime = DateTime.Now;
+            int elapsedMilliseconds = Mathf.RoundToInt(spawnManager.milliseconds) + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
+            if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
             {
-                DateTime finishTime = DateTime.Now;
-                int elapsedMilliseconds = Mathf.RoundToInt(spawnManager.milliseconds) + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
-                if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
-                {
-                    int index = MenuManager.difficulty;
-                    MenuManager.times[index] = elapsedMilliseconds;
-                    PlayerPrefs.SetInt("Time" + index, elapsedMilliseconds);
-                    PlayerPrefs.SetString("Description" + index, ", " + spawnManager.playerNames[playerIndex] + "-" + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year);
-                }
+                int index = MenuManager.difficulty;
+                MenuManager.times[index] = elapsedMilliseconds;
+                PlayerPrefs.SetInt("Time" + index.ToString(), elapsedMilliseconds);
+                PlayerPrefs.SetString("Description" + index.ToString(), ", " + spawnManager.playerNames[playerIndex] + "-" + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year.ToString());
             }
         }
-        if(collects != 0 && MenuManager.loaded)
+        if(collects != 0)
         {
             MenuManager.collects += collects;
             PlayerPrefs.SetInt("Collects", MenuManager.collects);
@@ -1043,7 +1043,6 @@ public class PlayerController : MonoBehaviour
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), 0) * new Vector3(0, 0, distance);
         rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);
-        for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
         audioSource.PlayOneShot(wormholeSound);
         canCollide = canTrigger = true;
         if(collided) collided = false;
@@ -1054,7 +1053,7 @@ public class PlayerController : MonoBehaviour
         playerCheckpoint ++;
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-        checkpointText.SetText("Checkpoint: " + playerCheckpoint);
+        checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());
         int newDrones = checkpointDrones[playerCheckpoint];
         for(int i = activeDrones; i < newDrones; i++)
         {
@@ -1069,7 +1068,7 @@ public class PlayerController : MonoBehaviour
     {
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-        checkpointText.SetText("Checkpoint: " + playerCheckpoint);
+        checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, Color.red));
         audioSource.PlayOneShot(errorSound);
     }
@@ -1089,7 +1088,7 @@ public class PlayerController : MonoBehaviour
         //Cooldown
         while(currentCooldown > 0)
         {
-            abilityText.SetText("Charging: " + currentCooldown);
+            abilityText.SetText("Charging: " + currentCooldown.ToString());
             yield return oneSecond;
             if(currentCooldown > 0) currentCooldown --;
         }
@@ -1113,7 +1112,7 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
         {
-            abilityText.SetText("Activated: " + currentActivation);
+            abilityText.SetText("Activated: " + currentActivation.ToString());
             yield return oneSecond;
             currentActivation --;
         }
@@ -1124,7 +1123,7 @@ public class PlayerController : MonoBehaviour
         //Cooldown
         while(currentCooldown > 0)
         {
-            abilityText.SetText("Charging: " + currentCooldown);
+            abilityText.SetText("Charging: " + currentCooldown.ToString());
             yield return oneSecond;
             if(currentCooldown > 0) currentCooldown --;
         }
@@ -1148,7 +1147,7 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
         {
-            abilityText.SetText("Activated: " + currentActivation);
+            abilityText.SetText("Activated: " + currentActivation.ToString());
             if(health + abilityStrength < 100) health += abilityStrength;
             else health = 100;
             health = (float) Math.Round(health, 2);
@@ -1164,7 +1163,7 @@ public class PlayerController : MonoBehaviour
         //Cooldown
         while(currentCooldown > 0)
         {
-            abilityText.SetText("Charging: " + currentCooldown);
+            abilityText.SetText("Charging: " + currentCooldown.ToString());
             yield return oneSecond;
             if(currentCooldown > 0) currentCooldown --;
         }
@@ -1188,7 +1187,7 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < droneNumber; i++) droneScripts[i].offset = abilityStrength;
         while(currentActivation > 0)
         {
-            abilityText.SetText("Activated: " + currentActivation);
+            abilityText.SetText("Activated: " + currentActivation.ToString());
             yield return oneSecond;
             currentActivation --;
         }
@@ -1200,7 +1199,7 @@ public class PlayerController : MonoBehaviour
         //Cooldown
         while(currentCooldown > 0)
         {
-            abilityText.SetText("Charging: " + currentCooldown);
+            abilityText.SetText("Charging: " + currentCooldown.ToString());
             yield return oneSecond;
             if(currentCooldown > 0) currentCooldown --;
         }
@@ -1228,7 +1227,7 @@ public class PlayerController : MonoBehaviour
         rb.mass *= abilityStrength;
         while(currentActivation > 0)
         {
-            abilityText.SetText("Activated: " + currentActivation);
+            abilityText.SetText("Activated: " + currentActivation.ToString());
             yield return oneSecond;
             currentActivation --;
         }
@@ -1244,7 +1243,7 @@ public class PlayerController : MonoBehaviour
         //Cooldown
         while(currentCooldown > 0)
         {
-            abilityText.SetText("Charging: " + currentCooldown);
+            abilityText.SetText("Charging: " + currentCooldown.ToString());
             yield return oneSecond;
             if(currentCooldown > 0) currentCooldown --;
         }
@@ -1268,7 +1267,7 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
         {
-            abilityText.SetText("Activated: " + currentActivation);
+            abilityText.SetText("Activated: " + currentActivation.ToString());
             yield return oneSecond;
             currentActivation --;
         }
@@ -1279,7 +1278,7 @@ public class PlayerController : MonoBehaviour
         //Cooldown
         while(currentCooldown > 0)
         {
-            abilityText.SetText("Charging: " + currentCooldown);
+            abilityText.SetText("Charging: " + currentCooldown.ToString());
             yield return oneSecond;
             if(currentCooldown > 0) currentCooldown --;
         }
@@ -1326,7 +1325,7 @@ public class PlayerController : MonoBehaviour
         //Cooldown
         while(currentCooldown > 0)
         {
-            abilityText.SetText("Charging: " + currentCooldown);
+            abilityText.SetText("Charging: " + currentCooldown.ToString());
             yield return oneSecond;
             if(currentCooldown > 0) currentCooldown --;
         }
