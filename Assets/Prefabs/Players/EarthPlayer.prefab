@@ -318,7 +318,7 @@ MonoBehaviour:
   activationTime: 10
   cooldownTime: 10
   abilityStrength: 1
-  abilityIncrease: 0.5
+  abilityIncrease: 0.2
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -327,15 +327,13 @@ MonoBehaviour:
   hitExplosions:
   - {fileID: 9183769491992783333}
   collectEffect: {fileID: 2455212675825481495}
-  forwardPercent: 30
-  backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 1461433429310268007}
   shipModel: Earth
   abilityPercent: 40
   activationTimePercent: 40
   minCooldown: 3
-  abilityCaption: +0.5 Regeneration Strength
+  abilityCaption: +0.2 Regeneration Amount
   aura: {fileID: 7906576623811564693}
   auraSystems:
   - {fileID: 5798016770675349161}

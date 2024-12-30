@@ -5178,10 +5178,10 @@ MonoBehaviour:
   agility: 4
   durability: 5
   stability: 2
-  activationTime: 10
-  cooldownTime: 10
-  abilityStrength: 1000
-  abilityIncrease: 500
+  activationTime: 20
+  cooldownTime: 20
+  abilityStrength: 500
+  abilityIncrease: 100
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -5190,15 +5190,13 @@ MonoBehaviour:
   hitExplosions:
   - {fileID: 9183769491992783333}
   collectEffect: {fileID: 1245045254538477077}
-  forwardPercent: 30
-  backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 8129901569319948940}
   shipModel: Mars
-  abilityPercent: 45
-  activationTimePercent: 45
+  abilityPercent: 35
+  activationTimePercent: 35
   minCooldown: 5
-  abilityCaption: +1 Dust Storm Strength
+  abilityCaption: +1 Dust Storm Confusion
   aura: {fileID: 1452392579131037511}
   auraSystems:
   - {fileID: 2216386516380548539}

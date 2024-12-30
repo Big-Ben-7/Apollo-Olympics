@@ -2988,8 +2988,8 @@ PrefabInstance:
         Dust
         Storm: Martian dusts confuse space pirates.
 
-        Duration: 10s         
-        Cooldown: 10s (min. 5)'
+        Duration: 20s         
+        Cooldown: 20s (min. 5)'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize

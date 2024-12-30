@@ -315,8 +315,8 @@ MonoBehaviour:
   stability: 1
   activationTime: 0
   cooldownTime: 5
-  abilityStrength: 4000
-  abilityIncrease: 2000
+  abilityStrength: 6000
+  abilityIncrease: 1000
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -325,15 +325,13 @@ MonoBehaviour:
   hitExplosions:
   - {fileID: 9183769491992783333}
   collectEffect: {fileID: 8215296936382363374}
-  forwardPercent: 30
-  backPercent: 30
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 6367987526358428599}
   shipModel: Mercury
   abilityPercent: 90
   activationTimePercent: 0
   minCooldown: 2
-  abilityCaption: +1 Ability Speed Boost
+  abilityCaption: +1 Speed Boost
   aura: {fileID: 7012232295257560415}
   auraSystems: []
   abilityMask:

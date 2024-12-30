@@ -848,6 +848,7 @@ public class PlayerController : MonoBehaviour
         thrusterParent.SetActive(true);
         if(showArrow) arrow.gameObject.SetActive(true);
         rb.isKinematic = false;
+        rb.velocity = rb.angularVelocity = Vector3.zero;
         canCollide = canTrigger = true;
         if(collided) collided = false;
     }
@@ -1221,7 +1222,7 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         speedLossDivisor = 1;
-        healthLossDivisor = 2000;
+        healthLossDivisor = (int) abilityStrength * 500;
         minHealthLoss = 0;
         deflectionForce = 0;
         rb.mass *= abilityStrength;
@@ -1299,9 +1300,7 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
         Array.Clear(surroundingColliders, 0, 10000);
-        float radius = 10000;
-        if(abilityStrength < 7000) radius = abilityStrength + 3000;
-        int colliders = Physics.OverlapSphereNonAlloc(myTransform.position, radius, surroundingColliders, abilityMask);
+        int colliders = Physics.OverlapSphereNonAlloc(myTransform.position, 10000, surroundingColliders, abilityMask);
         for(int i = 0; i < colliders; i++)
         {
             Collider collider = surroundingColliders[i];
