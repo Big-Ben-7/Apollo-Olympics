@@ -426,7 +426,6 @@ GameObject:
   - component: {fileID: 2323549195353704278}
   - component: {fileID: 3706556980605697179}
   - component: {fileID: 8982176882572341718}
-  - component: {fileID: 889457004261074744}
   m_Layer: 8
   m_Name: Cloud-Aerosol Lidar and Infrared Pathfinder Satellite
   m_TagString: Collectable
@@ -500,27 +499,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
---- !u!65 &889457004261074744
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3131469598399110636}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 110.91949, y: 33.808163, z: 39.385468}
-  m_Center: {x: 0.5758789, y: 0.5656662, z: -0.19615173}
 --- !u!1 &3248797013584978047
 GameObject:
   m_ObjectHideFlags: 0

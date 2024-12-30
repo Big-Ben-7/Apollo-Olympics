@@ -358,8 +358,10 @@ MonoBehaviour:
   stability: 4
   activationTime: 20
   cooldownTime: 20
-  abilityStrength: 500
-  abilityIncrease: 100
+  abilityStrength: 3000
+  abilityIncrease: 200
+  abilityStrength2: 180
+  abilityIncrease2: 45
   thrusterParent: {fileID: 3344193660739149652}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -371,10 +373,12 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 6480018586469105527}
   shipModel: Saturn
-  abilityPercent: 30
-  activationTimePercent: 40
+  abilityPercent: 25
+  abilityPercent2: 25
+  activationTimePercent: 25
   minCooldown: 5
   abilityCaption: +1 Ring Deflection
+  abilityCaption2: +1 Ring Rotation Speed
   aura: {fileID: 763327245692713505, guid: 7e7f0b717eb76498c93444cfba338985, type: 3}
   auraSystems:
   - {fileID: 0}

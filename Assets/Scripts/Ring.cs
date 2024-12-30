@@ -2,20 +2,16 @@ using UnityEngine;
 
 public class Ring : MonoBehaviour
 {
-    public Transform target;
+    Rigidbody rb;
+    public Rigidbody target;
     public float hitForce;
-    Transform myTransform;
-    PlayerController player;
     public Quaternion rotationOffset;
     public AudioSource audioSource;
     [SerializeField] AudioClip hitClip;
+
     void Awake()
     {
-        myTransform = transform;
-    }
-    void Start()
-    {
-        player = target.GetComponent<PlayerController>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void OnEnable()
@@ -25,32 +21,18 @@ public class Ring : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if(other.transform == target)
-        {
-            return;
-        }
-        player.canCollide = false;
         Rigidbody otherRb = other.rigidbody;
         if(!otherRb.isKinematic)
         {
-            otherRb.AddForce((other.transform.position - myTransform.position).normalized * hitForce, ForceMode.VelocityChange);
-            otherRb.AddTorque(new Vector3(Random.Range(0f, 360), Random.Range(0f, 360), Random.Range(0f, 360)) * hitForce, ForceMode.Impulse);
+            otherRb.AddForce((otherRb.position - rb.position).normalized * hitForce, ForceMode.VelocityChange);
+            otherRb.AddTorque(new Vector3(Random.Range(0, 36000), Random.Range(0, 36000), Random.Range(0, 36000)) * hitForce, ForceMode.Impulse);
         }
         audioSource.PlayOneShot(hitClip);
     }
 
-    void OnCollisionExit(Collision other)
-    {
-        if(other.transform == target)
-        {
-            return;
-        }
-        player.canCollide = true;
-    }
-
     void LateUpdate()
     {
-        myTransform.position = target.position;
-        myTransform.rotation = target.rotation * rotationOffset;
+        rb.position = target.position;
+        rb.rotation = target.rotation * rotationOffset;
     }
 }

@@ -55,7 +55,7 @@ public class Drone : MonoBehaviour
     void Update()
     {
         //Rotate to target
-        myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        myTransform.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     void FixedUpdate()
@@ -78,11 +78,11 @@ public class Drone : MonoBehaviour
                 break;
             
             case 14 or 15:
-                Vector3 direction = target.position - myTransform.position;
+                Vector3 direction = target.position - rb.position;
                 float distance = direction.sqrMagnitude;
 
                 //No explosion if drone is too far not in camera view
-                if(distance > 3000000 || (!render.isVisible && distance > 10000))
+                if(!render.isVisible && distance > 10000)
                 {
                     ResetDrone();
                     return;
@@ -120,7 +120,7 @@ public class Drone : MonoBehaviour
                 targetVelocity = targetVelocity.normalized;
             }
             confusionCalc = targetVelocity * targetRb.angularVelocity.magnitude * confusion;
-            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + confusionCalc - myTransform.position);
+            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + confusionCalc - rb.position);
             yield return attackWait;
         }
     }

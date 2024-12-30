@@ -601,7 +601,6 @@ GameObject:
   - component: {fileID: 6846836880716077601}
   - component: {fileID: 7249925092331857670}
   - component: {fileID: -1365483319980551485}
-  - component: {fileID: -6607783283373765847}
   m_Layer: 8
   m_Name: Active Cavity Irradiance Monitor Satellite
   m_TagString: Collectable
@@ -667,27 +666,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
---- !u!65 &-6607783283373765847
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6075084805237653659}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 111.81185, y: 163.25316, z: 94.92802}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7192194136062880830
 GameObject:
   m_ObjectHideFlags: 0

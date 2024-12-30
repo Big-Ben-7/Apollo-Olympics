@@ -681,9 +681,9 @@ public class SpawnManager : MonoBehaviour
                 for(int i = 0; i < asteroidNumber; i++)
                 {
                     //Random position, avoid center
-                    float randomX = UnityEngine.Random.Range(500, side);
-                    float randomY = UnityEngine.Random.Range(500, side);
-                    float randomZ = UnityEngine.Random.Range(500, side);
+                    int randomX = UnityEngine.Random.Range(500, side);
+                    int randomY = UnityEngine.Random.Range(500, side);
+                    int randomZ = UnityEngine.Random.Range(500, side);
                     if(UnityEngine.Random.Range(0, 2) == 0)
                     {
                         randomX *= -1;
@@ -699,7 +699,7 @@ public class SpawnManager : MonoBehaviour
 
                     //Spawn random asteroid
                     int asteroidIndex = UnityEngine.Random.Range(0, asteroidCount);
-                    interactable = children[i] = Instantiate(possibleAsteroids[asteroidIndex], new Vector3(randomX, randomY, randomZ), Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)), parent);
+                    interactable = children[i] = Instantiate(possibleAsteroids[asteroidIndex], new Vector3(randomX, randomY, randomZ), Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)), parent);
 
                     //Random scale
                     float newScale = UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale);
@@ -722,9 +722,9 @@ public class SpawnManager : MonoBehaviour
                 for(int i = asteroidNumber; i < interactableNumber; i++)
                 {
                     //Random position, avoid center
-                    float randomX = UnityEngine.Random.Range(500, side);
-                    float randomY = UnityEngine.Random.Range(500, side);
-                    float randomZ = UnityEngine.Random.Range(500, side);
+                    int randomX = UnityEngine.Random.Range(500, side);
+                    int randomY = UnityEngine.Random.Range(500, side);
+                    int randomZ = UnityEngine.Random.Range(500, side);
                     if(UnityEngine.Random.Range(0, 2) == 0)
                     {
                         randomX *= -1;
@@ -742,14 +742,14 @@ public class SpawnManager : MonoBehaviour
                     if(interactableType < wormholePercent)
                     {
                         //Spawn wormhole
-                        interactable = Instantiate(wormholePrefab, new Vector3(randomX, randomY, randomZ), Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)), parent);
+                        interactable = Instantiate(wormholePrefab, new Vector3(randomX, randomY, randomZ), Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)), parent);
                         interactable.transform.localScale = wormholeProportions * UnityEngine.Random.Range(minWormholeScale, maxWormholeScale);
                     }
                     else
                     {
                         //Spawn random collectable
                         int collectableIndex = UnityEngine.Random.Range(0, collectableCount);
-                        interactable = Instantiate(possibleCollectables[collectableIndex], new Vector3(randomX, randomY, randomZ), Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)), parent);
+                        interactable = Instantiate(possibleCollectables[collectableIndex], new Vector3(randomX, randomY, randomZ), Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)), parent);
                         interactable.GetComponent<Collectable>().rotation = new Vector3(UnityEngine.Random.Range(-maxRotationSpeed, maxRotationSpeed), UnityEngine.Random.Range(-maxRotationSpeed, maxRotationSpeed), UnityEngine.Random.Range(-maxRotationSpeed, maxRotationSpeed));
                         
                         //Break down satellites
@@ -779,11 +779,11 @@ public class SpawnManager : MonoBehaviour
                 {
                     //Spawn random asteroid
                     int asteroidIndex = UnityEngine.Random.Range(0, asteroidCount);
-                    interactable = children[i] = Instantiate(possibleAsteroids[asteroidIndex], Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)), parent);
+                    interactable = children[i] = Instantiate(possibleAsteroids[asteroidIndex], Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)), parent);
 
                     //Random position and scale
-                    interactable.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
-                    float newScale = UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale);
+                    interactable.transform.localPosition = new Vector3(UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side));
+                    int newScale = UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale);
                     interactable.transform.localScale = new Vector3(UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale), UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale), UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale));
                     Rigidbody rb = rbs[i] = interactable.GetComponent<Rigidbody>();
                     rb.mass = newScale * 2;
@@ -806,14 +806,14 @@ public class SpawnManager : MonoBehaviour
                     if(interactableType < wormholePercent)
                     {
                         //Spawn wormhole
-                        interactable = Instantiate(wormholePrefab, Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)), parent);
+                        interactable = Instantiate(wormholePrefab, Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)), parent);
                         interactable.transform.localScale = wormholeProportions * UnityEngine.Random.Range(minWormholeScale, maxWormholeScale);
                     }
                     else
                     {
                         //Spawn random collectable
                         int collectableIndex = UnityEngine.Random.Range(0, collectableCount);
-                        interactable = Instantiate(possibleCollectables[collectableIndex], Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)), parent);
+                        interactable = Instantiate(possibleCollectables[collectableIndex], Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)), parent);
                         interactable.GetComponent<Collectable>().rotation = new Vector3(UnityEngine.Random.Range(-maxRotationSpeed, maxRotationSpeed), UnityEngine.Random.Range(-maxRotationSpeed, maxRotationSpeed), UnityEngine.Random.Range(-maxRotationSpeed, maxRotationSpeed));
                         
                         //Break down satellites
@@ -833,7 +833,7 @@ public class SpawnManager : MonoBehaviour
                         }
                     }
 
-                    interactable.transform.localPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+                    interactable.transform.localPosition = new Vector3(UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side));
                     children[i] = interactable;
                 }
                 break;
@@ -843,11 +843,11 @@ public class SpawnManager : MonoBehaviour
                 {
                     //Spawn random asteroid
                     int asteroidIndex = UnityEngine.Random.Range(0, asteroidCount);
-                    interactable = children[i] = Instantiate(possibleAsteroids[asteroidIndex], Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)), parent);
+                    interactable = children[i] = Instantiate(possibleAsteroids[asteroidIndex], Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)), parent);
                     interactable.SetActive(false);
 
                     //Random scale
-                    float newScale = UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale);
+                    int newScale = UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale);
                     interactable.transform.localScale = new Vector3(UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale), UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale), UnityEngine.Random.Range(minAsteroidScale, maxAsteroidScale));
                     Rigidbody rb = rbs[i] = interactable.GetComponent<Rigidbody>();
                     rb.mass = newScale * 2;
@@ -859,7 +859,7 @@ public class SpawnManager : MonoBehaviour
                     if(interactableType < wormholePercent)
                     {
                         //Spawn wormhole
-                        interactable = Instantiate(wormholePrefab, Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)), parent);
+                        interactable = Instantiate(wormholePrefab, Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)), parent);
                         interactable.transform.localScale = wormholeProportions * UnityEngine.Random.Range(minWormholeScale, maxWormholeScale);
                         interactable.SetActive(false);
                     }
@@ -867,7 +867,7 @@ public class SpawnManager : MonoBehaviour
                     {
                         //Spawn random collectable
                         int collectableIndex = UnityEngine.Random.Range(0, collectableCount);
-                        interactable = Instantiate(possibleCollectables[collectableIndex], Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)), parent);
+                        interactable = Instantiate(possibleCollectables[collectableIndex], Vector3.zero, Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)), parent);
                         interactable.GetComponent<Collectable>().rotation = new Vector3(UnityEngine.Random.Range(-maxRotationSpeed, maxRotationSpeed), UnityEngine.Random.Range(-maxRotationSpeed, maxRotationSpeed), UnityEngine.Random.Range(-maxRotationSpeed, maxRotationSpeed));
                         interactable.SetActive(false);
                         
@@ -1113,7 +1113,7 @@ public class SpawnManager : MonoBehaviour
                             }
 
                             //Random position and force
-                            Vector3 newPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+                            Vector3 newPosition = new Vector3(UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side));
                             if((newPos + newPosition).sqrMagnitude < lastCheckpointDistance)
                             {
                                 child.transform.localPosition = newPosition;
@@ -1129,7 +1129,7 @@ public class SpawnManager : MonoBehaviour
                         {
                             //Random position
                             GameObject child = children[j];
-                            Vector3 newPosition = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+                            Vector3 newPosition = new Vector3(UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side));
                             if((newPos + newPosition).sqrMagnitude < lastCheckpointDistance)
                             {
                                 child.transform.localPosition = newPosition;
@@ -1307,7 +1307,7 @@ public class SpawnManager : MonoBehaviour
             }
 
             //Random position and force
-            Vector3 newPos = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+            Vector3 newPos = new Vector3(UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side));
             if((sectionPos + newPos).sqrMagnitude < lastCheckpointDistance)
             {
                 child.transform.localPosition = newPos;
@@ -1327,7 +1327,7 @@ public class SpawnManager : MonoBehaviour
         {
             //Random position
             GameObject child = children[i];
-            Vector3 newPos = new Vector3(UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side), UnityEngine.Random.Range((float) -side, side));
+            Vector3 newPos = new Vector3(UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side), UnityEngine.Random.Range(-side, side));
             if((sectionPos + newPos).sqrMagnitude < lastCheckpointDistance)
             {
                 child.transform.localPosition = newPos;

@@ -609,7 +609,6 @@ GameObject:
   - component: {fileID: 7069962300228795670}
   - component: {fileID: 4905700486087310678}
   - component: {fileID: -9090002316934927351}
-  - component: {fileID: 8176149268913147214}
   m_Layer: 8
   m_Name: Jason-1
   m_TagString: Collectable
@@ -677,27 +676,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
---- !u!65 &8176149268913147214
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7590357491821193132}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 738.19214, y: 222.08604, z: 337.33984}
-  m_Center: {x: 0, y: 0, z: 30}
 --- !u!1 &7790024599194547685
 GameObject:
   m_ObjectHideFlags: 0

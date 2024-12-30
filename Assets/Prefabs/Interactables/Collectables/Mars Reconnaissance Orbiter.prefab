@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2526931612099842061}
   - component: {fileID: 4801332541158618181}
   - component: {fileID: -3838453883340470139}
-  - component: {fileID: 8999985633901331959}
   m_Layer: 8
   m_Name: Mars Reconnaissance Orbiter
   m_TagString: Collectable
@@ -126,24 +125,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
---- !u!65 &8999985633901331959
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4040162732614693336}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.7579731, y: 0.36864847, z: 0.31759676}
-  m_Center: {x: 0, y: 0.03, z: 0.05}

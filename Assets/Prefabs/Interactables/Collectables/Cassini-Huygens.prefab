@@ -426,7 +426,6 @@ GameObject:
   - component: {fileID: 4875299605962253911}
   - component: {fileID: 2106714121506635435}
   - component: {fileID: 5924710341124599801}
-  - component: {fileID: 4219271034797236468}
   m_Layer: 8
   m_Name: Cassini-Huygens
   m_TagString: Collectable
@@ -484,27 +483,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
---- !u!65 &4219271034797236468
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5252142220861717741}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 20.657782, y: 15.674031, z: 15.929207}
-  m_Center: {x: 0, y: -2.3028526, z: -4.369526}
 --- !u!1 &5493395031734465051
 GameObject:
   m_ObjectHideFlags: 0

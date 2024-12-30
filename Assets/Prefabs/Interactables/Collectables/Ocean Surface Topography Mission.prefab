@@ -1838,7 +1838,6 @@ GameObject:
   - component: {fileID: 6355430670962251516}
   - component: {fileID: 2577072338141400165}
   - component: {fileID: 3588410633276675670}
-  - component: {fileID: 6329583188989058218}
   m_Layer: 8
   m_Name: Ocean Surface Topography Mission
   m_TagString: Collectable
@@ -1931,27 +1930,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
---- !u!65 &6329583188989058218
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6014792775208504390}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.5365753, y: 1.256096, z: 0.8886558}
-  m_Center: {x: 0.005570435, y: 0.0167016, z: -0.03897139}
 --- !u!1 &6335025611575210260
 GameObject:
   m_ObjectHideFlags: 0

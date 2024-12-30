@@ -427,7 +427,6 @@ GameObject:
   - component: {fileID: 5612474687048132762}
   - component: {fileID: 700493782641066713}
   - component: {fileID: -3656223253568565317}
-  - component: {fileID: 7493017145268125218}
   m_Layer: 8
   m_Name: ParkerSolarProbe
   m_TagString: Collectable
@@ -485,27 +484,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
---- !u!65 &7493017145268125218
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5091410988160283168}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 6.1470585, y: 6.0110164, z: 7.8929787}
-  m_Center: {x: 0, y: 0, z: 1.4738253}
 --- !u!1 &5094830428904776822
 GameObject:
   m_ObjectHideFlags: 0

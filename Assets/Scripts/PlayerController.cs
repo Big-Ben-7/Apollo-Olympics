@@ -291,7 +291,7 @@ public class PlayerController : MonoBehaviour
                 ability = Atmosphere();
                 aura = Instantiate(aura);
                 Atmosphere atmosphere = aura.GetComponent<Atmosphere>();
-                atmosphere.target = myTransform;
+                atmosphere.target = rb;
                 atmosphere.audioSource = audioSource;
                 Transform graphic = aura.transform.GetChild(0);
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
@@ -316,7 +316,7 @@ public class PlayerController : MonoBehaviour
                 ability = Ring();
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
-                ring.target = myTransform;
+                ring.target = rb;
                 ring.audioSource = audioSource;
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
@@ -327,7 +327,7 @@ public class PlayerController : MonoBehaviour
                 ability = Ring();
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
-                ring.target = myTransform;
+                ring.target = rb;
                 ring.audioSource = audioSource;
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
@@ -448,11 +448,11 @@ public class PlayerController : MonoBehaviour
             switch(shipModel)
             {
                 case "Saturn":
-                    ring.rotationOffset *= Quaternion.Euler(new Vector3(360, 0, 0) * Time.deltaTime);
+                    ring.rotationOffset *= Quaternion.Euler(new Vector3(abilityStrength2, 0, 0) * Time.deltaTime);
                     break;
                 
                 case "Uranus":
-                    ring.rotationOffset *= Quaternion.Euler(new Vector3(0, 360, 0) * Time.deltaTime);
+                    ring.rotationOffset *= Quaternion.Euler(new Vector3(0, abilityStrength2, 0) * Time.deltaTime);
                     break;
             }
         }
@@ -542,7 +542,7 @@ public class PlayerController : MonoBehaviour
         fireSource.volume = thrusterVolume;
         thrusterSource.volume = thrusterVolume;
 
-        Vector3 position = myTransform.position;
+        Vector3 position = rb.position;
         float posMag = position.magnitude;
 
         //Check if passed section
@@ -592,7 +592,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(posMag >= lastCheckpointDistance)
         {
-            rb.AddForce(-myTransform.position.normalized * 2000, ForceMode.VelocityChange);
+            rb.AddForce(-rb.position.normalized * 2000, ForceMode.VelocityChange);
             StartCoroutine(ChangeTextColor(distanceText, fifthSecond, Color.white, Color.red));
             audioSource.PlayOneShot(errorSound);
         }
@@ -608,13 +608,13 @@ public class PlayerController : MonoBehaviour
     void LateUpdate()
     {
         if(rb.isKinematic) return;
-        droneGroup.position = myTransform.position;
+        droneGroup.position = rb.position;
 
         if(!showArrow) return;
         arrow.localPosition = Vector3.zero;
-        arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, Vector3.up);
+        arrow.rotation = Quaternion.LookRotation(rb.position.normalized, Vector3.up);
         Vector3 rot = arrow.rotation.eulerAngles;
-        arrow.rotation = Quaternion.Euler(rot.x, rot.y, myTransform.rotation.eulerAngles.z);
+        arrow.rotation = Quaternion.Euler(rot.x, rot.y, rb.rotation.eulerAngles.z);
     }
 
     void FixedUpdate()
@@ -699,12 +699,13 @@ public class PlayerController : MonoBehaviour
 
         collided = true;
         float speed = rb.velocity.magnitude;
-        float otherSpeed = other.rigidbody.velocity.magnitude;
+        Rigidbody otherRb = other.rigidbody;
+        float otherSpeed = otherRb.velocity.magnitude;
         if(otherSpeed > speed) speed = otherSpeed;
-        Vector3 otherPos = other.transform.position;
-        rb.AddForce((myTransform.position - otherPos).normalized * speed, ForceMode.VelocityChange);
+        Vector3 otherPos = otherRb.position;
+        rb.AddForce((rb.position - otherPos).normalized * speed, ForceMode.VelocityChange);
         Vector3 otherPosLocal = myTransform.InverseTransformPoint(otherPos);
-        rb.AddTorque(new Vector3(-otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-1f, 1)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
+        rb.AddTorque(new Vector3(-otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
 
         if(!other.gameObject.CompareTag("Drone"))
         {
@@ -941,7 +942,7 @@ public class PlayerController : MonoBehaviour
     public IEnumerator SetDroneCaption(WaitForSeconds wait)
     {
         string text = caption.text;
-        if(crashCaptions.Contains(text) || droneCaptions.Contains(text)) yield break;
+        if(crashCaptions.Contains(text) || droneCaptions.Contains(text) || collided) yield break;
         string phrase = droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)];
         caption.SetText(phrase);
         yield return wait;
@@ -994,10 +995,10 @@ public class PlayerController : MonoBehaviour
                     {
                         AddCheckpoint(playerCheckpoint);
                         playerCheckpoint ++;
-                        distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
+                        distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                         break;
                     }
-                    distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - 20);
+                    distance = UnityEngine.Random.Range(0, checkpointDistances[playerCheckpoint] - 200);
                     break;
 
                 case 1:
@@ -1005,17 +1006,17 @@ public class PlayerController : MonoBehaviour
                     {
                         AddCheckpoint(playerCheckpoint);
                         playerCheckpoint ++;
-                        distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
+                        distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                         break;
                     }
                     else if(direction < forwardPercent + backPercent)
                     {
                         playerCheckpoint --;
                         RemoveCheckpoint(playerCheckpoint);
-                        distance = UnityEngine.Random.Range(0f, checkpointDistances[playerCheckpoint] - 5);
+                        distance = UnityEngine.Random.Range(0, checkpointDistances[playerCheckpoint] - 200);
                         break;
                     }
-                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
+                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                     break;
                 
                 case 8:
@@ -1024,7 +1025,7 @@ public class PlayerController : MonoBehaviour
                         playerCheckpoint --;
                         RemoveCheckpoint(playerCheckpoint);
                     }
-                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
+                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                     break;
 
                 default:
@@ -1038,13 +1039,13 @@ public class PlayerController : MonoBehaviour
                         playerCheckpoint --;
                         RemoveCheckpoint(playerCheckpoint);
                     }
-                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 20, checkpointDistances[playerCheckpoint] - 20);
+                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                     break;
             }
         }
-        else distance = UnityEngine.Random.Range(0f, 99080);
+        else distance = UnityEngine.Random.Range(0, lastCheckpointDistance - 200);
 
-        Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), 0) * new Vector3(0, 0, distance);
+        Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), 0) * new Vector3(0, 0, distance);
         rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);
         audioSource.PlayOneShot(wormholeSound);
@@ -1302,7 +1303,7 @@ public class PlayerController : MonoBehaviour
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
-        int colliders = Physics.OverlapSphereNonAlloc(myTransform.position, abilityStrength2, surroundingColliders, abilityMask);
+        int colliders = Physics.OverlapSphereNonAlloc(rb.position, abilityStrength2, surroundingColliders, abilityMask);
         for(int i = 0; i < colliders; i++)
         {
             Collider collider = surroundingColliders[i];
@@ -1313,12 +1314,12 @@ public class PlayerController : MonoBehaviour
             }
             if(collider.gameObject.CompareTag("Drone"))
             {
-                collider.GetComponent<Drone>().Explode(collider.transform.position, myTransform);
+                collider.GetComponent<Drone>().Explode(otherRb.position, myTransform);
             }
             else
             {
-                otherRb.AddForce((collider.transform.position - myTransform.position).normalized * abilityStrength, ForceMode.VelocityChange);
-                otherRb.AddTorque(new Vector3(UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360), UnityEngine.Random.Range(0f, 360)) * abilityStrength, ForceMode.Impulse);
+                otherRb.AddForce((otherRb.position - rb.position).normalized * abilityStrength, ForceMode.VelocityChange);
+                otherRb.AddTorque(new Vector3(UnityEngine.Random.Range(0, 720), UnityEngine.Random.Range(0, 720), UnityEngine.Random.Range(0, 720)) * abilityStrength, ForceMode.Impulse);
             }
         }
         resetting = StartCoroutine(ResetAura(oneSecond));

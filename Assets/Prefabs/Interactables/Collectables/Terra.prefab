@@ -1092,7 +1092,6 @@ GameObject:
   - component: {fileID: 3764981586510147050}
   - component: {fileID: 319887211905323604}
   - component: {fileID: 8378411609411706354}
-  - component: {fileID: 2228872219520199486}
   m_Layer: 8
   m_Name: Terra
   m_TagString: Collectable
@@ -1171,27 +1170,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation: {x: 0, y: 0, z: 0}
---- !u!65 &2228872219520199486
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4572339319366399824}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 321.61603, y: 189.98438, z: 150.92139}
-  m_Center: {x: 81.80322, y: -0.34877014, z: 2.4414368}
 --- !u!1 &4606803325774393856
 GameObject:
   m_ObjectHideFlags: 0
