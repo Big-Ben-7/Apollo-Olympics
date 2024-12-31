@@ -89,7 +89,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] AudioClip errorSound;
     [SerializeField] AudioClip buySound;
     
-    public static bool loaded;
+    bool setting;
     public static int playerNumber;
     public static bool raceMode;
     public static int difficulty;
@@ -114,7 +114,7 @@ public class MenuManager : MonoBehaviour
 
     void Awake()
     {
-        loaded = false;
+        setting = false;
 
         for(int i = 0; i < 4; i++)
         {
@@ -249,7 +249,7 @@ public class MenuManager : MonoBehaviour
 
         DebugManager.instance.enableRuntimeUI = false;
         backgroundMusic.Play();
-        loaded = true;
+        setting = true;
     }
 
     void Update()
@@ -619,7 +619,7 @@ public class MenuManager : MonoBehaviour
 
     public void ResetPrefs()
     {
-        loaded = false;
+        setting = false;
 
         for(int i = 0; i < 4; i++)
         {
@@ -688,7 +688,7 @@ public class MenuManager : MonoBehaviour
         foreach(InputActionMap map in InputSystem.actions.actionMaps) map.RemoveAllBindingOverrides();
         PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
 
-        loaded = true;
+        setting = true;
         MajorClick();
     }
 
@@ -745,12 +745,12 @@ public class MenuManager : MonoBehaviour
 
     public void MinorClick()
     {
-        if(loaded) audioSource.PlayOneShot(minorClick);
+        if(setting) audioSource.PlayOneShot(minorClick);
     }
 
     public void MajorClick()
     {
-        if(loaded) audioSource.PlayOneShot(majorClick);
+        if(setting) audioSource.PlayOneShot(majorClick);
     }
 
     IEnumerator ResetEffect(GameObject effect, WaitForSeconds wait, bool sound = false)
