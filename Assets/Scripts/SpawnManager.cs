@@ -459,7 +459,7 @@ public class SpawnManager : MonoBehaviour
         audioSource.PlayOneShot(goSound);
         InputSystem.actions.Disable();
         InputSystem.actions.Enable();
-        paused = false;
+        paused = PlayerController.paused = false;
     }
     void Update()
     {
@@ -561,7 +561,7 @@ public class SpawnManager : MonoBehaviour
 
     public void Pause()
     {
-        paused = true;
+        paused = PlayerController.paused = true;
         menu.SetActive(true);
         if(cursorHide)
         {
@@ -599,7 +599,7 @@ public class SpawnManager : MonoBehaviour
             allAudio[i].UnPause();
         }
         audioSource.PlayOneShot(pauseSound);
-        paused = false;
+        paused = PlayerController.paused = false;
     }
 
     public void RacePlay()
@@ -662,7 +662,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator LoadScene(int index)
     {
         yield return oneRealSecond;
-        paused = false;
+        paused = PlayerController.paused = false;
         Time.timeScale = 1;
         SceneManager.LoadSceneAsync(index);
     }

@@ -1,19 +1,20 @@
 using System.Collections;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Drone : MonoBehaviour
 {
     [Header("Attack")]
     [SerializeField] int spawnRadius;
-    [SerializeField] float updateInterval;
     [SerializeField] float minAttackForce;
     [SerializeField] float maxAttackForce;
-    [SerializeField] float rotationSpeed;
     [SerializeField] float confusion;
-    public float offset;
-    WaitForSeconds attackWait;
+    [SerializeField] float maxWait;
     WaitForSeconds randomWait;
+    Vector3 randomOffset;
+    public float offset;
     Vector3 confusionCalc;
+    bool waiting;
 
     [Header("Explosion")]
     [SerializeField] GameObject explosion;
@@ -24,7 +25,6 @@ public class Drone : MonoBehaviour
     public static WaitForSeconds twoSeconds;
 
     float attackForce;
-    Quaternion targetRotation;
     public Transform target;
     Rigidbody rb;
     public Rigidbody targetRb;
@@ -42,8 +42,8 @@ public class Drone : MonoBehaviour
         myTransform = transform;
         explosionTransform = explosion.transform;
         explosionSoundsLength = explosionSounds.Length;
-        attackWait = new WaitForSeconds(updateInterval);
-        randomWait = new WaitForSeconds(Random.Range(0f, updateInterval));
+        randomWait = new WaitForSeconds(Random.Range(0f, maxWait));
+        randomOffset = new Vector3(Random.Range(-2f, 2), Random.Range(-2f, 2), Random.Range(-2f, 2));
         render = gameObject.GetComponent<MeshRenderer>();
     }
 
@@ -54,8 +54,16 @@ public class Drone : MonoBehaviour
 
     void Update()
     {
-        //Rotate to target
-        myTransform.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        if(waiting) return;
+
+        //Update target position
+        Vector3 targetVelocity = targetRb.velocity;
+        if(targetVelocity.sqrMagnitude > 1)
+        {
+            targetVelocity = targetVelocity.normalized;
+        }
+        confusionCalc = targetVelocity * targetRb.angularVelocity.magnitude * confusion;
+        myTransform.LookAt(target.position + randomOffset + target.forward * offset + confusionCalc);
     }
 
     void FixedUpdate()
@@ -78,7 +86,7 @@ public class Drone : MonoBehaviour
                 break;
             
             case 14 or 15:
-                Vector3 direction = target.position - rb.position;
+                Vector3 direction = target.position - myTransform.position;
                 float distance = direction.sqrMagnitude;
 
                 //No explosion if drone is too far not in camera view
@@ -93,7 +101,7 @@ public class Drone : MonoBehaviour
                 if(offset > 0 || !showCaptions) return;
 
                 //Show caption if drone is outmaneuvered
-                if(confusionCalc.sqrMagnitude > 250000 || distance < 1200000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                if(confusionCalc.sqrMagnitude > 250000 || distance < 900000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
                 break;
             
             default:
@@ -105,24 +113,6 @@ public class Drone : MonoBehaviour
     void OnCollisionExit(Collision other)
     {
         collided = false;
-    }
-
-    IEnumerator UpdateTarget()
-    {
-        yield return randomWait;
-
-        //Update target position
-        while(true)
-        {
-            Vector3 targetVelocity = targetRb.velocity;
-            if(targetVelocity.sqrMagnitude > 1)
-            {
-                targetVelocity = targetVelocity.normalized;
-            }
-            confusionCalc = targetVelocity * targetRb.angularVelocity.magnitude * confusion;
-            targetRotation = Quaternion.LookRotation(target.position + target.forward * offset + confusionCalc - rb.position);
-            yield return attackWait;
-        }
     }
 
     public void Explode(Vector3 pos, Transform parent = null)
@@ -138,14 +128,20 @@ public class Drone : MonoBehaviour
     public void ResetDrone()
     {
         //Set random position/rotation around player and random attack
-        StopCoroutine(UpdateTarget());
+        waiting = true;
         myTransform.localPosition = new Vector3(0, 0, spawnRadius);
         Vector3 targetPos = target.position;
         myTransform.RotateAround(targetPos, Vector3.up, Random.Range(0f, 360));
         myTransform.RotateAround(targetPos, Vector3.forward, Random.Range(0f, 360));
         myTransform.RotateAround(targetPos, Vector3.right, Random.Range(0f, 360));
         attackForce = Random.Range(minAttackForce, maxAttackForce);
-        StartCoroutine(UpdateTarget());
+        StartCoroutine(Wait());
+    }
+
+    IEnumerator Wait()
+    {
+        yield return randomWait;
+        waiting = false;
     }
 
     IEnumerator ResetEffect(GameObject effect, WaitForSeconds wait)

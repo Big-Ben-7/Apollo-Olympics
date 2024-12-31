@@ -1595,7 +1595,7 @@ MonoBehaviour:
   collectableNumbers: 0a000000080000000600000004000000
   collectCollectableMultiplier: 5
   partDisablePercent: 50
-  maxMovementForce: 60
+  maxMovementForce: 200
   maxRotationForce: 0.2
   maxRotationSpeed: 30
   wormholePercent: 3

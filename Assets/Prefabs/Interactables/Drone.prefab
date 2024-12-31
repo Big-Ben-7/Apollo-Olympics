@@ -100,11 +100,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnRadius: 4000
-  updateInterval: 2
-  minAttackForce: 1000
-  maxAttackForce: 2000
-  rotationSpeed: 20
+  minAttackForce: 1500
+  maxAttackForce: 2500
   confusion: 200
+  maxWait: 10
   offset: 0
   explosion: {fileID: 3521837129305150364}
   explosionSounds:

@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
         "Down, but not out!",
         "Nice Try!",
         "The best is yet to come...",
-        "Ready to bounce back",
+        "Time to bounce back!",
         "Persistance is Key",
         "Inspirational Effort"
     };
@@ -207,6 +207,7 @@ public class PlayerController : MonoBehaviour
     public static bool showCaptions;
     bool raceMode;
     public static bool showArrow;
+    public static bool paused = true;
 
     void Awake()
     {
@@ -419,7 +420,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(spawnManager.paused) return;
+        if(paused) return;
 
         //Activate special ability
         if(abilityAction.WasPressedThisFrame())
@@ -458,76 +459,52 @@ public class PlayerController : MonoBehaviour
         }
 
         float speed = rb.velocity.magnitude;
-        if(!rb.isKinematic)
+
+        //Movement input
+        rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), -rollAction.ReadValue<float>());
+        thrust = thrustAction.ReadValue<float>();
+
+        //Thrust/glide control
+        float accIncrement = acc * Time.deltaTime;
+        float dec = 1;
+        float decThreshold = initialThrustSpeed;
+        if(decMultiplier != 1)
         {
-            //Movement input
-            rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), -rollAction.ReadValue<float>());
-            thrust = thrustAction.ReadValue<float>();
-
-            //Thrust/glide control
-            float accIncrement = acc * Time.deltaTime;
-            float dec = 1;
-            float decThreshold = initialThrustSpeed;
-            if(decMultiplier != 1)
-            {
-                dec = Mathf.Pow(decMultiplier, Time.deltaTime * 60);
-                decThreshold = initialThrustSpeed / dec;
-            }
-            float accThreshold = maxThrustSpeed - accIncrement;
-            switch(thrust)
-            {
-                case > 0:
-                    if(glideSpeed != thrustSpeed) glideSpeed = thrustSpeed;
-                    
-                    if(thrustSpeed < accThreshold) thrustSpeed += accIncrement;
-                    else if(thrustSpeed != maxThrustSpeed) thrustSpeed = maxThrustSpeed;
-                    
-                    if(decSpeed > decThreshold && dec != 1) decSpeed *= dec;
-                    else if(decSpeed != initialThrustSpeed) decSpeed = initialThrustSpeed;
-                    
-                    break;
-
-                case < 0:
-                    /*if(glideSpeed != -decSpeed)
-                    {
-                        glideSpeed = -decSpeed;
-                    }*/
-                    if(glideSpeed != 0) glideSpeed = 0;
-
-                    if(decSpeed < accThreshold) decSpeed += accIncrement;
-                    else if(decSpeed != maxThrustSpeed) decSpeed = maxThrustSpeed;
-
-                    if(thrustSpeed > decThreshold && dec != 1) thrustSpeed *= dec;
-                    else if(thrustSpeed != initialThrustSpeed) thrustSpeed = initialThrustSpeed;
-
-                    break;
-                
-                /*default:
-                    float newGlide = glideSpeed - glideDrag * Time.deltaTime;
-                    if(newGlide > 0) glideSpeed = newGlide;
-                    else glideSpeed = 0;
-                    /*switch(glideSpeed)
-                    {
-                        case > 0:
-                            
-                        case < 0:
-                            newGlide = glideSpeed + glideDrag * Time.deltaTime;
-                            if(newGlide < 0)
-                            {
-                                glideSpeed = newGlide;
-                            }
-                            else
-                            {
-                                glideSpeed = 0;
-                            }
-                            break;
-                    }
-                    break;*/
-            }
-        
-            //Show speed in km/h, multiply by 2.23694 for mph
-            speedText.SetText("Speed: " + (speed * 3.6f).ToString("0.00"));
+            dec = Mathf.Pow(decMultiplier, Time.deltaTime * 60);
+            decThreshold = initialThrustSpeed / dec;
         }
+        float accThreshold = maxThrustSpeed - accIncrement;
+        switch(thrust)
+        {
+            case > 0:
+                if(glideSpeed != thrustSpeed) glideSpeed = thrustSpeed;
+                
+                if(thrustSpeed < accThreshold) thrustSpeed += accIncrement;
+                else if(thrustSpeed != maxThrustSpeed) thrustSpeed = maxThrustSpeed;
+                
+                if(decSpeed > decThreshold && dec != 1) decSpeed *= dec;
+                else if(decSpeed != initialThrustSpeed) decSpeed = initialThrustSpeed;
+                
+                break;
+
+            case < 0:
+                /*if(glideSpeed != -decSpeed)
+                {
+                    glideSpeed = -decSpeed;
+                }*/
+                if(glideSpeed != 0) glideSpeed = 0;
+
+                if(decSpeed < accThreshold) decSpeed += accIncrement;
+                else if(decSpeed != maxThrustSpeed) decSpeed = maxThrustSpeed;
+
+                if(thrustSpeed > decThreshold && dec != 1) thrustSpeed *= dec;
+                else if(thrustSpeed != initialThrustSpeed) thrustSpeed = initialThrustSpeed;
+
+                break;
+        }
+    
+        //Show speed in km/h, multiply by 2.23694 for mph
+        speedText.SetText("Speed: " + (speed * 3.6f).ToString("0.00"));
 
         //Change thruster effect based on speed
         float thrusterSpeed = speed / thrusterSpeedDivisor;
@@ -607,7 +584,7 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
-        if(rb.isKinematic) return;
+        if(paused) return;
         droneGroup.position = rb.position;
 
         if(!showArrow) return;
@@ -619,7 +596,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(rb.isKinematic) return;
+        if(paused) return;
 
         //Roll, pitch, yaw
         if(rotation != Vector3.zero) rb.AddRelativeTorque(rotation * rotationSpeed, ForceMode.Acceleration);
@@ -750,7 +727,7 @@ public class PlayerController : MonoBehaviour
         {
             case <= 0:
                 canCollide = canTrigger = false;
-                rb.isKinematic = true;
+                rb.isKinematic = paused = true;
 
                 dieExplosion.transform.position = other.GetContact(0).point;
                 dieExplosion.SetActive(true);
@@ -851,7 +828,7 @@ public class PlayerController : MonoBehaviour
         graphic.SetActive(true);
         thrusterParent.SetActive(true);
         if(showArrow) arrow.gameObject.SetActive(true);
-        rb.isKinematic = false;
+        rb.isKinematic = paused = false;
         rb.velocity = rb.angularVelocity = Vector3.zero;
         canCollide = canTrigger = true;
         if(collided) collided = false;
