@@ -955,6 +955,7 @@ public class PlayerController : MonoBehaviour
     public void Finish()
     {
         gameObject.SetActive(false);
+        cameraStats.parent.position = rb.position.normalized * 1000;
         if(showCaptions) caption.gameObject.SetActive(false);
         abilityText.gameObject.SetActive(false);
         finishBackground.SetActive(true);

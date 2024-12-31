@@ -347,7 +347,7 @@ public class SpawnManager : MonoBehaviour
         newScale = checkpointDistances[lastCheckpoint] * 2;
         Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
         finish.localScale = new Vector3(newScale, newScale, newScale);
-        finish.GetComponent<Renderer>().material = finishMat;
+        finish.GetComponent<Renderer>().sharedMaterial = finishMat;
         lastCheckpointDistance = PlayerController.lastCheckpointDistance = checkpointDistances[lastCheckpoint];
         lastCheckpointDistance = lastCheckpointDistance * lastCheckpointDistance;
 
@@ -509,6 +509,7 @@ public class SpawnManager : MonoBehaviour
                         //Game over
                         finished = true;
                         sectionParent.gameObject.SetActive(false);
+                        checkpointParent.gameObject.SetActive(false);
                         int[] collectsList = new int[playerNumber];
                         int[] sortedList = new int[playerNumber];
                         for(int i = 0; i < playerNumber; i++)
