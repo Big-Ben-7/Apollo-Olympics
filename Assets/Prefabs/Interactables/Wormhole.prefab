@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5739618919291857254}
   - component: {fileID: 5898729871911122894}
   - component: {fileID: 726196870114761369}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: CircleSparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4852,7 +4852,7 @@ GameObject:
   - component: {fileID: 3339390747418099020}
   - component: {fileID: 5918506390017164892}
   - component: {fileID: 30167350272502335}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Wormhole
   m_TagString: Wormhole
   m_Icon: {fileID: 0}
@@ -9776,7 +9776,7 @@ GameObject:
   - component: {fileID: 5938460744868138423}
   - component: {fileID: 7769349589532163619}
   - component: {fileID: 3508515993572166719}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Distortion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14664,7 +14664,7 @@ GameObject:
   - component: {fileID: 9153479286804148983}
   - component: {fileID: 7149508684990454401}
   - component: {fileID: 6560384534278263821}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}

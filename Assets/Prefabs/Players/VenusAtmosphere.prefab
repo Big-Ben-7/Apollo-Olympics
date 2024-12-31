@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5489231392641260471}
   m_Layer: 13
   m_Name: Circle
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4903,7 +4903,7 @@ GameObject:
   - component: {fileID: 6890027678863349368}
   m_Layer: 13
   m_Name: VenusAtmosphere
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5021,7 +5021,7 @@ GameObject:
   - component: {fileID: 6416699024257160788}
   m_Layer: 13
   m_Name: Trails
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9918,7 +9918,7 @@ GameObject:
   - component: {fileID: 121542649891933017}
   m_Layer: 13
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14806,7 +14806,7 @@ GameObject:
   - component: {fileID: 5069726808135674687}
   m_Layer: 13
   m_Name: Graphic
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -6404741377486238372}
   m_Layer: 13
   m_Name: UranusRing
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6915710208763588696}
   m_Layer: 13
   m_Name: Collider (1)
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11790,7 +11790,7 @@ GameObject:
   - component: {fileID: 4413257086641437869}
   m_Layer: 13
   m_Name: Graphic
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16684,7 +16684,7 @@ GameObject:
   - component: {fileID: 809166670722122337}
   m_Layer: 13
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28378,7 +28378,7 @@ GameObject:
   - component: {fileID: 4476609532088043296}
   m_Layer: 13
   m_Name: Distortion
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33266,7 +33266,7 @@ GameObject:
   - component: {fileID: 6356130715314607700}
   m_Layer: 13
   m_Name: CircleSparks
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38105,7 +38105,7 @@ GameObject:
   - component: {fileID: 2988545038970845200}
   m_Layer: 13
   m_Name: Smoke
-  m_TagString: Untagged
+  m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -14,7 +14,7 @@ public class Atmosphere : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.CompareTag("Drone") || other.gameObject.layer == 13) return;
+        if(other.gameObject.CompareTag("Drone") || other.gameObject.CompareTag("Aura")) return;
         Rigidbody otherRb = other.rigidbody;
         Vector3 direction = otherRb.position - rb.position;
         otherRb.AddForce(direction * 2, ForceMode.VelocityChange);

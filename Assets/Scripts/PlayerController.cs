@@ -64,8 +64,8 @@ public class PlayerController : MonoBehaviour
     //Movement control
     Rigidbody rb;
     public Transform myTransform;
-    string playerNumberString;
-    int playerIndex;
+    public string playerNumberString;
+    public int playerIndex;
     float initialThrustSpeed;
     float acc;
     float maxThrustSpeed;
@@ -201,6 +201,8 @@ public class PlayerController : MonoBehaviour
     TMP_Text countdownText;
     TMP_Text[] allText;
     GameObject finishBackground;
+    public Camera cam;
+    public LayerMask finishMask;
     public Transform arrow;
     public static float maxThrusterVolume;
     public static float audioVolume;
@@ -242,22 +244,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         //Ability setup
-        playerNumberString = gameObject.tag;
-        switch(playerNumberString)
-        {
-            case "1":
-                playerIndex = 0;
-                break;
-            case "2":
-                playerIndex = 1;
-                break;
-            case "3":
-                playerIndex = 2;
-                break;
-            case "4":
-                playerIndex = 3;
-                break;
-        }
         pitchAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Pitch");
         yawAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Yaw");
         rollAction = InputSystem.actions.FindAction("Player" + playerNumberString + "/Roll");
@@ -310,7 +296,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case "Jupiter":
                 ability = Juggernaut();
-                collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, minHealthLoss, deflectionForce};
+                collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, minHealthLoss, deflectionForce, rb.mass};
                 finishShip = farCanvas.GetChild(11).GetChild(4).gameObject;
                 break;
             case "Saturn":
@@ -679,10 +665,14 @@ public class PlayerController : MonoBehaviour
         Rigidbody otherRb = other.rigidbody;
         float otherSpeed = otherRb.velocity.magnitude;
         if(otherSpeed > speed) speed = otherSpeed;
+
         Vector3 otherPos = otherRb.position;
-        rb.AddForce((rb.position - otherPos).normalized * speed, ForceMode.VelocityChange);
-        Vector3 otherPosLocal = myTransform.InverseTransformPoint(otherPos);
-        rb.AddTorque(new Vector3(-otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
+        if(deflectionForce != 0)
+        {
+            rb.AddForce((rb.position - otherPos).normalized * speed, ForceMode.VelocityChange);
+            Vector3 otherPosLocal = myTransform.InverseTransformPoint(otherPos);
+            rb.AddTorque(new Vector3(-otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
+        }
 
         if(!other.gameObject.CompareTag("Drone"))
         {
@@ -766,7 +756,11 @@ public class PlayerController : MonoBehaviour
                 if(healthText.color != Color.red)
                 {
                     healthText.color = Color.red;
-                    if(showCaptions) StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], twoSeconds));
+                    if(showCaptions)
+                    {
+                        StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], twoSeconds));
+                        StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
+                    }
                 }
                 break;
             
@@ -788,6 +782,7 @@ public class PlayerController : MonoBehaviour
         if(showCaptions) caption.SetText("");
         finishText.color = Color.red;
         finishText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
+        StartCoroutine(ChangeTextColor(finishText, fifthSecond, Color.red, Color.white, 3));
         audioSource.PlayOneShot(dieSound);
 
         yield return threeSeconds;
@@ -932,7 +927,7 @@ public class PlayerController : MonoBehaviour
     public void Finish()
     {
         gameObject.SetActive(false);
-        cameraStats.parent.position = rb.position.normalized * 1000;
+        cam.cullingMask = finishMask;
         if(showCaptions) caption.gameObject.SetActive(false);
         abilityText.gameObject.SetActive(false);
         finishBackground.SetActive(true);
@@ -1204,10 +1199,10 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         speedLossDivisor = 1;
-        healthLossDivisor = (int) abilityStrength * 500;
+        healthLossDivisor = abilityStrength2;
         minHealthLoss = 0;
         deflectionForce = 0;
-        rb.mass *= abilityStrength;
+        rb.mass = abilityStrength;
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation.ToString());
@@ -1221,7 +1216,7 @@ public class PlayerController : MonoBehaviour
         healthLossDivisor = (int) collisionInitials[1];
         minHealthLoss = collisionInitials[2];
         deflectionForce = collisionInitials[3];
-        rb.mass /= abilityStrength;
+        rb.mass = collisionInitials[4];
 
         //Cooldown
         while(currentCooldown > 0)

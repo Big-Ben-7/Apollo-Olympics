@@ -10,6 +10,7 @@ public class Drone : MonoBehaviour
     [SerializeField] float maxAttackForce;
     [SerializeField] float confusion;
     [SerializeField] float maxWait;
+    [SerializeField] float rotationSpeed;
     WaitForSeconds randomWait;
     Vector3 randomOffset;
     public float offset;
@@ -20,7 +21,6 @@ public class Drone : MonoBehaviour
     [SerializeField] GameObject explosion;
     Transform explosionTransform;
     [SerializeField] AudioClip[] explosionSounds;
-    [SerializeField] LayerMask raycastMask;
     int explosionSoundsLength;
     public static WaitForSeconds twoSeconds;
 
@@ -63,7 +63,7 @@ public class Drone : MonoBehaviour
             targetVelocity = targetVelocity.normalized;
         }
         confusionCalc = targetVelocity * targetRb.angularVelocity.magnitude * confusion;
-        myTransform.LookAt(target.position + randomOffset + target.forward * offset + confusionCalc);
+        myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position + randomOffset + target.forward * offset + confusionCalc - myTransform.position), rotationSpeed * Time.deltaTime);
     }
 
     void FixedUpdate()
@@ -79,13 +79,13 @@ public class Drone : MonoBehaviour
             return;
         }
         collided = true;
-        switch(other.gameObject.layer)
+        switch(other.gameObject.tag)
         {
-            case 6:
+            case "Player":
                 Explode(other.GetContact(0).point, other.transform);
                 break;
             
-            case 14 or 15:
+            case "Drone" or "Asteroid":
                 Vector3 direction = target.position - myTransform.position;
                 float distance = direction.sqrMagnitude;
 

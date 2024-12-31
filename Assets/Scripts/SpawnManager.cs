@@ -99,6 +99,7 @@ public class SpawnManager : MonoBehaviour
     [Header("Camera/UI/Audio")]
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] LayerMask[] cameraMasks;
+    [SerializeField] LayerMask[] finishMasks;
     Camera[] views = new Camera[4];
     CinemachineVirtualCamera[] thirdPersons = new CinemachineVirtualCamera[4];
     [SerializeField] AudioClip countdownSound;
@@ -364,35 +365,31 @@ public class SpawnManager : MonoBehaviour
         Quaternion[] startRots = new Quaternion[] {Quaternion.identity, Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, -90, 0)};
         Vector2 scaleVector;
         Vector2[] cameraRects;
-        string[] tags;
+        string[] playerStrings;
         switch(playerNumber)
         {
             case 1:
                 scaleVector = Vector2.one;
                 cameraRects = new Vector2[] {Vector2.zero};
-                tags = new string[] {"1"};
-                playerNames = new string[] {playerNames[0]};
+                playerStrings = new string[] {"1"};
                 break;
 
             case 2:
                 scaleVector = new Vector2(0.5f, 1);
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.5f, 0)};
-                tags = new string[] {"1", "2"};
-                playerNames = new string[] {playerNames[0], playerNames[1]};
+                playerStrings = new string[] {"1", "2"};
                 break;
 
             case 3:
                 scaleVector = new Vector2(0.333f, 1);
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.333f, 0), new Vector2(0.667f, 0)};
-                tags = new string[] {"1", "3", "2"};
-                playerNames = new string[] {playerNames[0], playerNames[2], playerNames[1]};
+                playerStrings = new string[] {"1", "3", "2"};
                 break;
             
             default:
                 scaleVector = new Vector2(0.5f, 0.5f);
                 cameraRects = new Vector2[] {new Vector2(0, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(0.5f, 0)};
-                tags = new string[] {"1", "4", "3", "2"};
-                playerNames = new string[] {playerNames[0], playerNames[3], playerNames[2], playerNames[1]};
+                playerStrings = new string[] {"1", "4", "3", "2"};
                 break;
         }
 
@@ -412,9 +409,12 @@ public class SpawnManager : MonoBehaviour
             Vector3 pos = startPos[i];
             Quaternion rot = startRots[i];
             GameObject player = players[i] = Instantiate(possiblePlayers[playerShips[i]], pos, rot);
-            player.tag = tags[i];
             PlayerController playerController = playerControllers[i] = player.GetComponent<PlayerController>();
             Transform playerTransform = playerController.myTransform = player.transform;
+            playerController.playerNumberString = playerStrings[i];
+            playerController.playerIndex = i;
+            playerController.cam = view;
+            playerController.finishMask = finishMasks[i];
             playerController.cameraStats = cameraObject.GetChild(1);
             playerController.startPos = pos;
             playerController.normalizedStartPos = pos.normalized;

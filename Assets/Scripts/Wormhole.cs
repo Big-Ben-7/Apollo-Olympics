@@ -14,26 +14,25 @@ public class Wormhole : MonoBehaviour
                 return;
             }
         }
-        if(!otherObject.CompareTag("Drone"))
+        switch(otherObject.tag)
         {
-            switch(otherObject.layer)
-            {
-                case 6:
-                    triggeredObjects.Add(otherObject);
-                    other.GetComponent<PlayerController>().Teleport();
-                    return;
-                
-                case not 13:
-                    otherObject.SetActive(false);
-                    return;
-            }
-            return;
+            case "Player":
+                triggeredObjects.Add(otherObject);
+                other.GetComponent<PlayerController>().Teleport();
+                break;
+            
+            case "Collectable" or "Asteroid":
+                otherObject.SetActive(false);
+                break;
+
+            case "Drone":
+                other.GetComponent<Drone>().ResetDrone();
+                break;
         }
-        other.GetComponent<Drone>().ResetDrone();
     }
 
     void OnTriggerExit(Collider other)
     {
-        triggeredObjects.Remove(other.gameObject);
+        if(other.gameObject.CompareTag("Player")) triggeredObjects.Remove(other.gameObject);
     }
 }

@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: -68717298645134362}
   m_Layer: 6
   m_Name: JupiterPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -342,7 +342,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &4663251759920024987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,11 +360,11 @@ MonoBehaviour:
   durability: 3
   stability: 5
   activationTime: 20
-  cooldownTime: 10
-  abilityStrength: 4
-  abilityIncrease: 1
-  abilityStrength2: 0
-  abilityIncrease2: 0
+  cooldownTime: 20
+  abilityStrength: 100
+  abilityIncrease: 20
+  abilityStrength2: 2000
+  abilityIncrease2: 100
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -376,12 +376,12 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 2096745121278956979}
   shipModel: Jupiter
-  abilityPercent: 30
-  abilityPercent2: 0
-  activationTimePercent: 50
+  abilityPercent: 25
+  abilityPercent2: 25
+  activationTimePercent: 25
   minCooldown: 3
   abilityCaption: +1 Juggernaut Strength
-  abilityCaption2: 
+  abilityCaption2: +1 Juggernaut Durability
   aura: {fileID: 4124214209506075182}
   auraSystems:
   - {fileID: 356728834899632146}
@@ -412,12 +412,18 @@ MonoBehaviour:
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   myTransform: {fileID: 0}
+  playerNumberString: 
+  playerIndex: 0
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
+  cam: {fileID: 0}
+  finishMask:
+    serializedVersion: 2
+    m_Bits: 0
   arrow: {fileID: 5353075654820281820}
 --- !u!82 &283605144193943937
 AudioSource:

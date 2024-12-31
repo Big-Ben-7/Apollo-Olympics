@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: -6234278454604288188}
   m_Layer: 6
   m_Name: NeptunePlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -311,7 +311,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &4663251759920024987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,12 +381,18 @@ MonoBehaviour:
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   myTransform: {fileID: 0}
+  playerNumberString: 
+  playerIndex: 0
   startPos: {x: 0, y: 0, z: 0}
   normalizedStartPos: {x: 0, y: 0, z: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
+  cam: {fileID: 0}
+  finishMask:
+    serializedVersion: 2
+    m_Bits: 0
   arrow: {fileID: 7200272891621461937}
 --- !u!82 &283605144193943937
 AudioSource:
