@@ -364,7 +364,7 @@ MonoBehaviour:
   abilityStrength: 100
   abilityIncrease: 20
   abilityStrength2: 2000
-  abilityIncrease2: 100
+  abilityIncrease2: 200
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20

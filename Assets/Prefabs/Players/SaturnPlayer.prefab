@@ -358,7 +358,7 @@ MonoBehaviour:
   stability: 4
   activationTime: 20
   cooldownTime: 20
-  abilityStrength: 3000
+  abilityStrength: 2000
   abilityIncrease: 200
   abilityStrength2: 180
   abilityIncrease2: 45
@@ -374,7 +374,7 @@ MonoBehaviour:
   graphic: {fileID: 6480018586469105527}
   shipModel: Saturn
   abilityPercent: 25
-  abilityPercent2: 25
+  abilityPercent2: 30
   activationTimePercent: 25
   minCooldown: 5
   durationCaption: +1 Ring Time

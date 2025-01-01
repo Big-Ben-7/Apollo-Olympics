@@ -1588,11 +1588,11 @@ MonoBehaviour:
   - {fileID: 5562784731008266770, guid: f7b7e223a8bb043289e0f992c832f1ef, type: 3}
   - {fileID: 4572339319366399824, guid: 182bb06e49f5c4055bf2a347718cc03b, type: 3}
   wormholePrefab: {fileID: 5607819269926399345, guid: de0c4b77a8bd041caa85f9497e2a6c42, type: 3}
-  asteroidNumbers: 18000000300000004800000060000000
+  asteroidNumbers: 14000000280000003c00000050000000
   collectAsteroidDivisor: 2
   minAsteroidScale: 20
   maxAsteroidScale: 500
-  collectableNumbers: 0a000000080000000600000004000000
+  collectableNumbers: 08000000060000000400000002000000
   collectCollectableMultiplier: 5
   partDisablePercent: 50
   maxMovementForce: 200
@@ -1622,9 +1622,9 @@ MonoBehaviour:
   playerChunks: []
   playingPlayers: 
   playerNames: []
-  initialThrustSpeeds: 800c0000100e0000a00f000030110000c0120000
-  accelerations: 20030000e8030000b00400007805000040060000
-  maxThrustSpeeds: 803e0000204e0000c05d0000606d0000007d0000
+  initialThrustSpeeds: 60090000b80b0000100e000068100000c0120000
+  accelerations: b0040000dc050000080700003408000060090000
+  maxThrustSpeeds: c05d000030750000a08c000010a4000080bb0000
   rotationSpeeds:
   - 2
   - 3.5
@@ -1637,7 +1637,7 @@ MonoBehaviour:
   - 0.9
   - 0.85
   - 0.8
-  healthLossDivisors: 9001000020030000b004000040060000d0070000
+  healthLossDivisors: 5802000084030000b0040000dc05000008070000
   speedLossDivisors:
   - 5
   - 4

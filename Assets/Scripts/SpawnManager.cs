@@ -42,13 +42,13 @@ public class SpawnManager : MonoBehaviour
     int asteroidCount;
     int collectableCount;
     [SerializeField] GameObject wormholePrefab;
-    //Asteroid number must be divisible by 24
-    [SerializeField] int[] asteroidNumbers = new int[] {24, 48, 72, 96};
+    //Asteroid number must be divisible by 20
+    [SerializeField] int[] asteroidNumbers = new int[] {20, 40, 60, 80};
     int asteroidNumber;
     [SerializeField] int collectAsteroidDivisor = 2;
     [SerializeField] int minAsteroidScale = 20;
     [SerializeField] int maxAsteroidScale = 200;
-    [SerializeField] int[] collectableNumbers = new int[] {10, 8, 6, 4};
+    [SerializeField] int[] collectableNumbers = new int[] {8, 6, 4, 2};
     int collectableNumber;
     [SerializeField] int collectCollectableMultiplier = 5;
     [SerializeField] int partDisablePercent = 50;
@@ -179,7 +179,7 @@ public class SpawnManager : MonoBehaviour
             checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
 
             //Stats for each checkpoint
-            baseDisableNumber = asteroidNumber / 3;
+            baseDisableNumber = asteroidNumber * 2 / 5;
             disableByCheckpoint = new int[checkpointCount];
             int increment = baseDisableNumber / (checkpointCount - 1);
             for(int i = 0; i < checkpointCount; i++)
@@ -201,7 +201,7 @@ public class SpawnManager : MonoBehaviour
             asteroidNumber /= collectAsteroidDivisor;
             collectableNumber *= collectCollectableMultiplier;
             droneNumber /= collectDroneDivisor;
-            minutes = 1;
+            minutes = 3;
 
             PlayerController.checkpointTexts = new TMP_Text[playerNumber];
             PlayerController.playerNumber = playerNumber;
@@ -1319,7 +1319,7 @@ public class SpawnManager : MonoBehaviour
                 rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
             }
 
-            if(i == 10 || i == 20 || i == 30 || i == 40 || i == 50 || i == 60 || i == 70 || i == 80 || i == 90 || i == 100)
+            if(i == 10 || i == 20 || i == 30 || i == 40 || i == 50 || i == 60 || i == 70 || i == 80)
             {
                 yield return null;
             }
@@ -1333,11 +1333,6 @@ public class SpawnManager : MonoBehaviour
             {
                 child.transform.localPosition = newPos;
                 child.SetActive(true);
-            }
-
-            if(i == 10 || i == 20 || i == 30 || i == 40 || i == 50 || i == 60 || i == 70 || i == 80 || i == 90 || i == 100)
-            {
-                yield return null;
             }
         }
     }

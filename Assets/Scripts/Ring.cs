@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Ring : MonoBehaviour
 {
-    Rigidbody rb;
-    public Rigidbody target;
+    Transform myTransform;
+    public Transform target;
     public float hitForce;
     public Quaternion rotationOffset;
     public AudioSource audioSource;
@@ -11,7 +11,7 @@ public class Ring : MonoBehaviour
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        myTransform = transform;
     }
 
     void OnEnable()
@@ -24,14 +24,14 @@ public class Ring : MonoBehaviour
         if(other.gameObject.CompareTag("Drone") || other.gameObject.CompareTag("Aura")) return;
         Rigidbody otherRb = other.rigidbody;
         if(!otherRb.isKinematic)
-        otherRb.AddForce((otherRb.position - rb.position).normalized * hitForce, ForceMode.VelocityChange);
+        otherRb.AddForce((otherRb.position - myTransform.position).normalized * hitForce, ForceMode.VelocityChange);
         otherRb.AddTorque(new Vector3(Random.Range(0, 36000), Random.Range(0, 36000), Random.Range(0, 36000)) * hitForce, ForceMode.Impulse);
         audioSource.PlayOneShot(hitClip);
     }
 
     void LateUpdate()
     {
-        rb.position = target.position;
-        rb.rotation = target.rotation * rotationOffset;
+        myTransform.position = target.position;
+        myTransform.rotation = target.rotation * rotationOffset;
     }
 }

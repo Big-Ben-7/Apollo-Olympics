@@ -125,7 +125,10 @@ public class PlayerController : MonoBehaviour
         "Well Done!",
         "Outstanding!",
         "Terriffic!",
-        "Awesome!"
+        "Awesome!",
+        "Amazing!",
+        "WOW!",
+        "Let's Go!"
     };
     string[] crashCaptions = new string[] 
     {
@@ -176,6 +179,7 @@ public class PlayerController : MonoBehaviour
     int initialCooldown;
     int initialActivation;
     float initialStrength;
+    int initialStrength2;
     Collider[] surroundingColliders = new Collider[10000];
 
     //Drone
@@ -232,6 +236,7 @@ public class PlayerController : MonoBehaviour
         initialCooldown = cooldownTime;
         initialActivation = activationTime;
         initialStrength = abilityStrength;
+        initialStrength2 = abilityStrength2;
 
         Transform thrusterTransform = thrusterParent.transform;
         thrusterCount = thrusterTransform.childCount;
@@ -282,7 +287,7 @@ public class PlayerController : MonoBehaviour
                 ability = Atmosphere();
                 aura = Instantiate(aura);
                 atmosphere = aura.GetComponent<Atmosphere>();
-                atmosphere.target = rb;
+                atmosphere.target = myTransform;
                 atmosphere.audioSource = audioSource;
                 Transform graphic = aura.transform.GetChild(0);
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
@@ -307,7 +312,7 @@ public class PlayerController : MonoBehaviour
                 ability = Ring();
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
-                ring.target = rb;
+                ring.target = myTransform;
                 ring.audioSource = audioSource;
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
@@ -318,7 +323,7 @@ public class PlayerController : MonoBehaviour
                 ability = Ring();
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
-                ring.target = rb;
+                ring.target = myTransform;
                 ring.audioSource = audioSource;
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
@@ -391,7 +396,7 @@ public class PlayerController : MonoBehaviour
         raceMode = spawnManager.raceMode;
         if(raceMode)
         {
-            checkpointText.SetText("Checkpoint: 0");
+            checkpointText.SetText("Level: 0");
             timeText.SetText("Time: 0:00.000");
         }
         else
@@ -740,13 +745,11 @@ public class PlayerController : MonoBehaviour
                 activationTime = initialActivation;
                 cooldownTime = initialCooldown;
                 abilityStrength = initialStrength;
+                abilityStrength2 = initialStrength2;
 
                 health = 0;
                 healthText.SetText("Health: 0.00");
-                for(int i = 0; i < 9; i++)
-                {
-                    StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
-                }
+                for(int i = 0; i < 9; i++) StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
                 for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
 
                 //Respawning
@@ -766,8 +769,7 @@ public class PlayerController : MonoBehaviour
                 break;
             
             default:
-                if(shipModel == "Earth" && currentCooldown > 1) StartCoroutine(ChangeTextColor(healthText, fifthSecond, healthText.color, Color.red, 2));
-                else StartCoroutine(ChangeTextColor(healthText, fifthSecond, Color.white, Color.red, 2));
+                StartCoroutine(ChangeTextColor(healthText, fifthSecond, Color.white, Color.red, 2));
                 break;
         }
         health = (float) Math.Round(health, 2);
@@ -879,7 +881,8 @@ public class PlayerController : MonoBehaviour
             case 1:
                 text.color = newColor;
                 yield return wait;
-                if(text.color == newColor) text.color = originalColor;
+                if(text == healthText && shipModel == "Earth" && currentActivation > 0) text.color = Color.green;
+                else if(text.color == newColor) text.color = originalColor;
                 break;
 
             default:
@@ -888,7 +891,8 @@ public class PlayerController : MonoBehaviour
                 {
                     text.color = newColor;
                     yield return wait;
-                    if(text.color == newColor) text.color = originalColor;
+                    if(text == healthText && shipModel == "Earth" && currentActivation > 0) text.color = Color.green;
+                    else if(text.color == newColor) text.color = originalColor;
                     if(i < amountMinusOne) yield return wait;
                 }
                 break;
@@ -933,6 +937,7 @@ public class PlayerController : MonoBehaviour
         abilityText.gameObject.SetActive(false);
         finishBackground.SetActive(true);
         finishShip.SetActive(true);
+        for(int i = 0; i < 9; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
         if(!raceMode) timeText.SetText("Time: 0:00.000");
         else
         {
@@ -1032,7 +1037,7 @@ public class PlayerController : MonoBehaviour
         playerCheckpoint ++;
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-        checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());
+        checkpointText.SetText("Level: " + playerCheckpoint.ToString());
         int newDrones = checkpointDrones[playerCheckpoint];
         for(int i = activeDrones; i < newDrones; i++)
         {
@@ -1047,7 +1052,7 @@ public class PlayerController : MonoBehaviour
     {
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-        checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());
+        checkpointText.SetText("Level: " + playerCheckpoint.ToString());
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, Color.red));
         audioSource.PlayOneShot(errorSound);
     }
