@@ -302,6 +302,8 @@ MonoBehaviour:
   abilityPercent2: 25
   activationTimePercent: 25
   minCooldown: 5
+  durationCaption: +1 Ring Time
+  cooldownCaption: -1 Ring Cooldown
   abilityCaption: +1 Ring Deflection
   abilityCaption2: +1 Ring Rotation Speed
   aura: {fileID: 763327245692713505, guid: f8e07c7e8bd5b433b94a995c992197af, type: 3}

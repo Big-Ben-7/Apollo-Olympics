@@ -380,6 +380,8 @@ MonoBehaviour:
   abilityPercent2: 25
   activationTimePercent: 25
   minCooldown: 3
+  durationCaption: +1 Juggernaut Time
+  cooldownCaption: -1 Juggernaut Cooldown
   abilityCaption: +1 Juggernaut Strength
   abilityCaption2: +1 Juggernaut Durability
   aura: {fileID: 4124214209506075182}

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Atmosphere : MonoBehaviour
 {
+    public float hitForce;
     public Rigidbody target;
     Rigidbody rb;
     public AudioSource audioSource;
@@ -16,9 +17,7 @@ public class Atmosphere : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Drone") || other.gameObject.CompareTag("Aura")) return;
         Rigidbody otherRb = other.rigidbody;
-        Vector3 direction = otherRb.position - rb.position;
-        otherRb.AddForce(direction * 2, ForceMode.VelocityChange);
-        target.AddForce(-direction * 2, ForceMode.VelocityChange);
+        otherRb.AddForce((otherRb.position - rb.position).normalized * hitForce, ForceMode.VelocityChange);
         audioSource.PlayOneShot(hitClip);
     }
 

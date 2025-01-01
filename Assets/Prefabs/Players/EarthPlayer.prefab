@@ -336,6 +336,8 @@ MonoBehaviour:
   abilityPercent2: 0
   activationTimePercent: 50
   minCooldown: 3
+  durationCaption: +1 Regeneration Time
+  cooldownCaption: -1 Regeneration Cooldown
   abilityCaption: +0.1 Regeneration Amount
   abilityCaption2: 
   aura: {fileID: 7906576623811564693}

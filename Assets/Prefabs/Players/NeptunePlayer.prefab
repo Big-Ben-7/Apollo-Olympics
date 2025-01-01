@@ -349,6 +349,8 @@ MonoBehaviour:
   abilityPercent2: 40
   activationTimePercent: 0
   minCooldown: 3
+  durationCaption: 
+  cooldownCaption: -1 Wind Storm Cooldown
   abilityCaption: +1 Wind Speed
   abilityCaption2: +1 Storm Range
   aura: {fileID: 631192273512511577}

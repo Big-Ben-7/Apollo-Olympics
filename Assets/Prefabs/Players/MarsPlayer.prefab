@@ -5199,6 +5199,8 @@ MonoBehaviour:
   abilityPercent2: 0
   activationTimePercent: 40
   minCooldown: 5
+  durationCaption: +1 Dust Storm Time
+  cooldownCaption: -1 Dust Storm Cooldown
   abilityCaption: +1 Dust Confusion
   abilityCaption2: 
   aura: {fileID: 1452392579131037511}

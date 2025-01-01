@@ -285,8 +285,8 @@ MonoBehaviour:
   stability: 2
   activationTime: 20
   cooldownTime: 20
-  abilityStrength: 0
-  abilityIncrease: 0
+  abilityStrength: 2000
+  abilityIncrease: 100
   abilityStrength2: 0
   abilityIncrease2: 0
   thrusterParent: {fileID: 684149586399486677}
@@ -300,11 +300,13 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 6067182888555959147}
   shipModel: Venus
-  abilityPercent: 0
+  abilityPercent: 45
   abilityPercent2: 0
-  activationTimePercent: 75
+  activationTimePercent: 30
   minCooldown: 5
-  abilityCaption: +1 Atmosphere Shield
+  durationCaption: +1 Atmosphere Time
+  cooldownCaption: -1 Atmosphere Cooldown
+  abilityCaption: +1 Atmosphere Protection
   abilityCaption2: 
   aura: {fileID: 1645438820640331853, guid: 7843525c7d07846c0a80dbad20a48ee3, type: 3}
   auraSystems: []

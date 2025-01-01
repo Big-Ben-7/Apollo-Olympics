@@ -24,10 +24,8 @@ public class Ring : MonoBehaviour
         if(other.gameObject.CompareTag("Drone") || other.gameObject.CompareTag("Aura")) return;
         Rigidbody otherRb = other.rigidbody;
         if(!otherRb.isKinematic)
-        {
-            otherRb.AddForce((otherRb.position - rb.position).normalized * hitForce, ForceMode.VelocityChange);
-            otherRb.AddTorque(new Vector3(Random.Range(0, 36000), Random.Range(0, 36000), Random.Range(0, 36000)) * hitForce, ForceMode.Impulse);
-        }
+        otherRb.AddForce((otherRb.position - rb.position).normalized * hitForce, ForceMode.VelocityChange);
+        otherRb.AddTorque(new Vector3(Random.Range(0, 36000), Random.Range(0, 36000), Random.Range(0, 36000)) * hitForce, ForceMode.Impulse);
         audioSource.PlayOneShot(hitClip);
     }
 

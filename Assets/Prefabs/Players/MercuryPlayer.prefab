@@ -334,6 +334,8 @@ MonoBehaviour:
   abilityPercent2: 0
   activationTimePercent: 0
   minCooldown: 2
+  durationCaption: 
+  cooldownCaption: -1 Speedster Cooldown
   abilityCaption: +1 Speedster Boost
   abilityCaption2: 
   aura: {fileID: 7012232295257560415}
