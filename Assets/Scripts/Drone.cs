@@ -98,10 +98,11 @@ public class Drone : MonoBehaviour
 
                 //Explode if drone is inside camera view and not occluded
                 Explode(other.GetContact(0).point);
-                if(offset > 0 || !showCaptions) return;
+                float confusionMag = confusionCalc.sqrMagnitude;
+                if(offset > 0 || !showCaptions || confusionMag < 1000) return;
 
                 //Show caption if drone is outmaneuvered
-                if(confusionCalc.sqrMagnitude > 250000 || distance < 900000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                if(confusionMag > 250000 || distance < 900000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
                 break;
             
             default:

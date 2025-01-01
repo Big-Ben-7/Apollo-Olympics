@@ -579,13 +579,10 @@ public class PlayerController : MonoBehaviour
     void LateUpdate()
     {
         if(paused || kinematic) return;
-        droneGroup.position = rb.position;
+        droneGroup.position = myTransform.position;
 
         if(!showArrow) return;
-        arrow.localPosition = Vector3.zero;
-        arrow.rotation = Quaternion.LookRotation(rb.position.normalized, Vector3.up);
-        Vector3 rot = arrow.rotation.eulerAngles;
-        arrow.rotation = Quaternion.Euler(rot.x, rot.y, rb.rotation.eulerAngles.z);
+        arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, myTransform.up);
     }
 
     void FixedUpdate()
