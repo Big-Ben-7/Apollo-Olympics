@@ -1622,9 +1622,9 @@ MonoBehaviour:
   playerChunks: []
   playingPlayers: 
   playerNames: []
-  initialThrustSpeeds: 60090000b80b0000100e000068100000c0120000
-  accelerations: b0040000dc050000080700003408000060090000
-  maxThrustSpeeds: c05d000030750000a08c000010a4000080bb0000
+  initialThrustSpeeds: b80b0000ac0d0000a00f00009411000088130000
+  accelerations: e8030000dc050000d0070000c4090000b80b0000
+  maxThrustSpeeds: 30750000b8880000409c0000c8af000050c30000
   rotationSpeeds:
   - 2
   - 3.5
@@ -1632,12 +1632,12 @@ MonoBehaviour:
   - 6.5
   - 8
   decMultipliers:
-  - 1
-  - 0.95
-  - 0.9
-  - 0.85
   - 0.8
-  healthLossDivisors: 5802000084030000b0040000dc05000008070000
+  - 0.85
+  - 0.9
+  - 0.95
+  - 1
+  healthLossDivisors: 84030000b0040000dc050000a4060000d0070000
   speedLossDivisors:
   - 5
   - 4

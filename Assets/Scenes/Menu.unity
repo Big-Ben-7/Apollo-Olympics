@@ -2746,21 +2746,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
-    - target: {fileID: 6124539314202887537, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
-      propertyPath: m_text
-      value: 'Speed: 2          Agility: 1          Durability: 3          Stability:
-        5
-
-        Jupiter is the 5th and largest planet from the Sun, and is 2.5
-        times more massive than all the other planets combined. Jupiter also contains
-        the famous Great Red Spot, a storm itself bigger then Earth.
-
-        Ability
-        - Juggernaut: Jupiter uses its immense mass and momentum to power through
-        asteroids.
-
-        Duration: 20s          Cooldown: 20s (min. 3)'
-      objectReference: {fileID: 0}
     - target: {fileID: 6295809736737377181, guid: 8f470d64d6ea249038e21e8dbd8f0e3d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
