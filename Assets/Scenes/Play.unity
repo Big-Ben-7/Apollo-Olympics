@@ -1593,9 +1593,11 @@ MonoBehaviour:
   minAsteroidScale: 20
   maxAsteroidScale: 500
   collectableNumbers: 08000000060000000400000002000000
-  collectCollectableMultiplier: 5
+  collectCollectableMultiplier: 3
   partDisablePercent: 50
-  maxMovementForce: 200
+  maxMovementForce1: 70
+  maxMovementForce2: 250
+  movementForce1Percent: 70
   maxRotationForce: 0.2
   maxRotationSpeed: 30
   wormholePercent: 3

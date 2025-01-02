@@ -52,13 +52,15 @@ public class SpawnManager : MonoBehaviour
     int collectableNumber;
     [SerializeField] int collectCollectableMultiplier = 3;
     [SerializeField] int partDisablePercent = 50;
-    [SerializeField] int maxMovementForce = 60;
+    [SerializeField] int maxMovementForce1 = 70;
+    [SerializeField] int maxMovementForce2 = 250;
+    [SerializeField] int movementForce1Percent = 70;
     [SerializeField] float maxRotationForce = 0.2f;
     [SerializeField] float maxRotationSpeed = 30;
-    [SerializeField] int wormholePercent = 5;
+    [SerializeField] int wormholePercent = 3;
     [SerializeField] Vector3 wormholeProportions = new Vector3(0.5f, 0.4f, 0.8f);
     [SerializeField] int minWormholeScale = 1000;
-    [SerializeField] int maxWormholeScale = 2000;
+    [SerializeField] int maxWormholeScale = 3000;
     int interactableNumber;
 
     [Header("Drones")]
@@ -718,7 +720,7 @@ public class SpawnManager : MonoBehaviour
                     }
 
                     //Random force
-                    rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                    rb.AddRelativeForce(RandomForce(), ForceMode.VelocityChange);
                     rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
                 }
             
@@ -799,7 +801,7 @@ public class SpawnManager : MonoBehaviour
                     }
 
                     //Random force
-                    rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                    rb.AddRelativeForce(RandomForce(), ForceMode.VelocityChange);
                     rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
                 }
 
@@ -1123,7 +1125,7 @@ public class SpawnManager : MonoBehaviour
                                 if(!child.activeSelf) child.SetActive(true);
                                 Rigidbody rb = rbs[j];
                                 rb.velocity = rb.angularVelocity = Vector3.zero;
-                                rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                                rb.AddRelativeForce(RandomForce(), ForceMode.VelocityChange);
                                 rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
                             }
                             else if(child.activeSelf) child.SetActive(false);
@@ -1317,7 +1319,7 @@ public class SpawnManager : MonoBehaviour
                 child.SetActive(true);
                 Rigidbody rb = rbs[i];
                 rb.velocity = rb.angularVelocity = Vector3.zero;
-                rb.AddRelativeForce(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), ForceMode.VelocityChange);
+                rb.AddRelativeForce(RandomForce(), ForceMode.VelocityChange);
                 rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
             }
 
@@ -1348,5 +1350,13 @@ public class SpawnManager : MonoBehaviour
             if(i == 20 || i == 40 || i == 60 || i == 80 || i == 100) yield return null;
         }
         sectionPool[sectionIndex].SetActive(false);
+    }
+
+    Vector3 RandomForce()
+    {
+        float maxMovementForce;
+        if(UnityEngine.Random.Range(0, 100) < movementForce1Percent) maxMovementForce = maxMovementForce1;
+        else maxMovementForce = maxMovementForce2;
+        return new Vector3(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce));
     }
 }

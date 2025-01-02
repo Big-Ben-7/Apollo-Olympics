@@ -283,8 +283,8 @@ MonoBehaviour:
   stability: 4
   activationTime: 20
   cooldownTime: 20
-  abilityStrength: 2000
-  abilityIncrease: 200
+  abilityStrength: 2500
+  abilityIncrease: 250
   abilityStrength2: 180
   abilityIncrease2: 60
   thrusterParent: {fileID: 684149586399486677}
