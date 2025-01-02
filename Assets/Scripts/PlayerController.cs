@@ -563,7 +563,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(posMag >= lastCheckpointDistance)
         {
-            rb.AddForce(-rb.position.normalized * 2000, ForceMode.VelocityChange);
+            rb.AddForce(-rb.position.normalized * 5000, ForceMode.VelocityChange);
             StartCoroutine(ChangeTextColor(distanceText, fifthSecond, Color.white, Color.red));
             audioSource.PlayOneShot(errorSound);
         }

@@ -330,7 +330,7 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 6367987526358428599}
   shipModel: Mercury
-  abilityPercent: 90
+  abilityPercent: 80
   abilityPercent2: 0
   activationTimePercent: 0
   minCooldown: 2

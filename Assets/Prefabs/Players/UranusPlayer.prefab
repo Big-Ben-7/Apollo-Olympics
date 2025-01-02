@@ -286,7 +286,7 @@ MonoBehaviour:
   abilityStrength: 2000
   abilityIncrease: 200
   abilityStrength2: 180
-  abilityIncrease2: 45
+  abilityIncrease2: 60
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -300,7 +300,7 @@ MonoBehaviour:
   shipModel: Uranus
   abilityPercent: 25
   abilityPercent2: 30
-  activationTimePercent: 25
+  activationTimePercent: 20
   minCooldown: 5
   durationCaption: +1 Ring Time
   cooldownCaption: -1 Ring Cooldown

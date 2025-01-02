@@ -64,6 +64,7 @@ public class MenuManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] Slider fovSlider;
     [SerializeField] Slider depthSlider;
+    [SerializeField] Slider dampingSlider;
     [SerializeField] Toggle captionToggle;
     [SerializeField] Toggle cursorToggle;
     [SerializeField] Toggle arrowToggle;
@@ -74,6 +75,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text fovText;
 
     [SerializeField] TMP_Text depthText;
+    [SerializeField] TMP_Text dampingText;
     [SerializeField] TMP_Text musicText;
     [SerializeField] TMP_Text noiseText;
     [SerializeField] TMP_Text thrusterText;
@@ -100,6 +102,7 @@ public class MenuManager : MonoBehaviour
     public static int credits;
     public static float fov;
     public static float depth;
+    public static float damping;
     public static bool showCaptions;
     public static bool cursorHide;
     public static bool showArrow;
@@ -202,6 +205,9 @@ public class MenuManager : MonoBehaviour
         depth = PlayerPrefs.GetFloat("Depth", 7000);
         depthSlider.value = depth;
         depthText.SetText(depth.ToString("0"));
+        damping = PlayerPrefs.GetFloat("Damping", 0.1f);
+        dampingSlider.value = damping;
+        dampingText.SetText(damping.ToString("0.#"));
         music = PlayerPrefs.GetFloat("Music", 0.2f);
         musicSlider.value = music;
         musicText.SetText(music.ToString("0.##"));
@@ -547,6 +553,13 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Depth", depth);
     }
 
+    public void ChangeDamping()
+    {
+        damping = dampingSlider.value;
+        dampingText.SetText(damping.ToString("0.#"));
+        PlayerPrefs.SetFloat("Damping", damping);
+    }
+
     public void ChangeMusic()
     {
         music = backgroundMusic.volume = musicSlider.value;
@@ -639,6 +652,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("Collects", 0);
         PlayerPrefs.SetFloat("Fov", 35);
         PlayerPrefs.SetFloat("Depth", 7000);
+        PlayerPrefs.SetFloat("Damping", 0.1f);
         PlayerPrefs.SetFloat("Music", 0.2f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
@@ -676,6 +690,8 @@ public class MenuManager : MonoBehaviour
         fovText.SetText("35");
         depthSlider.value = 7000;
         depthText.SetText("7000");
+        dampingSlider.value = 0.1f;
+        dampingText.SetText("0.1");
         musicSlider.value = 0.2f;
         musicText.SetText("0.2");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
@@ -696,6 +712,7 @@ public class MenuManager : MonoBehaviour
     {
         PlayerPrefs.SetFloat("Fov", 35);
         PlayerPrefs.SetFloat("Depth", 7000);
+        PlayerPrefs.SetFloat("Damping", 0.1f);
         PlayerPrefs.SetFloat("Music", 0.2f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
@@ -708,6 +725,8 @@ public class MenuManager : MonoBehaviour
         fovText.SetText("35");
         depthSlider.value = 7000;
         depthText.SetText("7000");
+        dampingSlider.value = 0.1f;
+        dampingText.SetText("0.1");
         musicSlider.value = 0.2f;
         musicText.SetText("0.2");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;

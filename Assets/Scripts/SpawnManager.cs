@@ -50,7 +50,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int maxAsteroidScale = 200;
     [SerializeField] int[] collectableNumbers = new int[] {8, 6, 4, 2};
     int collectableNumber;
-    [SerializeField] int collectCollectableMultiplier = 5;
+    [SerializeField] int collectCollectableMultiplier = 3;
     [SerializeField] int partDisablePercent = 50;
     [SerializeField] int maxMovementForce = 60;
     [SerializeField] float maxRotationForce = 0.2f;
@@ -62,7 +62,7 @@ public class SpawnManager : MonoBehaviour
     int interactableNumber;
 
     [Header("Drones")]
-    [SerializeField] int[] droneNumbers = new int[] {4, 8, 12, 16};
+    [SerializeField] int[] droneNumbers = new int[] {8, 16, 24, 32};
     int droneNumber;
     [SerializeField] int collectDroneDivisor = 2;
     [SerializeField] int[] begCheckpointDrones;
@@ -164,6 +164,8 @@ public class SpawnManager : MonoBehaviour
         CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
         view.m_Lens.FieldOfView = MenuManager.fov;
         view.m_Lens.FarClipPlane = MenuManager.depth;
+        CinemachineFramingTransposer transposer = view.GetCinemachineComponent<CinemachineFramingTransposer>();
+        transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = view.GetCinemachineComponent<CinemachineSameAsFollowTarget>().m_Damping = MenuManager.damping;
         PlayerController.maxThrusterVolume = MenuManager.thruster;
         PlayerController.showCaptions = Drone.showCaptions = MenuManager.showCaptions;
         PlayerController.showArrow = MenuManager.showArrow;

@@ -331,9 +331,9 @@ MonoBehaviour:
   activationTime: 0
   cooldownTime: 20
   abilityStrength: 2000
-  abilityIncrease: 100
-  abilityStrength2: 10000
-  abilityIncrease2: 500
+  abilityIncrease: 200
+  abilityStrength2: 7000
+  abilityIncrease2: 200
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -345,7 +345,7 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 9176598852586324252}
   shipModel: Neptune
-  abilityPercent: 40
+  abilityPercent: 35
   abilityPercent2: 40
   activationTimePercent: 0
   minCooldown: 3
