@@ -382,7 +382,7 @@ public class PlayerController : MonoBehaviour
         finishBackground.SetActive(false);
         nameText.SetText(spawnManager.playerNames[playerIndex]);
         healthText.SetText("Health: 100.00");
-        collectText.SetText("Space Junk: 0");
+        collectText.SetText("Space Debris: 0");
         abilityText.SetText("");
         posText.SetText("Pos: 0,0,0");
         distanceText.SetText("Distance: 0");
@@ -397,14 +397,13 @@ public class PlayerController : MonoBehaviour
         if(raceMode)
         {
             checkpointText.SetText("Level: 0");
-            timeText.SetText("Time: 0:00.000");
         }
         else
         {
             checkpointTexts[playerIndex] = checkpointText;
             checkpointText.SetText("Credits: " + credits.ToString());
-            timeText.SetText("Time: " + spawnManager.minutes + ":00.000");
         }
+        timeText.SetText(spawnManager.timeString);
         
         audioSource.volume = audioVolume;
 
@@ -617,7 +616,7 @@ public class PlayerController : MonoBehaviour
             if(other.name != "Collider") other.gameObject.SetActive(false);
             else other.transform.parent.gameObject.SetActive(false);
             collects++;
-            collectText.SetText("Space Junk: " + collects.ToString());
+            collectText.SetText("Space Debris: " + collects.ToString());
             StartCoroutine(ChangeTextColor(collectText, fifthSecond, Color.white, Color.green));
             if(raceMode)
             {
@@ -815,7 +814,7 @@ public class PlayerController : MonoBehaviour
             for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits.ToString());
         }
         collects = 0;
-        collectText.SetText("Space Junk: 0");
+        collectText.SetText("Space Debris: 0");
         thrustSpeed = initialThrustSpeed;
         health = 100;
         healthText.SetText("Health: 100.00");

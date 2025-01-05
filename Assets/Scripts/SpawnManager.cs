@@ -199,6 +199,7 @@ public class SpawnManager : MonoBehaviour
 
             PlayerController.checkpointDistances = checkpointDistances;
             PlayerController.checkpointDrones = checkpointDrones;
+            timeString = "Time: 0:00.000";
         }
         else
         {
@@ -206,6 +207,7 @@ public class SpawnManager : MonoBehaviour
             collectableNumber *= collectCollectableMultiplier;
             droneNumber /= collectDroneDivisor;
             minutes = 3;
+            timeString = "Time: 3:00.000";
 
             PlayerController.checkpointTexts = new TMP_Text[playerNumber];
             PlayerController.playerNumber = playerNumber;

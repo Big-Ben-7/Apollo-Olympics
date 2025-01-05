@@ -251,7 +251,7 @@
                 {
                     "name": "",
                     "id": "72724be9-ebd1-4fd5-9246-ec88fbdc575e",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/period",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -273,7 +273,7 @@
                 {
                     "name": "negative",
                     "id": "b7e2f2bf-e617-47db-9a51-3f2e1fb04607",
-                    "path": "<Keyboard>/rightAlt",
+                    "path": "<Keyboard>/slash",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -372,7 +372,7 @@
                 {
                     "name": "negative",
                     "id": "0883d94a-34d5-4572-9d74-a4e4bf07cc12",
-                    "path": "<Keyboard>/period",
+                    "path": "<Keyboard>/quote",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -383,7 +383,7 @@
                 {
                     "name": "positive",
                     "id": "e8bb7975-e2a2-4f3c-9156-0de822bcb09a",
-                    "path": "<Keyboard>/slash",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -117,8 +117,6 @@ public class MenuManager : MonoBehaviour
 
     void Awake()
     {
-        loaded = false;
-
         for(int i = 0; i < 4; i++)
         {
             times[i] = PlayerPrefs.GetInt("Time" + i.ToString());
@@ -134,7 +132,7 @@ public class MenuManager : MonoBehaviour
         creditsText.SetText(newCredits);
         creditsText2.SetText(newCredits);
         collects = PlayerPrefs.GetInt("Collects");
-        collectsText.SetText("Space Junk Collected: " + collects.ToString());
+        collectsText.SetText("Space Debris Collected: " + collects.ToString());
         TimeSpan begSpan = TimeSpan.FromMilliseconds(times[0]);
         begTime.SetText("Beginner: " + begSpan.Minutes.ToString() + ":" + begSpan.Seconds.ToString("00") + "." + begSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description0"));
         TimeSpan intSpan = TimeSpan.FromMilliseconds(times[1]);
@@ -201,16 +199,16 @@ public class MenuManager : MonoBehaviour
         //Get settings variables
         fov = PlayerPrefs.GetFloat("Fov", 35);
         fovSlider.value = fov;
-        fovText.SetText(fov.ToString("0.#"));
+        fovText.SetText(fov.ToString("0"));
         depth = PlayerPrefs.GetFloat("Depth", 7000);
         depthSlider.value = depth;
         depthText.SetText(depth.ToString("0"));
         damping = PlayerPrefs.GetFloat("Damping", 0.1f);
         dampingSlider.value = damping;
-        dampingText.SetText(damping.ToString("0.#"));
+        dampingText.SetText(damping.ToString("0.00"));
         music = PlayerPrefs.GetFloat("Music", 0.2f);
         musicSlider.value = music;
-        musicText.SetText(music.ToString("0.##"));
+        musicText.SetText(music.ToString("0.00"));
         if(PlayerPrefs.GetInt("ShowCaptions", 1) == 0)
         {
             showCaptions = false;
@@ -243,13 +241,13 @@ public class MenuManager : MonoBehaviour
         }
         noise = PlayerPrefs.GetFloat("Noise", 0.2f);
         noiseSlider.value = noise;
-        noiseText.SetText(noise.ToString("0.##"));
+        noiseText.SetText(noise.ToString("0.00"));
         thruster = PlayerPrefs.GetFloat("Thruster", 0.2f);
         thrusterSlider.value = thruster;
-        thrusterText.SetText(thruster.ToString("0.##"));
+        thrusterText.SetText(thruster.ToString("0.00"));
         effects = PlayerPrefs.GetFloat("Effects", 0.2f);
         effectsSlider.value = effects;
-        effectsText.SetText(effects.ToString("0.##"));
+        effectsText.SetText(effects.ToString("0.00"));
         string rebinds = PlayerPrefs.GetString("Bindings");
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
 
@@ -542,7 +540,7 @@ public class MenuManager : MonoBehaviour
     public void ChangeFOV()
     {
         fov = fovSlider.value;
-        fovText.SetText(fov.ToString("0.#"));
+        fovText.SetText(fov.ToString("0"));
         PlayerPrefs.SetFloat("Fov", fov);
     }
 
@@ -556,35 +554,35 @@ public class MenuManager : MonoBehaviour
     public void ChangeDamping()
     {
         damping = dampingSlider.value;
-        dampingText.SetText(damping.ToString("0.#"));
+        dampingText.SetText(damping.ToString("0.00"));
         PlayerPrefs.SetFloat("Damping", damping);
     }
 
     public void ChangeMusic()
     {
         music = backgroundMusic.volume = musicSlider.value;
-        musicText.SetText(music.ToString("0.##"));
+        musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
 
     public void ChangeNoise()
     {
         noise = noiseSlider.value;
-        noiseText.SetText(noise.ToString("0.##"));
+        noiseText.SetText(noise.ToString("0.00"));
         PlayerPrefs.SetFloat("Noise", noise);
     }
 
     public void ChangeThruster()
     {
         thruster = thrusterSlider.value;
-        thrusterText.SetText(thruster.ToString("0.##"));
+        thrusterText.SetText(thruster.ToString("0.00"));
         PlayerPrefs.SetFloat("Thruster", thruster);
     }
 
     public void ChangeEffects()
     {
         effects = audioSource.volume = effectsSlider.value;
-        effectsText.SetText(effects.ToString("0.##"));
+        effectsText.SetText(effects.ToString("0.00"));
         PlayerPrefs.SetFloat("Effects", effects);
     }
 
@@ -667,7 +665,7 @@ public class MenuManager : MonoBehaviour
         creditsText.SetText("Credits: 500");
         creditsText2.SetText("Credits: 500");
         collects = 0;
-        collectsText.SetText("Space Junk Collected: 0");
+        collectsText.SetText("Space Debris Collected: 0");
         begTime.SetText("Beginner: 0:00:000");
         intTime.SetText("Intermediate: 0:00:000");
         advTime.SetText("Advanced: 0:00:000");
@@ -691,16 +689,16 @@ public class MenuManager : MonoBehaviour
         depthSlider.value = 7000;
         depthText.SetText("7000");
         dampingSlider.value = 0.1f;
-        dampingText.SetText("0.1");
+        dampingText.SetText("0.10");
         musicSlider.value = 0.2f;
-        musicText.SetText("0.2");
+        musicText.SetText("0.20");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
         noiseSlider.value = 0.2f;
-        noiseText.SetText("0.2");
+        noiseText.SetText("0.20");
         thrusterSlider.value = 0.2f;
-        thrusterText.SetText("0.2");
+        thrusterText.SetText("0.20");
         effectsSlider.value = 0.2f;
-        effectsText.SetText("0.2");
+        effectsText.SetText("0.20");
         foreach(InputActionMap map in InputSystem.actions.actionMaps) map.RemoveAllBindingOverrides();
         PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
 
@@ -726,16 +724,16 @@ public class MenuManager : MonoBehaviour
         depthSlider.value = 7000;
         depthText.SetText("7000");
         dampingSlider.value = 0.1f;
-        dampingText.SetText("0.1");
+        dampingText.SetText("0.10");
         musicSlider.value = 0.2f;
-        musicText.SetText("0.2");
+        musicText.SetText("0.20");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
         noiseSlider.value = 0.2f;
-        noiseText.SetText("0.2");
+        noiseText.SetText("0.20");
         thrusterSlider.value = 0.2f;
-        thrusterText.SetText("0.2");
+        thrusterText.SetText("0.20");
         effectsSlider.value = 0.2f;
-        effectsText.SetText("0.2");
+        effectsText.SetText("0.20");
         MinorClick();
     }
 
