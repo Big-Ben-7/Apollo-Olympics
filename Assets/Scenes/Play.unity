@@ -1624,7 +1624,7 @@ MonoBehaviour:
   playerChunks: []
   playingPlayers: 
   playerNames: []
-  initialThrustSpeeds: b80b0000ac0d0000a00f00009411000030750000
+  initialThrustSpeeds: b80b0000ac0d0000a00f00009411000088130000
   accelerations: b0040000780500004006000008070000d0070000
   maxThrustSpeeds: 30750000b8880000409c0000c8af000050c30000
   rotationSpeeds:
