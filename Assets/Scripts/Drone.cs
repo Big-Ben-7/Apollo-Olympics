@@ -21,6 +21,7 @@ public class Drone : MonoBehaviour
     [SerializeField] GameObject explosion;
     Transform explosionTransform;
     [SerializeField] AudioClip[] explosionSounds;
+    [SerializeField] LayerMask raycastMask;
     int explosionSoundsLength;
     public static WaitForSeconds twoSeconds;
 
@@ -101,8 +102,15 @@ public class Drone : MonoBehaviour
                 float confusionMag = confusionCalc.sqrMagnitude;
                 if(offset > 0 || !showCaptions || confusionMag < 1000) return;
 
+                RaycastHit hit;
+                bool targetHit = false;
+                if(Physics.Raycast(myTransform.position, direction.normalized, out hit, raycastMask))
+                {
+                    if(hit.transform == target) targetHit = true;
+                }
+
                 //Show caption if drone is outmaneuvered
-                if(confusionMag > 250000 || distance < 900000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                if((confusionMag > 250000 && targetHit) || distance < 500000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
                 break;
             
             default:
@@ -118,7 +126,8 @@ public class Drone : MonoBehaviour
 
     public void Explode(Vector3 pos, Transform parent = null)
     {
-        explosionTransform.parent = parent;
+        if(explosionTransform.parent != parent) explosionTransform.parent = parent;
+        if(explosionTransform.localScale != new Vector3(50, 50, 50)) explosionTransform.localScale = new Vector3(50, 50, 50);
         explosionTransform.position = pos;
         explosion.SetActive(true);
         StartCoroutine(ResetEffect(explosion, twoSeconds));

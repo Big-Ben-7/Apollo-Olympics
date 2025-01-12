@@ -738,17 +738,26 @@ public class PlayerController : MonoBehaviour
                         auraParticles[i].loop = true;
                     }
                 }
-                activationTime = initialActivation;
-                cooldownTime = initialCooldown;
-                abilityStrength = initialStrength;
-                abilityStrength2 = initialStrength2;
+                if(raceMode)
+                {
+                    activationTime = initialActivation;
+                    cooldownTime = initialCooldown;
+                    abilityStrength = initialStrength;
+                    abilityStrength2 = initialStrength2;
+                }
+                else
+                {
+                    credits = initialCredits;
+                    for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits.ToString());
+                }
 
-                health = 0;
+                health = collects = 0;
                 healthText.SetText("Health: 0.00");
+                collectText.SetText("Space Debris: 0");
+                thrustSpeed = initialThrustSpeed;
                 for(int i = 0; i < 9; i++) StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
                 for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
 
-                //Respawning
                 StartCoroutine(Respawn());
                 return;
 
@@ -787,35 +796,20 @@ public class PlayerController : MonoBehaviour
         yield return threeSeconds;
         finishText.SetText("");
         finishText.color = Color.white;
-        if(raceMode)
-        {
-            int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
-            switch(playerCheckpoint)
-            {
-                case 0:
-                    rb.position = startPos;
-                    rb.rotation = startRot;
-                    spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
-                    break;
-                default:
-                    Vector3 newPos = startPos + normalizedStartPos * checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1];
-                    rb.position = newPos;
-                    rb.rotation = startRot;
-                    spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
-                    break;
-            }
-        }
-        else
+        if(!raceMode || spawnManager.playerCheckpoints[playerIndex] == 0)
         {
             rb.position = startPos;
             rb.rotation = startRot;
             spawnManager.SpawnSectionsAround(Vector3.zero, playerIndex);
-            credits = initialCredits;
-            for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits.ToString());
         }
-        collects = 0;
-        collectText.SetText("Space Debris: 0");
-        thrustSpeed = initialThrustSpeed;
+        else
+        {
+            Vector3 newPos = startPos + normalizedStartPos * checkpointDistances[spawnManager.playerCheckpoints[playerIndex] - 1];
+            rb.position = newPos;
+            rb.rotation = startRot;
+            spawnManager.SpawnSectionsAround(new Vector3((int) Mathf.Round(newPos.x / length), (int) Mathf.Round(newPos.y / length), (int) Mathf.Round(newPos.z / length)), playerIndex);
+        }
+
         health = 100;
         healthText.SetText("Health: 100.00");
 
@@ -1290,7 +1284,7 @@ public class PlayerController : MonoBehaviour
             }
             if(collider.gameObject.CompareTag("Drone"))
             {
-                collider.GetComponent<Drone>().Explode(otherRb.position, myTransform);
+                collider.GetComponent<Drone>().Explode(otherRb.position);
             }
             else
             {

@@ -6,17 +6,17 @@ using TMPro;
 using System;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using Unity.VisualScripting.Dependencies.Sqlite;
 
 public class MenuManager : MonoBehaviour
 {
     [Header("Windows")]
+    [SerializeField] GameObject intro;
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject gameSettings;
     [SerializeField] GameObject customization;
     [SerializeField] GameObject loading;
     [SerializeField] GameObject settings;
-    [SerializeField] GameObject vaSettings;
-    [SerializeField] GameObject controlSettings;
 
     [Header("Main Menu")]
     [SerializeField] TMP_Text racesText;
@@ -82,6 +82,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text effectsText;
 
     [SerializeField] GameObject[] controls;
+    [SerializeField] GameObject[] settingWindows;
+    int activeSetting;
 
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
@@ -117,6 +119,7 @@ public class MenuManager : MonoBehaviour
 
     void Awake()
     {
+        loaded = false;
         for(int i = 0; i < 4; i++)
         {
             times[i] = PlayerPrefs.GetInt("Time" + i.ToString());
@@ -141,12 +144,6 @@ public class MenuManager : MonoBehaviour
         advTime.SetText("Advanced: " + advSpan.Minutes.ToString() + ":" + advSpan.Seconds.ToString("00") + "." + advSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description2"));
         TimeSpan expSpan = TimeSpan.FromMilliseconds(times[3]);
         expTime.SetText("Expert: " + expSpan.Minutes.ToString() + ":" + expSpan.Seconds.ToString("00") + "." + expSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description3"));
-        gameSettings.SetActive(false);
-        customization.SetActive(false);
-        settings.SetActive(false);
-        vaSettings.SetActive(false);
-        mainMenu.SetActive(true);
-        controlSettings.SetActive(true);
 
         //Get customization variables
         shipCount = ships.Length;
@@ -251,8 +248,26 @@ public class MenuManager : MonoBehaviour
         string rebinds = PlayerPrefs.GetString("Bindings");
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
 
+        gameSettings.SetActive(false);
+        customization.SetActive(false);
+        settings.SetActive(false);
+        activeSetting = 0;
+        settingWindows[0].SetActive(true);
+        for(int i = 1; i < 3; i++) settingWindows[i].SetActive(false);
+        if(PlayerPrefs.GetInt("Intro", 1) == 0)
+        {
+            intro.SetActive(false);
+            mainMenu.SetActive(true);
+            BackgroundMusic();
+        }
+        else
+        {
+            mainMenu.SetActive(false);
+            intro.SetActive(true);
+            PlayerPrefs.SetInt("Intro", 0);
+        }
+
         DebugManager.instance.enableRuntimeUI = false;
-        backgroundMusic.Play();
         loaded = true;
     }
 
@@ -264,8 +279,14 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void BackgroundMusic()
+    {
+        backgroundMusic.Play();
+    }
+
     public void ShowMain()
     {
+        intro.SetActive(false);
         gameSettings.SetActive(false);
         customization.SetActive(false);
         settings.SetActive(false);
@@ -519,21 +540,19 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void NextSetting()
+    public void NextSetting(int increment)
     {
-        if(controlSettings.activeSelf)
-        {
-            PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
-            controlSettings.SetActive(false);
-            vaSettings.SetActive(true);
-        }
-        else
+        activeSetting += increment;
+        if(activeSetting > 3) activeSetting = 0;
+        if(activeSetting < 0) activeSetting = 2;
+        if(activeSetting == 0) 
         {
             string rebinds = PlayerPrefs.GetString("Bindings");
             if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
-            vaSettings.SetActive(false);
-            controlSettings.SetActive(true);
         }
+        else PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
+        for(int i = 0; i < 3; i++) settingWindows[i].SetActive(false);
+        settingWindows[activeSetting].SetActive(true);
         MinorClick();
     }
 
@@ -701,6 +720,12 @@ public class MenuManager : MonoBehaviour
         effectsText.SetText("0.20");
         foreach(InputActionMap map in InputSystem.actions.actionMaps) map.RemoveAllBindingOverrides();
         PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
+
+        string rebinds = PlayerPrefs.GetString("Bindings");
+        if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
+        activeSetting = 0;
+        settingWindows[0].SetActive(true);
+        for(int i = 1; i < 3; i++) settingWindows[i].SetActive(false);
 
         loaded = true;
         MajorClick();
