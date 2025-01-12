@@ -6,7 +6,6 @@ using TMPro;
 using System;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
-using Unity.VisualScripting.Dependencies.Sqlite;
 
 public class MenuManager : MonoBehaviour
 {
