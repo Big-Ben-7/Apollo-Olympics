@@ -17,6 +17,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject customization;
     [SerializeField] GameObject loading;
     [SerializeField] GameObject settings;
+    [SerializeField] GameObject instructions;
 
     [Header("Main Menu")]
     [SerializeField] TMP_Text racesText;
@@ -93,7 +94,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] AudioClip errorSound;
     [SerializeField] AudioClip buySound;
     
-    public static bool loaded;
+    bool loaded;
+    public static bool fromGame;
     public static int playerNumber;
     public static bool raceMode;
     public static int difficulty;
@@ -253,8 +255,9 @@ public class MenuManager : MonoBehaviour
         settings.SetActive(false);
         activeSetting = 0;
         settingWindows[0].SetActive(true);
-        for(int i = 1; i < 3; i++) settingWindows[i].SetActive(false);
-        if(PlayerPrefs.GetInt("Intro", 1) == 0)
+        settingWindows[1].SetActive(false);
+        instructions.SetActive(false);
+        if(PlayerPrefs.GetInt("Intro", 1) == 0 || fromGame)
         {
             intro.SetActive(false);
             mainMenu.SetActive(true);
@@ -279,6 +282,13 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void Enter()
+    {
+        intro.SetActive(false);
+        instructions.SetActive(true);
+        MajorClick();
+    }
+
     public void BackgroundMusic()
     {
         backgroundMusic.Play();
@@ -286,7 +296,7 @@ public class MenuManager : MonoBehaviour
 
     public void ShowMain()
     {
-        intro.SetActive(false);
+        instructions.SetActive(false);
         gameSettings.SetActive(false);
         customization.SetActive(false);
         settings.SetActive(false);
@@ -543,15 +553,15 @@ public class MenuManager : MonoBehaviour
     public void NextSetting(int increment)
     {
         activeSetting += increment;
-        if(activeSetting > 3) activeSetting = 0;
-        if(activeSetting < 0) activeSetting = 2;
-        if(activeSetting == 0) 
+        if(activeSetting > 1) activeSetting = 0;
+        if(activeSetting < 0) activeSetting = 1;
+        if(activeSetting == 0)
         {
             string rebinds = PlayerPrefs.GetString("Bindings");
             if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
         }
         else PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
-        for(int i = 0; i < 3; i++) settingWindows[i].SetActive(false);
+        for(int i = 0; i < 2; i++) settingWindows[i].SetActive(false);
         settingWindows[activeSetting].SetActive(true);
         MinorClick();
     }
@@ -677,6 +687,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Noise", 0.2f);
         PlayerPrefs.SetFloat("Thruster", 0.2f);
         PlayerPrefs.SetFloat("Effects", 0.2f);
+        PlayerPrefs.SetInt("Intro", 1);
 
         races = 0;
         racesText.SetText("Races: 0");
@@ -725,7 +736,7 @@ public class MenuManager : MonoBehaviour
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
         activeSetting = 0;
         settingWindows[0].SetActive(true);
-        for(int i = 1; i < 3; i++) settingWindows[i].SetActive(false);
+        settingWindows[1].SetActive(false);
 
         loaded = true;
         MajorClick();

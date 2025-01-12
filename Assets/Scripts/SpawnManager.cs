@@ -662,6 +662,7 @@ public class SpawnManager : MonoBehaviour
     public void Exit()
     {
         audioSource.PlayOneShot(pauseSound);
+        MenuManager.fromGame = true;
         StartCoroutine(LoadScene(0));
     }
 
