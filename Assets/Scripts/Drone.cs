@@ -101,15 +101,8 @@ public class Drone : MonoBehaviour
                 float confusionMag = confusionCalc.sqrMagnitude;
                 if(offset > 0 || !showCaptions || confusionMag < 1000) return;
 
-                RaycastHit hit;
-                bool targetHit = false;
-                if(Physics.Raycast(myTransform.position, direction.normalized, out hit, raycastMask))
-                {
-                    if(hit.transform == target) targetHit = true;
-                }
-
                 //Show caption if drone is outmaneuvered
-                if((confusionMag > 250000 && targetHit) || distance < 500000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                if(confusionMag > 300000 || distance < 600000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
                 break;
             
             default:
