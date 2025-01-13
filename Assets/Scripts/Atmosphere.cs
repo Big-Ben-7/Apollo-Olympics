@@ -17,6 +17,7 @@ public class Atmosphere : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Drone") || other.gameObject.CompareTag("Aura")) return;
         Rigidbody otherRb = other.rigidbody;
+        if(otherRb.isKinematic) return;
         otherRb.AddForce((otherRb.position - myTransform.position).normalized * hitForce, ForceMode.VelocityChange);
         audioSource.PlayOneShot(hitClip);
     }
