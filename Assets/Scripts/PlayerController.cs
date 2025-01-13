@@ -788,7 +788,6 @@ public class PlayerController : MonoBehaviour
         if(collectEffect.activeSelf) collectEffect.SetActive(false);
         if(showArrow) arrow.gameObject.SetActive(false);
         if(showCaptions) caption.SetText("");
-        finishText.color = Color.red;
         finishText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
         StartCoroutine(ChangeTextColor(finishText, fifthSecond, Color.red, Color.white, 3));
         audioSource.PlayOneShot(dieSound);
@@ -928,6 +927,7 @@ public class PlayerController : MonoBehaviour
         finishBackground.SetActive(true);
         finishShip.SetActive(true);
         for(int i = 0; i < 9; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
+        finishText.color = Color.white;
         if(!raceMode) timeText.SetText("Time: 0:00.000");
         else
         {

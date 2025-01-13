@@ -573,7 +573,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8656183518272040662}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!114 &8531427835397552787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3218,13 +3218,13 @@ PrefabInstance:
 
         Venus is the 2nd planet from the Sun. Its dense atmosphere rains
         acid and traps greenhouse gases, making it the  hottest and deadliest planet,
-        and hot enough to even burn lead.
+        hot enough to even burn lead.
 
-        Ability - Toxic Shield: Venus
-        uses its thick atmosphere to protect itself from asteroids.
+        Ability - Toxic Shield: Venus uses
+        its thick atmosphere to protect itself from asteroids.
 
         Duration:
-        20s          Cooldown: 20s (min. 5)'
+        10s          Cooldown: 20s (min. 5)'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
