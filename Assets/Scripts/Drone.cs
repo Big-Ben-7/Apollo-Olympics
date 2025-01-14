@@ -20,7 +20,6 @@ public class Drone : MonoBehaviour
     [SerializeField] GameObject explosion;
     Transform explosionTransform;
     [SerializeField] AudioClip[] explosionSounds;
-    [SerializeField] LayerMask raycastMask;
     int explosionSoundsLength;
     public static WaitForSeconds twoSeconds;
 
@@ -97,7 +96,7 @@ public class Drone : MonoBehaviour
                 }
 
                 //Explode if drone is inside camera view and not occluded
-                Explode(other.GetContact(0).point);
+                Explode(myTransform.position);
                 float confusionMag = confusionCalc.sqrMagnitude;
                 if(offset > 0 || !showCaptions || confusionMag < 1000) return;
 

@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnRadius: 4000
-  minAttackForce: 1000
+  minAttackForce: 1500
   maxAttackForce: 2000
   confusion: 200
   maxWait: 10
@@ -117,9 +117,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1b1e870555539084e867c27366722812, type: 3}
   - {fileID: 8300000, guid: 3bbe242bc37c8614fbe02c843ed5b465, type: 3}
   - {fileID: 8300000, guid: 00567c9401ce5364fa0b2830749f785a, type: 3}
-  raycastMask:
-    serializedVersion: 2
-    m_Bits: 32832
   target: {fileID: 0}
   targetRb: {fileID: 0}
   playerController: {fileID: 0}

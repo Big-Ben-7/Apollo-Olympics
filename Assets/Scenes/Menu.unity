@@ -379,7 +379,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 816b6eab58d24c646a55f35fb63b0f1f, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
@@ -680,12 +680,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 610237401}
+  m_Father: {fileID: 1314231801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 590, y: 50}
+  m_AnchoredPosition: {x: 0, y: 650}
+  m_SizeDelta: {x: 570, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &140606690
 MonoBehaviour:
@@ -707,16 +707,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The year is 2500. Humanity has spread throughout the Solar System.\n \nThe
-    Apollo Olympiad Space Race has become the most popular sport in the galaxy, but
-    at the turn of the century, the stakes are higher than ever, as the unprecedented
+  m_text: "The year is 2500. Humanity has spread throughout the Solar System and
+    invented cutting-edge technologies such as hyper-advanced spaceships, space debris
+    to fuel conversion, and artificial wormholes.\n \nThe entire galaxy is excited
+    for the long-anticipated, first ever Apollo Olympiad. However, an unprecedented
     buildup of space junk has threatened interplanetary travel, and plundering space
-    pirates have infiltrated the arena.\n \nThis legendary competition is not only
-    a test of speed, but a daring mission of ingenuity and survival. Pilots must
-    customize the ultimate spaceship, scavenge space junk to fuel their performance,
-    navigate deadly asteroid fields, defeat relentless pirates, and race to the edge   
-    of the Solar System.\n \nDo you have the skill, courage, and determination  to
-    become the greatest space racer of all?"
+    pirates have infiltrated the arena.\n \nUnlike its ancient precursors, this legendary
+    competition is not only a test of speed, but a daring mission of ingenuity and
+    survival. Pilots must select the ultimate spaceship, scavenge space junk to fuel
+    their performance, navigate deadly asteroid fields, defeat relentless pirates,
+    and race to the edge of the Solar System.\n\nDo you have the skill, courage,
+    and determination  to become the greatest space racer of all?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -848,7 +849,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 610237401}
+    m_TransformParent: {fileID: 1546266263}
     m_Modifications:
     - target: {fileID: 748265461819021910, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_Name
@@ -860,11 +861,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontSize
-      value: 60
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontSizeBase
-      value: 60
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3445036615100726713, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1020,11 +1021,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7842063567327631724, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 170
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 7842063567327631724, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 80
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7842063567327631724, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_LocalScale.x
@@ -1072,7 +1073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7842063567327631724, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -820
+      value: -140
       objectReference: {fileID: 0}
     - target: {fileID: 7842063567327631724, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1280,13 +1281,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The Apollo Olympiad Space Race consists of 2 parts: Space Junk Collection
-    and Space Race. In Space Junk Collection, collect space junk to earn credits
-    to enter the Space Race. In the Space Race, race through 8 levels of increasing
-    distance and difficulty to the edge of the Solar System. Throughout the Olympiad,
-    maneuver through asteroids and roll to confuse space pirates. Make sure to read
-    the customization information carefully to select your ideal spaceship. Good
-    luck and see you at the finish line!'
+  m_text: 'The Apollo Olympiad consists of 2 parts: Space Junk Collection and Space
+    Race. In Space Junk Collection, collect space junk to earn credits to enter the
+    Space Race. In the Space Race, race through 8 levels of increasing distance and
+    difficulty to the edge of the Solar System. Throughout the Olympiad, maneuver
+    through asteroids and roll to confuse space pirates. Make sure to read the customization
+    information carefully to select your ideal spaceship. Good luck and see you at
+    the finish line!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -1508,43 +1509,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &610237400
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 610237401}
-  m_Layer: 5
-  m_Name: Intro
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &610237401
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 610237400}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 140606689}
-  - {fileID: 262038519}
-  m_Father: {fileID: 1546266263}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 820}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &675448063
 GameObject:
   m_ObjectHideFlags: 0
@@ -2121,6 +2085,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1314231800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1314231801}
+  - component: {fileID: 1314231802}
+  m_Layer: 5
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1314231801
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314231800}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 140606689}
+  m_Father: {fileID: 1546266263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 140}
+  m_SizeDelta: {x: 1000, y: 480}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1314231802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314231800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &1324429087 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1443281599167427219, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
@@ -2569,7 +2584,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1546266263
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2582,7 +2597,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 610237401}
+  - {fileID: 1314231801}
+  - {fileID: 262038519}
   m_Father: {fileID: 1466781901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3376,7 +3392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7578044228455446691, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7578044228455446691, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode

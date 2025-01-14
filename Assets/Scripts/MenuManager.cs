@@ -260,7 +260,6 @@ public class MenuManager : MonoBehaviour
         {
             intro.SetActive(false);
             mainMenu.SetActive(true);
-            BackgroundMusic();
         }
         else
         {
@@ -286,11 +285,6 @@ public class MenuManager : MonoBehaviour
         intro.SetActive(false);
         instructions.SetActive(true);
         MajorClick();
-    }
-
-    public void BackgroundMusic()
-    {
-        backgroundMusic.Play();
     }
 
     public void ShowMain()
