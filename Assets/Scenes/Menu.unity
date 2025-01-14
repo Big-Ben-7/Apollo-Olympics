@@ -379,7 +379,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 816b6eab58d24c646a55f35fb63b0f1f, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
@@ -712,12 +712,13 @@ MonoBehaviour:
     to fuel conversion, and artificial wormholes.\n \nThe entire galaxy is excited
     for the long-anticipated, first ever Apollo Olympiad. However, an unprecedented
     buildup of space junk has threatened interplanetary travel, and plundering space
-    pirates have infiltrated the arena.\n \nUnlike its ancient precursors, this legendary
-    competition is not only a test of speed, but a daring mission of ingenuity and
-    survival. Pilots must select the ultimate spaceship, scavenge space junk to fuel
-    their performance, navigate deadly asteroid fields, defeat relentless pirates,
-    and race to the edge of the Solar System.\n\nDo you have the skill, courage,
-    and determination  to become the greatest space racer of all?"
+    pirates have infiltrated the arena.\n \nUnlike its ancient predecessors, this
+    legendary competition is not only a challenge of speed, but a daring mission
+    of ingenuity and survival. Pilots must select the ultimate spaceship, scavenge
+    space junk to fuel their performance, navigate deadly asteroid fields, defeat
+    relentless pirates, and race to the edge of the Solar System.\n\nDo you have
+    the skill, courage, and determination  to become the greatest space racer of
+    all?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -1281,10 +1282,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The Apollo Olympiad consists of 2 parts: Space Junk Collection and Space
-    Race. In Space Junk Collection, collect space junk to earn credits to enter the
-    Space Race. In the Space Race, race through 8 levels of increasing distance and
-    difficulty to the edge of the Solar System. Throughout the Olympiad, maneuver
+  m_text: 'The Apollo Olympiad consists of two parts: Space Junk Collection and Space
+    Race. In Space Junk Collection, collect space junk to earn the credits needed
+    to enter Space Race. In Space Race, race through eight levels of increasing distance
+    and difficulty to the edge of the Solar System. Throughout the Olympiad, maneuver
     through asteroids and roll to confuse space pirates. Make sure to read the customization
     information carefully to select your ideal spaceship. Good luck and see you at
     the finish line!'
@@ -2584,7 +2585,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1546266263
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3185,7 +3186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8217804785039318091, guid: efb0fa0781e3b4df296a5f07188c090e, type: 3}
       propertyPath: m_text
-      value: Instructions
+      value: Pilot Instructions
       objectReference: {fileID: 0}
     - target: {fileID: 8217804785039318091, guid: efb0fa0781e3b4df296a5f07188c090e, type: 3}
       propertyPath: m_fontAsset
@@ -3392,7 +3393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7578044228455446691, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7578044228455446691, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode

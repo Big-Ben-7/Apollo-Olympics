@@ -255,15 +255,15 @@ public class MenuManager : MonoBehaviour
         activeSetting = 0;
         settingWindows[0].SetActive(true);
         settingWindows[1].SetActive(false);
-        instructions.SetActive(false);
+        mainMenu.SetActive(false);
         if(PlayerPrefs.GetInt("Intro", 1) == 0 || fromGame)
         {
             intro.SetActive(false);
-            mainMenu.SetActive(true);
+            instructions.SetActive(true);
         }
         else
         {
-            mainMenu.SetActive(false);
+            instructions.SetActive(false);
             intro.SetActive(true);
             PlayerPrefs.SetInt("Intro", 0);
         }
@@ -278,6 +278,11 @@ public class MenuManager : MonoBehaviour
         {
             activeModel.Rotate(0, rotationSpeed * Time.deltaTime, 0);
         }
+    }
+
+    public void BackgroundMusic()
+    {
+        backgroundMusic.Play();
     }
 
     public void Enter()
