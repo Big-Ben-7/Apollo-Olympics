@@ -120,6 +120,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] TMP_Text creditsText;
     [SerializeField] TMP_Text playText;
     [SerializeField] GameObject collectFinish;
+    [SerializeField] GameObject loading;
     public int initializedObjects;
     bool cursorHide;
     InputAction pauseAction;
@@ -140,6 +141,7 @@ public class SpawnManager : MonoBehaviour
         menu.SetActive(false);
         raceFinish.SetActive(false);
         collectFinish.SetActive(false);
+        loading.SetActive(false);
         length = side * 2;
 
         //Audio setup
@@ -617,9 +619,9 @@ public class SpawnManager : MonoBehaviour
             return;
         }
         credits -= 100;
-        string newCredits = "Credits: " + credits;
-        creditsText.SetText(newCredits);
+        MenuManager.credits = credits;
         PlayerPrefs.SetInt("Credits", credits);
+        creditsText.SetText("Credits: " + credits);
         audioSource.PlayOneShot(buySound);
         audioSource.PlayOneShot(pauseSound);
         StartCoroutine(LoadScene(1));
@@ -668,6 +670,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator LoadScene(int index)
     {
+        loading.SetActive(true);
         yield return oneRealSecond;
         paused = PlayerController.paused = false;
         Time.timeScale = 1;
