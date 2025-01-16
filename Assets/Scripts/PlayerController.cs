@@ -939,7 +939,7 @@ public class PlayerController : MonoBehaviour
                 int index = MenuManager.difficulty;
                 MenuManager.times[index] = elapsedMilliseconds;
                 PlayerPrefs.SetInt("Time" + index.ToString(), elapsedMilliseconds);
-                PlayerPrefs.SetString("Description" + index.ToString(), ", " + spawnManager.playerNames[playerIndex] + "-" + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year.ToString());
+                PlayerPrefs.SetString("Description" + index.ToString(), ", " + spawnManager.playerNames[playerIndex] + ", " + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00") + "/" + finishTime.Year.ToString());
             }
         }
         if(collects != 0)
