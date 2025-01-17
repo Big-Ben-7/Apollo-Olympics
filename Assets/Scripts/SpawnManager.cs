@@ -160,11 +160,7 @@ public class SpawnManager : MonoBehaviour
         backgroundMusic.volume = MenuManager.music * 0.5f;
         backgroundNoise.volume = MenuManager.noise;
         cursorHide = MenuManager.cursorHide;
-        if(cursorHide)
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        if(cursorHide) Cursor.visible = false;
         CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
         view.m_Lens.FieldOfView = MenuManager.fov;
         view.m_Lens.FarClipPlane = MenuManager.depth;
@@ -571,11 +567,7 @@ public class SpawnManager : MonoBehaviour
     {
         paused = PlayerController.paused = true;
         menu.SetActive(true);
-        if(cursorHide)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
+        if(cursorHide) Cursor.visible = true;
         audioSource.PlayOneShot(pauseSound);
         for(int i = 0; i < audioCount; i++)
         {
@@ -595,11 +587,7 @@ public class SpawnManager : MonoBehaviour
     public void Resume()
     {
         menu.SetActive(false);
-        if(cursorHide)
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        if(cursorHide) Cursor.visible = false;
         Time.timeScale = 1;
         audioSource.UnPause();
         for(int i = 0; i < audioCount; i++)
@@ -1279,11 +1267,7 @@ public class SpawnManager : MonoBehaviour
         if(menu.activeSelf) menu.SetActive(false);
         creditsText.SetText("Credits: " + credits.ToString());
         raceFinish.SetActive(true);
-        if(cursorHide)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
+        if(cursorHide) Cursor.visible = true;
         audioSource.PlayOneShot(pauseSound);
     }
 
@@ -1292,11 +1276,7 @@ public class SpawnManager : MonoBehaviour
         yield return twoSeconds;
         if(menu.activeSelf) menu.SetActive(false);
         collectFinish.SetActive(true);
-        if(cursorHide)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
+        if(cursorHide) Cursor.visible = true;
         audioSource.PlayOneShot(pauseSound);
     }
 
