@@ -261,6 +261,7 @@ public class MenuManager : MonoBehaviour
             intro.SetActive(false);
             instructions.SetActive(false);
             mainMenu.SetActive(true);
+            BackgroundMusic();
         }
         else if(PlayerPrefs.GetInt("Intro", 1) == 0)
         {
@@ -282,10 +283,7 @@ public class MenuManager : MonoBehaviour
 
     void Update()
     {
-        if(customization.activeSelf)
-        {
-            activeModel.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-        }
+        if(customization.activeSelf) activeModel.Rotate(0, rotationSpeed * Time.deltaTime, 0);
     }
 
     public void BackgroundMusic()
@@ -799,6 +797,7 @@ public class MenuManager : MonoBehaviour
     public void ResetControls()
     {
         InputSystem.actions.FindActionMap("Player" + (activePlayer + 1).ToString()).RemoveAllBindingOverrides();
+        InputSystem.actions.FindActionMap("General").RemoveAllBindingOverrides();
         MinorClick();
     }
 
