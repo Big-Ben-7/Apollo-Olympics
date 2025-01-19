@@ -707,17 +707,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The year is 2500. Humanity has spread throughout the Solar System and
-    invented cutting-edge technologies such as hyper-advanced spaceships, space debris-to-fuel
-    conversion, and artificial wormholes.\n \nThe entire galaxy is excited for the
-    long-anticipated, first ever Apollo Olympics. However, an unprecedented buildup
-    of space junk has impeded interplanetary travel, and plundering space pirates
-    have infiltrated the arena.\n \nUnlike its ancient predecessors, this legendary
-    competition is not only a challenge of speed, but a daring mission of ingenuity
-    and survival. Pilots must select the ultimate spaceship, scavenge space junk
-    to fuel their abilities, navigate through deadly asteroids, defeat relentless
-    pirates, and race to the edge of the Solar System.\n\nDo you have the skill,
-    courage, and determination  to become the greatest space racer of all?"
+  m_text: "The year is 2500. Humanity has expanded across the Solar System and invented
+    revolutionary technologies such as advanced spaceships, debris-to-fuel conversion,
+    and artificial wormholes for teleportation.\n \nThe long-anticipated, first-ever
+    Apollo Olympics is set to debut; however, an unprecedented buildup of space junk
+    has impeded interplanetary travel, and plundering space pirates have infiltrated
+    the arena.\n \nUnlike the ancient Olympics, this legendary competition is not
+    only a challenge of speed, but a daring mission of ingenuity and survival. Pilots
+    must select the ultimate spaceship, scavenge space debris to fuel their abilities,
+    navigate through deadly asteroids, defeat relentless pirates, and race across
+    the Solar System.\n\nDo you have the skill, courage, and determination  to become
+    the greatest space racer of all?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -3811,6 +3811,10 @@ PrefabInstance:
     - target: {fileID: 5223870351887055132, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_Name
       value: Main
+      objectReference: {fileID: 0}
+    - target: {fileID: 5967676415015258620, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
+      propertyPath: m_text
+      value: Space   Race
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
