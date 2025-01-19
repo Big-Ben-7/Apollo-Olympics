@@ -299,8 +299,8 @@ MonoBehaviour:
   graphic: {fileID: 1173174235150565577}
   shipModel: Uranus
   abilityPercent: 25
-  abilityPercent2: 30
-  activationTimePercent: 20
+  abilityPercent2: 25
+  activationTimePercent: 25
   minCooldown: 5
   durationCaption: +1 Ring Time
   cooldownCaption: -1 Ring Cooldown
@@ -341,10 +341,6 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
-  cam: {fileID: 0}
-  finishMask:
-    serializedVersion: 2
-    m_Bits: 0
   arrow: {fileID: 3556224703004809943}
 --- !u!82 &283605144193943937
 AudioSource:

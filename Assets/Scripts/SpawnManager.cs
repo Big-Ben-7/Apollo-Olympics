@@ -50,7 +50,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int maxAsteroidScale = 200;
     [SerializeField] int[] collectableNumbers = new int[] {8, 6, 4, 2};
     int collectableNumber;
-    [SerializeField] int collectCollectableMultiplier = 3;
+    [SerializeField] int collectCollectableMultiplier = 2;
     [SerializeField] int partDisablePercent = 50;
     [SerializeField] int maxMovementForce1 = 70;
     [SerializeField] int maxMovementForce2 = 250;
@@ -399,6 +399,7 @@ public class SpawnManager : MonoBehaviour
 
         for(int i = 0; i < playerNumber; i++)
         {
+            followers[i] = new List<Transform>();
             playerChunks[i] = Vector3.zero;
             playerCheckpoints[i] = 0;
             playingPlayers.Add(i);
@@ -408,7 +409,6 @@ public class SpawnManager : MonoBehaviour
             GameObject thirdPersonObject = viewObject.GetChild(0).gameObject;
             CinemachineVirtualCamera viewCam = thirdPersons[i] = thirdPersonObject.GetComponent<CinemachineVirtualCamera>();
             view.cullingMask = cameraMasks[i];
-            followers[i] = new List<Transform>() {cameraObjects[i]};
 
             Vector3 pos = startPos[i];
             Quaternion rot = startRots[i];
@@ -417,8 +417,6 @@ public class SpawnManager : MonoBehaviour
             Transform playerTransform = playerController.myTransform = player.transform;
             playerController.playerNumberString = playerStrings[i];
             playerController.playerIndex = i;
-            playerController.cam = view;
-            playerController.finishMask = finishMasks[i];
             playerController.cameraStats = cameraObject.GetChild(1);
             playerController.startPos = pos;
             playerController.normalizedStartPos = pos.normalized;
@@ -526,11 +524,9 @@ public class SpawnManager : MonoBehaviour
                         {
                             playerControllers[i].Finish();
                             List<Transform> playerFollowers = followers[i];
-                            int playerFollowerNumber = playerFollowers.Count;
-                            for(int j = 1; j < playerFollowerNumber; j++)
-                            {
-                                playerFollowers[j].gameObject.SetActive(false);
-                            }
+                            foreach(Transform playerFollower in playerFollowers) playerFollower.gameObject.SetActive(false);
+                            views[i].cullingMask = finishMasks[i];
+                            thirdPersons[i].m_Lens.FieldOfView = 35;
                             switch(Array.IndexOf(sortedList, collectsList[i]))
                             {
                                 case 0:
@@ -1226,12 +1222,9 @@ public class SpawnManager : MonoBehaviour
             DestroySection(i);
         }
         List<Transform> playerFollowers = followers[playerIndex];
-        int playerFollowerNumber = playerFollowers.Count;
-        for(int i = 1; i < playerFollowerNumber; i++)
-        {
-            playerFollowers[i].gameObject.SetActive(false);
-        }
-        
+        foreach(Transform playerFollower in playerFollowers) playerFollower.gameObject.SetActive(false);
+        views[playerIndex].cullingMask = finishMasks[playerIndex];
+        thirdPersons[playerIndex].m_Lens.FieldOfView = 35;
         int playersLeft = playingPlayers.Count;
         switch(playerNumber - playersLeft)
         {

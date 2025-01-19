@@ -376,9 +376,9 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 2096745121278956979}
   shipModel: Jupiter
-  abilityPercent: 30
+  abilityPercent: 25
   abilityPercent2: 25
-  activationTimePercent: 20
+  activationTimePercent: 25
   minCooldown: 3
   durationCaption: +1 Juggernaut Time
   cooldownCaption: -1 Juggernaut Cooldown
@@ -422,10 +422,6 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
-  cam: {fileID: 0}
-  finishMask:
-    serializedVersion: 2
-    m_Bits: 0
   arrow: {fileID: 5353075654820281820}
 --- !u!82 &283605144193943937
 AudioSource:

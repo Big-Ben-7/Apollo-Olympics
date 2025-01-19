@@ -5197,7 +5197,7 @@ MonoBehaviour:
   shipModel: Mars
   abilityPercent: 40
   abilityPercent2: 0
-  activationTimePercent: 30
+  activationTimePercent: 35
   minCooldown: 5
   durationCaption: +1 Dust Storm Time
   cooldownCaption: -1 Dust Storm Cooldown
@@ -5239,10 +5239,6 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
-  cam: {fileID: 0}
-  finishMask:
-    serializedVersion: 2
-    m_Bits: 0
   arrow: {fileID: 7303635377737201954}
 --- !u!82 &283605144193943937
 AudioSource:

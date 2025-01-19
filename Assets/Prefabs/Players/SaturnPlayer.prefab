@@ -374,8 +374,8 @@ MonoBehaviour:
   graphic: {fileID: 6480018586469105527}
   shipModel: Saturn
   abilityPercent: 25
-  abilityPercent2: 30
-  activationTimePercent: 20
+  abilityPercent2: 25
+  activationTimePercent: 25
   minCooldown: 5
   durationCaption: +1 Ring Time
   cooldownCaption: -1 Ring Cooldown
@@ -417,10 +417,6 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
-  cam: {fileID: 0}
-  finishMask:
-    serializedVersion: 2
-    m_Bits: 0
   arrow: {fileID: 5924438222475264082}
 --- !u!82 &283605144193943937
 AudioSource:

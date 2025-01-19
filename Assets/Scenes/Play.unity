@@ -1802,7 +1802,7 @@ MonoBehaviour:
   collectAsteroidDivisor: 2
   minAsteroidScale: 20
   maxAsteroidScale: 500
-  collectableNumbers: 08000000060000000400000002000000
+  collectableNumbers: 0a000000080000000600000004000000
   collectCollectableMultiplier: 3
   partDisablePercent: 50
   maxMovementForce1: 70

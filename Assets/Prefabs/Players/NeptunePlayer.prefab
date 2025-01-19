@@ -346,7 +346,7 @@ MonoBehaviour:
   graphic: {fileID: 9176598852586324252}
   shipModel: Neptune
   abilityPercent: 35
-  abilityPercent2: 40
+  abilityPercent2: 35
   activationTimePercent: 0
   minCooldown: 3
   durationCaption: 
@@ -391,10 +391,6 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
-  cam: {fileID: 0}
-  finishMask:
-    serializedVersion: 2
-    m_Bits: 0
   arrow: {fileID: 7200272891621461937}
 --- !u!82 &283605144193943937
 AudioSource:

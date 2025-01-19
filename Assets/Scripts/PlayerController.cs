@@ -208,8 +208,6 @@ public class PlayerController : MonoBehaviour
     TMP_Text countdownText;
     TMP_Text[] allText;
     GameObject finishBackground;
-    public Camera cam;
-    public LayerMask finishMask;
     public Transform arrow;
     public static float maxThrusterVolume;
     public static float audioVolume;
@@ -921,7 +919,6 @@ public class PlayerController : MonoBehaviour
     public void Finish()
     {
         gameObject.SetActive(false);
-        cam.cullingMask = finishMask;
         if(showCaptions) caption.gameObject.SetActive(false);
         abilityText.gameObject.SetActive(false);
         finishBackground.SetActive(true);
