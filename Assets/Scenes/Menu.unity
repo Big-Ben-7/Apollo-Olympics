@@ -684,7 +684,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 780}
+  m_AnchoredPosition: {x: 0, y: 740}
   m_SizeDelta: {x: 570, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &140606690
@@ -708,16 +708,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "The year is 2500. Humanity has expanded across the Solar System and invented
-    revolutionary technologies such as advanced spaceships, debris-to-fuel conversion,
-    and artificial wormholes for teleportation.\n \nThe long-anticipated, first-ever
-    Apollo Olympics is set to debut; however, an unprecedented buildup of space junk
-    has impeded interplanetary travel, and plundering space pirates have infiltrated
-    the arena.\n \nUnlike the ancient Olympics, this legendary competition is not
-    only a challenge of speed, but a daring mission of ingenuity and survival. Pilots
-    must select the ultimate spaceship, scavenge space debris to fuel their abilities,
-    navigate through deadly asteroids, defeat relentless pirates, and race across
-    the Solar System.\n\nDo you have the skill, courage, and determination  to become
-    the greatest space racer of all?"
+    revolutionary technologies including futuristic spaceships, debris-to-fuel conversion,
+    and artificial wormholes for teleportation.\n \nThe long-awaited, first-ever
+    Apollo Olympics is set to debut; however, a massive buildup of space junk and
+    plundering space pirates have impeded interplanetary travel.\n\nUnlike the ancient
+    Olympics, this legendary competition is not only a challenge of speed, but a
+    daring mission of ingenuity and survival. Pilots must select the ultimate spaceship,
+    scavenge space debris to fuel their abilities, navigate through deadly asteroids,
+    defeat relentless pirates, and race across the Solar System.\n\nDo you have the
+    skill, the courage, and the determination to become the greatest space racer
+    of all?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -1283,7 +1283,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'The Apollo Olympics consists of two parts: Space Junk Collection and Space
     Race. In Space Junk Collection, collect space junk to earn the credits needed
-    to enter Space Race. In Space Race, race through eight levels of increasing distance
+    to enter a race. In Space Race, race through eight levels of increasing distance
     and difficulty to the edge of the Solar System. Throughout the Olympics, maneuver
     through asteroids and roll to confuse space pirates. Make sure to read the customization
     information carefully to select your ideal spaceship. Good luck and see you at
