@@ -3456,11 +3456,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7578044228455446691, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ShowMain
+      value: BackgroundMusic
       objectReference: {fileID: 0}
     - target: {fileID: 7578044228455446691, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: BackgroundMusic
+      value: ShowMain
       objectReference: {fileID: 0}
     - target: {fileID: 7578044228455446691, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -3811,10 +3811,6 @@ PrefabInstance:
     - target: {fileID: 5223870351887055132, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
       propertyPath: m_Name
       value: Main
-      objectReference: {fileID: 0}
-    - target: {fileID: 5967676415015258620, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
-      propertyPath: m_text
-      value: Space   Race
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4291,10 +4287,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 79966733}
     - target: {fileID: 5279000393633299438, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
-      propertyPath: m_MinValue
-      value: 2000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5279000393633299438, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
@@ -4306,10 +4298,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 79966733}
-    - target: {fileID: 5610473095985651432, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
-      propertyPath: m_MaxValue
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 5610473095985651432, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

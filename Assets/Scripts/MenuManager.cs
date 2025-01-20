@@ -249,6 +249,7 @@ public class MenuManager : MonoBehaviour
         string rebinds = PlayerPrefs.GetString("Bindings");
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
 
+        instructions.SetActive(false);
         gameSettings.SetActive(false);
         customization.SetActive(false);
         settings.SetActive(false);
@@ -259,22 +260,14 @@ public class MenuManager : MonoBehaviour
         if(fromGame)
         {
             intro.SetActive(false);
-            instructions.SetActive(false);
             mainMenu.SetActive(true);
             BackgroundMusic();
-        }
-        else if(PlayerPrefs.GetInt("Intro", 1) == 0)
-        {
-            mainMenu.SetActive(false);
-            intro.SetActive(false);
-            instructions.SetActive(true);
+            fromGame = false;
         }
         else
         {
             mainMenu.SetActive(false);
-            instructions.SetActive(false);
             intro.SetActive(true);
-            PlayerPrefs.SetInt("Intro", 0);
         }
 
         DebugManager.instance.enableRuntimeUI = false;
