@@ -1384,7 +1384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8217804785039318091, guid: efb0fa0781e3b4df296a5f07188c090e, type: 3}
       propertyPath: m_text
-      value: Apollo    Olympics
+      value: Apollo   Olympics
       objectReference: {fileID: 0}
     - target: {fileID: 8217804785039318091, guid: efb0fa0781e3b4df296a5f07188c090e, type: 3}
       propertyPath: m_fontAsset

@@ -3812,10 +3812,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main
       objectReference: {fileID: 0}
-    - target: {fileID: 5967676415015258620, guid: 6e32001e8699649fb8c05c045585ec5d, type: 3}
-      propertyPath: m_text
-      value: Apollo   Olympics
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

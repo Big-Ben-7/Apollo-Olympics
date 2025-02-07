@@ -253,9 +253,6 @@ public class MenuManager : MonoBehaviour
         gameSettings.SetActive(false);
         customization.SetActive(false);
         settings.SetActive(false);
-        activeSetting = 0;
-        settingWindows[0].SetActive(true);
-        settingWindows[1].SetActive(false);
         
         if(fromGame)
         {
@@ -349,6 +346,9 @@ public class MenuManager : MonoBehaviour
             controls[i].SetActive(false);
         }
         controls[0].SetActive(true);
+        activeSetting = 0;
+        settingWindows[0].SetActive(true);
+        settingWindows[1].SetActive(false);
         settings.SetActive(true);
         MajorClick();
     }
@@ -727,12 +727,8 @@ public class MenuManager : MonoBehaviour
         effectsText.SetText("0.20");
         foreach(InputActionMap map in InputSystem.actions.actionMaps) map.RemoveAllBindingOverrides();
         SaveBindings();
-
         string rebinds = PlayerPrefs.GetString("Bindings");
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
-        activeSetting = 0;
-        settingWindows[0].SetActive(true);
-        settingWindows[1].SetActive(false);
 
         loaded = true;
         MajorClick();
