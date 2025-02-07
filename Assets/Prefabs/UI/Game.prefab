@@ -537,15 +537,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_text
-      value: Junk Collection
+      value: Debris Collection
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontSize
-      value: 24
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontStyle
-      value: 20
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontColor.b
@@ -561,7 +561,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontSizeBase
-      value: 24
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -689,7 +689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7842063567327631724, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 40
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 7842063567327631724, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_LocalScale.x
@@ -1203,7 +1203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontSize
-      value: 24
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontStyle
@@ -1223,7 +1223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontSizeBase
-      value: 24
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 2673097890665837639, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -1355,7 +1355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7842063567327631724, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 40
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 7842063567327631724, guid: 903359813e88e44ac9216d0ba6ac0471, type: 3}
       propertyPath: m_LocalScale.x

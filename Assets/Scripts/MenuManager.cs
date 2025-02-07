@@ -164,7 +164,7 @@ public class MenuManager : MonoBehaviour
         if(PlayerPrefs.GetInt("Mode") == 0)
         {
             raceMode = true;
-            raceText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
+            raceText.fontStyle = FontStyles.Underline;
             raceText.color = selectedColor;
             collectionText.fontStyle = FontStyles.Normal;
             collectionText.color = normalColor;
@@ -177,7 +177,7 @@ public class MenuManager : MonoBehaviour
             raceMode = false;
             raceText.fontStyle = FontStyles.Normal;
             raceText.color = normalColor;
-            collectionText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
+            collectionText.fontStyle = FontStyles.Underline;
             collectionText.color = selectedColor;
             racePlay.SetActive(false);
             collectionPlay.SetActive(true);
@@ -358,7 +358,7 @@ public class MenuManager : MonoBehaviour
         if(racing)
         {
             raceMode = true;
-            raceText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
+            raceText.fontStyle = FontStyles.Underline;
             raceText.color = selectedColor;
             collectionText.fontStyle = FontStyles.Normal;
             collectionText.color = normalColor;
@@ -372,7 +372,7 @@ public class MenuManager : MonoBehaviour
             raceMode = false;
             raceText.fontStyle = FontStyles.Normal;
             raceText.color = normalColor;
-            collectionText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
+            collectionText.fontStyle = FontStyles.Underline;
             collectionText.color = selectedColor;
             racePlay.SetActive(false);
             collectionPlay.SetActive(true);
@@ -557,7 +557,6 @@ public class MenuManager : MonoBehaviour
             string rebinds = PlayerPrefs.GetString("Bindings");
             if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
         }
-        else PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
         for(int i = 0; i < 2; i++) settingWindows[i].SetActive(false);
         settingWindows[activeSetting].SetActive(true);
         MinorClick();
@@ -698,7 +697,7 @@ public class MenuManager : MonoBehaviour
         advTime.SetText("Advanced: 0:00:000");
         expTime.SetText("Expert: 0:00:000");
         raceMode = true;
-        raceText.fontStyle = FontStyles.UpperCase | FontStyles.Underline;
+        raceText.fontStyle = FontStyles.Underline;
         raceText.color = selectedColor;
         collectionText.fontStyle = FontStyles.Normal;
         collectionText.color = normalColor;
@@ -727,7 +726,7 @@ public class MenuManager : MonoBehaviour
         effectsSlider.value = 0.2f;
         effectsText.SetText("0.20");
         foreach(InputActionMap map in InputSystem.actions.actionMaps) map.RemoveAllBindingOverrides();
-        PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
+        SaveBindings();
 
         string rebinds = PlayerPrefs.GetString("Bindings");
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
@@ -791,6 +790,7 @@ public class MenuManager : MonoBehaviour
     {
         InputSystem.actions.FindActionMap("Player" + (activePlayer + 1).ToString()).RemoveAllBindingOverrides();
         InputSystem.actions.FindActionMap("General").RemoveAllBindingOverrides();
+        SaveBindings();
         MinorClick();
     }
 
@@ -852,5 +852,10 @@ public class MenuManager : MonoBehaviour
         }
         SceneManager.UnloadSceneAsync(0);
         SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+    }
+
+    public void SaveBindings()
+    {
+        PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
     }
 }
