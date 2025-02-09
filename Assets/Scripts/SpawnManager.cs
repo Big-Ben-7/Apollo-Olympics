@@ -164,11 +164,11 @@ public class SpawnManager : MonoBehaviour
         CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
         view.m_Lens.FieldOfView = MenuManager.fov;
         view.m_Lens.FarClipPlane = MenuManager.depth;
-        CinemachineFramingTransposer transposer = view.GetCinemachineComponent<CinemachineFramingTransposer>();
-        transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = view.GetCinemachineComponent<CinemachineSameAsFollowTarget>().m_Damping = MenuManager.damping;
         PlayerController.maxThrusterVolume = MenuManager.thruster;
         PlayerController.showCaptions = Drone.showCaptions = MenuManager.showCaptions;
         PlayerController.showArrow = MenuManager.showArrow;
+        CinemachineFramingTransposer transposer = view.GetCinemachineComponent<CinemachineFramingTransposer>();
+        transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = view.GetCinemachineComponent<CinemachineSameAsFollowTarget>().m_Damping = MenuManager.damping;
 
         //Setting difficulty-dependent variables
         asteroidNumber = asteroidNumbers[difficulty];

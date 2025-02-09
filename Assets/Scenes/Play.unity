@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.50980395, g: 0.50980395, b: 0.50980395, a: 1}
+  m_AmbientSkyColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -519,7 +519,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -1773,9 +1773,9 @@ MonoBehaviour:
   raceMode: 1
   difficulty: 0
   possibleAsteroids:
-  - {fileID: 151664, guid: fa49e460baf435b4780da7196c2ab473, type: 3}
-  - {fileID: 141316, guid: 84cc3cd234dfc9d4d9d2e92c0eb0af75, type: 3}
-  - {fileID: 130102, guid: 04d0bf4be9447154188d86f6e3b8dce9, type: 3}
+  - {fileID: 2500861429606631645, guid: d8d0fd2ed85e14aa2bedeaab78962def, type: 3}
+  - {fileID: 32053758638371098, guid: eaf3585e630244effa4efa9eaeb8ec94, type: 3}
+  - {fileID: 4879753035522698601, guid: 87dcd0cef959e4d4bae0b3b5a48649a8, type: 3}
   possibleCollectables:
   - {fileID: 6075084805237653659, guid: 2f3517d7122014a08b905abf499bac15, type: 3}
   - {fileID: 5252142220861717741, guid: 269de9359ecb44e1eb408a202c25ebcb, type: 3}
@@ -1800,7 +1800,7 @@ MonoBehaviour:
   wormholePrefab: {fileID: 5607819269926399345, guid: de0c4b77a8bd041caa85f9497e2a6c42, type: 3}
   asteroidNumbers: 14000000280000003c00000050000000
   collectAsteroidDivisor: 2
-  minAsteroidScale: 20
+  minAsteroidScale: 50
   maxAsteroidScale: 500
   collectableNumbers: 0a000000080000000600000004000000
   collectCollectableMultiplier: 3
