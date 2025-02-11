@@ -167,8 +167,6 @@ public class SpawnManager : MonoBehaviour
         PlayerController.maxThrusterVolume = MenuManager.thruster;
         PlayerController.showCaptions = Drone.showCaptions = MenuManager.showCaptions;
         PlayerController.showArrow = MenuManager.showArrow;
-        CinemachineFramingTransposer transposer = view.GetCinemachineComponent<CinemachineFramingTransposer>();
-        transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = view.GetCinemachineComponent<CinemachineSameAsFollowTarget>().m_Damping = MenuManager.damping;
 
         //Setting difficulty-dependent variables
         asteroidNumber = asteroidNumbers[difficulty];
@@ -428,6 +426,8 @@ public class SpawnManager : MonoBehaviour
             arrowObject.GetComponent<Canvas>().worldCamera = view;
             arrowObject.layer = thirdPersonObject.layer = i + 9;
             viewCam.Follow = viewCam.LookAt = playerTransform.GetChild(2);
+            CinemachineFramingTransposer transposer = viewCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = viewCam.GetCinemachineComponent<CinemachineSameAsFollowTarget>().m_Damping = MenuManager.damping;
             view.rect = new Rect(cameraRects[i], scaleVector);
         }
 
