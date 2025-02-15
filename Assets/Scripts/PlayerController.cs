@@ -672,7 +672,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce((rb.position - otherPos).normalized * speed, ForceMode.VelocityChange);
             Vector3 otherPosLocal = myTransform.InverseTransformPoint(otherPos);
-            rb.AddTorque(new Vector3(-otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
+            rb.AddRelativeTorque(new Vector3(otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
         }
 
         if(!other.gameObject.CompareTag("Drone"))
