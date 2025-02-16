@@ -103,8 +103,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
     [SerializeField] AudioClip pauseSound;
-    [SerializeField] AudioClip buySound;
-    [SerializeField] AudioClip errorSound;
     [SerializeField] GameObject eventSystem;
     public AudioSource audioSource;
     AudioSource backgroundMusic;
@@ -501,41 +499,6 @@ public class SpawnManager : MonoBehaviour
     }
 
     public void RacePlay()
-    {
-        audioSource.PlayOneShot(buySound);
-        audioSource.PlayOneShot(pauseSound);
-        StartCoroutine(LoadScene(1));
-    }
-
-    IEnumerator ChangeText(TMP_Text text, WaitForSeconds wait, Color originalColor, Color newColor, string originalString = "", string newString = "", FontStyles style = FontStyles.Normal, int amount = 1)
-    {
-        if(originalString != newString) text.text = newString;
-        if(originalColor == newColor) originalColor = Color.white;
-        if(text.fontStyle != style) text.fontStyle = style;
-        switch(amount)
-        {
-            case 1:
-                text.color = newColor;
-                yield return wait;
-                if(text.color == newColor) text.color = originalColor;
-                break;
-
-            default:
-                int amountMinusOne = amount - 1;
-                for(int i = 0; i < amount; i++)
-                {
-                    text.color = newColor;
-                    yield return wait;
-                    if(text.color == newColor) text.color = originalColor;
-                    if(i < amountMinusOne) yield return wait;
-                }
-                break;
-        }
-        if(originalString != newString) text.text = originalString;
-        if(text.fontStyle != FontStyles.Normal) text.fontStyle = FontStyles.Normal;
-    }
-
-    public void CollectPlay()
     {
         audioSource.PlayOneShot(pauseSound);
         StartCoroutine(LoadScene(1));
