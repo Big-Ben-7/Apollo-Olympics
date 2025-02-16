@@ -183,7 +183,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.2
+  m_Intensity: 1.4
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -1549,8 +1549,6 @@ MonoBehaviour:
   countdownSound: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
   goSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
-  buySound: {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
-  errorSound: {fileID: 8300000, guid: 1ed8fb76fc64e4e46847348138782234, type: 3}
   eventSystem: {fileID: 1183720512}
   audioSource: {fileID: 0}
   menu: {fileID: 1265169702}

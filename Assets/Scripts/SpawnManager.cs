@@ -116,8 +116,7 @@ public class SpawnManager : MonoBehaviour
     bool cursorHide;
     InputAction pauseAction;
     WaitForSeconds oneSecond;
-    WaitForSeconds twoSeconds;
-    WaitForSeconds halfSecond;
+    WaitForSeconds fiveSeconds = new WaitForSeconds(5);
     WaitForSecondsRealtime oneRealSecond = new WaitForSecondsRealtime(1);
     public TMP_Text[] finishTexts;
     public float milliseconds;
@@ -191,10 +190,10 @@ public class SpawnManager : MonoBehaviour
         PlayerController.length = length;
         PlayerController.droneNumber = droneNumber;
         PlayerController.oneSecond = oneSecond = MenuManager.oneSecond;
-        PlayerController.twoSeconds = Drone.twoSeconds = twoSeconds = MenuManager.twoSeconds;
+        PlayerController.twoSeconds = Drone.twoSeconds = MenuManager.twoSeconds;
         PlayerController.threeSeconds = new WaitForSeconds(3);
         PlayerController.fifthSecond = new WaitForSeconds(0.2f);
-        PlayerController.halfSecond = halfSecond = MenuManager.halfSecond;
+        PlayerController.halfSecond = MenuManager.halfSecond;
         pauseAction = InputSystem.actions.FindAction("Pause");
         StartCoroutine(Initialize());
     }
@@ -1114,7 +1113,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator RaceFinish()
     {
-        yield return twoSeconds;
+        yield return fiveSeconds;
         if(menu.activeSelf) menu.SetActive(false);
         raceFinish.SetActive(true);
         if(cursorHide) Cursor.visible = true;

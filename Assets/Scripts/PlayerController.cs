@@ -127,13 +127,9 @@ public class PlayerController : MonoBehaviour
     };
     string[] crashCaptions = new string[] 
     {
-        "Ouch!",
-        "Watch Out!",
-        "Uh Oh!",
-        "Watch your health!",
-        "Brace for impact!",
-        "Watch your step!",
-        "Be careful!"
+        "Watch Your Health!",
+        "Warning: Low Health!",
+        "Low On Health!"
     };
     string[] deathCaptions = new string[] 
     {
@@ -148,7 +144,10 @@ public class PlayerController : MonoBehaviour
         "The best is yet to come...",
         "Time to bounce back!",
         "Persistance is Key",
-        "Inspirational Effort"
+        "Inspirational Effort",
+        "Uh Oh!",
+        "Ouch!",
+        "Brace For Impact!"
     };
     int droneCaptionNumber;
     int crashNumber;
@@ -209,6 +208,29 @@ public class PlayerController : MonoBehaviour
     public static bool showArrow;
     public static bool paused = true;
     bool kinematic = true;
+    string[] checkpointCaptions = new string[] 
+    {
+        "Passed Mercury Orbit!", 
+        "Passed Venus Orbit!", 
+        "Passed Earth Orbit!", 
+        "Passed Mars Orbit,\nEntering Asteroid Belt!", 
+        "Passed Jupiter Orbit!", 
+        "Passed Saturn Orbit!",
+        "Passed Uranus Orbit!",
+        "Passed Neptune Orbit,\nEntering Kuiper Belt!"
+    };
+    string[] backCaptions = new string[] 
+    {
+        "Back To Mercury Orbit!", 
+        "Back To Venus Orbit!", 
+        "Back To Earth Orbit!", 
+        "Back To Mars Orbit", 
+        "Back To Jupiter Orbit!", 
+        "Back To Saturn Orbit!",
+        "Back To Uranus Orbit!",
+        "Back To Neptune Orbit!"
+    };
+    int captionPriority = 0;
 
     void Awake()
     {
@@ -383,7 +405,7 @@ public class PlayerController : MonoBehaviour
         finishText.SetText("");
         spawnManager.finishTexts[playerIndex] = finishText;
         countdownText.SetText("");
-        checkpointText.SetText("Level: 0");
+        checkpointText.SetText("Checkpoint: 0");
         timeText.SetText(spawnManager.timeString);
         
         audioSource.volume = audioVolume;
@@ -616,23 +638,23 @@ public class PlayerController : MonoBehaviour
             if(number < abilityPercent2)
             {
                 abilityStrength2 += abilityIncrease2;
-                if(showCaptions) StartCoroutine(SetCaption(abilityCaption2, oneSecond));
+                if(showCaptions) StartCoroutine(SetCaption(abilityCaption2, oneSecond, 2));
             }
             else if(number < intermediate)
             {
                 activationTime++;
-                if(showCaptions) StartCoroutine(SetCaption(durationCaption, oneSecond));
+                if(showCaptions) StartCoroutine(SetCaption(durationCaption, oneSecond, 2));
             }
             else if(number < intermediate + abilityPercent || cooldownTime <= minCooldown)
             {
                 abilityStrength += abilityIncrease;
-                if(showCaptions) StartCoroutine(SetCaption(abilityCaption, oneSecond));
+                if(showCaptions) StartCoroutine(SetCaption(abilityCaption, oneSecond, 2));
             }
             else
             {
                 cooldownTime--;
                 if(currentCooldown > 1) currentCooldown --;
-                if(showCaptions) StartCoroutine(SetCaption(cooldownCaption, oneSecond));
+                if(showCaptions) StartCoroutine(SetCaption(cooldownCaption, oneSecond, 2));
             }
             if(!collectEffect.activeSelf)
             {
@@ -743,7 +765,7 @@ public class PlayerController : MonoBehaviour
                     healthText.color = Color.red;
                     if(showCaptions)
                     {
-                        StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], twoSeconds));
+                        StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], threeSeconds, 4));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
                 }
@@ -764,6 +786,7 @@ public class PlayerController : MonoBehaviour
         if(collectEffect.activeSelf) collectEffect.SetActive(false);
         if(showArrow) arrow.gameObject.SetActive(false);
         if(showCaptions) caption.SetText("");
+        captionPriority = 0;
         finishText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
         StartCoroutine(ChangeTextColor(finishText, fifthSecond, Color.red, Color.white, 3));
         audioSource.PlayOneShot(dieSound);
@@ -861,26 +884,29 @@ public class PlayerController : MonoBehaviour
         effect.SetActive(false);
     }
 
-    IEnumerator SetCaption(string phrase, WaitForSeconds wait)
+    IEnumerator SetCaption(string phrase, WaitForSeconds wait, int priority)
     {
-        if(crashCaptions.Contains(caption.text)) yield break;
+        if(captionPriority > priority) yield break;
+        if(captionPriority != priority) captionPriority = priority;
         caption.SetText(phrase);
         yield return wait;
         if(caption.text == phrase)
         {
+            captionPriority = 0;
             caption.SetText("");
         }
     }
 
     public IEnumerator SetDroneCaption(WaitForSeconds wait)
     {
-        string text = caption.text;
-        if(crashCaptions.Contains(text) || droneCaptions.Contains(text) || collided) yield break;
+        if(captionPriority >= 1 || collided) yield break;
+        captionPriority = 1;
         string phrase = droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)];
         caption.SetText(phrase);
         yield return wait;
         if(caption.text == phrase)
         {
+            captionPriority = 0;
             caption.SetText("");
         }
     }
@@ -891,35 +917,36 @@ public class PlayerController : MonoBehaviour
         int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
         int direction = UnityEngine.Random.Range(0, 100);
         float distance;
+        bool sameCheckpoint = false;
         switch(playerCheckpoint)
         {
             case 0:
                 if(direction < forwardPercent)
                 {
                     AddCheckpoint(playerCheckpoint);
-                    playerCheckpoint ++;
-                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                    distance = UnityEngine.Random.Range(checkpointDistances[0] + 200, checkpointDistances[1] - 200);
                     break;
                 }
-                distance = UnityEngine.Random.Range(0, checkpointDistances[playerCheckpoint] - 200);
+                sameCheckpoint = true;
+                distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 200);
                 break;
 
             case 1:
                 if(direction < forwardPercent)
                 {
                     AddCheckpoint(playerCheckpoint);
-                    playerCheckpoint ++;
-                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                    distance = UnityEngine.Random.Range(checkpointDistances[1] + 200, checkpointDistances[2] - 200);
                     break;
                 }
                 else if(direction < forwardPercent + backPercent)
                 {
                     playerCheckpoint --;
                     RemoveCheckpoint(playerCheckpoint);
-                    distance = UnityEngine.Random.Range(0, checkpointDistances[playerCheckpoint] - 200);
+                    distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 200);
                     break;
                 }
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                sameCheckpoint = true;
+                distance = UnityEngine.Random.Range(checkpointDistances[0] + 200, checkpointDistances[1] - 200);
                 break;
             
             case 8:
@@ -928,6 +955,7 @@ public class PlayerController : MonoBehaviour
                     playerCheckpoint --;
                     RemoveCheckpoint(playerCheckpoint);
                 }
+                else sameCheckpoint = true;
                 distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                 break;
 
@@ -942,8 +970,15 @@ public class PlayerController : MonoBehaviour
                     playerCheckpoint --;
                     RemoveCheckpoint(playerCheckpoint);
                 }
+                else sameCheckpoint = true;
                 distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                 break;
+        }
+        float mag = rb.position.magnitude;
+        if(sameCheckpoint)
+        {
+            if(mag > distance) StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0") + " units back!", twoSeconds, 3));
+            else StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0") + " units ahead!", twoSeconds, 3));
         }
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), 0) * new Vector3(0, 0, distance);
         rb.position = newPos;
@@ -955,10 +990,11 @@ public class PlayerController : MonoBehaviour
 
     void AddCheckpoint(int playerCheckpoint)
     {
+        StartCoroutine(SetCaption(checkpointCaptions[playerCheckpoint], threeSeconds, 3));
         playerCheckpoint ++;
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-        checkpointText.SetText("Level: " + playerCheckpoint.ToString());
+        checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());
         int newDrones = checkpointDrones[playerCheckpoint];
         for(int i = activeDrones; i < newDrones; i++)
         {
@@ -971,9 +1007,10 @@ public class PlayerController : MonoBehaviour
 
     void RemoveCheckpoint(int playerCheckpoint)
     {
+        StartCoroutine(SetCaption(backCaptions[playerCheckpoint], threeSeconds, 3));
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
-        checkpointText.SetText("Level: " + playerCheckpoint.ToString());
+        checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, Color.red));
         audioSource.PlayOneShot(errorSound);
     }
