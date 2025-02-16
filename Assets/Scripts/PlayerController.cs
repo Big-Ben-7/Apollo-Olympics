@@ -97,7 +97,6 @@ public class PlayerController : MonoBehaviour
     bool canTrigger;
     public static SpawnManager spawnManager;
     public static int length;
-    public static int playerNumber;
     public static int[] checkpointDistances;
     float[] collisionInitials;
     ParticleSystem.MainModule[] thrusters;
@@ -105,10 +104,6 @@ public class PlayerController : MonoBehaviour
     int hitSoundsCount;
     public int collects;
     GameObject hitExplosionPrefab;
-    public static int credits;
-    public static int initialCredits;
-    public static int creditIncrease;
-    public static int lastCheckpointDistance;
     int forwardPercent = 35;
     int backPercent = 25;
     string[] droneCaptions = new string[]
@@ -195,7 +190,6 @@ public class PlayerController : MonoBehaviour
     TMP_Text nameText;
     TMP_Text healthText;
     TMP_Text checkpointText;
-    public static TMP_Text[] checkpointTexts;
     TMP_Text collectText;
     TMP_Text abilityText;
     TMP_Text posText;
@@ -212,7 +206,6 @@ public class PlayerController : MonoBehaviour
     public static float maxThrusterVolume;
     public static float audioVolume;
     public static bool showCaptions;
-    bool raceMode;
     public static bool showArrow;
     public static bool paused = true;
     bool kinematic = true;
@@ -390,17 +383,7 @@ public class PlayerController : MonoBehaviour
         finishText.SetText("");
         spawnManager.finishTexts[playerIndex] = finishText;
         countdownText.SetText("");
-
-        raceMode = spawnManager.raceMode;
-        if(raceMode)
-        {
-            checkpointText.SetText("Level: 0");
-        }
-        else
-        {
-            checkpointTexts[playerIndex] = checkpointText;
-            checkpointText.SetText("Credits: " + credits.ToString());
-        }
+        checkpointText.SetText("Level: 0");
         timeText.SetText(spawnManager.timeString);
         
         audioSource.volume = audioVolume;
@@ -532,37 +515,49 @@ public class PlayerController : MonoBehaviour
         }
         
         //Check if passed checkpoint
-        if(raceMode)
+        int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
+        switch(playerCheckpoint)
         {
-            int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
-            switch(playerCheckpoint)
-            {
-                case 0:
-                    if(posMag >= checkpointDistances[0]) AddCheckpoint(playerCheckpoint);
-                    break;
-                
-                case 8:
-                    //Passed finish line
-                    if(posMag >= checkpointDistances[8])
+            case 0:
+                if(posMag >= checkpointDistances[0]) AddCheckpoint(playerCheckpoint);
+                break;
+            
+            case 8:
+                //Passed finish line
+                if(posMag >= checkpointDistances[8])
+                {
+                    gameObject.SetActive(false);
+                    if(showCaptions) caption.gameObject.SetActive(false);
+                    abilityText.gameObject.SetActive(false);
+                    finishBackground.SetActive(true);
+                    finishShip.SetActive(true);
+                    for(int i = 0; i < 9; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
+                    finishText.color = Color.white;
+                    spawnManager.PlayerFinish(playerIndex);
+                    DateTime finishTime = DateTime.Now;
+                    int elapsedMilliseconds = Mathf.RoundToInt(spawnManager.milliseconds) + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
+                    if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
                     {
-                        Finish();
-                        return;
+                        int index = MenuManager.difficulty;
+                        MenuManager.times[index] = elapsedMilliseconds;
+                        PlayerPrefs.SetInt("Time" + index.ToString(), elapsedMilliseconds);
+                        PlayerPrefs.SetString("Description" + index.ToString(), " - " + spawnManager.playerNames[playerIndex] + ", " + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00"));
                     }
-                    else if(posMag <= checkpointDistances[7]) RemoveCheckpoint(7);
-                    break;
+                    if(collects != 0)
+                    {
+                        MenuManager.collects += collects;
+                        PlayerPrefs.SetInt("Collects", MenuManager.collects);
+                    }
+                    return;
+                }
+                else if(posMag <= checkpointDistances[7]) RemoveCheckpoint(7);
+                break;
 
-                default:
-                    int lastCheckpoint = playerCheckpoint - 1;
-                    if(posMag >= checkpointDistances[playerCheckpoint]) AddCheckpoint(playerCheckpoint);
-                    else if(posMag <= checkpointDistances[lastCheckpoint]) RemoveCheckpoint(lastCheckpoint);
-                    break;
-            }
-        }
-        else if(posMag >= lastCheckpointDistance)
-        {
-            rb.AddForce(-rb.position.normalized * 3000, ForceMode.VelocityChange);
-            StartCoroutine(ChangeTextColor(distanceText, fifthSecond, Color.white, Color.red));
-            audioSource.PlayOneShot(errorSound);
+            default:
+                int lastCheckpoint = playerCheckpoint - 1;
+                if(posMag >= checkpointDistances[playerCheckpoint]) AddCheckpoint(playerCheckpoint);
+                else if(posMag <= checkpointDistances[lastCheckpoint]) RemoveCheckpoint(lastCheckpoint);
+                break;
         }
 
         //Show position in km, divide by 1609 for mi
@@ -616,37 +611,28 @@ public class PlayerController : MonoBehaviour
             collects++;
             collectText.SetText("Space Debris: " + collects.ToString());
             StartCoroutine(ChangeTextColor(collectText, fifthSecond, Color.white, Color.green));
-            if(raceMode)
+            int number = UnityEngine.Random.Range(0, 100);
+            int intermediate = activationTimePercent + abilityPercent2;
+            if(number < abilityPercent2)
             {
-                int number = UnityEngine.Random.Range(0, 100);
-                int intermediate = activationTimePercent + abilityPercent2;
-                if(number < abilityPercent2)
-                {
-                    abilityStrength2 += abilityIncrease2;
-                    if(showCaptions) StartCoroutine(SetCaption(abilityCaption2, oneSecond));
-                }
-                else if(number < intermediate)
-                {
-                    activationTime++;
-                    if(showCaptions) StartCoroutine(SetCaption(durationCaption, oneSecond));
-                }
-                else if(number < intermediate + abilityPercent || cooldownTime <= minCooldown)
-                {
-                    abilityStrength += abilityIncrease;
-                    if(showCaptions) StartCoroutine(SetCaption(abilityCaption, oneSecond));
-                }
-                else
-                {
-                    cooldownTime--;
-                    if(currentCooldown > 1) currentCooldown --;
-                    if(showCaptions) StartCoroutine(SetCaption(cooldownCaption, oneSecond));
-                }
+                abilityStrength2 += abilityIncrease2;
+                if(showCaptions) StartCoroutine(SetCaption(abilityCaption2, oneSecond));
+            }
+            else if(number < intermediate)
+            {
+                activationTime++;
+                if(showCaptions) StartCoroutine(SetCaption(durationCaption, oneSecond));
+            }
+            else if(number < intermediate + abilityPercent || cooldownTime <= minCooldown)
+            {
+                abilityStrength += abilityIncrease;
+                if(showCaptions) StartCoroutine(SetCaption(abilityCaption, oneSecond));
             }
             else
             {
-                credits += creditIncrease;
-                for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits.ToString());
-                StartCoroutine(ChangeTextColor(checkpointText, fifthSecond, Color.white, Color.green));
+                cooldownTime--;
+                if(currentCooldown > 1) currentCooldown --;
+                if(showCaptions) StartCoroutine(SetCaption(cooldownCaption, oneSecond));
             }
             if(!collectEffect.activeSelf)
             {
@@ -736,18 +722,10 @@ public class PlayerController : MonoBehaviour
                         auraParticles[i].loop = true;
                     }
                 }
-                if(raceMode)
-                {
-                    activationTime = initialActivation;
-                    cooldownTime = initialCooldown;
-                    abilityStrength = initialStrength;
-                    abilityStrength2 = initialStrength2;
-                }
-                else
-                {
-                    credits = initialCredits;
-                    for(int i = 0; i < playerNumber; i++) checkpointTexts[i].SetText("Credits: " + credits.ToString());
-                }
+                activationTime = initialActivation;
+                cooldownTime = initialCooldown;
+                abilityStrength = initialStrength;
+                abilityStrength2 = initialStrength2;
 
                 health = collects = 0;
                 healthText.SetText("Health: 0.00");
@@ -793,7 +771,7 @@ public class PlayerController : MonoBehaviour
         yield return threeSeconds;
         finishText.SetText("");
         finishText.color = Color.white;
-        if(!raceMode || spawnManager.playerCheckpoints[playerIndex] == 0)
+        if(spawnManager.playerCheckpoints[playerIndex] == 0)
         {
             rb.position = startPos;
             rb.rotation = startRot;
@@ -837,22 +815,13 @@ public class PlayerController : MonoBehaviour
         }
         countdownText.SetText("Go!");
         yield return oneSecond;
-        if(raceMode)
+        if(showArrow) arrow.gameObject.SetActive(true);
+        activeDrones = checkpointDrones[0];
+        for(int i = 0; i < activeDrones; i++)
         {
-            if(showArrow) arrow.gameObject.SetActive(true);
-            activeDrones = checkpointDrones[0];
-            for(int i = 0; i < activeDrones; i++)
-            {
-                drones[i].SetActive(true);
-            }
+            drones[i].SetActive(true);
         }
-        else
-        {
-            for(int i = 0; i < droneNumber; i++)
-            {
-                drones[i].SetActive(true);
-            }
-        }
+        
         countdownText.gameObject.SetActive(false);
         thrusterParent.SetActive(true);
         rb.isKinematic = kinematic = false;
@@ -916,101 +885,66 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Finish()
-    {
-        gameObject.SetActive(false);
-        if(showCaptions) caption.gameObject.SetActive(false);
-        abilityText.gameObject.SetActive(false);
-        finishBackground.SetActive(true);
-        finishShip.SetActive(true);
-        for(int i = 0; i < 9; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
-        finishText.color = Color.white;
-        if(!raceMode) timeText.SetText("Time: 0:00.000");
-        else
-        {
-            spawnManager.PlayerFinish(playerIndex);
-            DateTime finishTime = DateTime.Now;
-            int elapsedMilliseconds = Mathf.RoundToInt(spawnManager.milliseconds) + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
-            if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
-            {
-                int index = MenuManager.difficulty;
-                MenuManager.times[index] = elapsedMilliseconds;
-                PlayerPrefs.SetInt("Time" + index.ToString(), elapsedMilliseconds);
-                PlayerPrefs.SetString("Description" + index.ToString(), " - " + spawnManager.playerNames[playerIndex] + ", " + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00"));
-            }
-        }
-        if(collects != 0)
-        {
-            MenuManager.collects += collects;
-            PlayerPrefs.SetInt("Collects", MenuManager.collects);
-        }
-    }
-
     public void Teleport()
     {
         canCollide = canTrigger = false;
         int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
         int direction = UnityEngine.Random.Range(0, 100);
         float distance;
-        if(raceMode)
+        switch(playerCheckpoint)
         {
-            switch(playerCheckpoint)
-            {
-                case 0:
-                    if(direction < forwardPercent)
-                    {
-                        AddCheckpoint(playerCheckpoint);
-                        playerCheckpoint ++;
-                        distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
-                        break;
-                    }
+            case 0:
+                if(direction < forwardPercent)
+                {
+                    AddCheckpoint(playerCheckpoint);
+                    playerCheckpoint ++;
+                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                    break;
+                }
+                distance = UnityEngine.Random.Range(0, checkpointDistances[playerCheckpoint] - 200);
+                break;
+
+            case 1:
+                if(direction < forwardPercent)
+                {
+                    AddCheckpoint(playerCheckpoint);
+                    playerCheckpoint ++;
+                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                    break;
+                }
+                else if(direction < forwardPercent + backPercent)
+                {
+                    playerCheckpoint --;
+                    RemoveCheckpoint(playerCheckpoint);
                     distance = UnityEngine.Random.Range(0, checkpointDistances[playerCheckpoint] - 200);
                     break;
+                }
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                break;
+            
+            case 8:
+                if(direction < backPercent)
+                {
+                    playerCheckpoint --;
+                    RemoveCheckpoint(playerCheckpoint);
+                }
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                break;
 
-                case 1:
-                    if(direction < forwardPercent)
-                    {
-                        AddCheckpoint(playerCheckpoint);
-                        playerCheckpoint ++;
-                        distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
-                        break;
-                    }
-                    else if(direction < forwardPercent + backPercent)
-                    {
-                        playerCheckpoint --;
-                        RemoveCheckpoint(playerCheckpoint);
-                        distance = UnityEngine.Random.Range(0, checkpointDistances[playerCheckpoint] - 200);
-                        break;
-                    }
-                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
-                    break;
-                
-                case 8:
-                    if(direction < backPercent)
-                    {
-                        playerCheckpoint --;
-                        RemoveCheckpoint(playerCheckpoint);
-                    }
-                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
-                    break;
-
-                default:
-                    if(direction < forwardPercent)
-                    {
-                        AddCheckpoint(playerCheckpoint);
-                        playerCheckpoint ++;
-                    }
-                    else if(direction < forwardPercent + backPercent)
-                    {
-                        playerCheckpoint --;
-                        RemoveCheckpoint(playerCheckpoint);
-                    }
-                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
-                    break;
-            }
+            default:
+                if(direction < forwardPercent)
+                {
+                    AddCheckpoint(playerCheckpoint);
+                    playerCheckpoint ++;
+                }
+                else if(direction < forwardPercent + backPercent)
+                {
+                    playerCheckpoint --;
+                    RemoveCheckpoint(playerCheckpoint);
+                }
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                break;
         }
-        else distance = UnityEngine.Random.Range(0, lastCheckpointDistance - 200);
-
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), 0) * new Vector3(0, 0, distance);
         rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);

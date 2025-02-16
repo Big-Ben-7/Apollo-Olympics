@@ -20,7 +20,6 @@ public class MenuManager : MonoBehaviour
 
     [Header("Main Menu")]
     [SerializeField] TMP_Text racesText;
-    [SerializeField] TMP_Text creditsText;
     [SerializeField] TMP_Text collectsText;
     [SerializeField] TMP_Text begTime;
     [SerializeField] TMP_Text intTime;
@@ -28,18 +27,12 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text expTime;
 
     [Header("Game Settings")]
-    [SerializeField] TMP_Text creditsText2;
-    [SerializeField] TMP_Text raceText;
-    [SerializeField] TMP_Text collectionText;
     [SerializeField] Slider difficultySlider;
     [SerializeField] TMP_Text[] difficulties;
     [SerializeField] Slider playersSlider;
     [SerializeField] TMP_Text[] playerNumbers;
-    [SerializeField] TMP_Text playText;
     [SerializeField] Color normalColor;
     [SerializeField] Color selectedColor;
-    [SerializeField] GameObject racePlay;
-    [SerializeField] GameObject collectionPlay;
 
     [Header("Customization")]
     [SerializeField] GameObject[] ships;
@@ -91,18 +84,15 @@ public class MenuManager : MonoBehaviour
     [SerializeField] AudioClip majorClick;
     [SerializeField] AudioClip minorClick;
     [SerializeField] AudioClip errorSound;
-    [SerializeField] AudioClip buySound;
     
     bool loaded;
     public static bool fromGame;
     public static int playerNumber;
-    public static bool raceMode;
     public static int difficulty;
     public static int[] playerShips = new int[4];
     public static int[] times = new int[4];
     public static int collects;
     public static int races;
-    public static int credits;
     public static float fov;
     public static float depth;
     public static float damping;
@@ -131,10 +121,6 @@ public class MenuManager : MonoBehaviour
         //Get main menu variables
         races = PlayerPrefs.GetInt("Races");
         racesText.SetText("Races: " + races.ToString());
-        credits = PlayerPrefs.GetInt("Credits", 500);
-        string newCredits = "Credits: " + credits.ToString();
-        creditsText.SetText(newCredits);
-        creditsText2.SetText(newCredits);
         collects = PlayerPrefs.GetInt("Collects");
         collectsText.SetText("Space Debris Collected: " + collects.ToString());
         TimeSpan begSpan = TimeSpan.FromMilliseconds(times[0]);
@@ -161,28 +147,6 @@ public class MenuManager : MonoBehaviour
         }
 
         //Get game settings variables
-        if(PlayerPrefs.GetInt("Mode") == 0)
-        {
-            raceMode = true;
-            raceText.fontStyle = FontStyles.Underline;
-            raceText.color = selectedColor;
-            collectionText.fontStyle = FontStyles.Normal;
-            collectionText.color = normalColor;
-            racePlay.SetActive(true);
-            collectionPlay.SetActive(false);
-            playText.SetText("Play  -  100 credits");
-        }
-        else
-        {
-            raceMode = false;
-            raceText.fontStyle = FontStyles.Normal;
-            raceText.color = normalColor;
-            collectionText.fontStyle = FontStyles.Underline;
-            collectionText.color = selectedColor;
-            racePlay.SetActive(false);
-            collectionPlay.SetActive(true);
-            playText.SetText("Play");
-        }
         playerNumber = PlayerPrefs.GetInt("PlayerNumber", 1);
         playersSlider.value = playerNumber;
         for(int i = 0; i < 4; i++) playerNumbers[i].color = normalColor;
@@ -353,52 +317,8 @@ public class MenuManager : MonoBehaviour
         MajorClick();
     }
 
-    public void ChangeMode(bool racing)
-    {
-        if(racing)
-        {
-            raceMode = true;
-            raceText.fontStyle = FontStyles.Underline;
-            raceText.color = selectedColor;
-            collectionText.fontStyle = FontStyles.Normal;
-            collectionText.color = normalColor;
-            racePlay.SetActive(true);
-            collectionPlay.SetActive(false);
-            playText.SetText("Play  -  100 credits");
-            PlayerPrefs.SetInt("Mode", 0);
-        }
-        else
-        {
-            raceMode = false;
-            raceText.fontStyle = FontStyles.Normal;
-            raceText.color = normalColor;
-            collectionText.fontStyle = FontStyles.Underline;
-            collectionText.color = selectedColor;
-            racePlay.SetActive(false);
-            collectionPlay.SetActive(true);
-            playText.SetText("Play");
-            PlayerPrefs.SetInt("Mode", 1);
-        }
-        MinorClick();
-    }
-
     public void Play()
     {
-        if(raceMode)
-        {
-            if(credits < 100)
-            {
-                StartCoroutine(ChangeText(playText, halfSecond, Color.white, Color.red, "Play  -  100 credits", "Not enough credits", FontStyles.Italic));
-                audioSource.PlayOneShot(errorSound);
-                return;
-            }
-            credits -= 100;
-            string newCredits = "Credits: " + credits.ToString();
-            creditsText.SetText(newCredits);
-            creditsText2.SetText(newCredits);
-            PlayerPrefs.SetInt("Credits", credits);
-            audioSource.PlayOneShot(buySound);
-        }
         gameSettings.SetActive(false);
         loading.SetActive(true);
         MajorClick();
@@ -667,11 +587,9 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetString("Name" + i.ToString(), "Player " + (i + 1).ToString());
             playerNames[i] = "Player " + (i + 1).ToString();
         }
-        PlayerPrefs.SetInt("Mode", 0);
         PlayerPrefs.SetInt("PlayerNumber", 1);
         PlayerPrefs.SetInt("Difficulty", 0);
         PlayerPrefs.SetInt("Races", 0);
-        PlayerPrefs.SetInt("Credits", 500);
         PlayerPrefs.SetInt("Collects", 0);
         PlayerPrefs.SetFloat("Fov", 35);
         PlayerPrefs.SetFloat("Depth", 7000);
@@ -687,23 +605,12 @@ public class MenuManager : MonoBehaviour
 
         races = 0;
         racesText.SetText("Races: 0");
-        credits = 500;
-        creditsText.SetText("Credits: 500");
-        creditsText2.SetText("Credits: 500");
         collects = 0;
         collectsText.SetText("Space Debris Collected: 0");
         begTime.SetText("Beginner: 0:00:000");
         intTime.SetText("Intermediate: 0:00:000");
         advTime.SetText("Advanced: 0:00:000");
         expTime.SetText("Expert: 0:00:000");
-        raceMode = true;
-        raceText.fontStyle = FontStyles.Underline;
-        raceText.color = selectedColor;
-        collectionText.fontStyle = FontStyles.Normal;
-        collectionText.color = normalColor;
-        racePlay.SetActive(true);
-        collectionPlay.SetActive(false);
-        playText.SetText("Play  -  100 credits");
         playersSlider.value = 1;
         for(int i = 1; i < 4; i++) playerNumbers[i].color = normalColor;
         playerNumbers[0].color = selectedColor;

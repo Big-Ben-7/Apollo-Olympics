@@ -35,7 +35,6 @@ public class SpawnManager : MonoBehaviour
     float lastCheckpointDistance;
 
     [Header("Interactables")]
-    public bool raceMode;
     [SerializeField] int difficulty;
     [SerializeField] GameObject[] possibleAsteroids;
     [SerializeField] GameObject[] possibleCollectables;
@@ -45,12 +44,10 @@ public class SpawnManager : MonoBehaviour
     //Asteroid number must be divisible by 20
     [SerializeField] int[] asteroidNumbers = new int[] {20, 40, 60, 80};
     int asteroidNumber;
-    [SerializeField] int collectAsteroidDivisor = 2;
     [SerializeField] int minAsteroidScale = 20;
     [SerializeField] int maxAsteroidScale = 200;
     [SerializeField] int[] collectableNumbers = new int[] {8, 6, 4, 2};
     int collectableNumber;
-    [SerializeField] int collectCollectableMultiplier = 2;
     [SerializeField] int partDisablePercent = 50;
     [SerializeField] int maxMovementForce1 = 70;
     [SerializeField] int maxMovementForce2 = 250;
@@ -66,7 +63,6 @@ public class SpawnManager : MonoBehaviour
     [Header("Drones")]
     [SerializeField] int[] droneNumbers = new int[] {8, 16, 24, 32};
     int droneNumber;
-    [SerializeField] int collectDroneDivisor = 2;
     [SerializeField] int[] begCheckpointDrones;
     [SerializeField] int[] intCheckpointDrones;
     [SerializeField] int[] advCheckpointDrones;
@@ -117,9 +113,6 @@ public class SpawnManager : MonoBehaviour
     int audioCount;
     [SerializeField] GameObject menu;
     [SerializeField] GameObject raceFinish;
-    [SerializeField] TMP_Text creditsText;
-    [SerializeField] TMP_Text playText;
-    [SerializeField] GameObject collectFinish;
     [SerializeField] GameObject loading;
     public int initializedObjects;
     bool cursorHide;
@@ -134,13 +127,11 @@ public class SpawnManager : MonoBehaviour
     public int minutes;
     public string timeString;
     public bool paused = true;
-    int credits = 100;
     
     void Awake()
     {
         menu.SetActive(false);
         raceFinish.SetActive(false);
-        collectFinish.SetActive(false);
         loading.SetActive(false);
         length = side * 2;
 
@@ -151,7 +142,6 @@ public class SpawnManager : MonoBehaviour
         backgroundNoise = audioSources[2];
 
         //Getting variabes from main menu
-        raceMode = MenuManager.raceMode;
         playerNumber = MenuManager.playerNumber;
         playerShips = MenuManager.playerShips;
         difficulty = MenuManager.difficulty;
@@ -174,42 +164,26 @@ public class SpawnManager : MonoBehaviour
         droneNumber = droneNumbers[difficulty];
         checkpointDistances = new int[][]{begCheckpointDistances, intCheckpointDistances, advCheckpointDistances, expCheckpointDistances}[difficulty];
         checkpointCount = checkpointDistances.Length;
-        if(raceMode)
-        {
-            checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
+        checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
 
-            //Stats for each checkpoint
-            baseDisableNumber = asteroidNumber * 2 / 5;
-            disableByCheckpoint = new int[checkpointCount];
-            int increment = baseDisableNumber / (checkpointCount - 1);
-            for(int i = 0; i < checkpointCount; i++)
+        //Stats for each checkpoint
+        baseDisableNumber = asteroidNumber * 2 / 5;
+        disableByCheckpoint = new int[checkpointCount];
+        int increment = baseDisableNumber / (checkpointCount - 1);
+        for(int i = 0; i < checkpointCount; i++)
+        {
+            if(i == 4)
             {
-                if(i == 4)
-                {
-                    //Asteroid belt should have high asteroid number
-                    disableByCheckpoint[4] = increment;
-                    continue;
-                }
-                disableByCheckpoint[i] = baseDisableNumber - increment * i;
+                //Asteroid belt should have high asteroid number
+                disableByCheckpoint[4] = increment;
+                continue;
             }
-
-            PlayerController.checkpointDistances = checkpointDistances;
-            PlayerController.checkpointDrones = checkpointDrones;
-            timeString = "Time: 0:00.000";
+            disableByCheckpoint[i] = baseDisableNumber - increment * i;
         }
-        else
-        {
-            asteroidNumber /= collectAsteroidDivisor;
-            collectableNumber *= collectCollectableMultiplier;
-            droneNumber /= collectDroneDivisor;
-            minutes = 3;
-            timeString = "Time: 3:00.000";
 
-            PlayerController.checkpointTexts = new TMP_Text[playerNumber];
-            PlayerController.playerNumber = playerNumber;
-            PlayerController.creditIncrease = difficulty + 1;
-            PlayerController.showArrow = false;
-        }
+        PlayerController.checkpointDistances = checkpointDistances;
+        PlayerController.checkpointDrones = checkpointDrones;
+        timeString = "Time: 0:00.000";
         interactableNumber = asteroidNumber + collectableNumber;
         asteroidCount = possibleAsteroids.Length;
         collectableCount = possibleCollectables.Length;
@@ -218,7 +192,6 @@ public class SpawnManager : MonoBehaviour
         PlayerController.spawnManager = this;
         PlayerController.length = length;
         PlayerController.droneNumber = droneNumber;
-        PlayerController.credits = PlayerController.initialCredits = credits = MenuManager.credits;
         PlayerController.oneSecond = oneSecond = MenuManager.oneSecond;
         PlayerController.twoSeconds = Drone.twoSeconds = twoSeconds = MenuManager.twoSeconds;
         PlayerController.threeSeconds = new WaitForSeconds(3);
@@ -338,20 +311,17 @@ public class SpawnManager : MonoBehaviour
         //Spawn checkpoints
         int lastCheckpoint = checkpointCount - 1;
         float newScale;
-        if(raceMode)
+        for(int i = 0; i < lastCheckpoint; i++)
         {
-            for(int i = 0; i < lastCheckpoint; i++)
-            {
-                Transform checkpoint = Instantiate(checkpointPrefab, checkpointParent).transform;
-                newScale = checkpointDistances[i] * 2;
-                checkpoint.localScale = new Vector3(newScale, newScale, newScale);
-            }
+            Transform checkpoint = Instantiate(checkpointPrefab, checkpointParent).transform;
+            newScale = checkpointDistances[i] * 2;
+            checkpoint.localScale = new Vector3(newScale, newScale, newScale);
         }
         newScale = checkpointDistances[lastCheckpoint] * 2;
         Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
         finish.localScale = new Vector3(newScale, newScale, newScale);
         finish.GetComponent<Renderer>().sharedMaterial = finishMat;
-        lastCheckpointDistance = PlayerController.lastCheckpointDistance = checkpointDistances[lastCheckpoint];
+        lastCheckpointDistance = checkpointDistances[lastCheckpoint];
         lastCheckpointDistance = lastCheckpointDistance * lastCheckpointDistance;
 
         //Spawn players
@@ -481,79 +451,15 @@ public class SpawnManager : MonoBehaviour
 
         //Update time
         if(paused) return;
-        if(raceMode)
+        milliseconds += Time.deltaTime * 1000;
+        if(milliseconds >= 1000)
         {
-            milliseconds += Time.deltaTime * 1000;
-            if(milliseconds >= 1000)
+            milliseconds = 0;
+            seconds ++;
+            if(seconds >= 60)
             {
-                milliseconds = 0;
-                seconds ++;
-                if(seconds >= 60)
-                {
-                    seconds = 0;
-                    minutes ++;
-                }
-            }
-        }
-        else
-        {
-            milliseconds -= Time.deltaTime * 1000;
-            if(milliseconds < 0)
-            {
-                milliseconds = 999;
-                seconds --;
-                if(seconds < 0)
-                {
-                    seconds = 59;
-                    minutes --;
-                    if(minutes < 0)
-                    {
-                        //Game over
-                        finished = true;
-                        sectionParent.gameObject.SetActive(false);
-                        checkpointParent.gameObject.SetActive(false);
-                        int[] collectsList = new int[playerNumber];
-                        int[] sortedList = new int[playerNumber];
-                        for(int i = 0; i < playerNumber; i++)
-                        {
-                            collectsList[i] = sortedList[i] = playerControllers[i].collects;
-                        }
-                        Array.Sort(sortedList);
-                        Array.Reverse(sortedList);
-                        for(int i = 0; i < playerNumber; i++)
-                        {
-                            playerControllers[i].Finish();
-                            List<Transform> playerFollowers = followers[i];
-                            foreach(Transform playerFollower in playerFollowers) playerFollower.gameObject.SetActive(false);
-                            views[i].cullingMask = finishMasks[i];
-                            thirdPersons[i].m_Lens.FieldOfView = 35;
-                            switch(Array.IndexOf(sortedList, collectsList[i]))
-                            {
-                                case 0:
-                                    finishTexts[i].SetText("1st Place!");
-                                    break;
-                                case 1:
-                                    finishTexts[i].SetText("2nd Place!");
-                                    break;
-                                case 2:
-                                    finishTexts[i].SetText("3rd Place!");
-                                    break;
-                                default:
-                                    finishTexts[i].SetText("4th Place!");
-                                    break;
-                            }
-                        }
-                        int playerCredits = PlayerController.credits;
-                        if(credits != playerCredits)
-                        {
-                            MenuManager.credits = playerCredits;
-                            PlayerPrefs.SetInt("Credits", playerCredits);
-                        }
-                        audioSource.PlayOneShot(goSound);
-                        StartCoroutine(CollectFinish());
-                        return;
-                    }
-                }
+                seconds = 0;
+                minutes ++;
             }
         }
         timeString = "Time: " + minutes.ToString() + ":" + seconds.ToString("00") + "." + milliseconds.ToString("000");
@@ -596,16 +502,6 @@ public class SpawnManager : MonoBehaviour
 
     public void RacePlay()
     {
-        if(credits < 100)
-        {
-            StartCoroutine(ChangeText(playText, halfSecond, Color.white, Color.red, "Play  -  100 credits", "Not enough credits", FontStyles.Italic));
-            audioSource.PlayOneShot(errorSound);
-            return;
-        }
-        credits -= 100;
-        MenuManager.credits = credits;
-        PlayerPrefs.SetInt("Credits", credits);
-        creditsText.SetText("Credits: " + credits);
         audioSource.PlayOneShot(buySound);
         audioSource.PlayOneShot(pauseSound);
         StartCoroutine(LoadScene(1));
@@ -703,7 +599,7 @@ public class SpawnManager : MonoBehaviour
                     rb.mass = newScale * 2;
 
                     //Variable interactable amount
-                    if(raceMode && i < baseDisableNumber)
+                    if(i < baseDisableNumber)
                     {
                         interactable.SetActive(false);
                         continue;
@@ -784,7 +680,7 @@ public class SpawnManager : MonoBehaviour
                     rb.mass = newScale * 2;
 
                     //Variable interactable amount
-                    if(raceMode && i < baseDisableNumber)
+                    if(i < baseDisableNumber)
                     {
                         interactable.SetActive(false);
                         continue;
@@ -1064,8 +960,7 @@ public class SpawnManager : MonoBehaviour
     void SpawnSections(Vector3[] newPosList, int playerIndex, int newPosCount = 9)
     {
         int stage = 0;
-        int disableNumber = 0;
-        if(raceMode) disableNumber = disableByCheckpoint[playerCheckpoints[playerIndex]];
+        int disableNumber = disableByCheckpoint[playerCheckpoints[playerIndex]];
         for(int i = 0; i < sectionNumber; i++)
         {
             GameObject section = sectionPool[i];
@@ -1102,7 +997,7 @@ public class SpawnManager : MonoBehaviour
                             GameObject child = children[j];
 
                             //Variable interactable amount
-                            if(raceMode && j < disableNumber)
+                            if(j < disableNumber)
                             {
                                 continue;
                             }
@@ -1258,17 +1153,7 @@ public class SpawnManager : MonoBehaviour
     {
         yield return twoSeconds;
         if(menu.activeSelf) menu.SetActive(false);
-        creditsText.SetText("Credits: " + credits.ToString());
         raceFinish.SetActive(true);
-        if(cursorHide) Cursor.visible = true;
-        audioSource.PlayOneShot(pauseSound);
-    }
-
-    IEnumerator CollectFinish()
-    {
-        yield return twoSeconds;
-        if(menu.activeSelf) menu.SetActive(false);
-        collectFinish.SetActive(true);
         if(cursorHide) Cursor.visible = true;
         audioSource.PlayOneShot(pauseSound);
     }
@@ -1285,7 +1170,7 @@ public class SpawnManager : MonoBehaviour
             GameObject child = children[i];
 
             //Variable interactable amount
-            if(raceMode && i < disableNumber)
+            if(i < disableNumber)
             {
                 continue;
             }
