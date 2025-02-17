@@ -42,8 +42,7 @@ public class PlayerController : MonoBehaviour
     
 
     [Header("UI/Audio")]
-    [SerializeField] Color normalFuel;
-    [SerializeField] Color lowFuel;
+    [SerializeField] Color green;
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioSource fireSource;
     [SerializeField] AudioSource thrusterSource;
@@ -308,7 +307,7 @@ public class PlayerController : MonoBehaviour
         {
             case "Mercury":
                 ability = SpeedUp();
-                finishShip = farCanvas.GetChild(15).GetChild(0).gameObject;
+                finishShip = farCanvas.GetChild(12).GetChild(0).gameObject;
                 break;
             case "Venus":
                 ability = Atmosphere();
@@ -320,20 +319,20 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
-                finishShip = farCanvas.GetChild(15).GetChild(1).gameObject;
+                finishShip = farCanvas.GetChild(12).GetChild(1).gameObject;
                 break;
             case "Earth":
                 ability = Regeneration();
-                finishShip = farCanvas.GetChild(15).GetChild(2).gameObject;
+                finishShip = farCanvas.GetChild(12).GetChild(2).gameObject;
                 break;
             case "Mars":
                 ability = DustStorm();
-                finishShip = farCanvas.GetChild(15).GetChild(3).gameObject;
+                finishShip = farCanvas.GetChild(12).GetChild(3).gameObject;
                 break;
             case "Jupiter":
                 ability = Juggernaut();
                 collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, minHealthLoss, deflectionForce, rb.mass};
-                finishShip = farCanvas.GetChild(15).GetChild(4).gameObject;
+                finishShip = farCanvas.GetChild(12).GetChild(4).gameObject;
                 break;
             case "Saturn":
                 ability = Ring();
@@ -344,7 +343,7 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
-                finishShip = farCanvas.GetChild(15).GetChild(5).gameObject;
+                finishShip = farCanvas.GetChild(12).GetChild(5).gameObject;
                 break;
             case "Uranus":
                 ability = Ring();
@@ -355,11 +354,11 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
-                finishShip = farCanvas.GetChild(15).GetChild(6).gameObject;
+                finishShip = farCanvas.GetChild(12).GetChild(6).gameObject;
                 break;
             case "Neptune":
                 ability = WindStorm();
-                finishShip = farCanvas.GetChild(15).GetChild(7).gameObject;
+                finishShip = farCanvas.GetChild(12).GetChild(7).gameObject;
                 break;
         }
         finishShip.SetActive(false);
@@ -394,24 +393,24 @@ public class PlayerController : MonoBehaviour
         //UI setup
         finishBackground = farCanvas.GetChild(0).gameObject;
         nameText = farCanvas.GetChild(1).GetComponent<TMP_Text>();
-        fuelLabel = farCanvas.GetChild(2).GetComponent<TMP_Text>();
-        fuelBar = farCanvas.GetChild(4).GetComponent<Image>();
-        fuelText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
-        healthText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
-        checkpointText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
-        collectText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
-        abilityText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
-        posText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
-        distanceText = farCanvas.GetChild(11).GetComponent<TMP_Text>();
-        speedText = farCanvas.GetChild(12).GetComponent<TMP_Text>();
-        timeText = farCanvas.GetChild(13).GetComponent<TMP_Text>();
-        caption = farCanvas.GetChild(14).GetComponent<TMP_Text>();
-        finishText = farCanvas.GetChild(16).GetComponent<TMP_Text>();
+        Transform fuelParent = farCanvas.GetChild(2);
+        fuelLabel = fuelParent.GetChild(0).GetComponent<TMP_Text>();
+        fuelBar = fuelParent.GetChild(3).GetComponent<Image>();
+        fuelText = fuelParent.GetChild(4).GetComponent<TMP_Text>();
+        healthText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
+        checkpointText = farCanvas.GetChild(4).GetComponent<TMP_Text>();
+        collectText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
+        abilityText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
+        posText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
+        distanceText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
+        speedText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
+        timeText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
+        caption = farCanvas.GetChild(11).GetComponent<TMP_Text>();
+        finishText = farCanvas.GetChild(13).GetComponent<TMP_Text>();
         countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
         nameText.SetText(spawnManager.playerNames[playerIndex]);
-        fuelBar.color = normalFuel;
         fuelBar.fillAmount = 1;
         fuelText.SetText("100.00");
         healthText.SetText("Health: 100.00");
@@ -557,7 +556,6 @@ public class PlayerController : MonoBehaviour
                 if(fuelText.color != Color.red)
                 {
                     fuelLabel.color = fuelText.color = Color.red;
-                    fuelBar.color = lowFuel;
                     if(showCaptions)
                     {
                         StartCoroutine(SetCaption(fuelCaptions[UnityEngine.Random.Range(0, fuelNumber)], threeSeconds, 4));
@@ -566,11 +564,7 @@ public class PlayerController : MonoBehaviour
                 }
                 break;
             default:
-                if(fuelText.color != Color.white)
-                {
-                    fuelLabel.color = fuelText.color = Color.white;
-                    fuelBar.color = normalFuel;
-                }
+                if(fuelText.color != Color.white) fuelLabel.color = fuelText.color = Color.white;
                 break;
         }
         fuelText.SetText(fuel.ToString("0.00"));
@@ -644,7 +638,7 @@ public class PlayerController : MonoBehaviour
         posText.SetText("Pos: " + kmPos.x.ToString("0") + "," + kmPos.y.ToString("0") + "," + kmPos.z.ToString("0"));
 
         //Show distance from origin
-        distanceText.SetText("Distance: " + posMag.ToString("0"));
+        distanceText.SetText("Distance: " + (posMag / 1000).ToString("0"));
 
         //Show speed in km/h, multiply by 2.23694 for mph
         float shipSpeed = rb.velocity.magnitude;
@@ -729,7 +723,7 @@ public class PlayerController : MonoBehaviour
             else other.transform.parent.gameObject.SetActive(false);
             collects++;
             collectText.SetText("Space Debris: " + collects.ToString());
-            StartCoroutine(ChangeTextColor(collectText, fifthSecond, Color.white, Color.green));
+            StartCoroutine(ChangeTextColor(collectText, fifthSecond, Color.white, green));
             int number = UnityEngine.Random.Range(0, 100);
             if(number < extraFuelPercent)
             {
@@ -944,7 +938,7 @@ public class PlayerController : MonoBehaviour
             case 1:
                 text.color = newColor;
                 yield return wait;
-                if(text == healthText && shipModel == "Earth" && currentActivation > 0) text.color = Color.green;
+                if(text == healthText && shipModel == "Earth" && currentActivation > 0) text.color = green;
                 else if(text.color == newColor) text.color = originalColor;
                 break;
 
@@ -954,7 +948,7 @@ public class PlayerController : MonoBehaviour
                 {
                     text.color = newColor;
                     yield return wait;
-                    if(text == healthText && shipModel == "Earth" && currentActivation > 0) text.color = Color.green;
+                    if(text == healthText && shipModel == "Earth" && currentActivation > 0) text.color = green;
                     else if(text.color == newColor) text.color = originalColor;
                     if(i < amountMinusOne) yield return wait;
                 }
@@ -1008,29 +1002,29 @@ public class PlayerController : MonoBehaviour
                 if(direction < forwardPercent)
                 {
                     AddCheckpoint(playerCheckpoint);
-                    distance = UnityEngine.Random.Range(checkpointDistances[0] + 200, checkpointDistances[1] - 200);
+                    distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
                     break;
                 }
                 sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 200);
+                distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
                 break;
 
             case 1:
                 if(direction < forwardPercent)
                 {
                     AddCheckpoint(playerCheckpoint);
-                    distance = UnityEngine.Random.Range(checkpointDistances[1] + 200, checkpointDistances[2] - 200);
+                    distance = UnityEngine.Random.Range(checkpointDistances[1] + 300, checkpointDistances[2] - 300);
                     break;
                 }
                 else if(direction < forwardPercent + backPercent)
                 {
                     playerCheckpoint --;
                     RemoveCheckpoint(playerCheckpoint);
-                    distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 200);
+                    distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
                     break;
                 }
                 sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(checkpointDistances[0] + 200, checkpointDistances[1] - 200);
+                distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
                 break;
             
             case 8:
@@ -1040,7 +1034,7 @@ public class PlayerController : MonoBehaviour
                     RemoveCheckpoint(playerCheckpoint);
                 }
                 else sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
                 break;
 
             default:
@@ -1055,7 +1049,7 @@ public class PlayerController : MonoBehaviour
                     RemoveCheckpoint(playerCheckpoint);
                 }
                 else sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
                 break;
         }
         if(sameCheckpoint && showCaptions)
@@ -1085,7 +1079,7 @@ public class PlayerController : MonoBehaviour
             drones[i].gameObject.SetActive(true);
         }
         activeDrones = newDrones;
-        StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, Color.green));
+        StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, green));
         audioSource.PlayOneShot(checkpointSound);
     }
 
@@ -1170,7 +1164,7 @@ public class PlayerController : MonoBehaviour
         died = false;
         ability = Regeneration();
         aura.SetActive(true);
-        healthText.color = Color.green;
+        healthText.color = green;
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
         {
