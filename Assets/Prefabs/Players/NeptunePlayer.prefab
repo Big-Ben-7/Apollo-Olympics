@@ -329,11 +329,12 @@ MonoBehaviour:
   durability: 4
   stability: 4
   activationTime: 0
-  cooldownTime: 20
-  abilityStrength: 3000
-  abilityIncrease: 300
-  abilityStrength2: 7000
-  abilityIncrease2: 350
+  cooldownTime: 15
+  abilityStrength: 5000
+  abilityStrength2: 10000
+  accFuelLoss: 2
+  rotFuelLoss: 1
+  fuelRegeneration: 0.05
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -345,14 +346,6 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 9176598852586324252}
   shipModel: Neptune
-  abilityPercent: 35
-  abilityPercent2: 35
-  activationTimePercent: 0
-  minCooldown: 3
-  durationCaption: 
-  cooldownCaption: -1 Wind Storm Cooldown
-  abilityCaption: +1 Wind Speed
-  abilityCaption2: +1 Storm Range
   aura: {fileID: 631192273512511577}
   auraSystems:
   - {fileID: 1593704782548890587}
@@ -361,6 +354,8 @@ MonoBehaviour:
   abilityMask:
     serializedVersion: 2
     m_Bits: 49216
+  normalFuel: {r: 0.23529412, g: 1, b: 0.50980395, a: 1}
+  lowFuel: {r: 1, g: 0.23529412, b: 0.23529412, a: 1}
   audioSource: {fileID: -6234278454604288188}
   fireSource: {fileID: 283605144193943937}
   thrusterSource: {fileID: -657344429866165198}

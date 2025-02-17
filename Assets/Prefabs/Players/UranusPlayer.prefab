@@ -283,10 +283,11 @@ MonoBehaviour:
   stability: 4
   activationTime: 20
   cooldownTime: 20
-  abilityStrength: 2500
-  abilityIncrease: 250
-  abilityStrength2: 180
-  abilityIncrease2: 60
+  abilityStrength: 5000
+  abilityStrength2: 720
+  accFuelLoss: 2
+  rotFuelLoss: 1
+  fuelRegeneration: 0.05
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -298,19 +299,13 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 1173174235150565577}
   shipModel: Uranus
-  abilityPercent: 25
-  abilityPercent2: 25
-  activationTimePercent: 25
-  minCooldown: 5
-  durationCaption: +1 Ring Time
-  cooldownCaption: -1 Ring Cooldown
-  abilityCaption: +1 Ring Deflection
-  abilityCaption2: +1 Ring Rotation Speed
   aura: {fileID: 763327245692713505, guid: f8e07c7e8bd5b433b94a995c992197af, type: 3}
   auraSystems: []
   abilityMask:
     serializedVersion: 2
     m_Bits: 0
+  normalFuel: {r: 0.23529412, g: 1, b: 0.50980395, a: 1}
+  lowFuel: {r: 1, g: 0.23529412, b: 0.23529412, a: 1}
   audioSource: {fileID: 773162021749446396}
   fireSource: {fileID: 283605144193943937}
   thrusterSource: {fileID: -657344429866165198}

@@ -1470,7 +1470,7 @@ MonoBehaviour:
   movementForce1Percent: 70
   maxRotationForce: 0.2
   maxRotationSpeed: 30
-  wormholePercent: 3
+  wormholePercent: 5
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
   minWormholeScale: 1500
   maxWormholeScale: 3000

@@ -4,8 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
-using System.Linq;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,9 +16,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int activationTime;
     [SerializeField] int cooldownTime;
     [SerializeField] float abilityStrength;
-    [SerializeField] float abilityIncrease;
     [SerializeField] int abilityStrength2;
-    [SerializeField] int abilityIncrease2;
+    [SerializeField] int accFuelLoss = 2;
+    [SerializeField] int rotFuelLoss = 1;
+    [SerializeField] float fuelRegeneration = 0.05f;
 
     [Header("Movement")]
     [SerializeField] GameObject thrusterParent;
@@ -36,20 +36,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ability")]
     [SerializeField] string shipModel;
-    [SerializeField] int abilityPercent;
-    [SerializeField] int abilityPercent2;
-    [SerializeField] int activationTimePercent;
-    [SerializeField] int minCooldown;
-    [SerializeField] string durationCaption;
-    [SerializeField] string cooldownCaption;
-    [SerializeField] string abilityCaption;
-    [SerializeField] string abilityCaption2;
     [SerializeField] GameObject aura;
     [SerializeField] ParticleSystem[] auraSystems;
     [SerializeField] LayerMask abilityMask;
     
 
     [Header("UI/Audio")]
+    [SerializeField] Color normalFuel;
+    [SerializeField] Color lowFuel;
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioSource fireSource;
     [SerializeField] AudioSource thrusterSource;
@@ -92,6 +86,7 @@ public class PlayerController : MonoBehaviour
     float minHealthLoss;
     float deflectionForce;
     float health = 100;
+    float fuel = 100;
     bool collided;
     public bool canCollide;
     bool canTrigger;
@@ -106,6 +101,7 @@ public class PlayerController : MonoBehaviour
     GameObject hitExplosionPrefab;
     int forwardPercent = 35;
     int backPercent = 25;
+    int extraFuelPercent = 30;
     string[] droneCaptions = new string[]
     {
         "Nice Move!",
@@ -131,6 +127,17 @@ public class PlayerController : MonoBehaviour
         "Warning: Low Health!",
         "Low On Health!"
     };
+    string[] fuelCaptions = new string[]
+    {
+        "Warning: Low Fuel!\nCollect Space Debris!",
+        "Low On Fuel,\nCollect Space Debris!"
+    };
+    string[] noFuelCaptions = new string[]
+    {
+        "Out Of Fuel,\n Collect Space Debris!",
+        "No Fuel,\n Collect Space Debris!",
+        "Fuel Tank Empty,\n Collect Space Debris!"
+    };
     string[] deathCaptions = new string[] 
     {
         "Mission Impossible?",
@@ -151,6 +158,8 @@ public class PlayerController : MonoBehaviour
     };
     int droneCaptionNumber;
     int crashNumber;
+    int fuelNumber;
+    int noFuelNumber;
     int deathNumber;
 
     //Ability
@@ -188,6 +197,9 @@ public class PlayerController : MonoBehaviour
     public Transform cameraStats;
     TMP_Text nameText;
     TMP_Text healthText;
+    TMP_Text fuelLabel;
+    Image fuelBar;
+    TMP_Text fuelText;
     TMP_Text checkpointText;
     TMP_Text collectText;
     TMP_Text abilityText;
@@ -200,6 +212,7 @@ public class PlayerController : MonoBehaviour
     TMP_Text finishText;
     TMP_Text countdownText;
     TMP_Text[] allText;
+    int allTextLength;
     GameObject finishBackground;
     public Transform arrow;
     public static float maxThrusterVolume;
@@ -210,25 +223,24 @@ public class PlayerController : MonoBehaviour
     bool kinematic = true;
     string[] checkpointCaptions = new string[] 
     {
-        "Passed Mercury Orbit!", 
-        "Passed Venus Orbit!", 
-        "Passed Earth Orbit!", 
-        "Passed Mars Orbit,\nEntering Asteroid Belt!", 
-        "Passed Jupiter Orbit!", 
-        "Passed Saturn Orbit!",
-        "Passed Uranus Orbit!",
-        "Passed Neptune Orbit,\nEntering Kuiper Belt!"
-    };
-    string[] backCaptions = new string[] 
+        "Passed Mercury Orbit", 
+        "Passed Venus Orbit", 
+        "Passed Earth Orbit", 
+        "Passed Mars Orbit,\nEntering Asteroid Belt", 
+        "Passed Jupiter Orbit", 
+        "Passed Saturn Orbit",
+        "Passed Uranus Orbit",
+        "Passed Neptune Orbit,\nEntering Kuiper Belt"
+    };    string[] backCaptions = new string[] 
     {
-        "Back To Mercury Orbit!", 
-        "Back To Venus Orbit!", 
-        "Back To Earth Orbit!", 
+        "Back To Mercury Orbit", 
+        "Back To Venus Orbit", 
+        "Back To Earth Orbit", 
         "Back To Mars Orbit", 
-        "Back To Jupiter Orbit!", 
-        "Back To Saturn Orbit!",
-        "Back To Uranus Orbit!",
-        "Back To Neptune Orbit!"
+        "Back To Jupiter Orbit", 
+        "Back To Saturn Orbit",
+        "Back To Uranus Orbit",
+        "Back To Neptune Orbit"
     };
     int captionPriority = 0;
 
@@ -259,6 +271,8 @@ public class PlayerController : MonoBehaviour
 
         droneCaptionNumber = droneCaptions.Length;
         crashNumber = crashCaptions.Length;
+        fuelNumber = fuelCaptions.Length;
+        noFuelNumber = noFuelCaptions.Length;
         deathNumber = deathCaptions.Length;
     }
 
@@ -294,7 +308,7 @@ public class PlayerController : MonoBehaviour
         {
             case "Mercury":
                 ability = SpeedUp();
-                finishShip = farCanvas.GetChild(11).GetChild(0).gameObject;
+                finishShip = farCanvas.GetChild(15).GetChild(0).gameObject;
                 break;
             case "Venus":
                 ability = Atmosphere();
@@ -306,20 +320,20 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
-                finishShip = farCanvas.GetChild(11).GetChild(1).gameObject;
+                finishShip = farCanvas.GetChild(15).GetChild(1).gameObject;
                 break;
             case "Earth":
                 ability = Regeneration();
-                finishShip = farCanvas.GetChild(11).GetChild(2).gameObject;
+                finishShip = farCanvas.GetChild(15).GetChild(2).gameObject;
                 break;
             case "Mars":
                 ability = DustStorm();
-                finishShip = farCanvas.GetChild(11).GetChild(3).gameObject;
+                finishShip = farCanvas.GetChild(15).GetChild(3).gameObject;
                 break;
             case "Jupiter":
                 ability = Juggernaut();
                 collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, minHealthLoss, deflectionForce, rb.mass};
-                finishShip = farCanvas.GetChild(11).GetChild(4).gameObject;
+                finishShip = farCanvas.GetChild(15).GetChild(4).gameObject;
                 break;
             case "Saturn":
                 ability = Ring();
@@ -330,7 +344,7 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
-                finishShip = farCanvas.GetChild(11).GetChild(5).gameObject;
+                finishShip = farCanvas.GetChild(15).GetChild(5).gameObject;
                 break;
             case "Uranus":
                 ability = Ring();
@@ -341,11 +355,11 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
-                finishShip = farCanvas.GetChild(11).GetChild(6).gameObject;
+                finishShip = farCanvas.GetChild(15).GetChild(6).gameObject;
                 break;
             case "Neptune":
                 ability = WindStorm();
-                finishShip = farCanvas.GetChild(11).GetChild(7).gameObject;
+                finishShip = farCanvas.GetChild(15).GetChild(7).gameObject;
                 break;
         }
         finishShip.SetActive(false);
@@ -380,28 +394,33 @@ public class PlayerController : MonoBehaviour
         //UI setup
         finishBackground = farCanvas.GetChild(0).gameObject;
         nameText = farCanvas.GetChild(1).GetComponent<TMP_Text>();
-        healthText = farCanvas.GetChild(2).GetComponent<TMP_Text>();
-        checkpointText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
-        collectText = farCanvas.GetChild(4).GetComponent<TMP_Text>();
-        abilityText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
-        posText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
-        distanceText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
-        speedText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
-        timeText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
-        caption = farCanvas.GetChild(10).GetComponent<TMP_Text>();
-        finishText = farCanvas.GetChild(12).GetComponent<TMP_Text>();
+        fuelLabel = farCanvas.GetChild(2).GetComponent<TMP_Text>();
+        fuelBar = farCanvas.GetChild(4).GetComponent<Image>();
+        fuelText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
+        healthText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
+        checkpointText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
+        collectText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
+        abilityText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
+        posText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
+        distanceText = farCanvas.GetChild(11).GetComponent<TMP_Text>();
+        speedText = farCanvas.GetChild(12).GetComponent<TMP_Text>();
+        timeText = farCanvas.GetChild(13).GetComponent<TMP_Text>();
+        caption = farCanvas.GetChild(14).GetComponent<TMP_Text>();
+        finishText = farCanvas.GetChild(16).GetComponent<TMP_Text>();
         countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
         nameText.SetText(spawnManager.playerNames[playerIndex]);
+        fuelBar.color = normalFuel;
+        fuelBar.fillAmount = 1;
+        fuelText.SetText("100.00");
         healthText.SetText("Health: 100.00");
         collectText.SetText("Space Debris: 0");
         abilityText.SetText("");
         posText.SetText("Pos: 0,0,0");
         distanceText.SetText("Distance: 0");
         speedText.SetText("Speed: 0.00");
-        if(showCaptions) caption.SetText("");
-        else caption.gameObject.SetActive(false);
+        caption.SetText("");
         finishText.SetText("");
         spawnManager.finishTexts[playerIndex] = finishText;
         countdownText.SetText("");
@@ -410,7 +429,8 @@ public class PlayerController : MonoBehaviour
         
         audioSource.volume = audioVolume;
 
-        allText = new TMP_Text[]{nameText, checkpointText, healthText, speedText, collectText, abilityText, timeText, posText, distanceText};
+        allText = new TMP_Text[]{nameText, checkpointText, healthText, fuelLabel, fuelText, speedText, collectText, abilityText, timeText, posText, distanceText};
+        allTextLength = allText.Length;
         StartCoroutine(Countdown(3));
     }
 
@@ -460,9 +480,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        float speed = rb.velocity.magnitude;
-
-        if(!kinematic)
         //Movement input
         rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), -rollAction.ReadValue<float>());
         thrust = thrustAction.ReadValue<float>();
@@ -477,46 +494,86 @@ public class PlayerController : MonoBehaviour
             decThreshold = initialThrustSpeed / dec;
         }
         float accThreshold = maxThrustSpeed - accIncrement;
+        float accFuelIncrement = accFuelLoss * Time.deltaTime;
+        float rotFuelIncrement = rotFuelLoss * Time.deltaTime;
         switch(thrust)
         {
             case > 0:
-                if(glideSpeed != thrustSpeed) glideSpeed = thrustSpeed;
-                
-                if(thrustSpeed < accThreshold) thrustSpeed += accIncrement;
-                else if(thrustSpeed != maxThrustSpeed) thrustSpeed = maxThrustSpeed;
+                if(fuel > accFuelIncrement)
+                {
+                    if(glideSpeed != thrustSpeed) glideSpeed = thrustSpeed;
+                    
+                    if(thrustSpeed < accThreshold) thrustSpeed += accIncrement;
+                    else if(thrustSpeed != maxThrustSpeed) thrustSpeed = maxThrustSpeed;
+                    
+                    fuel -= accFuelIncrement;
+                }
+                else fuel = 0;
                 
                 if(decSpeed > decThreshold && dec != 1) decSpeed *= dec;
                 else if(decSpeed != initialThrustSpeed) decSpeed = initialThrustSpeed;
-                
                 break;
 
             case < 0:
-                if(glideSpeed != 0) glideSpeed = 0;
+                if(fuel > accFuelIncrement)
+                {
+                    if(glideSpeed != 0) glideSpeed = 0;
 
-                if(decSpeed < accThreshold) decSpeed += accIncrement;
-                else if(decSpeed != maxThrustSpeed) decSpeed = maxThrustSpeed;
+                    if(decSpeed < accThreshold) decSpeed += accIncrement;
+                    else if(decSpeed != maxThrustSpeed) decSpeed = maxThrustSpeed;
+
+                    fuel -= accFuelIncrement;
+                }
+                else fuel = 0;
 
                 if(thrustSpeed > decThreshold && dec != 1) thrustSpeed *= dec;
                 else if(thrustSpeed != initialThrustSpeed) thrustSpeed = initialThrustSpeed;
-
+                break;
+        
+            case 0:
+                if(rotation != Vector3.zero)
+                {
+                    if(fuel > rotFuelIncrement) fuel -= rotFuelIncrement;
+                    else fuel = 0;
+                }
+                else fuel += fuelRegeneration * Time.deltaTime;
                 break;
         }
-    
-        //Show speed in km/h, multiply by 2.23694 for mph
-        speedText.SetText("Speed: " + (speed * 3.6f).ToString("0.00"));
-
-        //Change thruster effect based on speed
-        float thrusterSpeed = speed / thrusterSpeedDivisor;
-        if(thrusterSpeed > maxThrusterSpeed) thrusterSpeed = maxThrusterSpeed;
-        else if(thrusterSpeed < 1) thrusterSpeed = 1;
-        for(int i = 0; i < thrusterCount; i++)
+        
+        //Fuel management
+        switch(fuel)
         {
-            thrusters[i].startSpeedMultiplier = thrusterSpeed;
+            case > 100:
+                fuel = 100;
+                break;
+            case 0:
+                if(captionPriority < 5)
+                {
+                    StartCoroutine(SetCaption(noFuelCaptions[UnityEngine.Random.Range(0, noFuelNumber)], threeSeconds, 5));
+                    StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 3));
+                }
+                break;
+            case < 20:
+                if(fuelText.color != Color.red)
+                {
+                    fuelLabel.color = fuelText.color = Color.red;
+                    fuelBar.color = lowFuel;
+                    if(showCaptions)
+                    {
+                        StartCoroutine(SetCaption(fuelCaptions[UnityEngine.Random.Range(0, fuelNumber)], threeSeconds, 4));
+                        StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
+                    }
+                }
+                break;
+            default:
+                if(fuelText.color != Color.white)
+                {
+                    fuelLabel.color = fuelText.color = Color.white;
+                    fuelBar.color = normalFuel;
+                }
+                break;
         }
-        float thrusterVolume = speed / thrusterVolumeDivisor;
-        if(thrusterVolume > maxThrusterVolume) thrusterVolume = maxThrusterVolume;
-        fireSource.volume = thrusterVolume;
-        thrusterSource.volume = thrusterVolume;
+        fuelText.SetText(fuel.ToString("0.00"));
 
         Vector3 position = rb.position;
         float posMag = position.magnitude;
@@ -549,11 +606,11 @@ public class PlayerController : MonoBehaviour
                 if(posMag >= checkpointDistances[8])
                 {
                     gameObject.SetActive(false);
-                    if(showCaptions) caption.gameObject.SetActive(false);
+                    caption.gameObject.SetActive(false);
                     abilityText.gameObject.SetActive(false);
                     finishBackground.SetActive(true);
                     finishShip.SetActive(true);
-                    for(int i = 0; i < 9; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
+                    for(int i = 0; i < allTextLength; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
                     finishText.color = Color.white;
                     spawnManager.PlayerFinish(playerIndex);
                     DateTime finishTime = DateTime.Now;
@@ -588,12 +645,43 @@ public class PlayerController : MonoBehaviour
 
         //Show distance from origin
         distanceText.SetText("Distance: " + posMag.ToString("0"));
+
+        //Show speed in km/h, multiply by 2.23694 for mph
+        float shipSpeed = rb.velocity.magnitude;
+        speedText.SetText("Speed: " + (shipSpeed * 3.6f).ToString("0.00"));
+
+        //Change thruster effect based on speed
+        if(fuel > 0 && shipSpeed != 0)
+        {
+            float thrusterSpeed = shipSpeed / thrusterSpeedDivisor;
+            if(thrusterSpeed > maxThrusterSpeed) thrusterSpeed = maxThrusterSpeed;
+            for(int i = 0; i < thrusterCount; i++)
+            {
+                ParticleSystem.MainModule thruster = thrusters[i];
+                if(thruster.startLifetimeMultiplier != 1) thruster.startLifetimeMultiplier = 1;
+                thruster.startSpeedMultiplier = thrusterSpeed;
+            }
+
+            float thrusterVolume = shipSpeed / thrusterVolumeDivisor;
+            if(thrusterVolume > maxThrusterVolume) thrusterVolume = maxThrusterVolume;
+            fireSource.volume = thrusterSource.volume = thrusterVolume;
+        }
+        else
+        {
+            for(int i = 0; i < thrusterCount; i++)
+            {
+                ParticleSystem.MainModule thruster = thrusters[i];
+                if(thruster.startLifetimeMultiplier != 0) thruster.startLifetimeMultiplier = 0;
+            }
+            fireSource.volume = thrusterSource.volume = 0;
+        }
     }
 
     void LateUpdate()
     {
         if(paused || kinematic) return;
         droneGroup.position = myTransform.position;
+        fuelBar.fillAmount = (float) Math.Round(fuel / 100, 3);
 
         if(!showArrow) return;
         arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, myTransform.up);
@@ -603,8 +691,17 @@ public class PlayerController : MonoBehaviour
     {
         if(paused || kinematic) return;
 
+        if(fuel == 0)
+        {
+            rb.AddRelativeForce(Vector3.forward * glideSpeed, ForceMode.Acceleration);
+            return;
+        }
+
         //Roll, pitch, yaw
-        if(rotation != Vector3.zero) rb.AddRelativeTorque(rotation * rotationSpeed, ForceMode.Acceleration);
+        if(rotation != Vector3.zero)
+        {
+            rb.AddRelativeTorque(rotation * rotationSpeed, ForceMode.Acceleration);
+        }
 
         //Thrust and glide
         switch(thrust)
@@ -634,27 +731,15 @@ public class PlayerController : MonoBehaviour
             collectText.SetText("Space Debris: " + collects.ToString());
             StartCoroutine(ChangeTextColor(collectText, fifthSecond, Color.white, Color.green));
             int number = UnityEngine.Random.Range(0, 100);
-            int intermediate = activationTimePercent + abilityPercent2;
-            if(number < abilityPercent2)
+            if(number < extraFuelPercent)
             {
-                abilityStrength2 += abilityIncrease2;
-                if(showCaptions) StartCoroutine(SetCaption(abilityCaption2, oneSecond, 2));
-            }
-            else if(number < intermediate)
-            {
-                activationTime++;
-                if(showCaptions) StartCoroutine(SetCaption(durationCaption, oneSecond, 2));
-            }
-            else if(number < intermediate + abilityPercent || cooldownTime <= minCooldown)
-            {
-                abilityStrength += abilityIncrease;
-                if(showCaptions) StartCoroutine(SetCaption(abilityCaption, oneSecond, 2));
+                fuel += 10;
+                StartCoroutine(SetCaption("+10 Fuel!", oneSecond, 2));
             }
             else
             {
-                cooldownTime--;
-                if(currentCooldown > 1) currentCooldown --;
-                if(showCaptions) StartCoroutine(SetCaption(cooldownCaption, oneSecond, 2));
+                fuel += 5;
+                StartCoroutine(SetCaption("+5 Fuel!", oneSecond, 2));
             }
             if(!collectEffect.activeSelf)
             {
@@ -670,17 +755,17 @@ public class PlayerController : MonoBehaviour
         if(collided || !canCollide) return;
 
         collided = true;
-        float speed = rb.velocity.magnitude;
+        float shipSpeed = rb.velocity.magnitude;
         Rigidbody otherRb = other.rigidbody;
         float otherSpeed = otherRb.velocity.magnitude;
-        if(otherSpeed > speed) speed = otherSpeed;
+        if(otherSpeed > shipSpeed) shipSpeed = otherSpeed;
 
         Vector3 otherPos = otherRb.position;
         if(deflectionForce != 0)
         {
-            rb.AddForce((rb.position - otherPos).normalized * speed, ForceMode.VelocityChange);
+            rb.AddForce((rb.position - otherPos).normalized * shipSpeed, ForceMode.VelocityChange);
             Vector3 otherPosLocal = myTransform.InverseTransformPoint(otherPos);
-            rb.AddRelativeTorque(new Vector3(otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized * speed * deflectionForce, ForceMode.VelocityChange);
+            rb.AddRelativeTorque(new Vector3(otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized * shipSpeed * deflectionForce, ForceMode.VelocityChange);
         }
 
         if(!other.gameObject.CompareTag("Drone"))
@@ -718,7 +803,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Lose health on other
-        if(speed / healthLossDivisor > minHealthLoss) health -= speed / healthLossDivisor;
+        if(shipSpeed / healthLossDivisor > minHealthLoss) health -= shipSpeed / healthLossDivisor;
         else health -= minHealthLoss;
 
         //Player died
@@ -749,17 +834,16 @@ public class PlayerController : MonoBehaviour
                 abilityStrength = initialStrength;
                 abilityStrength2 = initialStrength2;
 
-                health = collects = 0;
+                health = 0;
                 healthText.SetText("Health: 0.00");
-                collectText.SetText("Space Debris: 0");
                 thrustSpeed = initialThrustSpeed;
-                for(int i = 0; i < 9; i++) StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
+                for(int i = 0; i < allTextLength; i++) StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
                 for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
 
                 StartCoroutine(Respawn());
                 return;
 
-            case <= 10:
+            case <= 20:
                 if(healthText.color != Color.red)
                 {
                     healthText.color = Color.red;
@@ -785,7 +869,7 @@ public class PlayerController : MonoBehaviour
         thrusterParent.SetActive(false);
         if(collectEffect.activeSelf) collectEffect.SetActive(false);
         if(showArrow) arrow.gameObject.SetActive(false);
-        if(showCaptions) caption.SetText("");
+        caption.SetText("");
         captionPriority = 0;
         finishText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
         StartCoroutine(ChangeTextColor(finishText, fifthSecond, Color.red, Color.white, 3));
@@ -974,11 +1058,11 @@ public class PlayerController : MonoBehaviour
                 distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                 break;
         }
-        float mag = rb.position.magnitude;
-        if(sameCheckpoint)
+        if(sameCheckpoint && showCaptions)
         {
-            if(mag > distance) StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0") + " units back!", twoSeconds, 3));
-            else StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0") + " units ahead!", twoSeconds, 3));
+            float mag = rb.position.magnitude;
+            if(mag > distance) StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back", twoSeconds, 3));
+            else StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead", twoSeconds, 3));
         }
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), 0) * new Vector3(0, 0, distance);
         rb.position = newPos;
@@ -990,7 +1074,7 @@ public class PlayerController : MonoBehaviour
 
     void AddCheckpoint(int playerCheckpoint)
     {
-        StartCoroutine(SetCaption(checkpointCaptions[playerCheckpoint], threeSeconds, 3));
+        if(showCaptions) StartCoroutine(SetCaption(checkpointCaptions[playerCheckpoint], threeSeconds, 3));
         playerCheckpoint ++;
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
@@ -1007,7 +1091,7 @@ public class PlayerController : MonoBehaviour
 
     void RemoveCheckpoint(int playerCheckpoint)
     {
-        StartCoroutine(SetCaption(backCaptions[playerCheckpoint], threeSeconds, 3));
+        if(showCaptions) StartCoroutine(SetCaption(backCaptions[playerCheckpoint], threeSeconds, 3));
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
         checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());

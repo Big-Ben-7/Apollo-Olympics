@@ -807,7 +807,7 @@ PrefabInstance:
         - Tilted Rings: Uranus uses its rings to deflect surrounding objects.
 
         Duration:
-        20s          Cooldown: 20s (min. 5)'
+        20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -1335,7 +1335,7 @@ PrefabInstance:
         - Speedster: Mercury receives an explosive speed boost.
 
         Cooldown:
-        5s (min. 2)'
+        5s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -1836,7 +1836,7 @@ PrefabInstance:
         Rings: Saturn''s rings deflect surrounding objects.
 
         Duration: 20s         
-        Cooldown: 20s (min. 5)'
+        Cooldown: 20s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -2990,7 +2990,7 @@ PrefabInstance:
         - Dust Storm: A Martian dust storm confuses space pirates.
 
         Duration:
-        20s          Cooldown: 20s (min. 5)'
+        20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -3224,7 +3224,7 @@ PrefabInstance:
         its thick atmosphere to protect itself from asteroids.
 
         Duration:
-        10s          Cooldown: 20s (min. 5)'
+        20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -3412,7 +3412,7 @@ PrefabInstance:
         - Juggernaut: Jupiter uses its immense mass and momentum to power through
         asteroids.
 
-        Duration: 20s          Cooldown: 10s (min. 3)'
+        Duration: 20s          Cooldown: 10s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -4914,7 +4914,7 @@ PrefabInstance:
         - Planet of Life: Earth regenerates its health every second while activated.
 
         Duration:
-        10s          Cooldown: 10s (min. 3)'
+        10s          Cooldown: 10s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -5291,7 +5291,7 @@ PrefabInstance:
         Ability - Supersonic Winds: A
         Neptune storm blasts nearby objects away.
 
-        Cooldown: 20s (min. 3)'
+        Cooldown: 15s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize

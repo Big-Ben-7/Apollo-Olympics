@@ -361,10 +361,11 @@ MonoBehaviour:
   stability: 5
   activationTime: 20
   cooldownTime: 10
-  abilityStrength: 100
-  abilityIncrease: 25
-  abilityStrength2: 2500
-  abilityIncrease2: 250
+  abilityStrength: 1000
+  abilityStrength2: 10000
+  accFuelLoss: 2
+  rotFuelLoss: 1
+  fuelRegeneration: 0.05
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -376,14 +377,6 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 2096745121278956979}
   shipModel: Jupiter
-  abilityPercent: 30
-  abilityPercent2: 30
-  activationTimePercent: 25
-  minCooldown: 3
-  durationCaption: +1 Juggernaut Time
-  cooldownCaption: -1 Juggernaut Cooldown
-  abilityCaption: +1 Juggernaut Strength
-  abilityCaption2: +1 Juggernaut Durability
   aura: {fileID: 4124214209506075182}
   auraSystems:
   - {fileID: 356728834899632146}
@@ -392,6 +385,8 @@ MonoBehaviour:
   abilityMask:
     serializedVersion: 2
     m_Bits: 0
+  normalFuel: {r: 0.23529412, g: 1, b: 0.50980395, a: 1}
+  lowFuel: {r: 1, g: 0.23529412, b: 0.23529412, a: 1}
   audioSource: {fileID: -68717298645134362}
   fireSource: {fileID: 283605144193943937}
   thrusterSource: {fileID: -657344429866165198}

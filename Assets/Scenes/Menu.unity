@@ -1240,7 +1240,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 85}
-  m_SizeDelta: {x: 780, y: 50}
+  m_SizeDelta: {x: 770, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &491969312
 MonoBehaviour:
@@ -1262,13 +1262,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The Apollo Olympics consists of two parts: Space Debris Collection and
-    Space Race. In Space Debris Collection, collect space junk to earn the credits
-    needed to enter a race. In Space Race, race through eight levels of increasing
-    distance and difficulty to the edge of the Solar System. Throughout the Olympics,
-    maneuver through asteroids and roll to confuse space pirates. Make sure to read
-    the customization information carefully to select your ideal spaceship. Good
-    luck and see you at the finish line!'
+  m_text: "1. Race through 8 checkpoints of increasing distance and difficulty\n2.
+    Navigate through asteroids\n3. Outmaneuver space pirates with swift changes in
+    rotation\n4. Collect space debris for fuel\n5. Make sure to read the customization
+    information carefully to select your ideal spaceship\n\t\t\t   Good luck and
+    see you at the finish line!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -4609,7 +4607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 600
+      value: 570
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_SizeDelta.y

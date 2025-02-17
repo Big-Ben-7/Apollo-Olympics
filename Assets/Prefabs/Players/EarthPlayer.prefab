@@ -317,10 +317,11 @@ MonoBehaviour:
   stability: 3
   activationTime: 10
   cooldownTime: 10
-  abilityStrength: 1
-  abilityIncrease: 0.1
+  abilityStrength: 2
   abilityStrength2: 0
-  abilityIncrease2: 0
+  accFuelLoss: 2
+  rotFuelLoss: 1
+  fuelRegeneration: 0.05
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 40
   maxThrusterSpeed: 20
@@ -332,14 +333,6 @@ MonoBehaviour:
   dronePrefab: {fileID: 8970756693288742671, guid: de8a92d0bbbe54ae68c228d5982c9b35, type: 3}
   graphic: {fileID: 1461433429310268007}
   shipModel: Earth
-  abilityPercent: 40
-  abilityPercent2: 0
-  activationTimePercent: 35
-  minCooldown: 3
-  durationCaption: +1 Regeneration Time
-  cooldownCaption: -1 Regeneration Cooldown
-  abilityCaption: +0.1 Regeneration Amount
-  abilityCaption2: 
   aura: {fileID: 7906576623811564693}
   auraSystems:
   - {fileID: 5798016770675349161}
@@ -347,6 +340,8 @@ MonoBehaviour:
   abilityMask:
     serializedVersion: 2
     m_Bits: 0
+  normalFuel: {r: 0.23529412, g: 1, b: 0.50980395, a: 1}
+  lowFuel: {r: 1, g: 0.23529412, b: 0.23529412, a: 1}
   audioSource: {fileID: -7118304278174337402}
   fireSource: {fileID: 283605144193943937}
   thrusterSource: {fileID: -657344429866165198}

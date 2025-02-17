@@ -11,7 +11,7 @@ using UnityEngine.Rendering;
 public class SpawnManager : MonoBehaviour
 {
     [Header("Sections")]
-    [SerializeField] int side = 3000;
+    [SerializeField] int side = 3500;
     int length;
     GameObject[] sectionPool;
     [SerializeField] Transform sectionParent;
@@ -44,9 +44,9 @@ public class SpawnManager : MonoBehaviour
     //Asteroid number must be divisible by 20
     [SerializeField] int[] asteroidNumbers = new int[] {20, 40, 60, 80};
     int asteroidNumber;
-    [SerializeField] int minAsteroidScale = 20;
-    [SerializeField] int maxAsteroidScale = 200;
-    [SerializeField] int[] collectableNumbers = new int[] {8, 6, 4, 2};
+    [SerializeField] int minAsteroidScale = 250;
+    [SerializeField] int maxAsteroidScale = 2500;
+    [SerializeField] int[] collectableNumbers = new int[] {10, 8, 6, 4};
     int collectableNumber;
     [SerializeField] int partDisablePercent = 50;
     [SerializeField] int maxMovementForce1 = 70;
@@ -54,9 +54,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int movementForce1Percent = 70;
     [SerializeField] float maxRotationForce = 0.2f;
     [SerializeField] float maxRotationSpeed = 30;
-    [SerializeField] int wormholePercent = 3;
+    [SerializeField] int wormholePercent = 5;
     [SerializeField] Vector3 wormholeProportions = new Vector3(0.5f, 0.4f, 0.8f);
-    [SerializeField] int minWormholeScale = 1000;
+    [SerializeField] int minWormholeScale = 1500;
     [SerializeField] int maxWormholeScale = 3000;
     int interactableNumber;
 
@@ -116,7 +116,7 @@ public class SpawnManager : MonoBehaviour
     bool cursorHide;
     InputAction pauseAction;
     WaitForSeconds oneSecond;
-    WaitForSeconds fiveSeconds = new WaitForSeconds(5);
+    WaitForSeconds threeSeconds;
     WaitForSecondsRealtime oneRealSecond = new WaitForSecondsRealtime(1);
     public TMP_Text[] finishTexts;
     public float milliseconds;
@@ -191,7 +191,7 @@ public class SpawnManager : MonoBehaviour
         PlayerController.droneNumber = droneNumber;
         PlayerController.oneSecond = oneSecond = MenuManager.oneSecond;
         PlayerController.twoSeconds = Drone.twoSeconds = MenuManager.twoSeconds;
-        PlayerController.threeSeconds = new WaitForSeconds(3);
+        PlayerController.threeSeconds = threeSeconds = new WaitForSeconds(3);
         PlayerController.fifthSecond = new WaitForSeconds(0.2f);
         PlayerController.halfSecond = MenuManager.halfSecond;
         pauseAction = InputSystem.actions.FindAction("Pause");
@@ -1113,7 +1113,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator RaceFinish()
     {
-        yield return fiveSeconds;
+        yield return threeSeconds;
         if(menu.activeSelf) menu.SetActive(false);
         raceFinish.SetActive(true);
         if(cursorHide) Cursor.visible = true;
