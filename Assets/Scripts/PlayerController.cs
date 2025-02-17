@@ -130,13 +130,13 @@ public class PlayerController : MonoBehaviour
     string[] fuelCaptions = new string[]
     {
         "Warning: Low Fuel!\nCollect Space Debris!",
-        "Low On Fuel,\nCollect Space Debris!"
+        "Low On Fuel!\nCollect Space Debris!"
     };
     string[] noFuelCaptions = new string[]
     {
-        "Out Of Fuel,\n Collect Space Debris!",
-        "No Fuel,\n Collect Space Debris!",
-        "Fuel Tank Empty,\n Collect Space Debris!"
+        "Out Of Fuel!\n Collect Space Debris!",
+        "No Fuel!\n Collect Space Debris!",
+        "Fuel Tank Empty!\n Collect Space Debris!"
     };
     string[] deathCaptions = new string[] 
     {
@@ -226,11 +226,11 @@ public class PlayerController : MonoBehaviour
         "Passed Mercury Orbit", 
         "Passed Venus Orbit", 
         "Passed Earth Orbit", 
-        "Passed Mars Orbit,\nEntering Asteroid Belt", 
+        "Passed Mars Orbit\nEntering Asteroid Belt", 
         "Passed Jupiter Orbit", 
         "Passed Saturn Orbit",
         "Passed Uranus Orbit",
-        "Passed Neptune Orbit,\nEntering Kuiper Belt"
+        "Passed Neptune Orbit\nEntering Kuiper Belt"
     };    string[] backCaptions = new string[] 
     {
         "Back To Mercury Orbit", 
@@ -734,12 +734,12 @@ public class PlayerController : MonoBehaviour
             if(number < extraFuelPercent)
             {
                 fuel += 10;
-                StartCoroutine(SetCaption("+10 Fuel!", oneSecond, 2));
+                StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
             }
             else
             {
                 fuel += 5;
-                StartCoroutine(SetCaption("+5 Fuel!", oneSecond, 2));
+                StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
             }
             if(!collectEffect.activeSelf)
             {
