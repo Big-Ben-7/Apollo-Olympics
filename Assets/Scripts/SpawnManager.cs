@@ -1149,7 +1149,7 @@ public class SpawnManager : MonoBehaviour
                 rb.AddRelativeTorque(UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), UnityEngine.Random.Range(-maxRotationForce, maxRotationForce), ForceMode.VelocityChange);
             }
 
-            if(i == 10 || i == 20 || i == 30 || i == 40 || i == 50 || i == 60 || i == 70 || i == 80)
+            if(i == 20 || i == 40 || i == 60 || i == 80)
             {
                 yield return null;
             }
@@ -1173,7 +1173,7 @@ public class SpawnManager : MonoBehaviour
         for(int i = 0; i < interactableNumber; i++)
         {
             if(children[i].activeSelf) children[i].SetActive(false);
-            if(i == 20 || i == 40 || i == 60 || i == 80 || i == 100) yield return null;
+            if(i == 20 || i == 40 || i == 60) yield return null;
         }
         sectionPool[sectionIndex].SetActive(false);
     }
