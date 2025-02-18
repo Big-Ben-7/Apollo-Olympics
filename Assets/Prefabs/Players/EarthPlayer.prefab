@@ -315,9 +315,9 @@ MonoBehaviour:
   agility: 3
   durability: 4
   stability: 3
-  activationTime: 10
+  activationTime: 20
   cooldownTime: 10
-  abilityStrength: 2
+  abilityStrength: 1
   abilityStrength2: 0
   accFuelLoss: 2
   rotFuelLoss: 1
@@ -341,7 +341,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   green: {r: 0.23529412, g: 1, b: 0.50980395, a: 1}
-  red: {r: 1, g: 0.19607843, b: 0.19607843, a: 1}
   audioSource: {fileID: -7118304278174337402}
   fireSource: {fileID: 283605144193943937}
   thrusterSource: {fileID: -657344429866165198}

@@ -194,17 +194,20 @@ public class PlayerController : MonoBehaviour
 
     //UI
     public Transform cameraStats;
-    TMP_Text nameText;
+    
+    TMP_Text healthLabel;
+    Image healthBar;
     TMP_Text healthText;
     TMP_Text fuelLabel;
     Image fuelBar;
     TMP_Text fuelText;
-    TMP_Text checkpointText;
     TMP_Text collectText;
+    TMP_Text checkpointText;
     TMP_Text abilityText;
-    TMP_Text posText;
-    TMP_Text distanceText;
+    TMP_Text nameText;
     TMP_Text speedText;
+    TMP_Text distanceText;
+    TMP_Text posText;
     TMP_Text timeText;
     TMP_Text caption;
     GameObject finishShip;
@@ -392,43 +395,46 @@ public class PlayerController : MonoBehaviour
 
         //UI setup
         finishBackground = farCanvas.GetChild(0).gameObject;
-        nameText = farCanvas.GetChild(1).GetComponent<TMP_Text>();
+        Transform healthParent = farCanvas.GetChild(1);
+            healthLabel = healthParent.GetChild(0).GetComponent<TMP_Text>();
+            healthBar = healthParent.GetChild(3).GetComponent<Image>();
+            healthText = healthParent.GetChild(4).GetComponent<TMP_Text>();
         Transform fuelParent = farCanvas.GetChild(2);
-        fuelLabel = fuelParent.GetChild(0).GetComponent<TMP_Text>();
-        fuelBar = fuelParent.GetChild(3).GetComponent<Image>();
-        fuelText = fuelParent.GetChild(4).GetComponent<TMP_Text>();
-        healthText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
+            fuelLabel = fuelParent.GetChild(0).GetComponent<TMP_Text>();
+            fuelBar = fuelParent.GetChild(3).GetComponent<Image>();
+            fuelText = fuelParent.GetChild(4).GetComponent<TMP_Text>();
+        collectText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
         checkpointText = farCanvas.GetChild(4).GetComponent<TMP_Text>();
-        collectText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
-        abilityText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
-        posText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
+        abilityText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
+        nameText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
+        speedText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
         distanceText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
-        speedText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
+        posText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
         timeText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
         caption = farCanvas.GetChild(11).GetComponent<TMP_Text>();
         finishText = farCanvas.GetChild(13).GetComponent<TMP_Text>();
         countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
-        nameText.SetText(spawnManager.playerNames[playerIndex]);
-        fuelBar.fillAmount = 1;
-        fuelText.SetText("100.00");
-        healthText.SetText("Health: 100.00");
+        healthBar.fillAmount = fuelBar.fillAmount = 1;
+        fuelText.SetText("100");
+        healthText.SetText("100");
         collectText.SetText("Space Debris: 0");
+        checkpointText.SetText("Checkpoint: 0");
         abilityText.SetText("");
+        nameText.SetText(spawnManager.playerNames[playerIndex]);
+        speedText.SetText("Speed: 0");
+        distanceText.SetText("Distance: 0.0");
         posText.SetText("Pos: 0,0,0");
-        distanceText.SetText("Distance: 0");
-        speedText.SetText("Speed: 0.00");
         caption.SetText("");
         finishText.SetText("");
         spawnManager.finishTexts[playerIndex] = finishText;
         countdownText.SetText("");
-        checkpointText.SetText("Checkpoint: 0");
         timeText.SetText(spawnManager.timeString);
         
         audioSource.volume = audioVolume;
 
-        allText = new TMP_Text[]{nameText, checkpointText, healthText, fuelLabel, fuelText, speedText, collectText, abilityText, timeText, posText, distanceText};
+        allText = new TMP_Text[]{nameText, checkpointText, healthLabel, healthText, fuelLabel, fuelText, speedText, collectText, abilityText, timeText, posText, distanceText};
         allTextLength = allText.Length;
         StartCoroutine(Countdown(3));
     }
@@ -495,6 +501,7 @@ public class PlayerController : MonoBehaviour
         float accThreshold = maxThrustSpeed - accIncrement;
         float accFuelIncrement = accFuelLoss * Time.deltaTime;
         float rotFuelIncrement = rotFuelLoss * Time.deltaTime;
+        float fuelRegIncrement = fuelRegeneration * Time.deltaTime;
         switch(thrust)
         {
             case > 0:
@@ -535,15 +542,16 @@ public class PlayerController : MonoBehaviour
                     if(fuel > rotFuelIncrement) fuel -= rotFuelIncrement;
                     else fuel = 0;
                 }
-                else fuel += fuelRegeneration * Time.deltaTime;
+                else if(fuel < 100 - fuelRegIncrement) fuel += fuelRegIncrement;
+                else fuel = 100;
                 break;
         }
         
         //Fuel management
         switch(fuel)
         {
-            case > 100:
-                fuel = 100;
+            case 100:
+                if(fuelText.text != "100") fuelText.SetText("100");
                 break;
             case 0:
                 if(captionPriority < 5)
@@ -551,6 +559,7 @@ public class PlayerController : MonoBehaviour
                     StartCoroutine(SetCaption(noFuelCaptions[UnityEngine.Random.Range(0, noFuelNumber)], threeSeconds, 5));
                     StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 3));
                 }
+                if(fuelText.text != "0.00") fuelText.SetText("0.00");
                 break;
             case < 20:
                 if(fuelText.color != Color.red)
@@ -562,12 +571,15 @@ public class PlayerController : MonoBehaviour
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
                 }
+                string fuelString = fuel.ToString("0.00");
+                if(fuelText.text != "fuelString") fuelText.SetText(fuelString);
                 break;
             default:
                 if(fuelText.color != Color.white) fuelLabel.color = fuelText.color = Color.white;
+                fuelString = fuel.ToString("0.00");
+                if(fuelText.text != "fuelString") fuelText.SetText(fuelString);
                 break;
         }
-        fuelText.SetText(fuel.ToString("0.00"));
 
         Vector3 position = rb.position;
         float posMag = position.magnitude;
@@ -638,11 +650,11 @@ public class PlayerController : MonoBehaviour
         posText.SetText("Pos: " + kmPos.x.ToString("0") + "," + kmPos.y.ToString("0") + "," + kmPos.z.ToString("0"));
 
         //Show distance from origin
-        distanceText.SetText("Distance: " + (posMag / 1000).ToString("0"));
+        distanceText.SetText("Distance: " + (posMag / 1000).ToString("0.0"));
 
         //Show speed in km/h, multiply by 2.23694 for mph
         float shipSpeed = rb.velocity.magnitude;
-        speedText.SetText("Speed: " + (shipSpeed * 3.6f).ToString("0.00"));
+        speedText.SetText("Speed: " + (shipSpeed * 3.6f).ToString("0"));
 
         //Change thruster effect based on speed
         if(fuel > 0 && shipSpeed != 0)
@@ -675,7 +687,9 @@ public class PlayerController : MonoBehaviour
     {
         if(paused || kinematic) return;
         droneGroup.position = myTransform.position;
-        fuelBar.fillAmount = (float) Math.Round(fuel / 100, 3);
+
+        float fillAmount = (float) Math.Round(fuel / 100, 3);
+        if(fuelBar.fillAmount != fillAmount) fuelBar.fillAmount = fillAmount;
 
         if(!showArrow) return;
         arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, myTransform.up);
@@ -727,12 +741,14 @@ public class PlayerController : MonoBehaviour
             int number = UnityEngine.Random.Range(0, 100);
             if(number < extraFuelPercent)
             {
-                fuel += 10;
+                if(fuel < 90) fuel += 10;
+                else fuel = 100;
                 StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
             }
             else
             {
-                fuel += 5;
+                if(fuel < 95) fuel += 5;
+                else fuel = 100;
                 StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
             }
             if(!collectEffect.activeSelf)
@@ -812,8 +828,7 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(ResetEffect(dieExplosion, twoSeconds));
 
                 died = true;
-                currentActivation = 0;
-                currentCooldown = 0;
+                currentActivation = currentCooldown = 0;
                 aura.SetActive(false);
                 if(resetting != null) StopCoroutine(resetting);
                 if(shipModel != "Venus")
@@ -829,7 +844,8 @@ public class PlayerController : MonoBehaviour
                 abilityStrength2 = initialStrength2;
 
                 health = 0;
-                healthText.SetText("Health: 0.00");
+                healthText.SetText("0.0");
+                healthBar.fillAmount = 0;
                 thrustSpeed = initialThrustSpeed;
                 for(int i = 0; i < allTextLength; i++) StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
                 for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
@@ -840,7 +856,7 @@ public class PlayerController : MonoBehaviour
             case <= 20:
                 if(healthText.color != Color.red)
                 {
-                    healthText.color = Color.red;
+                    healthText.color = healthLabel.color = Color.red;
                     if(showCaptions)
                     {
                         StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], threeSeconds, 4));
@@ -851,10 +867,12 @@ public class PlayerController : MonoBehaviour
             
             default:
                 StartCoroutine(ChangeTextColor(healthText, fifthSecond, Color.white, Color.red, 2));
+                StartCoroutine(ChangeTextColor(healthLabel, fifthSecond, Color.white, Color.red, 2));
                 break;
         }
-        health = (float) Math.Round(health, 2);
-        healthText.SetText("Health: " + health.ToString("0.00"));
+        health = (float) Math.Round(health, 1);
+        healthText.SetText(health.ToString("0.0"));
+        healthBar.fillAmount = health / 100;
     }
 
     IEnumerator Respawn()
@@ -887,7 +905,8 @@ public class PlayerController : MonoBehaviour
         }
 
         health = 100;
-        healthText.SetText("Health: 100.00");
+        healthText.SetText("100");
+        healthBar.fillAmount = 1;
 
         graphic.SetActive(true);
         thrusterParent.SetActive(true);
@@ -938,7 +957,7 @@ public class PlayerController : MonoBehaviour
             case 1:
                 text.color = newColor;
                 yield return wait;
-                if(text == healthText && shipModel == "Earth" && currentActivation > 0) text.color = green;
+                if((text == healthText || text == healthLabel) && shipModel == "Earth" && currentActivation > 0) text.color = green;
                 else if(text.color == newColor) text.color = originalColor;
                 break;
 
@@ -948,7 +967,7 @@ public class PlayerController : MonoBehaviour
                 {
                     text.color = newColor;
                     yield return wait;
-                    if(text == healthText && shipModel == "Earth" && currentActivation > 0) text.color = green;
+                    if((text == healthText || text == healthLabel) && shipModel == "Earth" && currentActivation > 0) text.color = green;
                     else if(text.color == newColor) text.color = originalColor;
                     if(i < amountMinusOne) yield return wait;
                 }
@@ -1164,21 +1183,30 @@ public class PlayerController : MonoBehaviour
         died = false;
         ability = Regeneration();
         aura.SetActive(true);
-        healthText.color = green;
+        healthText.color = healthLabel.color = green;
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation.ToString());
-            if(health + abilityStrength < 100) health += abilityStrength;
-            else health = 100;
-            health = (float) Math.Round(health, 2);
-            healthText.SetText("Health: " + health.ToString("0.00"));
+            if(health + abilityStrength < 100)
+            {
+                health += abilityStrength;
+                health = (float) Math.Round(health, 1);
+                healthText.SetText(health.ToString("0.0"));
+                healthBar.fillAmount = health / 100;
+            }
+            else
+            {
+                health = 100;
+                healthText.SetText("100");
+                healthBar.fillAmount = 1;
+            }
             yield return oneSecond;
             currentActivation --;
         }
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(twoSeconds));
-        healthText.color = Color.white;
+        healthText.color = healthLabel.color = Color.white;
         audioSource.PlayOneShot(expireSound);
 
         //Cooldown
