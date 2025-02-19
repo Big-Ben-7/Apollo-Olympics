@@ -204,6 +204,7 @@ public class PlayerController : MonoBehaviour
     TMP_Text timeText;
     TMP_Text caption;
     GameObject finishShip;
+    GameObject confetti;
     TMP_Text finishText;
     GameObject finishCaption;
     TMP_Text deathText;
@@ -296,11 +297,12 @@ public class PlayerController : MonoBehaviour
         decSpeed = thrustSpeed;
 
         Transform farCanvas = cameraStats.GetChild(0);
+        Transform shipParent = farCanvas.GetChild(12);
         switch(shipModel)
         {
             case "Mercury":
                 ability = SpeedUp();
-                finishShip = farCanvas.GetChild(12).GetChild(0).gameObject;
+                finishShip = shipParent.GetChild(0).gameObject;
                 break;
             case "Venus":
                 ability = Atmosphere();
@@ -312,20 +314,20 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
-                finishShip = farCanvas.GetChild(12).GetChild(1).gameObject;
+                finishShip = shipParent.GetChild(1).gameObject;
                 break;
             case "Earth":
                 ability = Regeneration();
-                finishShip = farCanvas.GetChild(12).GetChild(2).gameObject;
+                finishShip = shipParent.GetChild(2).gameObject;
                 break;
             case "Mars":
                 ability = DustStorm();
-                finishShip = farCanvas.GetChild(12).GetChild(3).gameObject;
+                finishShip = shipParent.GetChild(3).gameObject;
                 break;
             case "Jupiter":
                 ability = Juggernaut();
                 collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, minHealthLoss, deflectionForce, rb.mass};
-                finishShip = farCanvas.GetChild(12).GetChild(4).gameObject;
+                finishShip = shipParent.GetChild(4).gameObject;
                 break;
             case "Saturn":
                 ability = Ring();
@@ -336,7 +338,7 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
-                finishShip = farCanvas.GetChild(12).GetChild(5).gameObject;
+                finishShip = shipParent.GetChild(5).gameObject;
                 break;
             case "Uranus":
                 ability = Ring();
@@ -347,14 +349,16 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
-                finishShip = farCanvas.GetChild(12).GetChild(6).gameObject;
+                finishShip = shipParent.GetChild(6).gameObject;
                 break;
             case "Neptune":
                 ability = WindStorm();
-                finishShip = farCanvas.GetChild(12).GetChild(7).gameObject;
+                finishShip = shipParent.GetChild(7).gameObject;
                 break;
         }
         finishShip.SetActive(false);
+        confetti = shipParent.GetChild(8).gameObject;
+        confetti.SetActive(false);
 
         //Spawn drones
         droneGroup = new GameObject("Drones " + playerNumberString).transform;
@@ -605,9 +609,10 @@ public class PlayerController : MonoBehaviour
                     gameObject.SetActive(false);
                     caption.gameObject.SetActive(false);
                     abilityText.gameObject.SetActive(false);
+                    finishCaption.SetActive(true);
                     finishBackground.SetActive(true);
                     finishShip.SetActive(true);
-                    finishCaption.SetActive(true);
+                    confetti.SetActive(true);
                     for(int i = 0; i < allTextLength; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
                     spawnManager.PlayerFinish(playerIndex);
                     DateTime finishTime = DateTime.Now;
