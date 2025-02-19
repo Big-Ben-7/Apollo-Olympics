@@ -141,19 +141,16 @@ public class PlayerController : MonoBehaviour
     {
         "Mission Impossible?",
         "Better luck next time...",
-        "So close, yet so far...",
-        "Lost in Space...",
-        "Never\nGive Up!",
+        "So close,\nyet so far...",
+        "Lost in space...",
+        "Never Give Up!",
         "Keep Going!",
-        "Down, but not out!",
-        "Nice Try!",
-        "The best is yet to come...",
-        "Time to bounce back!",
-        "Persistance is Key",
-        "Inspirational Effort",
-        "Uh Oh!",
-        "Ouch!",
-        "Brace For Impact!"
+        "Down,\nbut not out!",
+        "Nice try.",
+        "The best is\nyet to come...",
+        "Time to\nbounce back?",
+        "Persistance\nis key.",
+        "Inspirational effort.",
     };
     int droneCaptionNumber;
     int crashNumber;
@@ -178,10 +175,6 @@ public class PlayerController : MonoBehaviour
     public static WaitForSeconds threeSeconds;
     public static WaitForSeconds fifthSecond;
     public static WaitForSeconds halfSecond;
-    int initialCooldown;
-    int initialActivation;
-    float initialStrength;
-    int initialStrength2;
     Collider[] surroundingColliders = new Collider[10000];
 
     //Drone
@@ -205,13 +198,15 @@ public class PlayerController : MonoBehaviour
     TMP_Text checkpointText;
     TMP_Text abilityText;
     TMP_Text nameText;
-    TMP_Text speedText;
-    TMP_Text distanceText;
     TMP_Text posText;
+    TMP_Text distanceText;
+    TMP_Text speedText;
     TMP_Text timeText;
     TMP_Text caption;
     GameObject finishShip;
     TMP_Text finishText;
+    GameObject finishCaption;
+    TMP_Text deathText;
     TMP_Text countdownText;
     TMP_Text[] allText;
     int allTextLength;
@@ -259,11 +254,6 @@ public class PlayerController : MonoBehaviour
 
         rb = gameObject.GetComponent<Rigidbody>();
         rb.isKinematic = true;
-
-        initialCooldown = cooldownTime;
-        initialActivation = activationTime;
-        initialStrength = abilityStrength;
-        initialStrength2 = abilityStrength2;
 
         Transform thrusterTransform = thrusterParent.transform;
         thrusterCount = thrusterTransform.childCount;
@@ -407,28 +397,32 @@ public class PlayerController : MonoBehaviour
         checkpointText = farCanvas.GetChild(4).GetComponent<TMP_Text>();
         abilityText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
         nameText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
-        speedText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
+        posText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
         distanceText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
-        posText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
+        speedText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
         timeText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
         caption = farCanvas.GetChild(11).GetComponent<TMP_Text>();
         finishText = farCanvas.GetChild(13).GetComponent<TMP_Text>();
+        finishCaption = farCanvas.GetChild(14).gameObject;
+        deathText = farCanvas.GetChild(15).GetComponent<TMP_Text>();
         countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
         healthBar.fillAmount = fuelBar.fillAmount = 1;
-        fuelText.SetText("100");
-        healthText.SetText("100");
+        fuelText.SetText("100.00");
+        healthText.SetText("100.00");
         collectText.SetText("Space Debris: 0");
         checkpointText.SetText("Checkpoint: 0");
         abilityText.SetText("");
         nameText.SetText(spawnManager.playerNames[playerIndex]);
-        speedText.SetText("Speed: 0");
+        posText.SetText("Pos: 0.0,0.0,0.0");
         distanceText.SetText("Distance: 0.0");
-        posText.SetText("Pos: 0,0,0");
+        speedText.SetText("Speed: 0.00");
         caption.SetText("");
         finishText.SetText("");
         spawnManager.finishTexts[playerIndex] = finishText;
+        finishCaption.SetActive(false);
+        deathText.SetText("");
         countdownText.SetText("");
         timeText.SetText(spawnManager.timeString);
         
@@ -550,9 +544,6 @@ public class PlayerController : MonoBehaviour
         //Fuel management
         switch(fuel)
         {
-            case 100:
-                if(fuelText.text != "100") fuelText.SetText("100");
-                break;
             case 0:
                 if(captionPriority < 5)
                 {
@@ -616,8 +607,8 @@ public class PlayerController : MonoBehaviour
                     abilityText.gameObject.SetActive(false);
                     finishBackground.SetActive(true);
                     finishShip.SetActive(true);
+                    finishCaption.SetActive(true);
                     for(int i = 0; i < allTextLength; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
-                    finishText.color = Color.white;
                     spawnManager.PlayerFinish(playerIndex);
                     DateTime finishTime = DateTime.Now;
                     int elapsedMilliseconds = Mathf.RoundToInt(spawnManager.milliseconds) + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
@@ -647,14 +638,14 @@ public class PlayerController : MonoBehaviour
 
         //Show position in km, divide by 1609 for mi
         Vector3 kmPos = position / 1000;
-        posText.SetText("Pos: " + kmPos.x.ToString("0") + "," + kmPos.y.ToString("0") + "," + kmPos.z.ToString("0"));
+        posText.SetText("Pos: " + kmPos.x.ToString("0.0") + "," + kmPos.y.ToString("0.0") + "," + kmPos.z.ToString("0.0"));
 
         //Show distance from origin
         distanceText.SetText("Distance: " + (posMag / 1000).ToString("0.0"));
 
         //Show speed in km/h, multiply by 2.23694 for mph
         float shipSpeed = rb.velocity.magnitude;
-        speedText.SetText("Speed: " + (shipSpeed * 3.6f).ToString("0"));
+        speedText.SetText("Speed: " + (shipSpeed * 3.6f).ToString("0.00"));
 
         //Change thruster effect based on speed
         if(fuel > 0 && shipSpeed != 0)
@@ -838,13 +829,9 @@ public class PlayerController : MonoBehaviour
                         auraParticles[i].loop = true;
                     }
                 }
-                activationTime = initialActivation;
-                cooldownTime = initialCooldown;
-                abilityStrength = initialStrength;
-                abilityStrength2 = initialStrength2;
 
                 health = 0;
-                healthText.SetText("0.0");
+                healthText.SetText("0.00");
                 healthBar.fillAmount = 0;
                 thrustSpeed = initialThrustSpeed;
                 for(int i = 0; i < allTextLength; i++) StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
@@ -871,7 +858,7 @@ public class PlayerController : MonoBehaviour
                 break;
         }
         health = (float) Math.Round(health, 1);
-        healthText.SetText(health.ToString("0.0"));
+        healthText.SetText(health.ToString("0.00"));
         healthBar.fillAmount = health / 100;
     }
 
@@ -883,13 +870,12 @@ public class PlayerController : MonoBehaviour
         if(showArrow) arrow.gameObject.SetActive(false);
         caption.SetText("");
         captionPriority = 0;
-        finishText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
-        StartCoroutine(ChangeTextColor(finishText, fifthSecond, Color.red, Color.white, 3));
+        deathText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
+        StartCoroutine(ChangeTextColor(deathText, fifthSecond, Color.red, Color.white, 3));
         audioSource.PlayOneShot(dieSound);
 
         yield return threeSeconds;
-        finishText.SetText("");
-        finishText.color = Color.white;
+        deathText.SetText("");
         if(spawnManager.playerCheckpoints[playerIndex] == 0)
         {
             rb.position = startPos;
@@ -905,7 +891,7 @@ public class PlayerController : MonoBehaviour
         }
 
         health = 100;
-        healthText.SetText("100");
+        healthText.SetText("100.00");
         healthBar.fillAmount = 1;
 
         graphic.SetActive(true);
@@ -1192,13 +1178,13 @@ public class PlayerController : MonoBehaviour
             {
                 health += abilityStrength;
                 health = (float) Math.Round(health, 1);
-                healthText.SetText(health.ToString("0.0"));
+                healthText.SetText(health.ToString("0.00"));
                 healthBar.fillAmount = health / 100;
             }
             else
             {
                 health = 100;
-                healthText.SetText("100");
+                healthText.SetText("100.00");
                 healthBar.fillAmount = 1;
             }
             yield return oneSecond;

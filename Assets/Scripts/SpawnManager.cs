@@ -1086,16 +1086,16 @@ public class SpawnManager : MonoBehaviour
         switch(playerNumber - playersLeft)
         {
             case 1:
-                finishTexts[playerIndex].SetText("1st Place!");
+                finishTexts[playerIndex].SetText("1st Place");
                 break;
             case 2:
-                finishTexts[playerIndex].SetText("2nd Place!");
+                finishTexts[playerIndex].SetText("2nd Place");
                 break;
             case 3:
-                finishTexts[playerIndex].SetText("3rd Place!");
+                finishTexts[playerIndex].SetText("3rd Place");
                 break;
             default:
-                finishTexts[playerIndex].SetText("4th Place!");
+                finishTexts[playerIndex].SetText("4th Place");
                 break;
         }
 
