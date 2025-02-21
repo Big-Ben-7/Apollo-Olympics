@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource fireSource;
     [SerializeField] AudioSource thrusterSource;
     [SerializeField] AudioClip[] hitSounds;
+    [SerializeField] AudioClip fuelSound;
     [SerializeField] AudioClip collectSound;
     [SerializeField] AudioClip checkpointSound;
     [SerializeField] AudioClip activationSound;
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip chargeSound;
     [SerializeField] AudioClip errorSound;
     [SerializeField] AudioClip wormholeSound;
+    [SerializeField] AudioClip warningSound;
     [SerializeField] AudioClip dieSound;
     
     //Movement control
@@ -359,6 +361,7 @@ public class PlayerController : MonoBehaviour
         finishShip.SetActive(false);
         confetti = shipParent.GetChild(8).gameObject;
         confetti.SetActive(false);
+        spawnManager.confettis[playerIndex] = confetti;
 
         //Spawn drones
         droneGroup = new GameObject("Drones " + playerNumberString).transform;
@@ -548,15 +551,16 @@ public class PlayerController : MonoBehaviour
         //Fuel management
         switch(fuel)
         {
-            case 0:
-                if(captionPriority < 5)
+            case < 0.005f:
+                if(fuelText.text != "0.00")
                 {
+                    fuelText.SetText("0.00");
                     StartCoroutine(SetCaption(noFuelCaptions[UnityEngine.Random.Range(0, noFuelNumber)], threeSeconds, 5));
                     StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 3));
+                    audioSource.PlayOneShot(fuelSound);
                 }
-                if(fuelText.text != "0.00") fuelText.SetText("0.00");
                 break;
-            case < 20:
+            case <= 20:
                 if(fuelText.color != Color.red)
                 {
                     fuelLabel.color = fuelText.color = Color.red;
@@ -565,6 +569,7 @@ public class PlayerController : MonoBehaviour
                         StartCoroutine(SetCaption(fuelCaptions[UnityEngine.Random.Range(0, fuelNumber)], threeSeconds, 4));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
+                    audioSource.PlayOneShot(warningSound, 2);
                 }
                 string fuelString = fuel.ToString("0.00");
                 if(fuelText.text != "fuelString") fuelText.SetText(fuelString);
@@ -612,7 +617,6 @@ public class PlayerController : MonoBehaviour
                     finishCaption.SetActive(true);
                     finishBackground.SetActive(true);
                     finishShip.SetActive(true);
-                    confetti.SetActive(true);
                     for(int i = 0; i < allTextLength; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
                     spawnManager.PlayerFinish(playerIndex);
                     DateTime finishTime = DateTime.Now;
@@ -752,7 +756,7 @@ public class PlayerController : MonoBehaviour
                 collectEffect.SetActive(true);
                 StartCoroutine(ResetEffect(collectEffect, fifthSecond));
             }
-            audioSource.PlayOneShot(collectSound);
+            audioSource.PlayOneShot(collectSound, 0.8f);
         }
     }
     
@@ -854,6 +858,7 @@ public class PlayerController : MonoBehaviour
                         StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], threeSeconds, 4));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
+                    audioSource.PlayOneShot(warningSound, 2);
                 }
                 break;
             
@@ -1125,7 +1130,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
-            audioSource.PlayOneShot(chargeSound);
+            audioSource.PlayOneShot(chargeSound, 0.7f);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1161,7 +1166,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
-            audioSource.PlayOneShot(chargeSound);
+            audioSource.PlayOneShot(chargeSound, 0.7f);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1210,7 +1215,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
-            audioSource.PlayOneShot(chargeSound);
+            audioSource.PlayOneShot(chargeSound, 0.7f);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1246,7 +1251,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
-            audioSource.PlayOneShot(chargeSound);
+            audioSource.PlayOneShot(chargeSound, 0.7f);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1290,7 +1295,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
-            audioSource.PlayOneShot(chargeSound);
+            audioSource.PlayOneShot(chargeSound, 0.7f);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1325,7 +1330,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
-            audioSource.PlayOneShot(chargeSound);
+            audioSource.PlayOneShot(chargeSound, 0.7f);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1369,7 +1374,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged!");
-            audioSource.PlayOneShot(chargeSound);
+            audioSource.PlayOneShot(chargeSound, 0.7f);
             yield return oneSecond;
         }
         abilityText.SetText("");

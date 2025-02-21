@@ -204,10 +204,10 @@ public class MenuManager : MonoBehaviour
         noise = PlayerPrefs.GetFloat("Noise", 0.2f);
         noiseSlider.value = noise;
         noiseText.SetText(noise.ToString("0.00"));
-        thruster = PlayerPrefs.GetFloat("Thruster", 0.2f);
+        thruster = PlayerPrefs.GetFloat("Thruster", 0.3f);
         thrusterSlider.value = thruster;
         thrusterText.SetText(thruster.ToString("0.00"));
-        effects = PlayerPrefs.GetFloat("Effects", 0.2f);
+        effects = PlayerPrefs.GetFloat("Effects", 0.4f);
         effectsSlider.value = effects;
         effectsText.SetText(effects.ToString("0.00"));
         string rebinds = PlayerPrefs.GetString("Bindings");
@@ -599,8 +599,8 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
         PlayerPrefs.SetFloat("Noise", 0.2f);
-        PlayerPrefs.SetFloat("Thruster", 0.2f);
-        PlayerPrefs.SetFloat("Effects", 0.2f);
+        PlayerPrefs.SetFloat("Thruster", 0.3f);
+        PlayerPrefs.SetFloat("Effects", 0.4f);
         PlayerPrefs.SetInt("Intro", 1);
 
         races = 0;
@@ -628,10 +628,10 @@ public class MenuManager : MonoBehaviour
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
         noiseSlider.value = 0.2f;
         noiseText.SetText("0.20");
-        thrusterSlider.value = 0.2f;
-        thrusterText.SetText("0.20");
-        effectsSlider.value = 0.2f;
-        effectsText.SetText("0.20");
+        thrusterSlider.value = 0.3f;
+        thrusterText.SetText("0.30");
+        effectsSlider.value = 0.4f;
+        effectsText.SetText("0.40");
         foreach(InputActionMap map in InputSystem.actions.actionMaps) map.RemoveAllBindingOverrides();
         SaveBindings();
         string rebinds = PlayerPrefs.GetString("Bindings");
@@ -651,8 +651,8 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
         PlayerPrefs.SetFloat("Noise", 0.2f);
-        PlayerPrefs.SetFloat("Thruster", 0.2f);
-        PlayerPrefs.SetFloat("Effects", 0.2f);
+        PlayerPrefs.SetFloat("Thruster", 0.3f);
+        PlayerPrefs.SetFloat("Effects", 0.4f);
 
         fovSlider.value = 35;
         fovText.SetText("35");
@@ -665,10 +665,10 @@ public class MenuManager : MonoBehaviour
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
         noiseSlider.value = 0.2f;
         noiseText.SetText("0.20");
-        thrusterSlider.value = 0.2f;
-        thrusterText.SetText("0.20");
-        effectsSlider.value = 0.2f;
-        effectsText.SetText("0.20");
+        thrusterSlider.value = 0.3f;
+        thrusterText.SetText("0.30");
+        effectsSlider.value = 0.4f;
+        effectsText.SetText("0.40");
         MinorClick();
     }
 

@@ -350,10 +350,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 83a3d45944f24b647a973099cc6fb1d3, type: 3}
   - {fileID: 8300000, guid: 222141dd968fb6447b5c790b6d87a27b, type: 3}
   - {fileID: 8300000, guid: 0dcfe736485e63542b5036dc5b360032, type: 3}
-  - {fileID: 8300000, guid: 15b61cecc9c413944b23744fbd523914, type: 3}
   - {fileID: 8300000, guid: 1b1e870555539084e867c27366722812, type: 3}
   - {fileID: 8300000, guid: 3bbe242bc37c8614fbe02c843ed5b465, type: 3}
   - {fileID: 8300000, guid: 00567c9401ce5364fa0b2830749f785a, type: 3}
+  fuelSound: {fileID: 8300000, guid: d1afd3f4d23c24f418ffc315afb04965, type: 3}
   collectSound: {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
   checkpointSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   activationSound: {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
@@ -361,6 +361,7 @@ MonoBehaviour:
   chargeSound: {fileID: 8300000, guid: 7a9de5c4d998126449cf964a6b27a8b0, type: 3}
   errorSound: {fileID: 8300000, guid: 1ed8fb76fc64e4e46847348138782234, type: 3}
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
+  warningSound: {fileID: 8300000, guid: ba39bf8baf6d13046889b2d64822381a, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   myTransform: {fileID: 0}
   playerNumberString: 

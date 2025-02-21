@@ -103,22 +103,27 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
     [SerializeField] AudioClip pauseSound;
+    [SerializeField] AudioClip finishSound;
+    [SerializeField] AudioClip confettiSound;
     [SerializeField] GameObject eventSystem;
     public AudioSource audioSource;
     AudioSource backgroundMusic;
     AudioSource backgroundNoise;
     AudioSource[] allAudio;
     int audioCount;
-    [SerializeField] GameObject menu;
-    [SerializeField] GameObject raceFinish;
-    [SerializeField] GameObject loading;
+    [SerializeField] Canvas menu;
+    [SerializeField] Canvas raceFinish;
+    [SerializeField] Canvas loading;
+    [SerializeField] Canvas pauseButton;
     public int initializedObjects;
     bool cursorHide;
     InputAction pauseAction;
     WaitForSeconds oneSecond;
-    WaitForSeconds threeSeconds;
+    WaitForSeconds oneAndHalfSeconds = new WaitForSeconds(1.5f);
+    WaitForSeconds fiveSeconds = new WaitForSeconds(5);
     WaitForSecondsRealtime oneRealSecond = new WaitForSecondsRealtime(1);
     public TMP_Text[] finishTexts;
+    public GameObject[] confettis;
     public float milliseconds;
     public int seconds;
     public int minutes;
@@ -127,9 +132,10 @@ public class SpawnManager : MonoBehaviour
     
     void Awake()
     {
-        menu.SetActive(false);
-        raceFinish.SetActive(false);
-        loading.SetActive(false);
+        menu.enabled = false;
+        raceFinish.enabled = false;
+        loading.enabled = false;
+        pauseButton.enabled = false;
         length = side * 2;
 
         //Audio setup
@@ -191,7 +197,7 @@ public class SpawnManager : MonoBehaviour
         PlayerController.droneNumber = droneNumber;
         PlayerController.oneSecond = oneSecond = MenuManager.oneSecond;
         PlayerController.twoSeconds = Drone.twoSeconds = MenuManager.twoSeconds;
-        PlayerController.threeSeconds = threeSeconds = new WaitForSeconds(3);
+        PlayerController.threeSeconds = new WaitForSeconds(3);
         PlayerController.fifthSecond = new WaitForSeconds(0.2f);
         PlayerController.halfSecond = MenuManager.halfSecond;
         pauseAction = InputSystem.actions.FindAction("Pause");
@@ -322,7 +328,7 @@ public class SpawnManager : MonoBehaviour
         lastCheckpointDistance = lastCheckpointDistance * lastCheckpointDistance;
 
         //Spawn players
-        players = new GameObject[playerNumber];
+        players = confettis = new GameObject[playerNumber];
         playerChunks = new Vector3[playerNumber];
         playerCheckpoints = new int[playerNumber];
         followers = new List<Transform>[playerNumber];
@@ -415,6 +421,7 @@ public class SpawnManager : MonoBehaviour
         audioSources.Remove(audioSource);
         allAudio = audioSources.ToArray();
         audioCount = allAudio.Length;
+        pauseButton.enabled = true;
 
         backgroundNoise.Play();
         backgroundMusic.Play();
@@ -464,8 +471,9 @@ public class SpawnManager : MonoBehaviour
 
     public void Pause()
     {
+        if(finished) return;
         paused = PlayerController.paused = true;
-        menu.SetActive(true);
+        menu.enabled = true;
         if(cursorHide) Cursor.visible = true;
         audioSource.PlayOneShot(pauseSound);
         for(int i = 0; i < audioCount; i++)
@@ -485,7 +493,7 @@ public class SpawnManager : MonoBehaviour
 
     public void Resume()
     {
-        menu.SetActive(false);
+        menu.enabled = false;
         if(cursorHide) Cursor.visible = false;
         Time.timeScale = 1;
         audioSource.UnPause();
@@ -512,7 +520,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator LoadScene(int index)
     {
-        loading.SetActive(true);
+        loading.enabled = true;
         yield return oneRealSecond;
         paused = PlayerController.paused = false;
         Time.timeScale = 1;
@@ -1103,19 +1111,33 @@ public class SpawnManager : MonoBehaviour
         if(playersLeft == 0)
         {
             finished = true;
+            pauseButton.enabled = false;
             MenuManager.races++;
             PlayerPrefs.SetInt("Races", MenuManager.races);
             StartCoroutine(RaceFinish());
         }
-
         audioSource.PlayOneShot(goSound);
+        audioSource.PlayOneShot(finishSound);
+        StartCoroutine(FinishCoroutine(confettis[playerIndex]));
+    }
+
+    IEnumerator FinishCoroutine(GameObject confetti)
+    {
+        yield return oneSecond;
+        confetti.SetActive(true);
+        for(int i = 0; i < 5; i++)
+        {
+            audioSource.PlayOneShot(confettiSound, 0.7f);
+            yield return oneAndHalfSeconds;
+        };
+        confetti.SetActive(false);
     }
 
     IEnumerator RaceFinish()
     {
-        yield return threeSeconds;
-        if(menu.activeSelf) menu.SetActive(false);
-        raceFinish.SetActive(true);
+        yield return fiveSeconds;
+        if(menu.enabled) menu.enabled = false;
+        raceFinish.enabled = true;
         if(cursorHide) Cursor.visible = true;
         audioSource.PlayOneShot(pauseSound);
     }
