@@ -341,6 +341,7 @@ public class SpawnManager : MonoBehaviour
         Vector2 scaleVector;
         Vector2[] cameraRects;
         string[] playerStrings;
+        Vector3 camOffset = Vector3.zero;
         switch(playerNumber)
         {
             case 1:
@@ -359,12 +360,14 @@ public class SpawnManager : MonoBehaviour
                 scaleVector = new Vector2(0.333f, 1);
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.333f, 0), new Vector2(0.667f, 0)};
                 playerStrings = new string[] {"1", "3", "2"};
+                camOffset = new Vector3(0, 1, -5);
                 break;
             
             default:
                 scaleVector = new Vector2(0.5f, 0.5f);
                 cameraRects = new Vector2[] {new Vector2(0, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(0.5f, 0)};
                 playerStrings = new string[] {"1", "4", "3", "2"};
+                camOffset = new Vector3(0, -1, 5);
                 break;
         }
 
@@ -398,7 +401,9 @@ public class SpawnManager : MonoBehaviour
             GameObject arrowObject = arrow.GetChild(0).gameObject;
             arrowObject.GetComponent<Canvas>().worldCamera = view;
             arrowObject.layer = thirdPersonObject.layer = i + 9;
-            viewCam.Follow = viewCam.LookAt = playerTransform.GetChild(2);
+            Transform lookTarget = playerTransform.GetChild(2);
+            lookTarget.localPosition += camOffset;
+            viewCam.Follow = viewCam.LookAt = lookTarget;
             CinemachineFramingTransposer transposer = viewCam.GetCinemachineComponent<CinemachineFramingTransposer>();
             transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = viewCam.GetCinemachineComponent<CinemachineSameAsFollowTarget>().m_Damping = MenuManager.damping;
             view.rect = new Rect(cameraRects[i], scaleVector);
@@ -1089,7 +1094,7 @@ public class SpawnManager : MonoBehaviour
         List<Transform> playerFollowers = followers[playerIndex];
         foreach(Transform playerFollower in playerFollowers) playerFollower.gameObject.SetActive(false);
         views[playerIndex].cullingMask = finishMasks[playerIndex];
-        thirdPersons[playerIndex].m_Lens.FieldOfView = 35;
+        thirdPersons[playerIndex].m_Lens.FieldOfView = 30;
         int playersLeft = playingPlayers.Count;
         switch(playerNumber - playersLeft)
         {

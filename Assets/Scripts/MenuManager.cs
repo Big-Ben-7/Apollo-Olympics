@@ -11,11 +11,13 @@ public class MenuManager : MonoBehaviour
 {
     [Header("Windows")]
     [SerializeField] GameObject intro;
-    [SerializeField] GameObject mainMenu;
-    [SerializeField] GameObject gameSettings;
-    [SerializeField] GameObject customization;
+    [SerializeField] Canvas mainMenu;
+    [SerializeField] Canvas gameSettings;
+    [SerializeField] Canvas customization;
+    [SerializeField] GameObject shipParent;
+    [SerializeField] Canvas settings;
+    [SerializeField] Canvas resetMenu;
     [SerializeField] GameObject loading;
-    [SerializeField] GameObject settings;
     [SerializeField] GameObject instructions;
 
     [Header("Main Menu")]
@@ -159,7 +161,7 @@ public class MenuManager : MonoBehaviour
         nameInput.text = "";
 
         //Get settings variables
-        fov = PlayerPrefs.GetFloat("Fov", 35);
+        fov = PlayerPrefs.GetFloat("Fov", 40);
         fovSlider.value = fov;
         fovText.SetText(fov.ToString("0"));
         depth = PlayerPrefs.GetFloat("Depth", 7000);
@@ -214,22 +216,17 @@ public class MenuManager : MonoBehaviour
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
 
         instructions.SetActive(false);
-        gameSettings.SetActive(false);
-        customization.SetActive(false);
-        settings.SetActive(false);
+        shipParent.SetActive(false);
+        gameSettings.enabled = customization.enabled = settings.enabled = resetMenu.enabled = mainMenu.enabled = false;
         
         if(fromGame)
         {
             intro.SetActive(false);
-            mainMenu.SetActive(true);
+            mainMenu.enabled = true;
             BackgroundMusic();
             fromGame = false;
         }
-        else
-        {
-            mainMenu.SetActive(false);
-            intro.SetActive(true);
-        }
+        else intro.SetActive(true);
 
         DebugManager.instance.enableRuntimeUI = false;
         loaded = true;
@@ -237,7 +234,7 @@ public class MenuManager : MonoBehaviour
 
     void Update()
     {
-        if(customization.activeSelf) activeModel.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+        if(shipParent.activeSelf) activeModel.Rotate(0, rotationSpeed * Time.deltaTime, 0);
     }
 
     public void BackgroundMusic()
@@ -255,18 +252,17 @@ public class MenuManager : MonoBehaviour
     public void ShowMain()
     {
         instructions.SetActive(false);
-        gameSettings.SetActive(false);
-        customization.SetActive(false);
-        settings.SetActive(false);
         loading.SetActive(false);
-        mainMenu.SetActive(true);
+        shipParent.SetActive(false);
+        gameSettings.enabled = customization.enabled = settings.enabled = false;
+        mainMenu.enabled = true;
         MajorClick();
     }
 
     public void GameSettings()
     {
-        mainMenu.SetActive(false);
-        gameSettings.SetActive(true);
+        mainMenu.enabled = false;
+        gameSettings.enabled = true;
         MajorClick();
     }
 
@@ -294,8 +290,9 @@ public class MenuManager : MonoBehaviour
         nameEnter.SetActive(false);
         nameEdit.SetActive(true);
         playerText.enabled = true;
-        customization.SetActive(true);
-        mainMenu.SetActive(false);
+        shipParent.SetActive(true);
+        mainMenu.enabled = false;
+        customization.enabled = true;
         MajorClick();
     }
 
@@ -303,7 +300,6 @@ public class MenuManager : MonoBehaviour
     {
         string rebinds = PlayerPrefs.GetString("Bindings");
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
-        mainMenu.SetActive(false);
         activePlayer = 0;
         for(int i = 1; i < 4; i++)
         {
@@ -313,13 +309,20 @@ public class MenuManager : MonoBehaviour
         activeSetting = 0;
         settingWindows[0].SetActive(true);
         settingWindows[1].SetActive(false);
-        settings.SetActive(true);
+        mainMenu.enabled = false;
+        settings.enabled = true;
+        MajorClick();
+    }
+
+    public void ResetMenu()
+    {
+        resetMenu.enabled = !resetMenu.enabled;
         MajorClick();
     }
 
     public void Play()
     {
-        gameSettings.SetActive(false);
+        gameSettings.enabled = false;
         loading.SetActive(true);
         MajorClick();
         StartCoroutine(LoadGame());
@@ -591,7 +594,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("Difficulty", 0);
         PlayerPrefs.SetInt("Races", 0);
         PlayerPrefs.SetInt("Collects", 0);
-        PlayerPrefs.SetFloat("Fov", 35);
+        PlayerPrefs.SetFloat("Fov", 40);
         PlayerPrefs.SetFloat("Depth", 7000);
         PlayerPrefs.SetFloat("Damping", 0.1f);
         PlayerPrefs.SetFloat("Music", 0.2f);
@@ -617,8 +620,8 @@ public class MenuManager : MonoBehaviour
         difficultySlider.value = 0;
         for(int i = 1; i < 4; i++) difficulties[i].color = normalColor;
         difficulties[0].color = selectedColor;
-        fovSlider.value = 35;
-        fovText.SetText("35");
+        fovSlider.value = 40;
+        fovText.SetText("40");
         depthSlider.value = 7000;
         depthText.SetText("7000");
         dampingSlider.value = 0.1f;
@@ -638,12 +641,12 @@ public class MenuManager : MonoBehaviour
         if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
 
         loaded = true;
-        MajorClick();
+        ResetMenu();
     }
 
     public void ResetSettings()
     {
-        PlayerPrefs.SetFloat("Fov", 35);
+        PlayerPrefs.SetFloat("Fov", 40);
         PlayerPrefs.SetFloat("Depth", 7000);
         PlayerPrefs.SetFloat("Damping", 0.1f);
         PlayerPrefs.SetFloat("Music", 0.2f);
@@ -654,8 +657,8 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Thruster", 0.3f);
         PlayerPrefs.SetFloat("Effects", 0.4f);
 
-        fovSlider.value = 35;
-        fovText.SetText("35");
+        fovSlider.value = 40;
+        fovText.SetText("40");
         depthSlider.value = 7000;
         depthText.SetText("7000");
         dampingSlider.value = 0.1f;
