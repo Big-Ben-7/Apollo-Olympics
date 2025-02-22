@@ -1125,7 +1125,7 @@ public class SpawnManager : MonoBehaviour
     {
         yield return oneSecond;
         confetti.SetActive(true);
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 3; i++)
         {
             audioSource.PlayOneShot(confettiSound, 0.7f);
             yield return oneAndHalfSeconds;
