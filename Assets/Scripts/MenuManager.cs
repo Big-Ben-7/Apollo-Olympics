@@ -201,7 +201,7 @@ public class MenuManager : MonoBehaviour
             showArrow = true;
             arrowToggle.isOn = true;
         }
-        noise = PlayerPrefs.GetFloat("Noise", 0.2f);
+        noise = PlayerPrefs.GetFloat("Noise", 0.1f);
         noiseSlider.value = noise;
         noiseText.SetText(noise.ToString("0.00"));
         thruster = PlayerPrefs.GetFloat("Thruster", 0.3f);
@@ -598,7 +598,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
-        PlayerPrefs.SetFloat("Noise", 0.2f);
+        PlayerPrefs.SetFloat("Noise", 0.1f);
         PlayerPrefs.SetFloat("Thruster", 0.3f);
         PlayerPrefs.SetFloat("Effects", 0.4f);
         PlayerPrefs.SetInt("Intro", 1);
@@ -626,8 +626,8 @@ public class MenuManager : MonoBehaviour
         musicSlider.value = 0.2f;
         musicText.SetText("0.20");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
-        noiseSlider.value = 0.2f;
-        noiseText.SetText("0.20");
+        noiseSlider.value = 0.1f;
+        noiseText.SetText("0.10");
         thrusterSlider.value = 0.3f;
         thrusterText.SetText("0.30");
         effectsSlider.value = 0.4f;
@@ -650,7 +650,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
-        PlayerPrefs.SetFloat("Noise", 0.2f);
+        PlayerPrefs.SetFloat("Noise", 0.1f);
         PlayerPrefs.SetFloat("Thruster", 0.3f);
         PlayerPrefs.SetFloat("Effects", 0.4f);
 
@@ -663,8 +663,8 @@ public class MenuManager : MonoBehaviour
         musicSlider.value = 0.2f;
         musicText.SetText("0.20");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
-        noiseSlider.value = 0.2f;
-        noiseText.SetText("0.20");
+        noiseSlider.value = 0.1f;
+        noiseText.SetText("0.10");
         thrusterSlider.value = 0.3f;
         thrusterText.SetText("0.30");
         effectsSlider.value = 0.4f;

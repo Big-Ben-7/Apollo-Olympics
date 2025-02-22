@@ -315,7 +315,7 @@ MonoBehaviour:
   stability: 1
   activationTime: 0
   cooldownTime: 5
-  abilityStrength: 25000
+  abilityStrength: 30000
   abilityStrength2: 0
   accFuelLoss: 2
   rotFuelLoss: 1
@@ -582,7 +582,7 @@ AudioSource:
   Priority: 0
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 1343.2101
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

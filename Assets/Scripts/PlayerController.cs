@@ -743,13 +743,13 @@ public class PlayerController : MonoBehaviour
             {
                 if(fuel < 90) fuel += 10;
                 else fuel = 100;
-                StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
+                if(showCaptions) StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
             }
             else
             {
                 if(fuel < 95) fuel += 5;
                 else fuel = 100;
-                StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
+                if(showCaptions) StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
             }
             if(!collectEffect.activeSelf)
             {
@@ -1117,7 +1117,6 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(activationSound);
         aura.SetActive(true);
         rb.AddRelativeForce(Vector3.forward * (rb.velocity.magnitude + abilityStrength), ForceMode.VelocityChange);
-        glideSpeed += abilityStrength;
         resetting = StartCoroutine(ResetAura(twoSeconds));
 
         //Cooldown
