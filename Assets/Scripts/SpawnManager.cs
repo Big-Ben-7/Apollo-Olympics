@@ -102,8 +102,10 @@ public class SpawnManager : MonoBehaviour
     CinemachineVirtualCamera[] thirdPersons = new CinemachineVirtualCamera[4];
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
+    [SerializeField] AudioClip goVoice;
     [SerializeField] AudioClip pauseSound;
     [SerializeField] AudioClip finishSound;
+    [SerializeField] AudioClip[] finishVoices;
     [SerializeField] AudioClip confettiSound;
     [SerializeField] GameObject eventSystem;
     public AudioSource audioSource;
@@ -111,6 +113,7 @@ public class SpawnManager : MonoBehaviour
     AudioSource backgroundNoise;
     AudioSource[] allAudio;
     int audioCount;
+    float voiceScale;
     [SerializeField] Canvas menu;
     [SerializeField] Canvas raceFinish;
     [SerializeField] Canvas loading;
@@ -149,9 +152,11 @@ public class SpawnManager : MonoBehaviour
         playerShips = MenuManager.playerShips;
         difficulty = MenuManager.difficulty;
         playerNames = MenuManager.playerNames;
-        audioSource.volume = PlayerController.audioVolume = MenuManager.effects;
-        backgroundMusic.volume = MenuManager.music * 0.5f;
-        backgroundNoise.volume = MenuManager.noise;
+        float fx = audioSource.volume = PlayerController.audioVolume = MenuManager.effects;
+        float voice = PlayerController.voiceVolume = MenuManager.voice;
+        voiceScale = voice / fx;
+        float bg = backgroundMusic.volume = MenuManager.music * 0.5f;
+        if(bg < 0.1f) backgroundNoise.volume = bg;
         cursorHide = MenuManager.cursorHide;
         if(cursorHide) Cursor.visible = false;
         CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
@@ -438,6 +443,8 @@ public class SpawnManager : MonoBehaviour
             countdownTime--;
         }
         audioSource.PlayOneShot(goSound);
+        audioSource.PlayOneShot(goVoice, voiceScale);
+        yield return oneSecond;
         InputSystem.actions.Disable();
         InputSystem.actions.Enable();
         paused = PlayerController.paused = false;
@@ -1100,15 +1107,19 @@ public class SpawnManager : MonoBehaviour
         {
             case 1:
                 finishTexts[playerIndex].SetText("1st Place");
+                audioSource.PlayOneShot(finishVoices[0], voiceScale);
                 break;
             case 2:
                 finishTexts[playerIndex].SetText("2nd Place");
+                audioSource.PlayOneShot(finishVoices[1], voiceScale);
                 break;
             case 3:
                 finishTexts[playerIndex].SetText("3rd Place");
+                audioSource.PlayOneShot(finishVoices[2], voiceScale);
                 break;
             default:
                 finishTexts[playerIndex].SetText("4th Place");
+                audioSource.PlayOneShot(finishVoices[3], voiceScale);
                 break;
         }
 

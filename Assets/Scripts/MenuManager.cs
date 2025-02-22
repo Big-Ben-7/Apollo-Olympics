@@ -64,7 +64,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Toggle cursorToggle;
     [SerializeField] Toggle arrowToggle;
     [SerializeField] Slider musicSlider;
-    [SerializeField] Slider noiseSlider;
+    [SerializeField] Slider voiceSlider;
     [SerializeField] Slider thrusterSlider;
     [SerializeField] Slider effectsSlider;
     [SerializeField] TMP_Text fovText;
@@ -72,7 +72,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text depthText;
     [SerializeField] TMP_Text dampingText;
     [SerializeField] TMP_Text musicText;
-    [SerializeField] TMP_Text noiseText;
+    [SerializeField] TMP_Text voiceText;
     [SerializeField] TMP_Text thrusterText;
     [SerializeField] TMP_Text effectsText;
 
@@ -102,7 +102,7 @@ public class MenuManager : MonoBehaviour
     public static bool cursorHide;
     public static bool showArrow;
     public static float music;
-    public static float noise;
+    public static float voice;
     public static float thruster;
     public static float effects;
     public static WaitForSeconds halfSecond = new WaitForSeconds(0.5f);
@@ -203,9 +203,9 @@ public class MenuManager : MonoBehaviour
             showArrow = true;
             arrowToggle.isOn = true;
         }
-        noise = PlayerPrefs.GetFloat("Noise", 0.1f);
-        noiseSlider.value = noise;
-        noiseText.SetText(noise.ToString("0.00"));
+        voice = PlayerPrefs.GetFloat("Voice", 0.8f);
+        voiceSlider.value = voice;
+        voiceText.SetText(voice.ToString("0.00"));
         thruster = PlayerPrefs.GetFloat("Thruster", 0.3f);
         thrusterSlider.value = thruster;
         thrusterText.SetText(thruster.ToString("0.00"));
@@ -513,11 +513,11 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Music", music);
     }
 
-    public void ChangeNoise()
+    public void ChangeVoice()
     {
-        noise = noiseSlider.value;
-        noiseText.SetText(noise.ToString("0.00"));
-        PlayerPrefs.SetFloat("Noise", noise);
+        voice = voiceSlider.value;
+        voiceText.SetText(voice.ToString("0.00"));
+        PlayerPrefs.SetFloat("Voice", voice);
     }
 
     public void ChangeThruster()
@@ -601,7 +601,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
-        PlayerPrefs.SetFloat("Noise", 0.1f);
+        PlayerPrefs.SetFloat("Voice", 0.8f);
         PlayerPrefs.SetFloat("Thruster", 0.3f);
         PlayerPrefs.SetFloat("Effects", 0.4f);
         PlayerPrefs.SetInt("Intro", 1);
@@ -629,8 +629,8 @@ public class MenuManager : MonoBehaviour
         musicSlider.value = 0.2f;
         musicText.SetText("0.20");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
-        noiseSlider.value = 0.1f;
-        noiseText.SetText("0.10");
+        voiceSlider.value = 0.8f;
+        voiceText.SetText("0.80");
         thrusterSlider.value = 0.3f;
         thrusterText.SetText("0.30");
         effectsSlider.value = 0.4f;
@@ -653,7 +653,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
-        PlayerPrefs.SetFloat("Noise", 0.1f);
+        PlayerPrefs.SetFloat("Voice", 0.8f);
         PlayerPrefs.SetFloat("Thruster", 0.3f);
         PlayerPrefs.SetFloat("Effects", 0.4f);
 
@@ -666,8 +666,8 @@ public class MenuManager : MonoBehaviour
         musicSlider.value = 0.2f;
         musicText.SetText("0.20");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
-        noiseSlider.value = 0.1f;
-        noiseText.SetText("0.10");
+        voiceSlider.value = 0.8f;
+        voiceText.SetText("0.80");
         thrusterSlider.value = 0.3f;
         thrusterText.SetText("0.30");
         effectsSlider.value = 0.4f;

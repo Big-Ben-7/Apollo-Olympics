@@ -44,19 +44,31 @@ public class PlayerController : MonoBehaviour
     [Header("UI/Audio")]
     [SerializeField] Color green;
     [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioSource voiceSource;
     [SerializeField] AudioSource fireSource;
     [SerializeField] AudioSource thrusterSource;
     [SerializeField] AudioClip[] hitSounds;
-    [SerializeField] AudioClip fuelSound;
+    [SerializeField] AudioClip noFuelSound;
+    [SerializeField] AudioClip noFuelVoice;
     [SerializeField] AudioClip collectSound;
     [SerializeField] AudioClip checkpointSound;
+    [SerializeField] AudioClip checkpointVoice;
+    [SerializeField] AudioClip backCheckpointVoice;
     [SerializeField] AudioClip activationSound;
+    [SerializeField] AudioClip activationVoice;
     [SerializeField] AudioClip expireSound;
+    [SerializeField] AudioClip expireVoice;
     [SerializeField] AudioClip chargeSound;
+    [SerializeField] AudioClip chargeVoice;
+    [SerializeField] AudioClip pirateVoice;
     [SerializeField] AudioClip errorSound;
     [SerializeField] AudioClip wormholeSound;
+    [SerializeField] AudioClip wormholeVoice;
     [SerializeField] AudioClip warningSound;
+    [SerializeField] AudioClip lowHealthVoice;
+    [SerializeField] AudioClip lowFuelVoice;
     [SerializeField] AudioClip dieSound;
+    [SerializeField] AudioClip dieVoice;
     
     //Movement control
     Rigidbody rb;
@@ -189,7 +201,6 @@ public class PlayerController : MonoBehaviour
 
     //UI
     public Transform cameraStats;
-    
     TMP_Text healthLabel;
     Image healthBar;
     TMP_Text healthText;
@@ -217,6 +228,8 @@ public class PlayerController : MonoBehaviour
     public Transform arrow;
     public static float maxThrusterVolume;
     public static float audioVolume;
+    public static float voiceVolume;
+    float warningScale;
     public static bool showCaptions;
     public static bool showArrow;
     public static bool paused = true;
@@ -233,14 +246,14 @@ public class PlayerController : MonoBehaviour
         "Passed Neptune Orbit\nEntering Kuiper Belt"
     };    string[] backCaptions = new string[] 
     {
-        "Back To Mercury Orbit", 
-        "Back To Venus Orbit", 
-        "Back To Earth Orbit", 
-        "Back To Mars Orbit", 
-        "Back To Jupiter Orbit", 
-        "Back To Saturn Orbit",
-        "Back To Uranus Orbit",
-        "Back To Neptune Orbit"
+        "Returned To Mercury Orbit", 
+        "Returned To Venus Orbit", 
+        "Returned To Earth Orbit", 
+        "Returned To Mars Orbit", 
+        "Returned To Jupiter Orbit", 
+        "Returned To Saturn Orbit",
+        "Returned To Uranus Orbit",
+        "Returned To Neptune Orbit"
     };
     int captionPriority = 0;
 
@@ -434,6 +447,9 @@ public class PlayerController : MonoBehaviour
         timeText.SetText(spawnManager.timeString);
         
         audioSource.volume = audioVolume;
+        voiceSource.volume = voiceVolume;
+        if(audioVolume * 2 > 1) warningScale = 1 / audioVolume;
+        else warningScale = 2;
 
         allText = new TMP_Text[]{nameText, checkpointText, healthLabel, healthText, fuelLabel, fuelText, speedText, collectText, abilityText, timeText, posText, distanceText};
         allTextLength = allText.Length;
@@ -557,7 +573,9 @@ public class PlayerController : MonoBehaviour
                     fuelText.SetText("0.00");
                     StartCoroutine(SetCaption(noFuelCaptions[UnityEngine.Random.Range(0, noFuelNumber)], threeSeconds, 5));
                     StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 3));
-                    audioSource.PlayOneShot(fuelSound);
+                    audioSource.PlayOneShot(noFuelSound);
+                    voiceSource.clip = noFuelVoice;
+                    voiceSource.Play();
                 }
                 break;
             case <= 20:
@@ -569,7 +587,9 @@ public class PlayerController : MonoBehaviour
                         StartCoroutine(SetCaption(fuelCaptions[UnityEngine.Random.Range(0, fuelNumber)], threeSeconds, 4));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
-                    audioSource.PlayOneShot(warningSound, 2);
+                    audioSource.PlayOneShot(warningSound, warningScale);
+                    voiceSource.clip = lowFuelVoice;
+                    voiceSource.Play();
                 }
                 string fuelString = fuel.ToString("0.00");
                 if(fuelText.text != "fuelString") fuelText.SetText(fuelString);
@@ -858,7 +878,9 @@ public class PlayerController : MonoBehaviour
                         StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], threeSeconds, 4));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
-                    audioSource.PlayOneShot(warningSound, 2);
+                    audioSource.PlayOneShot(warningSound, warningScale);
+                    voiceSource.clip = lowHealthVoice;
+                    voiceSource.Play();
                 }
                 break;
             
@@ -883,6 +905,8 @@ public class PlayerController : MonoBehaviour
         deathText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
         StartCoroutine(ChangeTextColor(deathText, fifthSecond, Color.red, Color.white, 3));
         audioSource.PlayOneShot(dieSound);
+        voiceSource.clip = dieVoice;
+        voiceSource.Play();
 
         yield return threeSeconds;
         deathText.SetText("");
@@ -996,6 +1020,8 @@ public class PlayerController : MonoBehaviour
         captionPriority = 1;
         string phrase = droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)];
         caption.SetText(phrase);
+        voiceSource.clip = pirateVoice;
+        voiceSource.Play();
         yield return wait;
         if(caption.text == phrase)
         {
@@ -1077,6 +1103,8 @@ public class PlayerController : MonoBehaviour
         rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);
         audioSource.PlayOneShot(wormholeSound);
+        voiceSource.clip = wormholeVoice;
+        voiceSource.Play();
         canCollide = canTrigger = true;
         if(collided) collided = false;
     }
@@ -1096,6 +1124,8 @@ public class PlayerController : MonoBehaviour
         activeDrones = newDrones;
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, green));
         audioSource.PlayOneShot(checkpointSound);
+        voiceSource.clip = checkpointVoice;
+        voiceSource.Play();
     }
 
     void RemoveCheckpoint(int playerCheckpoint)
@@ -1106,6 +1136,8 @@ public class PlayerController : MonoBehaviour
         checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, Color.red));
         audioSource.PlayOneShot(errorSound);
+        voiceSource.clip = backCheckpointVoice;
+        voiceSource.Play();
     }
 
     //Abilities
@@ -1115,6 +1147,8 @@ public class PlayerController : MonoBehaviour
         died = false;
         ability = SpeedUp();
         audioSource.PlayOneShot(activationSound);
+        voiceSource.clip = activationVoice;
+        voiceSource.Play();
         aura.SetActive(true);
         rb.AddRelativeForce(Vector3.forward * (rb.velocity.magnitude + abilityStrength), ForceMode.VelocityChange);
         resetting = StartCoroutine(ResetAura(twoSeconds));
@@ -1128,8 +1162,10 @@ public class PlayerController : MonoBehaviour
         }
         if(!died)
         {
-            abilityText.SetText("Ability Charged!");
+            abilityText.SetText("Ability Charged");
             audioSource.PlayOneShot(chargeSound, 0.7f);
+            voiceSource.clip = chargeVoice;
+            voiceSource.Play();
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1146,6 +1182,8 @@ public class PlayerController : MonoBehaviour
         auraParticles[3].duration = activationTime - 1;
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
+        voiceSource.clip = activationVoice;
+        voiceSource.Play();
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation.ToString());
@@ -1153,6 +1191,8 @@ public class PlayerController : MonoBehaviour
             currentActivation --;
         }
         audioSource.PlayOneShot(expireSound);
+        voiceSource.clip = expireVoice;
+        voiceSource.Play();
         aura.SetActive(false);
 
         //Cooldown
@@ -1164,8 +1204,10 @@ public class PlayerController : MonoBehaviour
         }
         if(!died)
         {
-            abilityText.SetText("Ability Charged!");
+            abilityText.SetText("Ability Charged");
             audioSource.PlayOneShot(chargeSound, 0.7f);
+            voiceSource.clip = chargeVoice;
+            voiceSource.Play();
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1180,6 +1222,8 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(true);
         healthText.color = healthLabel.color = green;
         audioSource.PlayOneShot(activationSound);
+        voiceSource.clip = activationVoice;
+        voiceSource.Play();
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation.ToString());
@@ -1203,6 +1247,8 @@ public class PlayerController : MonoBehaviour
         resetting = StartCoroutine(ResetAura(twoSeconds));
         healthText.color = healthLabel.color = Color.white;
         audioSource.PlayOneShot(expireSound);
+        voiceSource.clip = expireVoice;
+        voiceSource.Play();
 
         //Cooldown
         while(currentCooldown > 0)
@@ -1213,8 +1259,10 @@ public class PlayerController : MonoBehaviour
         }
         if(!died)
         {
-            abilityText.SetText("Ability Charged!");
+            abilityText.SetText("Ability Charged");
             audioSource.PlayOneShot(chargeSound, 0.7f);
+            voiceSource.clip = chargeVoice;
+            voiceSource.Play();
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1228,6 +1276,8 @@ public class PlayerController : MonoBehaviour
         ability = DustStorm();
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
+        voiceSource.clip = activationVoice;
+        voiceSource.Play();
         for(int i = 0; i < droneNumber; i++) droneScripts[i].offset = abilityStrength;
         while(currentActivation > 0)
         {
@@ -1238,6 +1288,8 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(twoSeconds));
         audioSource.PlayOneShot(expireSound);
+        voiceSource.clip = expireVoice;
+        voiceSource.Play();
         for(int i = 0; i < droneNumber; i++) droneScripts[i].offset = 0;
 
         //Cooldown
@@ -1249,8 +1301,10 @@ public class PlayerController : MonoBehaviour
         }
         if(!died)
         {
-            abilityText.SetText("Ability Charged!");
+            abilityText.SetText("Ability Charged");
             audioSource.PlayOneShot(chargeSound, 0.7f);
+            voiceSource.clip = chargeVoice;
+            voiceSource.Play();
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1264,6 +1318,8 @@ public class PlayerController : MonoBehaviour
         ability = Juggernaut();
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
+        voiceSource.clip = activationVoice;
+        voiceSource.Play();
         speedLossDivisor = 1;
         healthLossDivisor = abilityStrength2;
         minHealthLoss = 0;
@@ -1278,6 +1334,8 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(twoSeconds));
         audioSource.PlayOneShot(expireSound);
+        voiceSource.clip = expireVoice;
+        voiceSource.Play();
         speedLossDivisor = collisionInitials[0];
         healthLossDivisor = (int) collisionInitials[1];
         minHealthLoss = collisionInitials[2];
@@ -1293,8 +1351,10 @@ public class PlayerController : MonoBehaviour
         }
         if(!died)
         {
-            abilityText.SetText("Ability Charged!");
+            abilityText.SetText("Ability Charged");
             audioSource.PlayOneShot(chargeSound, 0.7f);
+            voiceSource.clip = chargeVoice;
+            voiceSource.Play();
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1309,6 +1369,8 @@ public class PlayerController : MonoBehaviour
         ring.hitForce = abilityStrength;
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
+        voiceSource.clip = activationVoice;
+        voiceSource.Play();
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation.ToString());
@@ -1318,6 +1380,8 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < auraCount; i++) auraParticles[i].loop = false;
         resetting = StartCoroutine(ResetAura(oneSecond));
         audioSource.PlayOneShot(expireSound);
+        voiceSource.clip = expireVoice;
+        voiceSource.Play();
 
         //Cooldown
         while(currentCooldown > 0)
@@ -1328,8 +1392,10 @@ public class PlayerController : MonoBehaviour
         }
         if(!died)
         {
-            abilityText.SetText("Ability Charged!");
+            abilityText.SetText("Ability Charged");
             audioSource.PlayOneShot(chargeSound, 0.7f);
+            voiceSource.clip = chargeVoice;
+            voiceSource.Play();
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1341,6 +1407,8 @@ public class PlayerController : MonoBehaviour
         died = false;
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
+        voiceSource.clip = activationVoice;
+        voiceSource.Play();
         aura.SetActive(true);
         int colliders = Physics.OverlapSphereNonAlloc(rb.position, abilityStrength2, surroundingColliders, abilityMask);
         for(int i = 0; i < colliders; i++)
@@ -1372,8 +1440,10 @@ public class PlayerController : MonoBehaviour
         }
         if(!died)
         {
-            abilityText.SetText("Ability Charged!");
+            abilityText.SetText("Ability Charged");
             audioSource.PlayOneShot(chargeSound, 0.7f);
+            voiceSource.clip = chargeVoice;
+            voiceSource.Play();
             yield return oneSecond;
         }
         abilityText.SetText("");

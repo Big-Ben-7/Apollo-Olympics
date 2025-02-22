@@ -1313,7 +1313,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9113a8a90b5a5ca42a7d9af05d6cf620, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1409,7 +1409,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1631,8 +1631,14 @@ MonoBehaviour:
     m_Bits: 4192
   countdownSound: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
   goSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
+  goVoice: {fileID: 8300000, guid: 416fbe314a3d74acb90a69af6511580a, type: 3}
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
   finishSound: {fileID: 8300000, guid: b0e62ed71b1538648b719821f4f63b4c, type: 3}
+  finishVoices:
+  - {fileID: 8300000, guid: 4a60f0480d08d4d548a5970a05a8e6d1, type: 3}
+  - {fileID: 8300000, guid: a06e7b23d2a674adf87484040a99560d, type: 3}
+  - {fileID: 8300000, guid: f4682f2cd05be436ebfdc8a25164cebf, type: 3}
+  - {fileID: 8300000, guid: f0fe912a674b448a99e5be2810e004a3, type: 3}
   confettiSound: {fileID: 8300000, guid: 566d2ea6240b489479a6e9fd608c2621, type: 3}
   eventSystem: {fileID: 1183720512}
   audioSource: {fileID: 0}
