@@ -575,7 +575,7 @@ public class PlayerController : MonoBehaviour
                     StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 3));
                     audioSource.PlayOneShot(noFuelSound);
                     voiceSource.clip = noFuelVoice;
-                    voiceSource.Play();
+                    voiceSource.PlayDelayed(0.5f);
                 }
                 break;
             case <= 20:
@@ -906,7 +906,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(ChangeTextColor(deathText, fifthSecond, Color.red, Color.white, 3));
         audioSource.PlayOneShot(dieSound);
         voiceSource.clip = dieVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.5f);
 
         yield return threeSeconds;
         deathText.SetText("");
@@ -1021,7 +1021,7 @@ public class PlayerController : MonoBehaviour
         string phrase = droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)];
         caption.SetText(phrase);
         voiceSource.clip = pirateVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.5f);
         yield return wait;
         if(caption.text == phrase)
         {
@@ -1098,13 +1098,13 @@ public class PlayerController : MonoBehaviour
             float mag = rb.position.magnitude;
             if(mag > distance) StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back", twoSeconds, 3));
             else StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead", twoSeconds, 3));
+            voiceSource.clip = wormholeVoice;
+            voiceSource.Play();
         }
         Vector3 newPos = Quaternion.Euler(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), 0) * new Vector3(0, 0, distance);
         rb.position = newPos;
         spawnManager.SpawnSectionsAround(new Vector3(Mathf.RoundToInt(newPos.x / length), Mathf.RoundToInt(newPos.y / length), Mathf.RoundToInt(newPos.z / length)), playerIndex);
         audioSource.PlayOneShot(wormholeSound);
-        voiceSource.clip = wormholeVoice;
-        voiceSource.Play();
         canCollide = canTrigger = true;
         if(collided) collided = false;
     }
@@ -1125,7 +1125,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, green));
         audioSource.PlayOneShot(checkpointSound);
         voiceSource.clip = checkpointVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.2f);
     }
 
     void RemoveCheckpoint(int playerCheckpoint)
@@ -1137,7 +1137,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, Color.red));
         audioSource.PlayOneShot(errorSound);
         voiceSource.clip = backCheckpointVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.2f);
     }
 
     //Abilities
@@ -1148,7 +1148,7 @@ public class PlayerController : MonoBehaviour
         ability = SpeedUp();
         audioSource.PlayOneShot(activationSound);
         voiceSource.clip = activationVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.2f);
         aura.SetActive(true);
         rb.AddRelativeForce(Vector3.forward * (rb.velocity.magnitude + abilityStrength), ForceMode.VelocityChange);
         resetting = StartCoroutine(ResetAura(twoSeconds));
@@ -1183,7 +1183,7 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         voiceSource.clip = activationVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.2f);
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation.ToString());
@@ -1223,7 +1223,7 @@ public class PlayerController : MonoBehaviour
         healthText.color = healthLabel.color = green;
         audioSource.PlayOneShot(activationSound);
         voiceSource.clip = activationVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.2f);
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation.ToString());
@@ -1277,7 +1277,7 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         voiceSource.clip = activationVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.2f);
         for(int i = 0; i < droneNumber; i++) droneScripts[i].offset = abilityStrength;
         while(currentActivation > 0)
         {
@@ -1319,7 +1319,7 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         voiceSource.clip = activationVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.2f);
         speedLossDivisor = 1;
         healthLossDivisor = abilityStrength2;
         minHealthLoss = 0;
@@ -1370,7 +1370,7 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         voiceSource.clip = activationVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.2f);
         while(currentActivation > 0)
         {
             abilityText.SetText("Activated: " + currentActivation.ToString());
@@ -1408,7 +1408,7 @@ public class PlayerController : MonoBehaviour
         ability = WindStorm();
         audioSource.PlayOneShot(activationSound);
         voiceSource.clip = activationVoice;
-        voiceSource.Play();
+        voiceSource.PlayDelayed(0.2f);
         aura.SetActive(true);
         int colliders = Physics.OverlapSphereNonAlloc(rb.position, abilityStrength2, surroundingColliders, abilityMask);
         for(int i = 0; i < colliders; i++)
