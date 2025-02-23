@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
     GameObject hitExplosionPrefab;
     int forwardPercent = 35;
     int backPercent = 25;
-    int extraFuelPercent = 30;
+    int extraFuelPercent = 50;
     string[] droneCaptions = new string[]
     {
         "Nice Move!",

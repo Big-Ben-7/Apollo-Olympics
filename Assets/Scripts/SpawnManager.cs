@@ -1101,7 +1101,7 @@ public class SpawnManager : MonoBehaviour
         List<Transform> playerFollowers = followers[playerIndex];
         foreach(Transform playerFollower in playerFollowers) playerFollower.gameObject.SetActive(false);
         views[playerIndex].cullingMask = finishMasks[playerIndex];
-        thirdPersons[playerIndex].m_Lens.FieldOfView = 30;
+        thirdPersons[playerIndex].m_Lens.FieldOfView = 35;
         int playersLeft = playingPlayers.Count;
         switch(playerNumber - playersLeft)
         {

@@ -203,7 +203,7 @@ public class MenuManager : MonoBehaviour
             showArrow = true;
             arrowToggle.isOn = true;
         }
-        voice = PlayerPrefs.GetFloat("Voice", 0.7f);
+        voice = PlayerPrefs.GetFloat("Voice", 0.6f);
         voiceSlider.value = voice;
         voiceText.SetText(voice.ToString("0.00"));
         thruster = PlayerPrefs.GetFloat("Thruster", 0.3f);
@@ -601,7 +601,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
-        PlayerPrefs.SetFloat("Voice", 0.7f);
+        PlayerPrefs.SetFloat("Voice", 0.6f);
         PlayerPrefs.SetFloat("Thruster", 0.3f);
         PlayerPrefs.SetFloat("Effects", 0.4f);
         PlayerPrefs.SetInt("Intro", 1);
@@ -629,8 +629,8 @@ public class MenuManager : MonoBehaviour
         musicSlider.value = 0.2f;
         musicText.SetText("0.20");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
-        voiceSlider.value = 0.7f;
-        voiceText.SetText("0.70");
+        voiceSlider.value = 0.6f;
+        voiceText.SetText("0.60");
         thrusterSlider.value = 0.3f;
         thrusterText.SetText("0.30");
         effectsSlider.value = 0.4f;
@@ -653,7 +653,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
-        PlayerPrefs.SetFloat("Voice", 0.7f);
+        PlayerPrefs.SetFloat("Voice", 0.6f);
         PlayerPrefs.SetFloat("Thruster", 0.3f);
         PlayerPrefs.SetFloat("Effects", 0.4f);
 
@@ -666,8 +666,8 @@ public class MenuManager : MonoBehaviour
         musicSlider.value = 0.2f;
         musicText.SetText("0.20");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
-        voiceSlider.value = 0.7f;
-        voiceText.SetText("0.70");
+        voiceSlider.value = 0.6f;
+        voiceText.SetText("0.60");
         thrusterSlider.value = 0.3f;
         thrusterText.SetText("0.30");
         effectsSlider.value = 0.4f;
