@@ -115,20 +115,12 @@ public class PlayerController : MonoBehaviour
     {
         "Nice Move!",
         "Well Played!",
-        "Got 'em!",
         "Wipeout!",
         "Clean Sweep!",
-        "Impressive!",
         "Bravo!",
         "Pirates Out!",
         "Bye-bye Pirates!",
-        "Well Done!",
-        "Outstanding!",
-        "Terriffic!",
-        "Awesome!",
-        "Amazing!",
-        "WOW!",
-        "Let's Go!"
+        "Pirates Eliminated!"
     };
     string[] crashCaptions = new string[] 
     {

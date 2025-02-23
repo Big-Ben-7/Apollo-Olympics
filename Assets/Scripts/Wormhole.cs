@@ -20,10 +20,6 @@ public class Wormhole : MonoBehaviour
                 triggeredObjects.Add(otherObject);
                 other.GetComponent<PlayerController>().Teleport();
                 break;
-            
-            case "Collectable" or "Asteroid":
-                otherObject.SetActive(false);
-                break;
 
             case "Drone":
                 other.GetComponent<Drone>().ResetDrone();
