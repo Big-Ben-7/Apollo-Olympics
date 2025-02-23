@@ -170,7 +170,7 @@ public class MenuManager : MonoBehaviour
         damping = PlayerPrefs.GetFloat("Damping", 0.1f);
         dampingSlider.value = damping;
         dampingText.SetText(damping.ToString("0.00"));
-        music = PlayerPrefs.GetFloat("Music", 0.2f);
+        music = PlayerPrefs.GetFloat("Music", 0.1f);
         musicSlider.value = music;
         musicText.SetText(music.ToString("0.00"));
         if(PlayerPrefs.GetInt("ShowCaptions", 1) == 0)
@@ -203,10 +203,10 @@ public class MenuManager : MonoBehaviour
             showArrow = true;
             arrowToggle.isOn = true;
         }
-        voice = PlayerPrefs.GetFloat("Voice", 0.6f);
+        voice = PlayerPrefs.GetFloat("Voice", 0.4f);
         voiceSlider.value = voice;
         voiceText.SetText(voice.ToString("0.00"));
-        thruster = PlayerPrefs.GetFloat("Thruster", 0.3f);
+        thruster = PlayerPrefs.GetFloat("Thruster", 0.2f);
         thrusterSlider.value = thruster;
         thrusterText.SetText(thruster.ToString("0.00"));
         effects = PlayerPrefs.GetFloat("Effects", 0.4f);
@@ -508,7 +508,8 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeMusic()
     {
-        music = backgroundMusic.volume = musicSlider.value;
+        music = musicSlider.value;
+        backgroundMusic.volume = music * 2;
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
@@ -529,7 +530,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeEffects()
     {
-        effects = audioSource.volume = effectsSlider.value;
+        effects = effectsSlider.value;
         effectsText.SetText(effects.ToString("0.00"));
         PlayerPrefs.SetFloat("Effects", effects);
     }
@@ -597,12 +598,12 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Fov", 40);
         PlayerPrefs.SetFloat("Depth", 7000);
         PlayerPrefs.SetFloat("Damping", 0.1f);
-        PlayerPrefs.SetFloat("Music", 0.2f);
+        PlayerPrefs.SetFloat("Music", 0.1f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
-        PlayerPrefs.SetFloat("Voice", 0.6f);
-        PlayerPrefs.SetFloat("Thruster", 0.3f);
+        PlayerPrefs.SetFloat("Voice", 0.4f);
+        PlayerPrefs.SetFloat("Thruster", 0.2f);
         PlayerPrefs.SetFloat("Effects", 0.4f);
         PlayerPrefs.SetInt("Intro", 1);
 
@@ -626,13 +627,13 @@ public class MenuManager : MonoBehaviour
         depthText.SetText("7000");
         dampingSlider.value = 0.1f;
         dampingText.SetText("0.10");
-        musicSlider.value = 0.2f;
-        musicText.SetText("0.20");
+        musicSlider.value = 0.1f;
+        musicText.SetText("0.10");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
-        voiceSlider.value = 0.6f;
-        voiceText.SetText("0.60");
-        thrusterSlider.value = 0.3f;
-        thrusterText.SetText("0.30");
+        voiceSlider.value = 0.4f;
+        voiceText.SetText("0.40");
+        thrusterSlider.value = 0.2f;
+        thrusterText.SetText("0.20");
         effectsSlider.value = 0.4f;
         effectsText.SetText("0.40");
         foreach(InputActionMap map in InputSystem.actions.actionMaps) map.RemoveAllBindingOverrides();
@@ -649,12 +650,12 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Fov", 40);
         PlayerPrefs.SetFloat("Depth", 7000);
         PlayerPrefs.SetFloat("Damping", 0.1f);
-        PlayerPrefs.SetFloat("Music", 0.2f);
+        PlayerPrefs.SetFloat("Music", 0.1f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
         PlayerPrefs.SetInt("CursorHide", 1);
         PlayerPrefs.SetInt("ShowArrow", 1);
-        PlayerPrefs.SetFloat("Voice", 0.6f);
-        PlayerPrefs.SetFloat("Thruster", 0.3f);
+        PlayerPrefs.SetFloat("Voice", 0.4f);
+        PlayerPrefs.SetFloat("Thruster", 0.2f);
         PlayerPrefs.SetFloat("Effects", 0.4f);
 
         fovSlider.value = 40;
@@ -663,13 +664,13 @@ public class MenuManager : MonoBehaviour
         depthText.SetText("7000");
         dampingSlider.value = 0.1f;
         dampingText.SetText("0.10");
-        musicSlider.value = 0.2f;
-        musicText.SetText("0.20");
+        musicSlider.value = 0.1f;
+        musicText.SetText("0.10");
         showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
-        voiceSlider.value = 0.6f;
-        voiceText.SetText("0.60");
-        thrusterSlider.value = 0.3f;
-        thrusterText.SetText("0.30");
+        voiceSlider.value = 0.4f;
+        voiceText.SetText("0.40");
+        thrusterSlider.value = 0.2f;
+        thrusterText.SetText("0.20");
         effectsSlider.value = 0.4f;
         effectsText.SetText("0.40");
         MinorClick();

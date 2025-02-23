@@ -102,11 +102,14 @@ public class SpawnManager : MonoBehaviour
     CinemachineVirtualCamera[] thirdPersons = new CinemachineVirtualCamera[4];
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
-    [SerializeField] AudioClip goVoice;
     [SerializeField] AudioClip pauseSound;
     [SerializeField] AudioClip finishSound;
-    [SerializeField] AudioClip[] finishVoices;
     [SerializeField] AudioClip confettiSound;
+    [SerializeField] AudioClip[] goVoices;
+    [SerializeField] AudioClip[] firstVoices;
+    [SerializeField] AudioClip[] secondVoices;
+    [SerializeField] AudioClip[] thirdVoices;
+    [SerializeField] AudioClip[] fourthVoices;
     [SerializeField] GameObject eventSystem;
     public AudioSource audioSource;
     AudioSource backgroundMusic;
@@ -114,6 +117,7 @@ public class SpawnManager : MonoBehaviour
     AudioSource[] allAudio;
     int audioCount;
     float voiceScale;
+    float[] stereoPans;
     [SerializeField] Canvas menu;
     [SerializeField] Canvas raceFinish;
     [SerializeField] Canvas loading;
@@ -353,12 +357,14 @@ public class SpawnManager : MonoBehaviour
                 scaleVector = Vector2.one;
                 cameraRects = new Vector2[] {Vector2.zero};
                 playerStrings = new string[] {"1"};
+                stereoPans = new float[] {0};
                 break;
 
             case 2:
                 scaleVector = new Vector2(0.5f, 1);
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.5f, 0)};
                 playerStrings = new string[] {"1", "2"};
+                stereoPans = new float[] {-0.6f, 0.6f};
                 break;
 
             case 3:
@@ -366,6 +372,7 @@ public class SpawnManager : MonoBehaviour
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.333f, 0), new Vector2(0.667f, 0)};
                 playerStrings = new string[] {"1", "3", "2"};
                 camOffset = new Vector3(0, 1, -5);
+                stereoPans = new float[] {-0.6f, 0, 0.6f};
                 break;
             
             default:
@@ -373,6 +380,7 @@ public class SpawnManager : MonoBehaviour
                 cameraRects = new Vector2[] {new Vector2(0, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(0.5f, 0)};
                 playerStrings = new string[] {"1", "4", "3", "2"};
                 camOffset = new Vector3(0, -1, 5);
+                stereoPans = new float[] {-0.6f, 0.6f, -0.6f, 0.6f};
                 break;
         }
 
@@ -400,6 +408,7 @@ public class SpawnManager : MonoBehaviour
             playerController.startPos = pos;
             playerController.normalizedStartPos = pos.normalized;
             playerController.startRot = rot;
+            playerController.stereoPan = stereoPans[i];
 
             Transform arrow = playerController.arrow = playerTransform.GetChild(3);
             arrow.gameObject.SetActive(false);
@@ -443,7 +452,7 @@ public class SpawnManager : MonoBehaviour
             countdownTime--;
         }
         audioSource.PlayOneShot(goSound);
-        audioSource.PlayOneShot(goVoice, voiceScale);
+        audioSource.PlayOneShot(goVoices[UnityEngine.Random.Range(0, playerNumber)], voiceScale);
         yield return oneSecond;
         InputSystem.actions.Disable();
         InputSystem.actions.Enable();
@@ -1102,26 +1111,28 @@ public class SpawnManager : MonoBehaviour
         foreach(Transform playerFollower in playerFollowers) playerFollower.gameObject.SetActive(false);
         views[playerIndex].cullingMask = finishMasks[playerIndex];
         thirdPersons[playerIndex].m_Lens.FieldOfView = 35;
+        audioSource.panStereo = stereoPans[playerIndex];
         int playersLeft = playingPlayers.Count;
         switch(playerNumber - playersLeft)
         {
             case 1:
                 finishTexts[playerIndex].SetText("1st Place");
-                audioSource.PlayOneShot(finishVoices[0], voiceScale);
+                audioSource.PlayOneShot(firstVoices[playerIndex], voiceScale);
                 break;
             case 2:
                 finishTexts[playerIndex].SetText("2nd Place");
-                audioSource.PlayOneShot(finishVoices[1], voiceScale);
+                audioSource.PlayOneShot(secondVoices[playerIndex], voiceScale);
                 break;
             case 3:
                 finishTexts[playerIndex].SetText("3rd Place");
-                audioSource.PlayOneShot(finishVoices[2], voiceScale);
+                audioSource.PlayOneShot(thirdVoices[playerIndex], voiceScale);
                 break;
             default:
                 finishTexts[playerIndex].SetText("4th Place");
-                audioSource.PlayOneShot(finishVoices[3], voiceScale);
+                audioSource.PlayOneShot(fourthVoices[playerIndex], voiceScale);
                 break;
         }
+        audioSource.panStereo = 0;
 
         //Game over
         if(playersLeft == 0)

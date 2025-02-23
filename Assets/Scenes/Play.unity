@@ -1546,7 +1546,7 @@ MonoBehaviour:
   asteroidNumbers: 14000000280000003c00000050000000
   minAsteroidScale: 250
   maxAsteroidScale: 2500
-  collectableNumbers: 0e0000000c0000000a00000008000000
+  collectableNumbers: 0c0000000a0000000800000006000000
   partDisablePercent: 50
   maxMovementForce1: 70
   maxMovementForce2: 250
@@ -1631,15 +1631,34 @@ MonoBehaviour:
     m_Bits: 4192
   countdownSound: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
   goSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
-  goVoice: {fileID: 8300000, guid: 416fbe314a3d74acb90a69af6511580a, type: 3}
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
   finishSound: {fileID: 8300000, guid: b0e62ed71b1538648b719821f4f63b4c, type: 3}
-  finishVoices:
-  - {fileID: 8300000, guid: 4a60f0480d08d4d548a5970a05a8e6d1, type: 3}
-  - {fileID: 8300000, guid: a06e7b23d2a674adf87484040a99560d, type: 3}
-  - {fileID: 8300000, guid: f4682f2cd05be436ebfdc8a25164cebf, type: 3}
-  - {fileID: 8300000, guid: f0fe912a674b448a99e5be2810e004a3, type: 3}
   confettiSound: {fileID: 8300000, guid: 566d2ea6240b489479a6e9fd608c2621, type: 3}
+  goVoices:
+  - {fileID: 8300000, guid: 13dc21c1b61c94013a947a07c3c92d08, type: 3}
+  - {fileID: 8300000, guid: cf9adfc3b21bc49488007709a442c042, type: 3}
+  - {fileID: 8300000, guid: 53c5283e1a7594d1c97ac28c3ceeb742, type: 3}
+  - {fileID: 8300000, guid: 58b48d4cc2210421ab38527448eaaf4b, type: 3}
+  firstVoices:
+  - {fileID: 8300000, guid: 56c27536f17994e6db95501186ec093f, type: 3}
+  - {fileID: 8300000, guid: ad761228af7454d2188627a06a1deba7, type: 3}
+  - {fileID: 8300000, guid: f86cc6b6a2f16478c9d82d2263814d8f, type: 3}
+  - {fileID: 8300000, guid: 60431dc603a344cd69bda9e15b24a2ae, type: 3}
+  secondVoices:
+  - {fileID: 8300000, guid: 41605e51066414fec80d0f9a98f530d6, type: 3}
+  - {fileID: 8300000, guid: 313939b44530749889942be4e5f9fa13, type: 3}
+  - {fileID: 8300000, guid: dda5096debf0149e7a15c74f601f0897, type: 3}
+  - {fileID: 8300000, guid: 64a37c67e85f6441d9e04a1acc51ffb5, type: 3}
+  thirdVoices:
+  - {fileID: 8300000, guid: 40cd1ba347f924c3889c60e90d68b44c, type: 3}
+  - {fileID: 8300000, guid: 8c5bc25907c754bfe8b8060e9fe0b5bc, type: 3}
+  - {fileID: 8300000, guid: dd8d20d513a6f4efc9b4c1060336d2d3, type: 3}
+  - {fileID: 8300000, guid: 7c210d807efa74e45bbae81d4ddf13db, type: 3}
+  fourthVoices:
+  - {fileID: 8300000, guid: 5cc61d362e7424b099667bcbbc2a42dc, type: 3}
+  - {fileID: 8300000, guid: 698e7373dad074fcbbcdc7da46d7a5c8, type: 3}
+  - {fileID: 8300000, guid: 66039f6ee5d2d485eb1e28c7847fc332, type: 3}
+  - {fileID: 8300000, guid: ced2b91b419dc49bc9c28ad007b3381a, type: 3}
   eventSystem: {fileID: 1183720512}
   audioSource: {fileID: 0}
   menu: {fileID: 1265169705}
