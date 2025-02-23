@@ -229,6 +229,7 @@ public class MenuManager : MonoBehaviour
         else intro.SetActive(true);
 
         DebugManager.instance.enableRuntimeUI = false;
+        if(!Cursor.visible) Cursor.visible = true;
         loaded = true;
     }
 
