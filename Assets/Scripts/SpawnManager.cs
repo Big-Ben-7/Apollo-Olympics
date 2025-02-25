@@ -364,7 +364,7 @@ public class SpawnManager : MonoBehaviour
                 scaleVector = new Vector2(0.5f, 1);
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.5f, 0)};
                 playerStrings = new string[] {"1", "2"};
-                stereoPans = new float[] {-0.7f, 0.7f};
+                stereoPans = new float[] {-0.9f, 0.9f};
                 break;
 
             case 3:
@@ -372,7 +372,7 @@ public class SpawnManager : MonoBehaviour
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.333f, 0), new Vector2(0.667f, 0)};
                 playerStrings = new string[] {"1", "3", "2"};
                 camOffset = new Vector3(0, 1, -5);
-                stereoPans = new float[] {-0.7f, 0, 0.7f};
+                stereoPans = new float[] {-0.9f, 0, 0.9f};
                 break;
             
             default:
@@ -380,7 +380,7 @@ public class SpawnManager : MonoBehaviour
                 cameraRects = new Vector2[] {new Vector2(0, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(0.5f, 0)};
                 playerStrings = new string[] {"1", "4", "3", "2"};
                 camOffset = new Vector3(0, -1, 5);
-                stereoPans = new float[] {-0.7f, 0.7f, -0.7f, 0.7f};
+                stereoPans = new float[] {-0.9f, 0.9f, -0.9f, 0.9f};
                 break;
         }
 
