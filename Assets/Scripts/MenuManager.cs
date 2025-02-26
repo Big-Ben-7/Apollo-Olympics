@@ -68,7 +68,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Slider thrusterSlider;
     [SerializeField] Slider effectsSlider;
     [SerializeField] TMP_Text fovText;
-
     [SerializeField] TMP_Text depthText;
     [SerializeField] TMP_Text dampingText;
     [SerializeField] TMP_Text musicText;
@@ -77,6 +76,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text effectsText;
 
     [SerializeField] GameObject[] controls;
+    [SerializeField] GameObject rebindErrorText;
     [SerializeField] GameObject[] settingWindows;
     int activeSetting;
 
@@ -183,7 +183,7 @@ public class MenuManager : MonoBehaviour
             showCaptions = true;
             captionToggle.isOn = true;
         }
-        if(PlayerPrefs.GetInt("CursorHide", 1) == 0)
+        if(PlayerPrefs.GetInt("CursorHide") == 0)
         {
             cursorHide = false;
             cursorToggle.isOn = false;
@@ -212,8 +212,6 @@ public class MenuManager : MonoBehaviour
         effects = PlayerPrefs.GetFloat("Effects", 0.4f);
         effectsSlider.value = effects;
         effectsText.SetText(effects.ToString("0.00"));
-        string rebinds = PlayerPrefs.GetString("Bindings");
-        if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
 
         instructions.SetActive(false);
         shipParent.SetActive(false);
@@ -510,7 +508,8 @@ public class MenuManager : MonoBehaviour
     public void ChangeMusic()
     {
         music = musicSlider.value;
-        backgroundMusic.volume = music * 2;
+        if(music < 0.5f) backgroundMusic.volume = music * 2;
+        else backgroundMusic.volume = 1;
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
@@ -532,6 +531,7 @@ public class MenuManager : MonoBehaviour
     public void ChangeEffects()
     {
         effects = effectsSlider.value;
+        audioSource.volume = effects * 0.5f;
         effectsText.SetText(effects.ToString("0.00"));
         PlayerPrefs.SetFloat("Effects", effects);
     }
@@ -601,7 +601,7 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetFloat("Damping", 0.1f);
         PlayerPrefs.SetFloat("Music", 0.1f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
-        PlayerPrefs.SetInt("CursorHide", 1);
+        PlayerPrefs.SetInt("CursorHide", 0);
         PlayerPrefs.SetInt("ShowArrow", 1);
         PlayerPrefs.SetFloat("Voice", 0.4f);
         PlayerPrefs.SetFloat("Thruster", 0.2f);
@@ -630,7 +630,8 @@ public class MenuManager : MonoBehaviour
         dampingText.SetText("0.10");
         musicSlider.value = 0.1f;
         musicText.SetText("0.10");
-        showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
+        captionToggle.isOn = arrowToggle.isOn = true;
+        cursorToggle.isOn = false;
         voiceSlider.value = 0.4f;
         voiceText.SetText("0.40");
         thrusterSlider.value = 0.2f;
@@ -648,12 +649,14 @@ public class MenuManager : MonoBehaviour
 
     public void ResetSettings()
     {
+        loaded = false;
+
         PlayerPrefs.SetFloat("Fov", 40);
         PlayerPrefs.SetFloat("Depth", 7000);
         PlayerPrefs.SetFloat("Damping", 0.1f);
         PlayerPrefs.SetFloat("Music", 0.1f);
         PlayerPrefs.SetInt("ShowCaptions", 1);
-        PlayerPrefs.SetInt("CursorHide", 1);
+        PlayerPrefs.SetInt("CursorHide", 0);
         PlayerPrefs.SetInt("ShowArrow", 1);
         PlayerPrefs.SetFloat("Voice", 0.4f);
         PlayerPrefs.SetFloat("Thruster", 0.2f);
@@ -667,13 +670,16 @@ public class MenuManager : MonoBehaviour
         dampingText.SetText("0.10");
         musicSlider.value = 0.1f;
         musicText.SetText("0.10");
-        showCaptions = captionToggle.isOn = cursorHide = cursorToggle.isOn = showArrow = arrowToggle.isOn = true;
+        captionToggle.isOn = arrowToggle.isOn = true;
+        cursorToggle.isOn = false;
         voiceSlider.value = 0.4f;
         voiceText.SetText("0.40");
         thrusterSlider.value = 0.2f;
         thrusterText.SetText("0.20");
         effectsSlider.value = 0.4f;
         effectsText.SetText("0.40");
+
+        loaded = true;
         MinorClick();
     }
 
@@ -691,6 +697,12 @@ public class MenuManager : MonoBehaviour
         }
         for(int i = 0; i < 4; i++) controls[i].SetActive(false);
         controls[activePlayer].SetActive(true);
+        MinorClick();
+    }
+
+    public void StartRebind()
+    {
+        if(rebindErrorText.activeSelf) rebindErrorText.SetActive(false);
         MinorClick();
     }
 
@@ -758,8 +770,8 @@ public class MenuManager : MonoBehaviour
         {
             yield return null;
         }
-        SceneManager.UnloadSceneAsync(0);
         SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+        SceneManager.UnloadSceneAsync(0);
     }
 
     public void SaveBindings()

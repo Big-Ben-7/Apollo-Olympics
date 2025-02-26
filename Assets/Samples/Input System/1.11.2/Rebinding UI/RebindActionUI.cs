@@ -340,7 +340,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         {
                             if(!errorText.activeSelf) errorText.SetActive(true);
                             StartCoroutine(ResetObject(errorText));
-                            audioSource.PlayOneShot(errorSound);
+                            //audioSource.PlayOneShot(errorSound);
                             action.RemoveBindingOverride(bindingIndex);
                             CleanUp();
                             PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
@@ -391,13 +391,12 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_RebindOperation.Start();
         }
 
-        WaitForSeconds oneAndHalfSecond = new WaitForSeconds(1.5f);
+        WaitForSecondsRealtime oneAndHalfRealSecond = new WaitForSecondsRealtime(1.5f);
 
         IEnumerator ResetObject(GameObject go)
         {
-            bool canDisable = disableSwitch = !disableSwitch;
-            yield return oneAndHalfSecond;
-            if(go.activeSelf && canDisable == disableSwitch) go.SetActive(false);
+            yield return oneAndHalfRealSecond;
+            if(go.activeSelf) go.SetActive(false);
         }
 
         bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts = false)
@@ -421,7 +420,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         GameObject errorText;
         AudioSource audioSource;
         [SerializeField] AudioClip errorSound;
-        bool disableSwitch;
 
         void Awake()
         {

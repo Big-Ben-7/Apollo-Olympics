@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -79,7 +80,7 @@ public class SpawnManager : MonoBehaviour
     public Vector3[] playerChunks;
     public List<int> playingPlayers = new List<int>();
     public static List<Transform>[] followers;
-    bool finished;
+    bool finished = true;
     PlayerController[] playerControllers;
     public string[] playerNames;
 
@@ -98,8 +99,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] LayerMask[] cameraMasks;
     [SerializeField] LayerMask[] finishMasks;
-    Camera[] views = new Camera[4];
-    CinemachineVirtualCamera[] thirdPersons = new CinemachineVirtualCamera[4];
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
     [SerializeField] AudioClip pauseSound;
@@ -111,6 +110,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] AudioClip[] thirdVoices;
     [SerializeField] AudioClip[] fourthVoices;
     [SerializeField] GameObject eventSystem;
+    Camera[] views = new Camera[4];
+    CinemachineVirtualCamera[] thirdPersons = new CinemachineVirtualCamera[4];
     public AudioSource audioSource;
     AudioSource backgroundMusic;
     AudioSource backgroundNoise;
@@ -118,10 +119,6 @@ public class SpawnManager : MonoBehaviour
     int audioCount;
     float voiceScale;
     float[] stereoPans;
-    [SerializeField] Canvas menu;
-    [SerializeField] Canvas raceFinish;
-    [SerializeField] Canvas loading;
-    [SerializeField] Canvas pauseButton;
     public int initializedObjects;
     bool cursorHide;
     InputAction pauseAction;
@@ -136,13 +133,48 @@ public class SpawnManager : MonoBehaviour
     public int minutes;
     public string timeString;
     public bool paused = true;
+
+    [Header("Menus")]
+    [SerializeField] Canvas menu;
+    [SerializeField] Canvas raceFinish;
+    [SerializeField] Canvas loading;
+    [SerializeField] Canvas pauseButton;
+    [SerializeField] Canvas settings;
+    [SerializeField] GameObject[] controls;
+    [SerializeField] GameObject rebindErrorText;
+    [SerializeField] GameObject[] settingWindows;
+    int activePlayer;
+    int activeSetting;
+
+    [Header("Video/Audio Settings")]
+    [SerializeField] Slider fovSlider;
+    [SerializeField] Slider depthSlider;
+    [SerializeField] Slider dampingSlider;
+    [SerializeField] Toggle captionToggle;
+    [SerializeField] Toggle cursorToggle;
+    [SerializeField] Toggle arrowToggle;
+    [SerializeField] Slider musicSlider;
+    [SerializeField] Slider voiceSlider;
+    [SerializeField] Slider thrusterSlider;
+    [SerializeField] Slider effectsSlider;
+    [SerializeField] TMP_Text fovText;
+    [SerializeField] TMP_Text depthText;
+    [SerializeField] TMP_Text dampingText;
+    [SerializeField] TMP_Text musicText;
+    [SerializeField] TMP_Text voiceText;
+    [SerializeField] TMP_Text thrusterText;
+    [SerializeField] TMP_Text effectsText;
+
+    float damping;
+    CinemachineFramingTransposer[] transposers;
+    CinemachineSameAsFollowTarget[] camAims;
+    public AudioSource[] effectSources;
+    public AudioSource[] voiceSources;
+    GameObject[] arrows;
     
     void Awake()
     {
-        menu.enabled = false;
-        raceFinish.enabled = false;
-        loading.enabled = false;
-        pauseButton.enabled = false;
+        menu.enabled = raceFinish.enabled = loading.enabled = pauseButton.enabled = settings.enabled = false;
         length = side * 2;
 
         //Audio setup
@@ -152,23 +184,36 @@ public class SpawnManager : MonoBehaviour
         backgroundNoise = audioSources[2];
 
         //Getting variabes from main menu
+        float fov, depth, music, thruster, effects, voice;
         playerNumber = MenuManager.playerNumber;
         playerShips = MenuManager.playerShips;
         difficulty = MenuManager.difficulty;
         playerNames = MenuManager.playerNames;
-        float fx = audioSource.volume = PlayerController.audioVolume = MenuManager.effects;
-        float voice = PlayerController.voiceVolume = MenuManager.voice;
-        voiceScale = voice / fx;
-        float bg = backgroundMusic.volume = MenuManager.music * 0.5f;
+        effects = audioSource.volume = PlayerController.audioVolume = effectsSlider.value = MenuManager.effects;
+        if(effects > 0.5f) PlayerController.warningScale = 1 / effects;
+        else PlayerController.warningScale = 2;
+        voice = PlayerController.voiceVolume = voiceSlider.value = MenuManager.voice;
+        voiceScale = voice / effects;
+        music = musicSlider.value = MenuManager.music;
+        float bg = backgroundMusic.volume = music * 0.5f;
         if(bg < 0.1f) backgroundNoise.volume = bg;
-        cursorHide = MenuManager.cursorHide;
+        cursorHide = cursorToggle.isOn = MenuManager.cursorHide;
         if(cursorHide) Cursor.visible = false;
         CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
-        view.m_Lens.FieldOfView = MenuManager.fov;
-        view.m_Lens.FarClipPlane = MenuManager.depth;
-        PlayerController.maxThrusterVolume = MenuManager.thruster;
-        PlayerController.showCaptions = Drone.showCaptions = MenuManager.showCaptions;
-        PlayerController.showArrow = MenuManager.showArrow;
+        fov = view.m_Lens.FieldOfView = fovSlider.value = MenuManager.fov;
+        depth = view.m_Lens.FarClipPlane = depthSlider.value = MenuManager.depth;
+        damping = dampingSlider.value = MenuManager.damping;
+        thruster = PlayerController.maxThrusterVolume = thrusterSlider.value = MenuManager.thruster;
+        PlayerController.showCaptions = Drone.showCaptions = captionToggle.isOn = MenuManager.showCaptions;
+        PlayerController.showArrow = arrowToggle.isOn = MenuManager.showArrow;
+
+        fovText.SetText(fov.ToString("0"));
+        depthText.SetText(depth.ToString("0"));
+        musicText.SetText(music.ToString("0.00"));
+        voiceText.SetText(voice.ToString("0.00"));
+        thrusterText.SetText(thruster.ToString("0.00"));
+        effectsText.SetText(effects.ToString("0.00"));
+        dampingText.SetText(damping.ToString("0.00"));
 
         //Setting difficulty-dependent variables
         asteroidNumber = asteroidNumbers[difficulty];
@@ -337,13 +382,16 @@ public class SpawnManager : MonoBehaviour
         lastCheckpointDistance = lastCheckpointDistance * lastCheckpointDistance;
 
         //Spawn players
-        players = confettis = new GameObject[playerNumber];
+        players = confettis = arrows = new GameObject[playerNumber];
         playerChunks = new Vector3[playerNumber];
         playerCheckpoints = new int[playerNumber];
         followers = new List<Transform>[playerNumber];
         Transform[] cameraObjects = new Transform[playerNumber];
         finishTexts = new TMP_Text[playerNumber];
         playerControllers = new PlayerController[playerNumber];
+        transposers = new CinemachineFramingTransposer[playerNumber];
+        camAims = new CinemachineSameAsFollowTarget[playerNumber];
+        effectSources = voiceSources = new AudioSource[playerNumber];
 
         Vector3[] startPos = new Vector3[] {new Vector3(0, 0, 300), new Vector3(0, 0, -300), new Vector3(300, 0, 0), new Vector3(-300, 0, 0)};
         Quaternion[] startRots = new Quaternion[] {Quaternion.identity, Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, -90, 0)};
@@ -411,6 +459,8 @@ public class SpawnManager : MonoBehaviour
             playerController.stereoPan = stereoPans[i];
 
             Transform arrow = playerController.arrow = playerTransform.GetChild(3);
+            arrows[i] = arrow.gameObject;
+            Debug.Log(arrows[i]);
             arrow.gameObject.SetActive(false);
             GameObject arrowObject = arrow.GetChild(0).gameObject;
             arrowObject.GetComponent<Canvas>().worldCamera = view;
@@ -418,8 +468,9 @@ public class SpawnManager : MonoBehaviour
             Transform lookTarget = playerTransform.GetChild(2);
             lookTarget.localPosition += camOffset;
             viewCam.Follow = viewCam.LookAt = lookTarget;
-            CinemachineFramingTransposer transposer = viewCam.GetCinemachineComponent<CinemachineFramingTransposer>();
-            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = viewCam.GetCinemachineComponent<CinemachineSameAsFollowTarget>().m_Damping = MenuManager.damping;
+            CinemachineFramingTransposer transposer = transposers[i] = viewCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+            CinemachineSameAsFollowTarget camAim = camAims[i] = viewCam.GetCinemachineComponent<CinemachineSameAsFollowTarget>();
+            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = camAim.m_Damping = damping;
             view.rect = new Rect(cameraRects[i], scaleVector);
         }
 
@@ -433,12 +484,10 @@ public class SpawnManager : MonoBehaviour
             yield return null;
         }
         yield return null;
+        finished = false;
 
         //Audio setup
         allAudio = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
-        List<AudioSource> audioSources = new List<AudioSource>(allAudio);
-        audioSources.Remove(audioSource);
-        allAudio = audioSources.ToArray();
         audioCount = allAudio.Length;
         pauseButton.enabled = true;
 
@@ -461,21 +510,10 @@ public class SpawnManager : MonoBehaviour
     void Update()
     {
         if(finished) return;
-        if(pauseAction.WasPressedThisFrame())
-        {
-            switch(Time.timeScale)
-            {
-                case 0:
-                    Resume();
-                    break;
-                case 1:
-                    Pause();
-                    break;
-            }
-        }
+        if(pauseAction.WasPressedThisFrame() && Time.timeScale == 1) Pause();
 
-        //Update time
         if(paused) return;
+        //Update time
         milliseconds += Time.deltaTime * 1000;
         if(milliseconds >= 1000)
         {
@@ -496,20 +534,13 @@ public class SpawnManager : MonoBehaviour
         paused = PlayerController.paused = true;
         menu.enabled = true;
         if(cursorHide) Cursor.visible = true;
-        audioSource.PlayOneShot(pauseSound);
         for(int i = 0; i < audioCount; i++)
         {
             allAudio[i].Pause();
         }
-        StartCoroutine(PauseSounds());
+        audioSource.PlayOneShot(pauseSound);
         Time.timeScale = 0;
         GC.Collect();
-    }
-
-    IEnumerator PauseSounds()
-    {
-        yield return oneRealSecond;
-        audioSource.Pause();
     }
 
     public void Resume()
@@ -517,7 +548,6 @@ public class SpawnManager : MonoBehaviour
         menu.enabled = false;
         if(cursorHide) Cursor.visible = false;
         Time.timeScale = 1;
-        audioSource.UnPause();
         for(int i = 0; i < audioCount; i++)
         {
             allAudio[i].UnPause();
@@ -1233,5 +1263,216 @@ public class SpawnManager : MonoBehaviour
         if(UnityEngine.Random.Range(0, 100) < movementForce1Percent) maxMovementForce = maxMovementForce1;
         else maxMovementForce = maxMovementForce2;
         return new Vector3(UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce), UnityEngine.Random.Range(-maxMovementForce, maxMovementForce));
+    }
+
+    
+    //Settings functions
+    public void Settings()
+    {
+        string rebinds = PlayerPrefs.GetString("Bindings");
+        if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
+        activePlayer = 0;
+        for(int i = 1; i < 4; i++)
+        {
+            controls[i].SetActive(false);
+        }
+        controls[0].SetActive(true);
+        activeSetting = 0;
+        settingWindows[0].SetActive(true);
+        settingWindows[1].SetActive(false);
+        menu.enabled = false;
+        settings.enabled = true;
+        MajorClick();
+    }
+
+    public void ExitSettings()
+    {
+        settings.enabled = false;
+        menu.enabled = true;
+        MajorClick();
+    }
+
+    public void NextSetting(int increment)
+    {
+        activeSetting += increment;
+        if(activeSetting > 1) activeSetting = 0;
+        if(activeSetting < 0) activeSetting = 1;
+        if(activeSetting == 0)
+        {
+            string rebinds = PlayerPrefs.GetString("Bindings");
+            if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
+        }
+        for(int i = 0; i < 2; i++) settingWindows[i].SetActive(false);
+        settingWindows[activeSetting].SetActive(true);
+        MinorClick();
+    }
+
+    public void NextPlayerControls(int increment)
+    {
+        activePlayer += increment;
+        switch(activePlayer)
+        {
+            case 4:
+                activePlayer = 0;
+                break;
+            case -1:
+                activePlayer = 3;
+                break;
+        }
+        for(int i = 0; i < 4; i++) controls[i].SetActive(false);
+        controls[activePlayer].SetActive(true);
+        MinorClick();
+    }
+
+    public void StartRebind()
+    {
+        if(rebindErrorText.activeSelf) rebindErrorText.SetActive(false);
+        MinorClick();
+    }
+
+    public void ResetControls()
+    {
+        InputSystem.actions.FindActionMap("Player" + (activePlayer + 1).ToString()).RemoveAllBindingOverrides();
+        InputSystem.actions.FindActionMap("General").RemoveAllBindingOverrides();
+        SaveBindings();
+        MinorClick();
+    }
+
+    public void ChangeFOV()
+    {
+        float fov = fovSlider.value;
+        foreach(int i in playingPlayers) thirdPersons[i].m_Lens.FieldOfView = fov;
+        fovText.SetText(fov.ToString("0"));
+        PlayerPrefs.SetFloat("Fov", fov);
+    }
+
+    public void ChangeDepth()
+    {
+        float depth = depthSlider.value;
+        foreach(int i in playingPlayers) thirdPersons[i].m_Lens.FarClipPlane = depth;
+        depthText.SetText(depth.ToString("0"));
+        PlayerPrefs.SetFloat("Depth", depth);
+    }
+
+    public void ChangeDamping()
+    {
+        damping = dampingSlider.value;
+        foreach(int i in playingPlayers)
+        {
+            CinemachineFramingTransposer transposer = transposers[i];
+            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = camAims[i].m_Damping = damping;
+        }
+        dampingText.SetText(damping.ToString("0.00"));
+        PlayerPrefs.SetFloat("Damping", damping);
+    }
+
+    public void ChangeMusic()
+    {
+        float music = musicSlider.value;
+        float bg = backgroundMusic.volume = music * 0.5f;
+        if(bg < 0.1f) backgroundNoise.volume = bg;
+        musicText.SetText(music.ToString("0.00"));
+        PlayerPrefs.SetFloat("Music", music);
+    }
+
+    public void ChangeVoice()
+    {
+        float voice = voiceSlider.value;
+        foreach(int i in playingPlayers) voiceSources[i].volume = voice;
+        voiceText.SetText(voice.ToString("0.00"));
+        PlayerPrefs.SetFloat("Voice", voice);
+    }
+
+    public void ChangeThruster()
+    {
+        float thruster = PlayerController.maxThrusterVolume = thrusterSlider.value;
+        thrusterText.SetText(thruster.ToString("0.00"));
+        PlayerPrefs.SetFloat("Thruster", thruster);
+    }
+
+    public void ChangeEffects()
+    {
+        float effects = effectsSlider.value;
+        foreach(int i in playingPlayers) effectSources[i].volume = effects;
+        if(effects * 2 > 1) PlayerController.warningScale = 1 / effects;
+        else PlayerController.warningScale = 2;
+        effectsText.SetText(effects.ToString("0.00"));
+        PlayerPrefs.SetFloat("Effects", effects);
+    }
+
+    public void ChangeCaptions()
+    {
+        bool showCaptions = PlayerController.showCaptions = Drone.showCaptions = captionToggle.isOn;
+        if(showCaptions) PlayerPrefs.SetInt("ShowCaptions", 1);
+        else PlayerPrefs.SetInt("ShowCaptions", 0);
+        MinorClick();
+    }
+
+    public void ChangeCursor()
+    {
+        cursorHide = cursorToggle.isOn;
+        if(cursorHide) PlayerPrefs.SetInt("CursorHide", 1);
+        else PlayerPrefs.SetInt("CursorHide", 0);
+        MinorClick();
+    }
+
+    public void ChangeArrow()
+    {
+        bool showArrow = PlayerController.showArrow = arrowToggle.isOn;
+        foreach(int i in playingPlayers) if(!playerControllers[i].kinematic) arrows[i].SetActive(true);
+        if(showArrow) PlayerPrefs.SetInt("ShowArrow", 1);
+        else PlayerPrefs.SetInt("ShowArrow", 0);
+        MinorClick();
+    }
+
+    public void ResetSettings()
+    {
+        finished = true;
+
+        PlayerPrefs.SetFloat("Fov", 40);
+        PlayerPrefs.SetFloat("Depth", 7000);
+        PlayerPrefs.SetFloat("Damping", 0.1f);
+        PlayerPrefs.SetFloat("Music", 0.1f);
+        PlayerPrefs.SetInt("ShowCaptions", 1);
+        PlayerPrefs.SetInt("CursorHide", 0);
+        PlayerPrefs.SetInt("ShowArrow", 1);
+        PlayerPrefs.SetFloat("Voice", 0.4f);
+        PlayerPrefs.SetFloat("Thruster", 0.2f);
+        PlayerPrefs.SetFloat("Effects", 0.4f);
+
+        fovSlider.value = 40;
+        fovText.SetText("40");
+        depthSlider.value = 7000;
+        depthText.SetText("7000");
+        dampingSlider.value = 0.1f;
+        dampingText.SetText("0.10");
+        musicSlider.value = 0.1f;
+        musicText.SetText("0.10");
+        captionToggle.isOn = arrowToggle.isOn = true;
+        cursorToggle.isOn = false;
+        voiceSlider.value = 0.4f;
+        voiceText.SetText("0.40");
+        thrusterSlider.value = 0.2f;
+        thrusterText.SetText("0.20");
+        effectsSlider.value = 0.4f;
+        effectsText.SetText("0.40");
+
+        finished = false;
+        MinorClick();
+    }
+
+    public void SaveBindings()
+    {
+        PlayerPrefs.SetString("Bindings", InputSystem.actions.SaveBindingOverridesAsJson());
+    }
+
+    public void MajorClick()
+    {
+        audioSource.PlayOneShot(goSound);
+    }
+
+    public void MinorClick()
+    {
+        if(!finished) audioSource.PlayOneShot(countdownSound);
     }
 }

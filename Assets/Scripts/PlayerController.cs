@@ -216,13 +216,13 @@ public class PlayerController : MonoBehaviour
     public Transform arrow;
     public static float maxThrusterVolume;
     public static float audioVolume;
+    public static float warningScale;
     public static float voiceVolume;
     public float stereoPan;
-    float warningScale;
     public static bool showCaptions;
     public static bool showArrow;
     public static bool paused = true;
-    bool kinematic = true;
+    public bool kinematic = true;
     string[] checkpointCaptions = new string[] 
     {
         "Passed Mercury Orbit", 
@@ -447,8 +447,6 @@ public class PlayerController : MonoBehaviour
         audioSource.volume = audioVolume;
         voiceSource.volume = voiceVolume;
         audioSource.panStereo = voiceSource.panStereo = thrusterSource.panStereo = fireSource.panStereo = stereoPan;
-        if(audioVolume * 2 > 1) warningScale = 1 / audioVolume;
-        else warningScale = 2;
         checkpointVoice = checkpointVoices[playerIndex];
         backCheckpointVoice = backCheckpointVoices[playerIndex];
         wormholeVoice = wormholeVoices[playerIndex];
@@ -456,6 +454,8 @@ public class PlayerController : MonoBehaviour
         noFuelVoice = noFuelVoices[playerIndex];
         lowHealthVoice = lowHealthVoices[playerIndex];
         dieVoice = dieVoices[playerIndex];
+        spawnManager.voiceSources[playerIndex] = audioSource;
+        spawnManager.voiceSources[playerIndex] = voiceSource;
 
         StartCoroutine(Countdown(3));
     }
@@ -715,8 +715,7 @@ public class PlayerController : MonoBehaviour
         float fillAmount = (float) Math.Round(fuel / 100, 3);
         if(fuelBar.fillAmount != fillAmount) fuelBar.fillAmount = fillAmount;
 
-        if(!showArrow) return;
-        arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, myTransform.up);
+        if(showArrow) arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, myTransform.up);
     }
 
     void FixedUpdate()
@@ -931,6 +930,11 @@ public class PlayerController : MonoBehaviour
         health = 100;
         healthText.SetText("100.00");
         healthBar.fillAmount = 1;
+        if(fuel < 10)
+        {
+            fuel = 10;
+            fuelText.SetText("10.00");
+        }
 
         graphic.SetActive(true);
         thrusterParent.SetActive(true);

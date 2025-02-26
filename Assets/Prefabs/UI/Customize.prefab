@@ -796,7 +796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_text
-      value: 'Speed: 2          Agility: 2          Durability: 4          Stability:
+      value: 'Speed: 2          Agility: 3          Durability: 3          Stability:
         4
 
         Uranus is the 7th and coldest planet from the Sun. It''s also
@@ -1266,6 +1266,21 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_text
+      value: 'Speed: 5          Agility: 5          Durability: 1          Stability:
+        1
+
+        Mercury is the closest, smallest, and fastest planet from the
+        Sun. In fact, Mercury is about the size of our moon and orbits the Sun in
+        just 88 days. Mercury also has the thinnest atmosphere of all the planets.
+
+        Ability
+        - Speedster: Mercury receives an explosive speed boost.
+
+        Cooldown:
+        3s'
+      objectReference: {fileID: 0}
     - target: {fileID: 7563387978647473738, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_SortingLayer
       value: 0
@@ -1730,7 +1745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_text
-      value: 'Speed: 2          Agility: 2          Durability: 3          Stability:
+      value: 'Speed: 2          Agility: 2          Durability: 4          Stability:
         4
 
         Saturn is the 6th planet from the Sun, and the only one less dense
@@ -2884,7 +2899,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_text
-      value: 'Speed: 3          Agility: 4          Durability: 5          Stability:
+      value: 'Speed: 3          Agility: 4          Durability: 4          Stability:
         2
 
         Mars is the 4th planet from the Sun, often called the "Red Planet"
@@ -3306,7 +3321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_text
-      value: 'Speed: 2          Agility: 1          Durability: 3          Stability:
+      value: 'Speed: 2          Agility: 1          Durability: 5          Stability:
         5
 
         Jupiter is the 5th and largest planet from the Sun, and is 2.5
@@ -3317,7 +3332,7 @@ PrefabInstance:
         - Juggernaut: Jupiter uses its immense mass and momentum to power through
         asteroids.
 
-        Duration: 20s          Cooldown: 10s'
+        Duration: 20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -5216,7 +5231,7 @@ PrefabInstance:
         Ability - Supersonic Winds: A
         Neptune storm blasts nearby objects away.
 
-        Cooldown: 15s'
+        Cooldown: 10s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
