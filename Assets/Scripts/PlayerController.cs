@@ -454,7 +454,7 @@ public class PlayerController : MonoBehaviour
         noFuelVoice = noFuelVoices[playerIndex];
         lowHealthVoice = lowHealthVoices[playerIndex];
         dieVoice = dieVoices[playerIndex];
-        spawnManager.voiceSources[playerIndex] = audioSource;
+        spawnManager.effectSources[playerIndex] = audioSource;
         spawnManager.voiceSources[playerIndex] = voiceSource;
 
         StartCoroutine(Countdown(3));

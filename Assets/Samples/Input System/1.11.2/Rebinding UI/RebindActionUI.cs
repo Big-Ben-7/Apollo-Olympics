@@ -340,7 +340,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         {
                             if(!errorText.activeSelf) errorText.SetActive(true);
                             StartCoroutine(ResetObject(errorText));
-                            //audioSource.PlayOneShot(errorSound);
+                            audioSource.PlayOneShot(errorSound);
                             action.RemoveBindingOverride(bindingIndex);
                             CleanUp();
                             PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
@@ -423,13 +423,16 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         void Awake()
         {
-            GameObject menuManager = GameObject.FindWithTag("GameController");
-            audioSource = menuManager.GetComponents<AudioSource>()[0];
             errorText = m_RebindOverlay.transform.GetChild(1).gameObject;
         }
 
         protected void OnEnable()
         {
+            if(audioSource == null)
+            {
+                GameObject gameManager = GameObject.FindWithTag("GameController");
+                audioSource = gameManager.GetComponents<AudioSource>()[0];
+            }
             UpdateBindingDisplay();
             if (s_RebindActionUIs == null)
                 s_RebindActionUIs = new List<RebindActionUI>();

@@ -76,7 +76,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int playerNumber = 1;
     [SerializeField] GameObject[] possiblePlayers;
     [SerializeField] int[] playerShips;
-    GameObject[] players;
     public Vector3[] playerChunks;
     public List<int> playingPlayers = new List<int>();
     public static List<Transform>[] followers;
@@ -382,7 +381,8 @@ public class SpawnManager : MonoBehaviour
         lastCheckpointDistance = lastCheckpointDistance * lastCheckpointDistance;
 
         //Spawn players
-        players = confettis = arrows = new GameObject[playerNumber];
+        confettis = new GameObject[playerNumber];
+        arrows = new GameObject[playerNumber];
         playerChunks = new Vector3[playerNumber];
         playerCheckpoints = new int[playerNumber];
         followers = new List<Transform>[playerNumber];
@@ -391,7 +391,8 @@ public class SpawnManager : MonoBehaviour
         playerControllers = new PlayerController[playerNumber];
         transposers = new CinemachineFramingTransposer[playerNumber];
         camAims = new CinemachineSameAsFollowTarget[playerNumber];
-        effectSources = voiceSources = new AudioSource[playerNumber];
+        effectSources = new AudioSource[playerNumber];
+        voiceSources = new AudioSource[playerNumber];
 
         Vector3[] startPos = new Vector3[] {new Vector3(0, 0, 300), new Vector3(0, 0, -300), new Vector3(300, 0, 0), new Vector3(-300, 0, 0)};
         Quaternion[] startRots = new Quaternion[] {Quaternion.identity, Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, -90, 0)};
@@ -447,7 +448,7 @@ public class SpawnManager : MonoBehaviour
 
             Vector3 pos = startPos[i];
             Quaternion rot = startRots[i];
-            GameObject player = players[i] = Instantiate(possiblePlayers[playerShips[i]], pos, rot);
+            GameObject player = Instantiate(possiblePlayers[playerShips[i]], pos, rot);
             PlayerController playerController = playerControllers[i] = player.GetComponent<PlayerController>();
             Transform playerTransform = playerController.myTransform = player.transform;
             playerController.playerNumberString = playerStrings[i];
@@ -460,7 +461,6 @@ public class SpawnManager : MonoBehaviour
 
             Transform arrow = playerController.arrow = playerTransform.GetChild(3);
             arrows[i] = arrow.gameObject;
-            Debug.Log(arrows[i]);
             arrow.gameObject.SetActive(false);
             GameObject arrowObject = arrow.GetChild(0).gameObject;
             arrowObject.GetComponent<Canvas>().worldCamera = view;
