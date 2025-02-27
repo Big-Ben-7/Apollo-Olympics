@@ -247,6 +247,7 @@ MonoBehaviour:
   settingWindows:
   - {fileID: 761543908}
   - {fileID: 1510954645}
+  - {fileID: 1081295005}
   audioSource: {fileID: 79966735}
   backgroundMusic: {fileID: 79966736}
   majorClick: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
@@ -705,7 +706,7 @@ MonoBehaviour:
   m_text: "The year is 2500. Humanity has expanded across the Solar System and invented
     revolutionary technologies including futuristic spaceships, debris-to-fuel conversion,
     and artificial wormholes for teleportation.\n \nThe long-awaited, first-ever
-    Apollo Olympics is set to debut; however, a massive buildup of space junk and
+    Apollo Olympics is set to debut, however a massive buildup of space junk and
     plundering space pirates have impeded interplanetary travel.\n\nUnlike the ancient
     Olympics, this legendary competition is not only a challenge of speed, but a
     daring mission of ingenuity and survival. Pilots must select the ultimate spaceship,
@@ -1242,7 +1243,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 85}
+  m_AnchoredPosition: {x: 0, y: 80}
   m_SizeDelta: {x: 770, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &491969312
@@ -1265,11 +1266,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1. Race through 8 checkpoints of increasing distance and difficulty\n2.
-    Navigate through asteroids\n3. Outmaneuver space pirates with swift changes in
-    rotation\n4. Collect space debris for fuel\n5. Make sure to read the customization
-    information carefully to select your ideal spaceship\n\t\t\t   Good luck and
-    see you at the finish line!"
+  m_text: "1. Race through eight checkpoints of increasing distance and difficulty,
+    each a planet's orbit in the Solar System.\n2. Evade asteroids and test your
+    luck with wormhole teleportation\n3. Collect space debris for fuel to maintain
+    ship control\n4. Outmaneuver space pirates with swift rotations (such as rolling)\n5.
+    Select your ideal spaceship, with unique attributes and a special ability\n\t\t\t  
+    Good luck and see you at the finish line!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -2063,6 +2065,11 @@ MonoBehaviour:
 --- !u!1 &1059458241 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7163735102072961630, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
+  m_PrefabInstance: {fileID: 3803640369284086184}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1081295005 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9108331310055199006, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
   m_PrefabInstance: {fileID: 3803640369284086184}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1083556106
@@ -4510,10 +4517,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 79966733}
-    - target: {fileID: 1132911095542327209, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 79966733}
     - target: {fileID: 1177416544816510250, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
       propertyPath: m_RebindStopEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -4810,14 +4813,14 @@ PrefabInstance:
       propertyPath: m_RebindStopEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 79966733}
-    - target: {fileID: 5843749798509413124, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 79966733}
     - target: {fileID: 5913875169413821609, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 5985862901465612844, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
+      propertyPath: m_lineSpacing
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6106607160143285909, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
       propertyPath: m_RebindStopEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -4858,6 +4861,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 6610325872234524593, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 6634527495915389963, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
       propertyPath: m_RebindStopEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -4972,10 +4979,6 @@ PrefabInstance:
       objectReference: {fileID: 79966733}
     - target: {fileID: 8169394536923966288, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 79966733}
-    - target: {fileID: 8243530675378112047, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
     - target: {fileID: 8403785673106246159, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
@@ -5117,11 +5120,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 570
+      value: 610
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 400
+      value: 410
       objectReference: {fileID: 0}
     - target: {fileID: 8060841556972877619, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_LocalPosition.x

@@ -286,7 +286,7 @@ MonoBehaviour:
   stability: 2
   activationTime: 20
   cooldownTime: 20
-  abilityStrength: 3000
+  abilityStrength: 4000
   abilityStrength2: 0
   accFuelLoss: 2
   rotFuelLoss: 1
@@ -366,26 +366,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e7399c3f414a34a7994b08ec716206b0, type: 3}
   - {fileID: 8300000, guid: 60b46d63ee71a4b338290b2eef009f91, type: 3}
   - {fileID: 8300000, guid: dffcfb21f2fbf4b2182949baad76c4d7, type: 3}
-  firstVoices:
-  - {fileID: 8300000, guid: 56c27536f17994e6db95501186ec093f, type: 3}
-  - {fileID: 8300000, guid: ad761228af7454d2188627a06a1deba7, type: 3}
-  - {fileID: 8300000, guid: f86cc6b6a2f16478c9d82d2263814d8f, type: 3}
-  - {fileID: 8300000, guid: 60431dc603a344cd69bda9e15b24a2ae, type: 3}
-  secondVoices:
-  - {fileID: 8300000, guid: 41605e51066414fec80d0f9a98f530d6, type: 3}
-  - {fileID: 8300000, guid: 313939b44530749889942be4e5f9fa13, type: 3}
-  - {fileID: 8300000, guid: dda5096debf0149e7a15c74f601f0897, type: 3}
-  - {fileID: 8300000, guid: 64a37c67e85f6441d9e04a1acc51ffb5, type: 3}
-  thirdVoices:
-  - {fileID: 8300000, guid: 40cd1ba347f924c3889c60e90d68b44c, type: 3}
-  - {fileID: 8300000, guid: 8c5bc25907c754bfe8b8060e9fe0b5bc, type: 3}
-  - {fileID: 8300000, guid: dd8d20d513a6f4efc9b4c1060336d2d3, type: 3}
-  - {fileID: 8300000, guid: 7c210d807efa74e45bbae81d4ddf13db, type: 3}
-  fourthVoices:
-  - {fileID: 8300000, guid: 5cc61d362e7424b099667bcbbc2a42dc, type: 3}
-  - {fileID: 8300000, guid: 698e7373dad074fcbbcdc7da46d7a5c8, type: 3}
-  - {fileID: 8300000, guid: 66039f6ee5d2d485eb1e28c7847fc332, type: 3}
-  - {fileID: 8300000, guid: ced2b91b419dc49bc9c28ad007b3381a, type: 3}
   myTransform: {fileID: 0}
   playerNumberString: 
   playerIndex: 0
@@ -397,6 +377,7 @@ MonoBehaviour:
   cameraStats: {fileID: 0}
   arrow: {fileID: 7972407930528604895}
   stereoPan: 0
+  kinematic: 1
 --- !u!82 &283605144193943937
 AudioSource:
   m_ObjectHideFlags: 0

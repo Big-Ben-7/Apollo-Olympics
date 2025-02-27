@@ -674,6 +674,10 @@ PrefabInstance:
 
 '
       objectReference: {fileID: 0}
+    - target: {fileID: 575586480600131135, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 3618520300705922112, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SelectShip
@@ -804,10 +808,10 @@ PrefabInstance:
         likely due to a collision with an Earth-sized object long ago.
 
         Ability
-        - Tilted Rings: Uranus uses its rings to deflect surrounding objects.
+        - Ringmaster: Uranus''s tilted rings deflect  nearby objects (hold ability
+        key to spin rings).
 
-        Duration:
-        20s          Cooldown: 20s'
+        Duration: 20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -1110,6 +1114,10 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 575586480600131135, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 753465733213337696, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_SortingLayer
       value: 0
@@ -1276,7 +1284,7 @@ PrefabInstance:
         just 88 days. Mercury also has the thinnest atmosphere of all the planets.
 
         Ability
-        - Speedster: Mercury receives an explosive speed boost.
+        - Speedster: Mercury activates an explosive speed boost.
 
         Cooldown:
         3s'
@@ -1623,6 +1631,10 @@ PrefabInstance:
 
 '
       objectReference: {fileID: 0}
+    - target: {fileID: 575586480600131135, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 3618520300705922112, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SelectShip
@@ -1752,11 +1764,11 @@ PrefabInstance:
         than water. It has 146 moons, the most in the Solar System, and its iconic
         rings are mostly made of chunks of ice and rock.
 
-        Ability - Spectacular
-        Rings: Saturn''s rings deflect surrounding objects.
+        Ability - Lord
+        of the Rings: Saturn''s rings deflect  nearby objects (hold ability key to
+        spin rings).
 
-        Duration: 20s         
-        Cooldown: 20s'
+        Duration: 20s          Cooldown: 20s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize
@@ -2777,6 +2789,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Mars
       objectReference: {fileID: 0}
+    - target: {fileID: 575586480600131135, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 3618520300705922112, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SelectShip
@@ -2904,10 +2920,10 @@ PrefabInstance:
 
         Mars is the 4th planet from the Sun, often called the "Red Planet"
         for the iron rust on its surface. Mars also has the largest volcano and valley
-        of the Solar System, and dust storms can engulf the planet for weeks.
+        of the Solar System, and dust storms that can engulf the planet for weeks.
 
         Ability
-        - Dust Storm: A Martian dust storm confuses space pirates.
+        - Dust Doom: A fierce Martian dust storm thwarts space pirates.
 
         Duration:
         20s          Cooldown: 20s'
@@ -2966,6 +2982,10 @@ PrefabInstance:
       value: 'Venus
 
 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 575586480600131135, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 2855990931647677557, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_IsActive
@@ -3136,12 +3156,12 @@ PrefabInstance:
       value: 'Speed: 4          Agility: 3          Durability: 2          Stability:
         2
 
-        Venus is the 2nd planet from the Sun. Its dense atmosphere rains
-        acid and traps greenhouse gases, making it the  hottest and deadliest planet,
-        hot enough to even burn lead.
+        Venus is the 2nd planet from the Sun. Its dense, toxic atmosphere
+        rains acid and traps greenhouse gases, making it the  hottest and deadliest
+        planet, hot enough to even burn lead.
 
-        Ability - Toxic Shield: Venus uses
-        its thick atmosphere to protect itself from asteroids.
+        Ability - Trailblazer: Venus
+        uses its thick, scorching atmosphere to deflect nearby asteroids.
 
         Duration:
         20s          Cooldown: 20s'
@@ -3198,6 +3218,10 @@ PrefabInstance:
     - target: {fileID: 394243535967176998, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_text
       value: Jupiter
+      objectReference: {fileID: 0}
+    - target: {fileID: 575586480600131135, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 3618520300705922112, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -3329,7 +3353,7 @@ PrefabInstance:
         the famous Great Red Spot, a storm itself bigger then Earth.
 
         Ability
-        - Juggernaut: Jupiter uses its immense mass and momentum to power through
+        - Juggernaut: Jupiter uses its immense mass  and momentum to power through
         asteroids.
 
         Duration: 20s          Cooldown: 20s'
@@ -4677,6 +4701,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Earth
       objectReference: {fileID: 0}
+    - target: {fileID: 575586480600131135, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 2855990931647677557, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -5099,6 +5127,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Neptune
       objectReference: {fileID: 0}
+    - target: {fileID: 575586480600131135, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 3618520300705922112, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SelectShip
@@ -5228,10 +5260,11 @@ PrefabInstance:
         of water, ammonia, and methane. It''s known for its massive storms with the
         fastest winds in the Solar System.
 
-        Ability - Supersonic Winds: A
-        Neptune storm blasts nearby objects away.
+        Ability - Stormbreaker: Neptune''s
+        supersonic wind storms blast asteroids and pirates away.
 
-        Cooldown: 10s'
+        Cooldown:
+        10s'
       objectReference: {fileID: 0}
     - target: {fileID: 7500671343821934536, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_fontSize

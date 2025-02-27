@@ -338,8 +338,9 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                     {
                         if(CheckDuplicateBindings(action, bindingIndex, allCompositeParts))
                         {
+                            if(resetting != null) StopCoroutine(resetting);
                             if(!errorText.activeSelf) errorText.SetActive(true);
-                            StartCoroutine(ResetObject(errorText));
+                            resetting = StartCoroutine(ResetObject(errorText));
                             audioSource.PlayOneShot(errorSound);
                             action.RemoveBindingOverride(bindingIndex);
                             CleanUp();
@@ -420,19 +421,17 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         GameObject errorText;
         AudioSource audioSource;
         [SerializeField] AudioClip errorSound;
+        Coroutine resetting;
 
         void Awake()
         {
+            GameObject gameManager = GameObject.FindWithTag("GameController");
+            audioSource = gameManager.GetComponents<AudioSource>()[0];
             errorText = m_RebindOverlay.transform.GetChild(1).gameObject;
         }
 
         protected void OnEnable()
         {
-            if(audioSource == null)
-            {
-                GameObject gameManager = GameObject.FindWithTag("GameController");
-                audioSource = gameManager.GetComponents<AudioSource>()[0];
-            }
             UpdateBindingDisplay();
             if (s_RebindActionUIs == null)
                 s_RebindActionUIs = new List<RebindActionUI>();

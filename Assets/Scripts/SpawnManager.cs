@@ -24,11 +24,7 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Checkpoints")]
     public int[] playerCheckpoints;
-    [SerializeField] int[] begCheckpointDistances;
-    [SerializeField] int[] intCheckpointDistances;
-    [SerializeField] int[] advCheckpointDistances;
-    [SerializeField] int[] expCheckpointDistances;
-    int[] checkpointDistances;
+    [SerializeField] int[] checkpointDistances;
     [SerializeField] Transform checkpointParent;
     [SerializeField] GameObject checkpointPrefab;
     [SerializeField] Material finishMat;
@@ -183,7 +179,7 @@ public class SpawnManager : MonoBehaviour
         backgroundNoise = audioSources[2];
 
         //Getting variabes from main menu
-        float fov, depth, music, thruster, effects, voice;
+        float music, effects, voice;
         playerNumber = MenuManager.playerNumber;
         playerShips = MenuManager.playerShips;
         difficulty = MenuManager.difficulty;
@@ -199,26 +195,27 @@ public class SpawnManager : MonoBehaviour
         cursorHide = cursorToggle.isOn = MenuManager.cursorHide;
         if(cursorHide) Cursor.visible = false;
         CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
-        fov = view.m_Lens.FieldOfView = fovSlider.value = MenuManager.fov;
-        depth = view.m_Lens.FarClipPlane = depthSlider.value = MenuManager.depth;
-        damping = dampingSlider.value = MenuManager.damping;
-        thruster = PlayerController.maxThrusterVolume = thrusterSlider.value = MenuManager.thruster;
+        view.m_Lens.FieldOfView = fovSlider.value = MenuManager.fov;
+        view.m_Lens.FarClipPlane = depthSlider.value = MenuManager.depth;
+        dampingSlider.value = MenuManager.damping;
+        PlayerController.maxThrusterVolume = thrusterSlider.value = MenuManager.thruster;
         PlayerController.showCaptions = Drone.showCaptions = captionToggle.isOn = MenuManager.showCaptions;
         PlayerController.showArrow = arrowToggle.isOn = MenuManager.showArrow;
-
-        fovText.SetText(fov.ToString("0"));
-        depthText.SetText(depth.ToString("0"));
-        musicText.SetText(music.ToString("0.00"));
-        voiceText.SetText(voice.ToString("0.00"));
-        thrusterText.SetText(thruster.ToString("0.00"));
-        effectsText.SetText(effects.ToString("0.00"));
-        dampingText.SetText(damping.ToString("0.00"));
+        ChangeFOV();
+        ChangeDepth();
+        ChangeDamping();
+        ChangeMusic();
+        ChangeCaptions();
+        ChangeCursor();
+        ChangeArrow();
+        ChangeVoice();
+        ChangeThruster();
+        ChangeEffects();
 
         //Setting difficulty-dependent variables
         asteroidNumber = asteroidNumbers[difficulty];
         collectableNumber = collectableNumbers[difficulty];
         droneNumber = droneNumbers[difficulty];
-        checkpointDistances = new int[][]{begCheckpointDistances, intCheckpointDistances, advCheckpointDistances, expCheckpointDistances}[difficulty];
         checkpointCount = checkpointDistances.Length;
         checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
 
@@ -413,7 +410,7 @@ public class SpawnManager : MonoBehaviour
                 scaleVector = new Vector2(0.5f, 1);
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.5f, 0)};
                 playerStrings = new string[] {"1", "2"};
-                stereoPans = new float[] {-0.9f, 0.9f};
+                stereoPans = new float[] {-0.8f, 0.8f};
                 break;
 
             case 3:
@@ -421,7 +418,7 @@ public class SpawnManager : MonoBehaviour
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.333f, 0), new Vector2(0.667f, 0)};
                 playerStrings = new string[] {"1", "3", "2"};
                 camOffset = new Vector3(0, 1, -5);
-                stereoPans = new float[] {-0.9f, 0, 0.9f};
+                stereoPans = new float[] {-0.8f, 0, 0.8f};
                 break;
             
             default:
@@ -429,7 +426,7 @@ public class SpawnManager : MonoBehaviour
                 cameraRects = new Vector2[] {new Vector2(0, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(0.5f, 0)};
                 playerStrings = new string[] {"1", "4", "3", "2"};
                 camOffset = new Vector3(0, -1, 5);
-                stereoPans = new float[] {-0.9f, 0.9f, -0.9f, 0.9f};
+                stereoPans = new float[] {-0.8f, 0.8f, -0.8f, 0.8f};
                 break;
         }
 
@@ -1184,7 +1181,7 @@ public class SpawnManager : MonoBehaviour
         confetti.SetActive(true);
         for(int i = 0; i < 3; i++)
         {
-            audioSource.PlayOneShot(confettiSound, 0.7f);
+            audioSource.PlayOneShot(confettiSound, 0.8f);
             yield return oneAndHalfSeconds;
         };
         confetti.SetActive(false);
@@ -1278,8 +1275,8 @@ public class SpawnManager : MonoBehaviour
         }
         controls[0].SetActive(true);
         activeSetting = 0;
+        for(int i = 1; i < 3; i++) settingWindows[i].SetActive(false);
         settingWindows[0].SetActive(true);
-        settingWindows[1].SetActive(false);
         menu.enabled = false;
         settings.enabled = true;
         MajorClick();
@@ -1295,14 +1292,14 @@ public class SpawnManager : MonoBehaviour
     public void NextSetting(int increment)
     {
         activeSetting += increment;
-        if(activeSetting > 1) activeSetting = 0;
-        if(activeSetting < 0) activeSetting = 1;
+        if(activeSetting > 2) activeSetting = 0;
+        if(activeSetting < 0) activeSetting = 2;
         if(activeSetting == 0)
         {
             string rebinds = PlayerPrefs.GetString("Bindings");
             if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
         }
-        for(int i = 0; i < 2; i++) settingWindows[i].SetActive(false);
+        for(int i = 0; i < 3; i++) settingWindows[i].SetActive(false);
         settingWindows[activeSetting].SetActive(true);
         MinorClick();
     }
@@ -1340,23 +1337,23 @@ public class SpawnManager : MonoBehaviour
 
     public void ChangeFOV()
     {
-        float fov = fovSlider.value;
+        float fov = (float) Math.Round(fovSlider.value, 1);
         foreach(int i in playingPlayers) thirdPersons[i].m_Lens.FieldOfView = fov;
-        fovText.SetText(fov.ToString("0"));
+        fovText.SetText(fov.ToString("0.0"));
         PlayerPrefs.SetFloat("Fov", fov);
     }
 
     public void ChangeDepth()
     {
-        float depth = depthSlider.value;
+        float depth = Mathf.Round(depthSlider.value);
         foreach(int i in playingPlayers) thirdPersons[i].m_Lens.FarClipPlane = depth;
-        depthText.SetText(depth.ToString("0"));
+        depthText.SetText(depth.ToString());
         PlayerPrefs.SetFloat("Depth", depth);
     }
 
     public void ChangeDamping()
     {
-        damping = dampingSlider.value;
+        damping = (float) Math.Round(dampingSlider.value, 2);
         foreach(int i in playingPlayers)
         {
             CinemachineFramingTransposer transposer = transposers[i];
@@ -1368,7 +1365,7 @@ public class SpawnManager : MonoBehaviour
 
     public void ChangeMusic()
     {
-        float music = musicSlider.value;
+        float music = (float) Math.Round(musicSlider.value, 2);
         float bg = backgroundMusic.volume = music * 0.5f;
         if(bg < 0.1f) backgroundNoise.volume = bg;
         musicText.SetText(music.ToString("0.00"));
@@ -1377,7 +1374,7 @@ public class SpawnManager : MonoBehaviour
 
     public void ChangeVoice()
     {
-        float voice = voiceSlider.value;
+        float voice = (float) Math.Round(voiceSlider.value, 2);
         foreach(int i in playingPlayers) voiceSources[i].volume = voice;
         voiceText.SetText(voice.ToString("0.00"));
         PlayerPrefs.SetFloat("Voice", voice);
@@ -1385,14 +1382,15 @@ public class SpawnManager : MonoBehaviour
 
     public void ChangeThruster()
     {
-        float thruster = PlayerController.maxThrusterVolume = thrusterSlider.value;
+        float thruster = PlayerController.maxThrusterVolume = (float) Math.Round(thrusterSlider.value, 2);
         thrusterText.SetText(thruster.ToString("0.00"));
         PlayerPrefs.SetFloat("Thruster", thruster);
     }
 
     public void ChangeEffects()
     {
-        float effects = effectsSlider.value;
+        float effects = (float) Math.Round(effectsSlider.value, 2);
+        audioSource.volume = effects;
         foreach(int i in playingPlayers) effectSources[i].volume = effects;
         if(effects * 2 > 1) PlayerController.warningScale = 1 / effects;
         else PlayerController.warningScale = 2;
@@ -1419,9 +1417,20 @@ public class SpawnManager : MonoBehaviour
     public void ChangeArrow()
     {
         bool showArrow = PlayerController.showArrow = arrowToggle.isOn;
-        foreach(int i in playingPlayers) if(!playerControllers[i].kinematic) arrows[i].SetActive(true);
-        if(showArrow) PlayerPrefs.SetInt("ShowArrow", 1);
-        else PlayerPrefs.SetInt("ShowArrow", 0);
+        if(showArrow)
+        {
+            foreach(int i in playingPlayers) if(!playerControllers[i].kinematic) arrows[i].SetActive(true);
+            PlayerPrefs.SetInt("ShowArrow", 1);
+        }
+        else
+        {
+            foreach(int i in playingPlayers)
+            {
+                GameObject arrow = arrows[i];
+                if(arrow.activeSelf) arrow.SetActive(false);
+            }
+            PlayerPrefs.SetInt("ShowArrow", 0);
+        }
         MinorClick();
     }
 
@@ -1429,33 +1438,15 @@ public class SpawnManager : MonoBehaviour
     {
         finished = true;
 
-        PlayerPrefs.SetFloat("Fov", 40);
-        PlayerPrefs.SetFloat("Depth", 7000);
-        PlayerPrefs.SetFloat("Damping", 0.1f);
-        PlayerPrefs.SetFloat("Music", 0.1f);
-        PlayerPrefs.SetInt("ShowCaptions", 1);
-        PlayerPrefs.SetInt("CursorHide", 0);
-        PlayerPrefs.SetInt("ShowArrow", 1);
-        PlayerPrefs.SetFloat("Voice", 0.4f);
-        PlayerPrefs.SetFloat("Thruster", 0.2f);
-        PlayerPrefs.SetFloat("Effects", 0.4f);
-
         fovSlider.value = 40;
-        fovText.SetText("40");
         depthSlider.value = 7000;
-        depthText.SetText("7000");
-        dampingSlider.value = 0.1f;
-        dampingText.SetText("0.10");
+        dampingSlider.value = 0.2f;
         musicSlider.value = 0.1f;
-        musicText.SetText("0.10");
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
-        voiceSlider.value = 0.4f;
-        voiceText.SetText("0.40");
+        voiceSlider.value = 0.3f;
         thrusterSlider.value = 0.2f;
-        thrusterText.SetText("0.20");
-        effectsSlider.value = 0.4f;
-        effectsText.SetText("0.40");
+        effectsSlider.value = 0.3f;
 
         finished = false;
         MinorClick();
