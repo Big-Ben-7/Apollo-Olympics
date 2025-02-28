@@ -363,7 +363,7 @@ MonoBehaviour:
   activationTime: 20
   cooldownTime: 20
   abilityStrength: 1000
-  abilityStrength2: 5000
+  abilityStrength2: 10000
   accFuelLoss: 2
   rotFuelLoss: 1
   fuelRegeneration: 0.1
