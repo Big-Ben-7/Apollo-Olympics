@@ -22,8 +22,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             {",", "Comma"},
             {"/", "Slash"},
             {"\\", "Backslash"},
-            {"-", "Dash"},
-            {"=", "Equals"},
             {"[", "L. Bracket"},
             {"]", "R. Bracket"},
             {"'", "Apostrophe"},
@@ -217,7 +215,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 if (bindingIndex != -1)
                 {
                     displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath, displayStringOptions);
-                    displayString = displayString.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl");
+                    displayString = displayString.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
                     if(wordNames.ContainsKey(displayString)) displayString = wordNames[displayString];
                     else if(displayString.Length > 1)
                     {

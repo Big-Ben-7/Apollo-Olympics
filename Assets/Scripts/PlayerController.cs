@@ -5,6 +5,7 @@ using TMPro;
 using System;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class PlayerController : MonoBehaviour
 {
@@ -241,25 +242,25 @@ public class PlayerController : MonoBehaviour
     };
     string[] checkpointCaptions = new string[] 
     {
-        "Passed Mercury Orbit", 
-        "Passed Venus Orbit", 
-        "Passed Earth Orbit", 
-        "Passed Mars Orbit\nEntering Asteroid Belt", 
-        "Passed Jupiter Orbit", 
-        "Passed Saturn Orbit",
-        "Passed Uranus Orbit",
-        "Passed Neptune Orbit\nEntering Kuiper Belt"
+        "Mercury orbit", 
+        "Venus orbit", 
+        "Earth orbit", 
+        "Mars orbit\nEntering asteroid belt", 
+        "Jupiter orbit", 
+        "Saturn orbit",
+        "Uranus orbit",
+        "Neptune orbit\nEntering Kuiper belt"
     };
     string[] backCaptions = new string[] 
     {
-        "Returned To Mercury Orbit", 
-        "Returned To Venus Orbit", 
-        "Returned To Earth Orbit", 
-        "Returned To Mars Orbit", 
-        "Returned To Jupiter Orbit", 
-        "Returned To Saturn Orbit",
-        "Returned To Uranus Orbit",
-        "Returned To Neptune Orbit"
+        "Mercury orbit", 
+        "Venus orbit", 
+        "Earth orbit", 
+        "Mars orbit", 
+        "Jupiter orbit", 
+        "Saturn orbit",
+        "Uranus orbit",
+        "Neptune orbit"
     };
     string[] shipModels = new string[]
     {
@@ -1362,16 +1363,20 @@ public class PlayerController : MonoBehaviour
             int newDrones = checkpointDrones[playerCheckpoint];
             for(int i = activeDrones; i < newDrones; i++) drones[i].SetActive(true);
             activeDrones = newDrones;
-            if(showCaptions) StartCoroutine(SetCaption(checkpointCaptions[playerCheckpoint], threeSeconds, 3));
+            if(showCaptions)
+            {
+                if(fromTeleport) StartCoroutine(SetCaption("Teleported past " + checkpointCaptions[playerCheckpoint - 1], threeSeconds, 3));
+                else StartCoroutine(SetCaption("Passed " + checkpointCaptions[playerCheckpoint - 1], threeSeconds, 3));
+            }
         }
         else
         {
-            if(!teleported && fromTeleport)
+            if(fromTeleport)
             {
-                teleported = true;
-                if(showCaptions) caption.SetText(checkpointCaptions[playerCheckpoint]);
+                if(!teleported) teleported = true;
+                if(showCaptions) caption.SetText("Teleported past\nCheckpoint 1");
             }
-            else if(showCaptions) StartCoroutine(SetCaption(checkpointCaptions[playerCheckpoint], threeSeconds, 3));
+            else if(showCaptions) StartCoroutine(SetCaption("Passed Checkpoint 1", threeSeconds, 3));
         }
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, green));
         audioSource.PlayOneShot(checkpointSound);
@@ -1385,12 +1390,20 @@ public class PlayerController : MonoBehaviour
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
         checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString() + checkpointEnd);
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, Color.red));
-        if(!teleported && fromTeleport)
+        if(tutorial)
         {
-            teleported = true;
-            if(showCaptions) caption.SetText(backCaptions[playerCheckpoint]);
+            if(fromTeleport)
+            {
+                if(!teleported) teleported = true;
+                if(showCaptions) caption.SetText("Teleported back\nto Checkpoint 1");
+            }
+            else if(showCaptions) caption.SetText("Returned to Checkpoint 1");
         }
-        else if(showCaptions) StartCoroutine(SetCaption(backCaptions[playerCheckpoint], threeSeconds, 3));
+        else if(showCaptions)
+        {
+            if(fromTeleport) StartCoroutine(SetCaption("Teleported back" + "\nto " + backCaptions[playerCheckpoint], threeSeconds, 3));
+            else StartCoroutine(SetCaption("Returned to " + backCaptions[playerCheckpoint], threeSeconds, 3));
+        }
         audioSource.PlayOneShot(errorSound);
         voiceSource.clip = backCheckpointVoice;
         voiceSource.PlayDelayed(0.2f);
