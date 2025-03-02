@@ -97,18 +97,24 @@ public class Drone : MonoBehaviour
                 }
 
                 //Explode if drone is inside camera view and not occluded
-                Explode(myTransform.position);
+                
                 float confusionMag = confusionCalc.sqrMagnitude;
-                if(confusionMag < 1000) return;
-                if(!playerController.dronesConfused)
-                {
-                    playerController.dronesConfused = true;
-                    return;
-                }
-                if(offset > 0 || !showCaptions) return;
+                
 
                 //Show caption if drone is outmaneuvered
-                if(confusionMag > 300000 || distance < 600000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                if(confusionMag > 300000 || distance < 600000)
+                {
+                    if(tutorialSpawn)
+                    {
+                        tutorialSpawn = false;
+                        playerController.dronesConfused = true;
+                        Explode(myTransform.position);
+                        return;
+                    }
+                    Explode(myTransform.position);
+                    if(confusionMag < 1000 || offset > 0 || !showCaptions) return;
+                    StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                }
                 break;
             
             default:
@@ -138,9 +144,9 @@ public class Drone : MonoBehaviour
         //Set random position/rotation around player and random attack
         waiting = true;
         Vector3 targetPos = target.position;
-        attackForce = Random.Range(minAttackForce, maxAttackForce);
         if(!tutorialSpawn)
         {
+            attackForce = Random.Range(minAttackForce, maxAttackForce);
             myTransform.localPosition = new Vector3(0, 0, spawnRadius);
             myTransform.RotateAround(targetPos, target.forward, Random.Range(0f, 360));
             myTransform.RotateAround(targetPos, target.right, Random.Range(0f, 360));
@@ -149,11 +155,12 @@ public class Drone : MonoBehaviour
         }
         else
         {
-            myTransform.localPosition = new Vector3(0, 0, 2000);
+            attackForce = minAttackForce;
+            myTransform.localPosition = new Vector3(0, 0, 1000);
             myTransform.RotateAround(targetPos, target.forward, Random.Range(0f, 360));
             myTransform.RotateAround(targetPos, target.right, Random.Range(-45f, 45));
             myTransform.RotateAround(targetPos, target.up, Random.Range(-45f, 45));
-            waiting = tutorialSpawn = false;
+            waiting = false;
         }
     }
 

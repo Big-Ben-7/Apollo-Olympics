@@ -3782,12 +3782,6 @@ MonoBehaviour:
   - 0.1
   - 0.01
   - 0.001
-  camShakes:
-  - 1
-  - 0.8
-  - 0.6
-  - 0.4
-  - 0.2
   cameraPrefab: {fileID: 8803354073669428790, guid: cf38e19b88e5647c19ea89b7f8dacb7a, type: 3}
   cameraMasks:
   - serializedVersion: 2

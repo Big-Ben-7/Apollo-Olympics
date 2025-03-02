@@ -211,9 +211,10 @@ public class SpawnManager : MonoBehaviour
         ChangeVoice();
         ChangeThruster();
         ChangeEffects();
+        string rebinds = PlayerPrefs.GetString("Bindings");
+        if(!string.IsNullOrEmpty(rebinds)) InputSystem.actions.LoadBindingOverridesFromJson(rebinds);
 
         //Setting difficulty-dependent variables
-        
         if(tutorial)
         {
             asteroidNumber = tutorialAsteroids;
@@ -1399,7 +1400,8 @@ public class SpawnManager : MonoBehaviour
     {
         float music = (float) Math.Round(musicSlider.value, 2);
         float bg = backgroundMusic.volume = music * 0.2f;
-        if(bg < 0.1f) backgroundNoise.volume = bg;
+        if(bg == 0) backgroundNoise.volume = 0;
+        else backgroundNoise.volume = 0.1f;
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
