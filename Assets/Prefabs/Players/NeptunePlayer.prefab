@@ -371,7 +371,6 @@ MonoBehaviour:
   noFuelSound: {fileID: 8300000, guid: d1afd3f4d23c24f418ffc315afb04965, type: 3}
   collectSound: {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
   checkpointSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
-  tutorialSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
   activationSound: {fileID: 8300000, guid: 138ca79e8dc41ed4395011cdf48ff781, type: 3}
   expireSound: {fileID: 8300000, guid: acbcb75601b0082458fda8807f67c813, type: 3}
   chargeSound: {fileID: 8300000, guid: 7a9de5c4d998126449cf964a6b27a8b0, type: 3}
@@ -447,7 +446,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 254
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -543,7 +542,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 255
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -639,7 +638,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 0
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -735,7 +734,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 1
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0

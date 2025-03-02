@@ -682,7 +682,7 @@ public class PlayerController : MonoBehaviour
             {
                 if(inTutorial)
                 {
-                    rb.AddForce(-rb.position.normalized * 1000, ForceMode.VelocityChange);
+                    rb.AddForce(-rb.position.normalized * 2000, ForceMode.VelocityChange);
                     StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     audioSource.PlayOneShot(errorSound);
                     return;
