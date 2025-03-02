@@ -5134,7 +5134,7 @@ PrefabInstance:
       objectReference: {fileID: 79966733}
     - target: {fileID: 2069745109739688395, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_Name
-      value: Race
+      value: Game
       objectReference: {fileID: 0}
     - target: {fileID: 3411635138675667681, guid: a6d53407b27d44323952af53b95b20a1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

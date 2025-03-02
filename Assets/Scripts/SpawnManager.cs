@@ -60,6 +60,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int minWormholeScale = 1500;
     [SerializeField] int maxWormholeScale = 3000;
     int interactableNumber;
+    int baseDisableNumber;
+    int[] disableByCheckpoint;
+    bool tutorial;
 
     [Header("Drones")]
     [SerializeField] int[] droneNumbers = new int[] {8, 16, 24, 32};
@@ -70,8 +73,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int[] advCheckpointDrones;
     [SerializeField] int[] expCheckpointDrones;
     int[] checkpointDrones;
-    int baseDisableNumber;
-    int[] disableByCheckpoint;
 
     [Header("Players")]
     [SerializeField] int playerNumber = 1;
@@ -137,6 +138,7 @@ public class SpawnManager : MonoBehaviour
     [Header("Menus")]
     [SerializeField] Canvas menu;
     [SerializeField] Canvas raceFinish;
+    [SerializeField] TMP_Text finishTitle;
     [SerializeField] Canvas loading;
     [SerializeField] Canvas pauseButton;
     [SerializeField] Canvas settings;
@@ -187,7 +189,7 @@ public class SpawnManager : MonoBehaviour
         playerNumber = MenuManager.playerNumber;
         playerShips = MenuManager.playerShips;
         difficulty = MenuManager.difficulty;
-        bool tutorial = PlayerController.tutorial = MenuManager.tutorial;
+        tutorial = PlayerController.tutorial = MenuManager.tutorial;
         PlayerController.playerNames = MenuManager.playerNames;
         PlayerController.audioVolume = effectsSlider.value = MenuManager.effects;
         PlayerController.voiceVolume = voiceSlider.value = MenuManager.voice;
@@ -213,12 +215,14 @@ public class SpawnManager : MonoBehaviour
         ChangeEffects();
 
         //Setting difficulty-dependent variables
-        checkpointCount = checkpointDistances.Length;
+        
         if(tutorial)
         {
             asteroidNumber = tutorialAsteroids;
             collectableNumber = tutorialCollectables;
             droneNumber = tutorialDrones;
+            checkpointDistances = tutorialCheckpoints;
+            checkpointCount = checkpointDistances.Length;
         }
         else
         {
@@ -227,22 +231,22 @@ public class SpawnManager : MonoBehaviour
             droneNumber = droneNumbers[difficulty];
             checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
             PlayerController.checkpointDrones = checkpointDrones;
-        }
 
-        //Stats for each checkpoint
-        
-        baseDisableNumber = asteroidNumber * 2 / 5;
-        disableByCheckpoint = new int[checkpointCount];
-        int increment = baseDisableNumber / (checkpointCount - 1);
-        for(int i = 0; i < checkpointCount; i++)
-        {
-            if(i == 4)
+            //Stats for each checkpoint
+            checkpointCount = checkpointDistances.Length;
+            baseDisableNumber = asteroidNumber * 2 / 5;
+            disableByCheckpoint = new int[checkpointCount];
+            int increment = baseDisableNumber / (checkpointCount - 1);
+            for(int i = 0; i < checkpointCount; i++)
             {
-                //Asteroid belt should have high asteroid number
-                disableByCheckpoint[4] = increment;
-                continue;
+                if(i == 4)
+                {
+                    //Asteroid belt should have high asteroid number
+                    disableByCheckpoint[4] = increment;
+                    continue;
+                }
+                disableByCheckpoint[i] = baseDisableNumber - increment * i;
             }
-            disableByCheckpoint[i] = baseDisableNumber - increment * i;
         }
 
         PlayerController.checkpointDistances = checkpointDistances;
@@ -372,7 +376,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         //Spawn checkpoints
-        int lastCheckpoint = checkpointCount - 1;
+        int lastCheckpoint = PlayerController.lastCheckpointIndex = checkpointCount - 1;
         float newScale;
         for(int i = 0; i < lastCheckpoint; i++)
         {
@@ -384,7 +388,7 @@ public class SpawnManager : MonoBehaviour
         Transform finish = Instantiate(checkpointPrefab, checkpointParent).transform;
         finish.localScale = new Vector3(newScale, newScale, newScale);
         finish.GetComponent<Renderer>().sharedMaterial = finishMat;
-        lastCheckpointDistance = checkpointDistances[lastCheckpoint];
+        lastCheckpointDistance = PlayerController.lastCheckpointDistance = checkpointDistances[lastCheckpoint];
         lastCheckpointDistance = lastCheckpointDistance * lastCheckpointDistance;
 
         //Spawn players
@@ -519,10 +523,19 @@ public class SpawnManager : MonoBehaviour
     }
     void Update()
     {
-        if(finished) return;
-        if(pauseAction.WasPressedThisFrame() && Time.timeScale == 1) Pause();
+        if(pauseAction.WasPressedThisFrame())
+        {
+            if(finished)
+            {
+                raceFinish.enabled = !raceFinish.enabled;
+                audioSource.PlayOneShot(pauseSound);
+                return;
+            }
+            if(Time.timeScale == 1) Pause();
+            else Resume();
+        }
 
-        if(paused) return;
+        if(paused || finished) return;
         //Update time
         milliseconds += Time.deltaTime * 1000;
         if(milliseconds >= 1000)
@@ -540,7 +553,12 @@ public class SpawnManager : MonoBehaviour
 
     public void Pause()
     {
-        if(finished) return;
+        if(finished)
+        {
+            raceFinish.enabled = !raceFinish.enabled;
+            audioSource.PlayOneShot(pauseSound);
+            return;
+        }
         paused = PlayerController.paused = true;
         menu.enabled = true;
         if(cursorHide) Cursor.visible = true;
@@ -630,7 +648,7 @@ public class SpawnManager : MonoBehaviour
                     rb.mass = newScale * 2;
 
                     //Variable interactable amount
-                    if(i < baseDisableNumber)
+                    if(!tutorial && i < baseDisableNumber)
                     {
                         interactable.SetActive(false);
                         continue;
@@ -711,7 +729,7 @@ public class SpawnManager : MonoBehaviour
                     rb.mass = newScale * 2;
 
                     //Variable interactable amount
-                    if(i < baseDisableNumber)
+                    if(!tutorial && i < baseDisableNumber)
                     {
                         interactable.SetActive(false);
                         continue;
@@ -991,7 +1009,8 @@ public class SpawnManager : MonoBehaviour
     void SpawnSections(Vector3[] newPosList, int playerIndex, int newPosCount = 9)
     {
         int stage = 0;
-        int disableNumber = disableByCheckpoint[playerCheckpoints[playerIndex]];
+        int disableNumber = 0;
+        if(!tutorial) disableNumber = disableByCheckpoint[playerCheckpoints[playerIndex]];
         for(int i = 0; i < sectionNumber; i++)
         {
             GameObject section = sectionPool[i];
@@ -1028,7 +1047,7 @@ public class SpawnManager : MonoBehaviour
                             GameObject child = children[j];
 
                             //Variable interactable amount
-                            if(j < disableNumber)
+                            if(!tutorial && j < disableNumber)
                             {
                                 continue;
                             }
@@ -1151,7 +1170,6 @@ public class SpawnManager : MonoBehaviour
         foreach(Transform playerFollower in playerFollowers) playerFollower.gameObject.SetActive(false);
         views[playerIndex].cullingMask = finishMasks[playerIndex];
         thirdPersons[playerIndex].m_Lens.FieldOfView = 35;
-        audioSource.panStereo = stereoPans[playerIndex];
         int playersLeft = playingPlayers.Count;
         switch(playerNumber - playersLeft)
         {
@@ -1172,15 +1190,20 @@ public class SpawnManager : MonoBehaviour
                 audioSource.PlayOneShot(fourthVoices[playerIndex], voiceScale);
                 break;
         }
-        audioSource.panStereo = 0;
 
         //Game over
         if(playersLeft == 0)
         {
             finished = true;
-            pauseButton.enabled = false;
-            MenuManager.races++;
-            PlayerPrefs.SetInt("Races", MenuManager.races);
+            if(menu.enabled) menu.enabled = false;
+            if(!tutorial)
+            {
+                MenuManager.races++;
+                PlayerPrefs.SetInt("Races", MenuManager.races);
+                finishTitle.SetText("Race Complete");
+            }
+            else finishTitle.SetText("Tutorial Complete");
+            Cursor.visible = true;
             StartCoroutine(RaceFinish());
         }
         audioSource.PlayOneShot(goSound);
@@ -1203,9 +1226,8 @@ public class SpawnManager : MonoBehaviour
     IEnumerator RaceFinish()
     {
         yield return fiveSeconds;
-        if(menu.enabled) menu.enabled = false;
+        if(raceFinish.enabled) yield break;
         raceFinish.enabled = true;
-        if(cursorHide) Cursor.visible = true;
         audioSource.PlayOneShot(pauseSound);
     }
 
@@ -1221,7 +1243,7 @@ public class SpawnManager : MonoBehaviour
             GameObject child = children[i];
 
             //Variable interactable amount
-            if(i < disableNumber)
+            if(!tutorial && i < disableNumber)
             {
                 continue;
             }

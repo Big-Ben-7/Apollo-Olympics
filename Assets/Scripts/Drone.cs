@@ -99,7 +99,11 @@ public class Drone : MonoBehaviour
                 Explode(myTransform.position);
                 float confusionMag = confusionCalc.sqrMagnitude;
                 if(confusionMag < 1000) return;
-                if(!playerController.dronesConfused) playerController.dronesConfused = true;
+                if(!playerController.dronesConfused)
+                {
+                    playerController.dronesConfused = true;
+                    return;
+                }
                 if(offset > 0 || !showCaptions) return;
 
                 //Show caption if drone is outmaneuvered

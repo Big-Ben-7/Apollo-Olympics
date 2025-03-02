@@ -104,6 +104,9 @@ public class PlayerController : MonoBehaviour
     public static SpawnManager spawnManager;
     public static int length;
     public static int[] checkpointDistances;
+    public static int lastCheckpointIndex;
+    int secondLastCheckpointIndex;
+    public static float lastCheckpointDistance;
     float[] collisionInitials;
     ParticleSystem.MainModule[] thrusters;
     int thrusterCount;
@@ -316,6 +319,7 @@ public class PlayerController : MonoBehaviour
         fuelNumber = fuelCaptions.Length;
         noFuelNumber = noFuelCaptions.Length;
         deathNumber = deathCaptions.Length;
+        secondLastCheckpointIndex = lastCheckpointIndex - 1;
     }
 
     //Player is tagged by SpawnManager after Awake
@@ -676,48 +680,48 @@ public class PlayerController : MonoBehaviour
         
         //Check if passed checkpoint
         int playerCheckpoint = spawnManager.playerCheckpoints[playerIndex];
-        switch(playerCheckpoint)
+        if(playerCheckpoint == 0)
         {
-            case 0:
-                if(posMag >= checkpointDistances[0]) AddCheckpoint(playerCheckpoint);
-                break;
-            
-            case 8:
-                //Passed finish line
-                if(posMag >= checkpointDistances[8])
-                {
-                    gameObject.SetActive(false);
-                    caption.gameObject.SetActive(false);
-                    abilityText.gameObject.SetActive(false);
-                    finishCaption.SetActive(true);
-                    finishBackground.SetActive(true);
-                    finishShip.SetActive(true);
-                    for(int i = 0; i < allTextLength; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
-                    spawnManager.PlayerFinish(playerIndex);
-                    DateTime finishTime = DateTime.Now;
-                    int elapsedMilliseconds = Mathf.RoundToInt(spawnManager.milliseconds) + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
-                    if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
-                    {
-                        int index = MenuManager.difficulty;
-                        MenuManager.times[index] = elapsedMilliseconds;
-                        PlayerPrefs.SetInt("Time" + index.ToString(), elapsedMilliseconds);
-                        PlayerPrefs.SetString("Description" + index.ToString(), " - " + playerNames[playerIndex] + ", " + shipModels[shipIndex] + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00"));
-                    }
-                    if(collects != 0)
-                    {
-                        MenuManager.collects += collects;
-                        PlayerPrefs.SetInt("Collects", MenuManager.collects);
-                    }
-                    return;
-                }
-                else if(posMag <= checkpointDistances[7]) RemoveCheckpoint(7);
-                break;
+            if(posMag >= checkpointDistances[0]) AddCheckpoint(playerCheckpoint);
+        }
+        else if(playerCheckpoint == lastCheckpointIndex)
+        {
+            //Passed finish line
+            if(posMag >= lastCheckpointDistance)
+            {
+                gameObject.SetActive(false);
+                caption.gameObject.SetActive(false);
+                abilityText.gameObject.SetActive(false);
+                finishCaption.SetActive(true);
+                finishBackground.SetActive(true);
+                finishShip.SetActive(true);
+                for(int i = 0; i < allTextLength; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
+                spawnManager.PlayerFinish(playerIndex);
 
-            default:
-                int lastCheckpoint = playerCheckpoint - 1;
-                if(posMag >= checkpointDistances[playerCheckpoint]) AddCheckpoint(playerCheckpoint);
-                else if(posMag <= checkpointDistances[lastCheckpoint]) RemoveCheckpoint(lastCheckpoint);
-                break;
+                if(tutorial) return;
+                DateTime finishTime = DateTime.Now;
+                int elapsedMilliseconds = Mathf.RoundToInt(spawnManager.milliseconds) + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
+                if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
+                {
+                    int index = MenuManager.difficulty;
+                    MenuManager.times[index] = elapsedMilliseconds;
+                    PlayerPrefs.SetInt("Time" + index.ToString(), elapsedMilliseconds);
+                    PlayerPrefs.SetString("Description" + index.ToString(), " - " + playerNames[playerIndex] + ", " + shipModels[shipIndex] + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00"));
+                }
+                if(collects != 0)
+                {
+                    MenuManager.collects += collects;
+                    PlayerPrefs.SetInt("Collects", MenuManager.collects);
+                }
+                return;
+            }
+            else if(posMag <= checkpointDistances[secondLastCheckpointIndex]) RemoveCheckpoint(secondLastCheckpointIndex);
+        }
+        else
+        {
+            int lastCheckpoint = playerCheckpoint - 1;
+            if(posMag >= checkpointDistances[playerCheckpoint]) AddCheckpoint(playerCheckpoint);
+            else if(posMag <= checkpointDistances[lastCheckpoint]) RemoveCheckpoint(lastCheckpoint);
         }
 
         //Show position
@@ -1142,6 +1146,7 @@ public class PlayerController : MonoBehaviour
         }
         dronesConfused = false;
         while(!dronesConfused) yield return null;
+        for(int i = 0; i < 2; i++) droneScripts[i].spawnRadius = 4000;
         if(showCaptions)
         {   
             caption.SetText(droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)]);
@@ -1235,61 +1240,65 @@ public class PlayerController : MonoBehaviour
         int direction = UnityEngine.Random.Range(0, 100);
         float distance;
         bool sameCheckpoint = false;
-        switch(playerCheckpoint)
-        {
-            case 0:
-                if(direction < forwardPercent)
-                {
-                    AddCheckpoint(playerCheckpoint, true);
-                    distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
-                    break;
-                }
-                sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
-                break;
 
-            case 1:
-                if(direction < forwardPercent)
-                {
-                    AddCheckpoint(playerCheckpoint, true);
-                    distance = UnityEngine.Random.Range(checkpointDistances[1] + 300, checkpointDistances[2] - 300);
-                    break;
-                }
-                else if(direction < forwardPercent + backPercent)
-                {
-                    playerCheckpoint --;
-                    RemoveCheckpoint(playerCheckpoint, true);
+        if(playerCheckpoint == lastCheckpointIndex)
+        {
+            if(direction < backPercent)
+            {
+                playerCheckpoint --;
+                RemoveCheckpoint(playerCheckpoint, true);
+            }
+            else sameCheckpoint = true;
+            distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
+        }
+        else
+        {
+            switch(playerCheckpoint)
+            {
+                case 0:
+                    if(direction < forwardPercent)
+                    {
+                        AddCheckpoint(playerCheckpoint, true);
+                        distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
+                        break;
+                    }
+                    sameCheckpoint = true;
                     distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
                     break;
-                }
-                sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
-                break;
-            
-            case 8:
-                if(direction < backPercent)
-                {
-                    playerCheckpoint --;
-                    RemoveCheckpoint(playerCheckpoint, true);
-                }
-                else sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
-                break;
 
-            default:
-                if(direction < forwardPercent)
-                {
-                    AddCheckpoint(playerCheckpoint, true);
-                    playerCheckpoint ++;
-                }
-                else if(direction < forwardPercent + backPercent)
-                {
-                    playerCheckpoint --;
-                    RemoveCheckpoint(playerCheckpoint, true);
-                }
-                else sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
-                break;
+                case 1:
+                    if(direction < forwardPercent)
+                    {
+                        AddCheckpoint(playerCheckpoint, true);
+                        distance = UnityEngine.Random.Range(checkpointDistances[1] + 300, checkpointDistances[2] - 300);
+                        break;
+                    }
+                    else if(direction < forwardPercent + backPercent)
+                    {
+                        playerCheckpoint --;
+                        RemoveCheckpoint(playerCheckpoint, true);
+                        distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
+                        break;
+                    }
+                    sameCheckpoint = true;
+                    distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
+                    break;
+
+                default:
+                    if(direction < forwardPercent)
+                    {
+                        AddCheckpoint(playerCheckpoint, true);
+                        playerCheckpoint ++;
+                    }
+                    else if(direction < forwardPercent + backPercent)
+                    {
+                        playerCheckpoint --;
+                        RemoveCheckpoint(playerCheckpoint, true);
+                    }
+                    else sameCheckpoint = true;
+                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
+                    break;
+            }
         }
         if(sameCheckpoint)
         {
@@ -1333,10 +1342,14 @@ public class PlayerController : MonoBehaviour
             activeDrones = newDrones;
             if(showCaptions) StartCoroutine(SetCaption(checkpointCaptions[playerCheckpoint], threeSeconds, 3));
         }
-        else if(!teleported && fromTeleport)
+        else
         {
-            teleported = true;
-            if(showCaptions) caption.SetText(checkpointCaptions[playerCheckpoint]);
+            if(!teleported && fromTeleport)
+            {
+                teleported = true;
+                if(showCaptions) caption.SetText(checkpointCaptions[playerCheckpoint]);
+            }
+            else if(showCaptions) StartCoroutine(SetCaption(checkpointCaptions[playerCheckpoint], threeSeconds, 3));
         }
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, green));
         audioSource.PlayOneShot(checkpointSound);
