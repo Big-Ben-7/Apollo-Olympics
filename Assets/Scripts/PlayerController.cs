@@ -5,7 +5,6 @@ using TMPro;
 using System;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Unity.Mathematics;
 
 public class PlayerController : MonoBehaviour
 {
