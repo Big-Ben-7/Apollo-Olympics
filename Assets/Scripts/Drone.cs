@@ -4,7 +4,7 @@ using UnityEngine;
 public class Drone : MonoBehaviour
 {
     [Header("Attack")]
-    [SerializeField] int spawnRadius;
+    public int spawnRadius;
     [SerializeField] float minAttackForce;
     [SerializeField] float maxAttackForce;
     [SerializeField] float confusion;
@@ -98,7 +98,9 @@ public class Drone : MonoBehaviour
                 //Explode if drone is inside camera view and not occluded
                 Explode(myTransform.position);
                 float confusionMag = confusionCalc.sqrMagnitude;
-                if(offset > 0 || !showCaptions || confusionMag < 1000) return;
+                if(confusionMag < 1000) return;
+                if(!playerController.dronesConfused) playerController.dronesConfused = true;
+                if(offset > 0 || !showCaptions) return;
 
                 //Show caption if drone is outmaneuvered
                 if(confusionMag > 300000 || distance < 600000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));

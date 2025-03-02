@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using TMPro;
 using System.Text;
-using UnityEngine.UIElements;
 using System.Collections;
 
 ////TODO: localization support
@@ -17,7 +16,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
     /// </summary>
     public class RebindActionUI : MonoBehaviour
     {
-        private Dictionary<string, string> wordNames = new Dictionary<string, string>
+        Dictionary<string, string> wordNames = new Dictionary<string, string>
         {
             {".", "Period"},
             {",", "Comma"},

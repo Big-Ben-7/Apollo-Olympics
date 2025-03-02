@@ -5,6 +5,8 @@ using TMPro;
 using System;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Cinemachine;
+using Unity.Mathematics;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int abilityStrength2;
     [SerializeField] int accFuelLoss = 2;
     [SerializeField] int rotFuelLoss = 1;
-    [SerializeField] float fuelRegeneration = 0.05f;
+    [SerializeField] float fuelRegeneration = 0.1f;
 
     [Header("Movement")]
     [SerializeField] GameObject thrusterParent;
@@ -35,7 +37,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject graphic;
 
     [Header("Ability")]
-    [SerializeField] string shipModel;
     [SerializeField] GameObject aura;
     [SerializeField] ParticleSystem[] auraSystems;
     [SerializeField] LayerMask abilityMask;
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour
     int healthLossDivisor;
     float minHealthLoss;
     float deflectionForce;
+    float camShake;
     float health = 100;
     float fuel = 100;
     bool collided;
@@ -111,54 +113,12 @@ public class PlayerController : MonoBehaviour
     int forwardPercent = 35;
     int backPercent = 25;
     int extraFuelPercent = 50;
-    string[] droneCaptions = new string[]
-    {
-        "Nice Move!",
-        "Well Played!",
-        "Wipeout!",
-        "Clean Sweep!",
-        "Bravo!",
-        "Pirates Out!",
-        "Bye-bye Pirates!",
-        "Pirates Eliminated!"
-    };
-    string[] crashCaptions = new string[] 
-    {
-        "Watch Your Health!",
-        "Warning: Low Health!",
-        "Low On Health!"
-    };
-    string[] fuelCaptions = new string[]
-    {
-        "Warning: Low Fuel!\nCollect Space Debris!",
-        "Low On Fuel!\nCollect Space Debris!"
-    };
-    string[] noFuelCaptions = new string[]
-    {
-        "Out Of Fuel!\n Collect Space Debris!",
-        "No Fuel!\n Collect Space Debris!",
-        "Fuel Tank Empty!\n Collect Space Debris!"
-    };
-    string[] deathCaptions = new string[] 
-    {
-        "Mission Impossible?",
-        "Better luck next time...",
-        "So close,\nyet so far...",
-        "Lost in space...",
-        "Never Give Up!",
-        "Keep Going!",
-        "Down,\nbut not out!",
-        "Nice try.",
-        "The best is\nyet to come...",
-        "Time to\nbounce back?",
-        "Persistance\nis key.",
-        "Inspirational effort.",
-    };
     int droneCaptionNumber;
     int crashNumber;
     int fuelNumber;
     int noFuelNumber;
     int deathNumber;
+    bool regenerateFuel;
 
     //Ability
     IEnumerator ability;
@@ -213,16 +173,70 @@ public class PlayerController : MonoBehaviour
     TMP_Text[] allText;
     int allTextLength;
     GameObject finishBackground;
+    public CinemachineBasicMultiChannelPerlin camNoise;
     public Transform arrow;
+    public static string[] playerNames;
+    public int shipIndex;
     public static float maxThrusterVolume;
     public static float audioVolume;
     public static float warningScale;
     public static float voiceVolume;
     public float stereoPan;
+    public static bool tutorial;
     public static bool showCaptions;
     public static bool showArrow;
     public static bool paused = true;
     public bool kinematic = true;
+    int captionPriority = 0;
+    bool inTutorial = true;
+    bool thrustAllowed = true;
+    bool abilityAllowed = true;
+    public bool dronesConfused = true;
+    bool debrisCollected = true;
+    bool teleported = true;
+    string[] droneCaptions = new string[]
+    {
+        "Nice Move!",
+        "Well Played!",
+        "Wipeout!",
+        "Clean Sweep!",
+        "Bravo!",
+        "Pirates Out!",
+        "Bye-bye Pirates!",
+        "Pirates Eliminated!"
+    };
+    string[] crashCaptions = new string[] 
+    {
+        "Watch Your Health!",
+        "Warning: Low Health!",
+        "Low On Health!"
+    };
+    string[] fuelCaptions = new string[]
+    {
+        "Warning: Low Fuel!\nCollect Space Debris!",
+        "Low On Fuel!\nCollect Space Debris!"
+    };
+    string[] noFuelCaptions = new string[]
+    {
+        "Out Of Fuel!\n Collect Space Debris!",
+        "No Fuel!\n Collect Space Debris!",
+        "Fuel Tank Empty!\n Collect Space Debris!"
+    };
+    string[] deathCaptions = new string[] 
+    {
+        "Mission Impossible?",
+        "Better luck next time...",
+        "So close,\nyet so far...",
+        "Lost in space...",
+        "Never Give Up!",
+        "Keep Going!",
+        "Down,\nbut not out!",
+        "Nice try.",
+        "The best is\nyet to come...",
+        "Time to\nbounce back?",
+        "Persistance\nis key.",
+        "Inspirational effort.",
+    };
     string[] checkpointCaptions = new string[] 
     {
         "Passed Mercury Orbit", 
@@ -233,7 +247,8 @@ public class PlayerController : MonoBehaviour
         "Passed Saturn Orbit",
         "Passed Uranus Orbit",
         "Passed Neptune Orbit\nEntering Kuiper Belt"
-    };    string[] backCaptions = new string[] 
+    };
+    string[] backCaptions = new string[] 
     {
         "Returned To Mercury Orbit", 
         "Returned To Venus Orbit", 
@@ -244,7 +259,31 @@ public class PlayerController : MonoBehaviour
         "Returned To Uranus Orbit",
         "Returned To Neptune Orbit"
     };
-    int captionPriority = 0;
+    string[] shipModels = new string[]
+    {
+        "Mercury",
+        "Venus",
+        "Earth",
+        "Mars",
+        "Jupiter",
+        "Saturn",
+        "Uranus",
+        "Neptune"
+    };
+    Dictionary<string, string> wordNames = new Dictionary<string, string>
+    {
+        {".", "Period"},
+        {",", "Comma"},
+        {"/", "Slash"},
+        {"\\", "Backslash"},
+        {"-", "Dash"},
+        {"=", "Equals"},
+        {"[", "Left Bracket"},
+        {"]", "Right Bracket"},
+        {"'", "Apostrophe"},
+        {";", "Semicolon"},
+        {"`", "Backtick"},
+    };
     AudioClip checkpointVoice;
     AudioClip backCheckpointVoice;
     AudioClip wormholeVoice;
@@ -303,18 +342,19 @@ public class PlayerController : MonoBehaviour
         minHealthLoss = spawnManager.minHealthLosses[durability];
         speedLossDivisor = spawnManager.speedLossDivisors[stability];
         deflectionForce = spawnManager.deflectionForces[stability];
+        camShake = spawnManager.camShakes[stability];
         thrustSpeed = initialThrustSpeed;
         decSpeed = thrustSpeed;
 
         Transform farCanvas = cameraStats.GetChild(0);
         Transform shipParent = farCanvas.GetChild(12);
-        switch(shipModel)
+        switch(shipIndex)
         {
-            case "Mercury":
+            case 0:
                 ability = SpeedUp();
                 finishShip = shipParent.GetChild(0).gameObject;
                 break;
-            case "Venus":
+            case 1:
                 ability = Atmosphere();
                 aura = Instantiate(aura);
                 atmosphere = aura.GetComponent<Atmosphere>();
@@ -326,20 +366,20 @@ public class PlayerController : MonoBehaviour
                 SpawnManager.followers[playerIndex].Add(aura.transform);
                 finishShip = shipParent.GetChild(1).gameObject;
                 break;
-            case "Earth":
+            case 2:
                 ability = Regeneration();
                 finishShip = shipParent.GetChild(2).gameObject;
                 break;
-            case "Mars":
+            case 3:
                 ability = DustStorm();
                 finishShip = shipParent.GetChild(3).gameObject;
                 break;
-            case "Jupiter":
+            case 4:
                 ability = Juggernaut();
                 collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, minHealthLoss, deflectionForce, rb.mass};
                 finishShip = shipParent.GetChild(4).gameObject;
                 break;
-            case "Saturn":
+            case 5:
                 ability = Ring();
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
@@ -350,7 +390,7 @@ public class PlayerController : MonoBehaviour
                 SpawnManager.followers[playerIndex].Add(aura.transform);
                 finishShip = shipParent.GetChild(5).gameObject;
                 break;
-            case "Uranus":
+            case 6:
                 ability = Ring();
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
@@ -361,7 +401,7 @@ public class PlayerController : MonoBehaviour
                 SpawnManager.followers[playerIndex].Add(aura.transform);
                 finishShip = shipParent.GetChild(6).gameObject;
                 break;
-            case "Neptune":
+            case 7:
                 ability = WindStorm();
                 finishShip = shipParent.GetChild(7).gameObject;
                 break;
@@ -429,7 +469,7 @@ public class PlayerController : MonoBehaviour
         collectText.SetText("Space Debris: 0");
         checkpointText.SetText("Checkpoint: 0");
         abilityText.SetText("");
-        nameText.SetText(spawnManager.playerNames[playerIndex]);
+        nameText.SetText(playerNames[playerIndex]);
         posText.SetText("Pos: 0.0,0.0,0.0");
         distanceText.SetText("Distance: 0.0");
         speedText.SetText("Speed: 0.00");
@@ -439,7 +479,7 @@ public class PlayerController : MonoBehaviour
         finishCaption.SetActive(false);
         deathText.SetText("");
         countdownText.SetText("");
-        timeText.SetText(spawnManager.timeString);
+        timeText.SetText("Time: 0:00.000");
 
         allText = new TMP_Text[]{nameText, checkpointText, healthLabel, healthText, fuelLabel, fuelText, speedText, collectText, abilityText, timeText, posText, distanceText};
         allTextLength = allText.Length;
@@ -466,49 +506,52 @@ public class PlayerController : MonoBehaviour
         if(paused) return;
 
         //Show time
-        timeText.SetText(spawnManager.timeString);
+        if(!inTutorial) timeText.SetText(spawnManager.timeString);
 
         if(kinematic) return;
 
         //Activate special ability
-        if(abilityAction.WasPressedThisFrame())
+        if(abilityAllowed)
         {
-            if(currentCooldown == 0)
-            {   
-                currentCooldown = cooldownTime;
-                if(runningAbility != null)
-                {
-                    StopCoroutine(runningAbility);
-                }
-                runningAbility = StartCoroutine(ability);
-            }
-            else
+            if(abilityAction.WasPressedThisFrame())
             {
-                if((shipModel != "Saturn" && shipModel != "Uranus") || currentActivation == 0)
+                if(currentCooldown == 0)
+                {   
+                    currentCooldown = cooldownTime;
+                    if(runningAbility != null)
+                    {
+                        StopCoroutine(runningAbility);
+                    }
+                    runningAbility = StartCoroutine(ability);
+                }
+                else
                 {
-                    StartCoroutine(ChangeTextColor(abilityText, fifthSecond, Color.white, Color.red));
-                    audioSource.PlayOneShot(errorSound);
+                    if((shipIndex != 5 && shipIndex != 6) || currentActivation == 0)
+                    {
+                        StartCoroutine(ChangeTextColor(abilityText, fifthSecond, Color.white, Color.red));
+                        audioSource.PlayOneShot(errorSound);
+                    }
                 }
             }
-        }
 
-        if(abilityAction.IsPressed() && currentActivation > 0)
-        {
-            switch(shipModel)
+            if(abilityAction.IsPressed() && currentActivation > 0)
             {
-                case "Saturn":
-                    ring.rotationOffset *= Quaternion.Euler(new Vector3(abilityStrength2, 0, 0) * Time.deltaTime);
-                    break;
-                
-                case "Uranus":
-                    ring.rotationOffset *= Quaternion.Euler(new Vector3(0, abilityStrength2, 0) * Time.deltaTime);
-                    break;
+                switch(shipIndex)
+                {
+                    case 5:
+                        ring.rotationOffset *= Quaternion.Euler(new Vector3(abilityStrength2, 0, 0) * Time.deltaTime);
+                        break;
+                    
+                    case 6:
+                        ring.rotationOffset *= Quaternion.Euler(new Vector3(0, abilityStrength2, 0) * Time.deltaTime);
+                        break;
+                }
             }
         }
 
         //Movement input
         rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), -rollAction.ReadValue<float>());
-        thrust = thrustAction.ReadValue<float>();
+        if(thrustAllowed) thrust = thrustAction.ReadValue<float>();
 
         //Thrust/glide control
         float accIncrement = acc * Time.deltaTime;
@@ -522,7 +565,6 @@ public class PlayerController : MonoBehaviour
         float accThreshold = maxThrustSpeed - accIncrement;
         float accFuelIncrement = accFuelLoss * Time.deltaTime;
         float rotFuelIncrement = rotFuelLoss * Time.deltaTime;
-        float fuelRegIncrement = fuelRegeneration * Time.deltaTime;
         switch(thrust)
         {
             case > 0:
@@ -563,8 +605,7 @@ public class PlayerController : MonoBehaviour
                     if(fuel > rotFuelIncrement) fuel -= rotFuelIncrement;
                     else fuel = 0;
                 }
-                else if(fuel < 100 - fuelRegIncrement) fuel += fuelRegIncrement;
-                else fuel = 100;
+                else if(regenerateFuel) fuel += fuelRegeneration * Time.deltaTime;
                 break;
         }
         
@@ -581,6 +622,11 @@ public class PlayerController : MonoBehaviour
                     voiceSource.clip = noFuelVoice;
                     voiceSource.PlayDelayed(0.5f);
                 }
+                if(!regenerateFuel) regenerateFuel = true;
+                break;
+            case < 10:
+                string fuelString = fuel.ToString("0.00");
+                if(fuelText.text != "fuelString") fuelText.SetText(fuelString);
                 break;
             case <= 20:
                 if(fuelText.color != Color.red)
@@ -595,7 +641,12 @@ public class PlayerController : MonoBehaviour
                     voiceSource.clip = lowFuelVoice;
                     voiceSource.Play();
                 }
-                string fuelString = fuel.ToString("0.00");
+                if(regenerateFuel)
+                {
+                    regenerateFuel = false;
+                    fuel = 10;
+                }
+                fuelString = fuel.ToString("0.00");
                 if(fuelText.text != "fuelString") fuelText.SetText(fuelString);
                 break;
             default:
@@ -650,7 +701,7 @@ public class PlayerController : MonoBehaviour
                         int index = MenuManager.difficulty;
                         MenuManager.times[index] = elapsedMilliseconds;
                         PlayerPrefs.SetInt("Time" + index.ToString(), elapsedMilliseconds);
-                        PlayerPrefs.SetString("Description" + index.ToString(), " - " + spawnManager.playerNames[playerIndex] + ", " + shipModel + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00"));
+                        PlayerPrefs.SetString("Description" + index.ToString(), " - " + playerNames[playerIndex] + ", " + shipModels[shipIndex] + ", " + finishTime.Month.ToString("00") + "/" + finishTime.Day.ToString("00"));
                     }
                     if(collects != 0)
                     {
@@ -669,12 +720,12 @@ public class PlayerController : MonoBehaviour
                 break;
         }
 
-        //Show position in km, divide by 1609 for mi
-        Vector3 kmPos = position / 1000;
-        posText.SetText("Pos: " + kmPos.x.ToString("0.0") + "," + kmPos.y.ToString("0.0") + "," + kmPos.z.ToString("0.0"));
+        //Show position
+        Vector3 displayPos = position / 750;
+        posText.SetText("Pos: " + displayPos.x.ToString("0.0") + "," + displayPos.y.ToString("0.0") + "," + displayPos.z.ToString("0.0"));
 
         //Show distance from origin
-        distanceText.SetText("Distance: " + (posMag / 1000).ToString("0.0"));
+        distanceText.SetText("Distance: " + (posMag / 750).ToString("0.0"));
 
         //Show speed in km/h, multiply by 2.23694 for mph
         float shipSpeed = rb.velocity.magnitude;
@@ -766,13 +817,23 @@ public class PlayerController : MonoBehaviour
             {
                 if(fuel < 90) fuel += 10;
                 else fuel = 100;
-                if(showCaptions) StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
+                if(!debrisCollected)
+                {
+                    debrisCollected = true;
+                    if(showCaptions) caption.SetText("+10 Fuel");
+                }
+                else if(showCaptions) StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
             }
             else
             {
                 if(fuel < 95) fuel += 5;
                 else fuel = 100;
-                if(showCaptions) StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
+                if(!debrisCollected)
+                {
+                    debrisCollected = true;
+                    if(showCaptions) caption.SetText("+5 Fuel");
+                }
+                else if(showCaptions) StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
             }
             if(!collectEffect.activeSelf)
             {
@@ -799,6 +860,8 @@ public class PlayerController : MonoBehaviour
             rb.AddForce((rb.position - otherPos).normalized * shipSpeed, ForceMode.VelocityChange);
             Vector3 otherPosLocal = myTransform.InverseTransformPoint(otherPos);
             rb.AddRelativeTorque(new Vector3(otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized * shipSpeed * deflectionForce, ForceMode.VelocityChange);
+            camNoise.m_AmplitudeGain = camShake;
+            StartCoroutine(ResetCamNoise());
         }
 
         if(!other.gameObject.CompareTag("Drone"))
@@ -854,7 +917,7 @@ public class PlayerController : MonoBehaviour
                 currentActivation = currentCooldown = 0;
                 aura.SetActive(false);
                 if(resetting != null) StopCoroutine(resetting);
-                if(shipModel != "Venus")
+                if(shipIndex != 1)
                 {
                     for(int i = 0; i < auraCount; i++)
                     {
@@ -895,6 +958,12 @@ public class PlayerController : MonoBehaviour
         health = (float) Math.Round(health, 1);
         healthText.SetText(health.ToString("0.00"));
         healthBar.fillAmount = health / 100;
+    }
+
+    IEnumerator ResetCamNoise()
+    {
+        yield return halfSecond;
+        camNoise.m_AmplitudeGain = 0;
     }
 
     IEnumerator Respawn()
@@ -963,18 +1032,141 @@ public class PlayerController : MonoBehaviour
         }
         countdownText.SetText("Go!");
         yield return oneSecond;
-        if(showArrow) arrow.gameObject.SetActive(true);
-        activeDrones = checkpointDrones[0];
-        for(int i = 0; i < activeDrones; i++)
-        {
-            drones[i].SetActive(true);
-        }
         
+        if(!tutorial)
+        {
+            inTutorial = false;
+            activeDrones = checkpointDrones[0];
+            for(int i = 0; i < activeDrones; i++) drones[i].SetActive(true);
+        }
+        else StartCoroutine(TutorialManager());
+        if(showArrow) arrow.gameObject.SetActive(true);
         countdownText.gameObject.SetActive(false);
         thrusterParent.SetActive(true);
         rb.isKinematic = kinematic = false;
         canCollide = canTrigger = true;
         if(collided) collided = false;
+    }
+
+    IEnumerator TutorialManager()
+    {
+        thrustAllowed = abilityAllowed = false;
+        captionPriority = 6;
+        caption.SetText("Welcome to the\nApollo Olympics Tutorial!");
+        yield return threeSeconds;
+
+        string key = InputControlPath.ToHumanReadableString(pitchAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+        if(wordNames.ContainsKey(key)) key = wordNames[key];
+        caption.SetText("Press " + key + " to pitch up");
+        while(rotation.x != -1) yield return null;
+        yield return halfSecond;
+
+        key = InputControlPath.ToHumanReadableString(pitchAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+        if(wordNames.ContainsKey(key)) key = wordNames[key];
+        caption.SetText("Press " + key + " to pitch down");
+        while(rotation.x != 1) yield return null;
+        yield return halfSecond;
+
+        key = InputControlPath.ToHumanReadableString(yawAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+        if(wordNames.ContainsKey(key)) key = wordNames[key];
+        caption.SetText("Press " + key + " to yaw left");
+        while(rotation.y != -1) yield return null;
+        yield return halfSecond;
+
+        key = InputControlPath.ToHumanReadableString(yawAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+        if(wordNames.ContainsKey(key)) key = wordNames[key];
+        caption.SetText("Press " + key + " to yaw right");
+        while(rotation.y != 1) yield return null;
+        yield return halfSecond;
+
+        key = InputControlPath.ToHumanReadableString(rollAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+        if(wordNames.ContainsKey(key)) key = wordNames[key];
+        caption.SetText("Press " + key + " to roll counterclockwise");
+        while(rotation.z != 1) yield return null;
+        yield return halfSecond;
+
+        key = InputControlPath.ToHumanReadableString(rollAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+        if(wordNames.ContainsKey(key)) key = wordNames[key];
+        caption.SetText("Press " + key + " to roll clockwise");
+        while(rotation.z != -1) yield return null;
+        yield return halfSecond;
+
+        thrustAllowed = true;
+        key = InputControlPath.ToHumanReadableString(thrustAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+        if(wordNames.ContainsKey(key)) key = wordNames[key];
+        caption.SetText("Press " + key + " to thrust backward");
+        while(thrust != -1) yield return null;
+        yield return halfSecond;
+
+        key = InputControlPath.ToHumanReadableString(thrustAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+        if(wordNames.ContainsKey(key)) key = wordNames[key];
+        caption.SetText("Press " + key + " to thrust forward");
+        while(thrust != 1) yield return null;
+        yield return halfSecond;
+
+        abilityAllowed = true;
+        key = InputControlPath.ToHumanReadableString(abilityAction.bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
+        if(wordNames.ContainsKey(key)) key = wordNames[key];
+        switch(shipIndex)
+        {
+            case 5:
+                caption.SetText("Press " + key + " to activate ability\nHold to rotate Saturn's rings");
+                break;
+            case 6:
+                caption.SetText("Press " + key + " to activate ability\nHold to rotate Uranus's rings");
+                break;
+            default:
+                caption.SetText("Press " + key + " to activate ability");
+                break;
+        }
+        while(!abilityAction.IsPressed()) yield return null;
+        yield return halfSecond;
+
+        activeDrones = 2;
+        for(int i = 0; i < 2; i++)
+        {
+            droneScripts[i].spawnRadius = 500;
+            drones[i].SetActive(true);
+        }
+        switch(shipIndex)
+        {
+            case 3:
+                caption.SetText("Thrust and roll to\nconfuse space pirates");
+                break;
+            case 7:
+                caption.SetText("Thrust and roll to\nconfuse space pirates");
+                break;
+            default:
+                caption.SetText("Thrust and roll to\nconfuse space pirates");
+                break;
+        }
+        dronesConfused = false;
+        while(!dronesConfused) yield return null;
+        if(showCaptions)
+        {   
+            caption.SetText(droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)]);
+            yield return twoSeconds;
+        }
+        else yield return halfSecond;
+
+        caption.SetText("Collect space debris for fuel\nto maintain ship control");
+        debrisCollected = false;
+        while(!debrisCollected) yield return null;
+        if(showCaptions) yield return oneSecond;
+        else yield return halfSecond;
+
+        caption.SetText("Test your luck by\nteleporting through wormholes");
+        teleported = false;
+        while(!teleported) yield return null;
+        if(showCaptions) yield return twoSeconds;
+        else yield return halfSecond;
+
+        caption.SetText("Now, race to the\nfinal red checkpoint!");
+        yield return threeSeconds;
+
+        caption.SetText("");
+        captionPriority = 0;
+        inTutorial = false;
     }
 
     IEnumerator ChangeTextColor(TMP_Text text, WaitForSeconds wait, Color originalColor, Color newColor, int amount = 1)
@@ -985,7 +1177,7 @@ public class PlayerController : MonoBehaviour
             case 1:
                 text.color = newColor;
                 yield return wait;
-                if((text == healthText || text == healthLabel) && shipModel == "Earth" && currentActivation > 0) text.color = green;
+                if((text == healthText || text == healthLabel) && shipIndex == 2 && currentActivation > 0) text.color = green;
                 else if(text.color == newColor) text.color = originalColor;
                 break;
 
@@ -995,7 +1187,7 @@ public class PlayerController : MonoBehaviour
                 {
                     text.color = newColor;
                     yield return wait;
-                    if((text == healthText || text == healthLabel) && shipModel == "Earth" && currentActivation > 0) text.color = green;
+                    if((text == healthText || text == healthLabel) && shipIndex == 2 && currentActivation > 0) text.color = green;
                     else if(text.color == newColor) text.color = originalColor;
                     if(i < amountMinusOne) yield return wait;
                 }
@@ -1024,7 +1216,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator SetDroneCaption(WaitForSeconds wait)
     {
-        if(captionPriority >= 1 || collided) yield break;
+        if(captionPriority > 1 || collided) yield break;
         captionPriority = 1;
         string phrase = droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)];
         caption.SetText(phrase);
@@ -1048,7 +1240,7 @@ public class PlayerController : MonoBehaviour
             case 0:
                 if(direction < forwardPercent)
                 {
-                    AddCheckpoint(playerCheckpoint);
+                    AddCheckpoint(playerCheckpoint, true);
                     distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
                     break;
                 }
@@ -1059,14 +1251,14 @@ public class PlayerController : MonoBehaviour
             case 1:
                 if(direction < forwardPercent)
                 {
-                    AddCheckpoint(playerCheckpoint);
+                    AddCheckpoint(playerCheckpoint, true);
                     distance = UnityEngine.Random.Range(checkpointDistances[1] + 300, checkpointDistances[2] - 300);
                     break;
                 }
                 else if(direction < forwardPercent + backPercent)
                 {
                     playerCheckpoint --;
-                    RemoveCheckpoint(playerCheckpoint);
+                    RemoveCheckpoint(playerCheckpoint, true);
                     distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
                     break;
                 }
@@ -1078,7 +1270,7 @@ public class PlayerController : MonoBehaviour
                 if(direction < backPercent)
                 {
                     playerCheckpoint --;
-                    RemoveCheckpoint(playerCheckpoint);
+                    RemoveCheckpoint(playerCheckpoint, true);
                 }
                 else sameCheckpoint = true;
                 distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
@@ -1087,23 +1279,36 @@ public class PlayerController : MonoBehaviour
             default:
                 if(direction < forwardPercent)
                 {
-                    AddCheckpoint(playerCheckpoint);
+                    AddCheckpoint(playerCheckpoint, true);
                     playerCheckpoint ++;
                 }
                 else if(direction < forwardPercent + backPercent)
                 {
                     playerCheckpoint --;
-                    RemoveCheckpoint(playerCheckpoint);
+                    RemoveCheckpoint(playerCheckpoint, true);
                 }
                 else sameCheckpoint = true;
                 distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
                 break;
         }
-        if(sameCheckpoint && showCaptions)
+        if(sameCheckpoint)
         {
-            float mag = rb.position.magnitude;
-            if(mag > distance) StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back", twoSeconds, 3));
-            else StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead", twoSeconds, 3));
+            if(!teleported)
+            {
+                teleported = true;
+                if(showCaptions)
+                {
+                    float mag = rb.position.magnitude;
+                    if(mag > distance) caption.SetText("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back");
+                    else caption.SetText("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead");
+                }
+            }
+            else if(showCaptions)
+            {
+                float mag = rb.position.magnitude;
+                if(mag > distance) StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back", twoSeconds, 3));
+                else StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead", twoSeconds, 3));
+            }
             voiceSource.clip = wormholeVoice;
             voiceSource.Play();
         }
@@ -1115,32 +1320,42 @@ public class PlayerController : MonoBehaviour
         if(collided) collided = false;
     }
 
-    void AddCheckpoint(int playerCheckpoint)
+    void AddCheckpoint(int playerCheckpoint, bool fromTeleport = false)
     {
-        if(showCaptions) StartCoroutine(SetCaption(checkpointCaptions[playerCheckpoint], threeSeconds, 3));
         playerCheckpoint ++;
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
         checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());
-        int newDrones = checkpointDrones[playerCheckpoint];
-        for(int i = activeDrones; i < newDrones; i++)
+        if(!tutorial)
         {
-            drones[i].gameObject.SetActive(true);
+            int newDrones = checkpointDrones[playerCheckpoint];
+            for(int i = activeDrones; i < newDrones; i++) drones[i].SetActive(true);
+            activeDrones = newDrones;
+            if(showCaptions) StartCoroutine(SetCaption(checkpointCaptions[playerCheckpoint], threeSeconds, 3));
         }
-        activeDrones = newDrones;
+        else if(!teleported && fromTeleport)
+        {
+            teleported = true;
+            if(showCaptions) caption.SetText(checkpointCaptions[playerCheckpoint]);
+        }
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, green));
         audioSource.PlayOneShot(checkpointSound);
         voiceSource.clip = checkpointVoice;
         voiceSource.PlayDelayed(0.2f);
     }
 
-    void RemoveCheckpoint(int playerCheckpoint)
+    void RemoveCheckpoint(int playerCheckpoint, bool fromTeleport = false)
     {
-        if(showCaptions) StartCoroutine(SetCaption(backCaptions[playerCheckpoint], threeSeconds, 3));
         if(spawnManager.playerCheckpoints[playerIndex] == playerCheckpoint) return;
         spawnManager.playerCheckpoints[playerIndex] = playerCheckpoint;
         checkpointText.SetText("Checkpoint: " + playerCheckpoint.ToString());
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, Color.red));
+        if(!teleported && fromTeleport)
+        {
+            teleported = true;
+            if(showCaptions) caption.SetText(backCaptions[playerCheckpoint]);
+        }
+        else if(showCaptions) StartCoroutine(SetCaption(backCaptions[playerCheckpoint], threeSeconds, 3));
         audioSource.PlayOneShot(errorSound);
         voiceSource.clip = backCheckpointVoice;
         voiceSource.PlayDelayed(0.2f);

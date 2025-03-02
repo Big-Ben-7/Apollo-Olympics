@@ -363,7 +363,7 @@ MonoBehaviour:
   activationTime: 20
   cooldownTime: 20
   abilityStrength: 1000
-  abilityStrength2: 10000
+  abilityStrength2: 8000
   accFuelLoss: 2
   rotFuelLoss: 1
   fuelRegeneration: 0.1
@@ -454,6 +454,7 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
+  camNoise: {fileID: 0}
   arrow: {fileID: 5353075654820281820}
   stereoPan: 0
   kinematic: 1

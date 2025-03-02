@@ -3744,7 +3744,6 @@ MonoBehaviour:
   playerShips: 00000000000000000000000000000000
   playerChunks: []
   playingPlayers: 
-  playerNames: []
   initialThrustSpeeds: b80b0000ac0d0000a00f00009411000088130000
   accelerations: b0040000780500004006000008070000d0070000
   maxThrustSpeeds: 30750000b8880000409c0000c8af000050c30000
@@ -3760,7 +3759,7 @@ MonoBehaviour:
   - 0.9
   - 0.95
   - 1
-  healthLossDivisors: 84030000b0040000dc050000a4060000d0070000
+  healthLossDivisors: 5802000084030000b0040000dc05000008070000
   speedLossDivisors:
   - 5
   - 4
@@ -3779,6 +3778,12 @@ MonoBehaviour:
   - 0.1
   - 0.01
   - 0.001
+  camShakes:
+  - 1
+  - 0.8
+  - 0.6
+  - 0.4
+  - 0.2
   cameraPrefab: {fileID: 8803354073669428790, guid: cf38e19b88e5647c19ea89b7f8dacb7a, type: 3}
   cameraMasks:
   - serializedVersion: 2

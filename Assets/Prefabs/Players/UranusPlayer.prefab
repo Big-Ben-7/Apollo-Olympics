@@ -373,8 +373,10 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
+  camNoise: {fileID: 0}
   arrow: {fileID: 3556224703004809943}
   stereoPan: 0
+  kinematic: 1
 --- !u!82 &283605144193943937
 AudioSource:
   m_ObjectHideFlags: 0

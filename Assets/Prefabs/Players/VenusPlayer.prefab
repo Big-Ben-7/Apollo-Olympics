@@ -375,6 +375,7 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   cameraStats: {fileID: 0}
+  camNoise: {fileID: 0}
   arrow: {fileID: 7972407930528604895}
   stereoPan: 0
   kinematic: 1

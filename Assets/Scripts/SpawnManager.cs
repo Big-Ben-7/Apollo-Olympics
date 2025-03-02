@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using System;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using TreeEditor;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class SpawnManager : MonoBehaviour
     [Header("Checkpoints")]
     public int[] playerCheckpoints;
     [SerializeField] int[] checkpointDistances;
+    [SerializeField] int[] tutorialCheckpoints;
     [SerializeField] Transform checkpointParent;
     [SerializeField] GameObject checkpointPrefab;
     [SerializeField] Material finishMat;
@@ -40,10 +42,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject wormholePrefab;
     //Asteroid number must be divisible by 20
     [SerializeField] int[] asteroidNumbers = new int[] {20, 40, 60, 80};
+    [SerializeField] int tutorialAsteroids = 10;
     int asteroidNumber;
     [SerializeField] int minAsteroidScale = 250;
     [SerializeField] int maxAsteroidScale = 2500;
-    [SerializeField] int[] collectableNumbers = new int[] {10, 8, 6, 4};
+    [SerializeField] int[] collectableNumbers = new int[] {12, 10, 8, 6};
+    [SerializeField] int tutorialCollectables = 12;
     int collectableNumber;
     [SerializeField] int partDisablePercent = 50;
     [SerializeField] int maxMovementForce1 = 70;
@@ -59,6 +63,7 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Drones")]
     [SerializeField] int[] droneNumbers = new int[] {8, 16, 24, 32};
+    [SerializeField] int tutorialDrones = 2;
     int droneNumber;
     [SerializeField] int[] begCheckpointDrones;
     [SerializeField] int[] intCheckpointDrones;
@@ -77,7 +82,6 @@ public class SpawnManager : MonoBehaviour
     public static List<Transform>[] followers;
     bool finished = true;
     PlayerController[] playerControllers;
-    public string[] playerNames;
 
     [Header("Customization")]
     public int[] initialThrustSpeeds;
@@ -89,6 +93,7 @@ public class SpawnManager : MonoBehaviour
     public float[] speedLossDivisors;
     public float[] minHealthLosses;
     public float[] deflectionForces;
+    public float[] camShakes;
 
     [Header("Camera/UI/Audio")]
     [SerializeField] GameObject cameraPrefab;
@@ -179,28 +184,23 @@ public class SpawnManager : MonoBehaviour
         backgroundNoise = audioSources[2];
 
         //Getting variabes from main menu
-        float music, effects, voice;
         playerNumber = MenuManager.playerNumber;
         playerShips = MenuManager.playerShips;
         difficulty = MenuManager.difficulty;
-        playerNames = MenuManager.playerNames;
-        effects = audioSource.volume = PlayerController.audioVolume = effectsSlider.value = MenuManager.effects;
-        if(effects > 0.5f) PlayerController.warningScale = 1 / effects;
-        else PlayerController.warningScale = 2;
-        voice = PlayerController.voiceVolume = voiceSlider.value = MenuManager.voice;
-        voiceScale = voice / effects;
-        music = musicSlider.value = MenuManager.music;
-        float bg = backgroundMusic.volume = music * 0.5f;
-        if(bg < 0.1f) backgroundNoise.volume = bg;
+        bool tutorial = PlayerController.tutorial = MenuManager.tutorial;
+        PlayerController.playerNames = MenuManager.playerNames;
+        PlayerController.audioVolume = effectsSlider.value = MenuManager.effects;
+        PlayerController.voiceVolume = voiceSlider.value = MenuManager.voice;
+        musicSlider.value = MenuManager.music;
         cursorHide = cursorToggle.isOn = MenuManager.cursorHide;
         if(cursorHide) Cursor.visible = false;
         CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
         view.m_Lens.FieldOfView = fovSlider.value = MenuManager.fov;
         view.m_Lens.FarClipPlane = depthSlider.value = MenuManager.depth;
         dampingSlider.value = MenuManager.damping;
-        PlayerController.maxThrusterVolume = thrusterSlider.value = MenuManager.thruster;
-        PlayerController.showCaptions = Drone.showCaptions = captionToggle.isOn = MenuManager.showCaptions;
-        PlayerController.showArrow = arrowToggle.isOn = MenuManager.showArrow;
+        thrusterSlider.value = MenuManager.thruster;
+        captionToggle.isOn = MenuManager.showCaptions;
+        arrowToggle.isOn = MenuManager.showArrow;
         ChangeFOV();
         ChangeDepth();
         ChangeDamping();
@@ -213,13 +213,24 @@ public class SpawnManager : MonoBehaviour
         ChangeEffects();
 
         //Setting difficulty-dependent variables
-        asteroidNumber = asteroidNumbers[difficulty];
-        collectableNumber = collectableNumbers[difficulty];
-        droneNumber = droneNumbers[difficulty];
         checkpointCount = checkpointDistances.Length;
-        checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
+        if(tutorial)
+        {
+            asteroidNumber = tutorialAsteroids;
+            collectableNumber = tutorialCollectables;
+            droneNumber = tutorialDrones;
+        }
+        else
+        {
+            asteroidNumber = asteroidNumbers[difficulty];
+            collectableNumber = collectableNumbers[difficulty];
+            droneNumber = droneNumbers[difficulty];
+            checkpointDrones = new int[][]{begCheckpointDrones, intCheckpointDrones, advCheckpointDrones, expCheckpointDrones}[difficulty];
+            PlayerController.checkpointDrones = checkpointDrones;
+        }
 
         //Stats for each checkpoint
+        
         baseDisableNumber = asteroidNumber * 2 / 5;
         disableByCheckpoint = new int[checkpointCount];
         int increment = baseDisableNumber / (checkpointCount - 1);
@@ -235,7 +246,6 @@ public class SpawnManager : MonoBehaviour
         }
 
         PlayerController.checkpointDistances = checkpointDistances;
-        PlayerController.checkpointDrones = checkpointDrones;
         timeString = "Time: 0:00.000";
         interactableNumber = asteroidNumber + collectableNumber;
         asteroidCount = possibleAsteroids.Length;
@@ -445,16 +455,19 @@ public class SpawnManager : MonoBehaviour
 
             Vector3 pos = startPos[i];
             Quaternion rot = startRots[i];
-            GameObject player = Instantiate(possiblePlayers[playerShips[i]], pos, rot);
+            int playerShip = playerShips[i];
+            GameObject player = Instantiate(possiblePlayers[playerShip], pos, rot);
             PlayerController playerController = playerControllers[i] = player.GetComponent<PlayerController>();
             Transform playerTransform = playerController.myTransform = player.transform;
             playerController.playerNumberString = playerStrings[i];
             playerController.playerIndex = i;
+            playerController.shipIndex = playerShip;
             playerController.cameraStats = cameraObject.GetChild(1);
             playerController.startPos = pos;
             playerController.normalizedStartPos = pos.normalized;
             playerController.startRot = rot;
             playerController.stereoPan = stereoPans[i];
+            playerController.camNoise = viewCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
             Transform arrow = playerController.arrow = playerTransform.GetChild(3);
             arrows[i] = arrow.gameObject;
@@ -590,9 +603,9 @@ public class SpawnManager : MonoBehaviour
                 for(int i = 0; i < asteroidNumber; i++)
                 {
                     //Random position, avoid center
-                    int randomX = UnityEngine.Random.Range(500, side);
-                    int randomY = UnityEngine.Random.Range(500, side);
-                    int randomZ = UnityEngine.Random.Range(500, side);
+                    int randomX = UnityEngine.Random.Range(1000, side);
+                    int randomY = UnityEngine.Random.Range(1000, side);
+                    int randomZ = UnityEngine.Random.Range(1000, side);
                     if(UnityEngine.Random.Range(0, 2) == 0)
                     {
                         randomX *= -1;
@@ -631,9 +644,9 @@ public class SpawnManager : MonoBehaviour
                 for(int i = asteroidNumber; i < interactableNumber; i++)
                 {
                     //Random position, avoid center
-                    int randomX = UnityEngine.Random.Range(500, side);
-                    int randomY = UnityEngine.Random.Range(500, side);
-                    int randomZ = UnityEngine.Random.Range(500, side);
+                    int randomX = UnityEngine.Random.Range(1000, side);
+                    int randomY = UnityEngine.Random.Range(1000, side);
+                    int randomZ = UnityEngine.Random.Range(1000, side);
                     if(UnityEngine.Random.Range(0, 2) == 0)
                     {
                         randomX *= -1;
@@ -1337,9 +1350,9 @@ public class SpawnManager : MonoBehaviour
 
     public void ChangeFOV()
     {
-        float fov = (float) Math.Round(fovSlider.value, 1);
+        float fov = Mathf.Round(fovSlider.value);
         foreach(int i in playingPlayers) thirdPersons[i].m_Lens.FieldOfView = fov;
-        fovText.SetText(fov.ToString("0.0"));
+        fovText.SetText(fov.ToString());
         PlayerPrefs.SetFloat("Fov", fov);
     }
 
@@ -1366,7 +1379,7 @@ public class SpawnManager : MonoBehaviour
     public void ChangeMusic()
     {
         float music = (float) Math.Round(musicSlider.value, 2);
-        float bg = backgroundMusic.volume = music * 0.5f;
+        float bg = backgroundMusic.volume = music * 0.2f;
         if(bg < 0.1f) backgroundNoise.volume = bg;
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
@@ -1376,6 +1389,7 @@ public class SpawnManager : MonoBehaviour
     {
         float voice = (float) Math.Round(voiceSlider.value, 2);
         foreach(int i in playingPlayers) voiceSources[i].volume = voice;
+        voiceScale = voice / audioSource.volume;
         voiceText.SetText(voice.ToString("0.00"));
         PlayerPrefs.SetFloat("Voice", voice);
     }
@@ -1390,9 +1404,10 @@ public class SpawnManager : MonoBehaviour
     public void ChangeEffects()
     {
         float effects = (float) Math.Round(effectsSlider.value, 2);
+        voiceScale = voiceScale * audioSource.volume / effects;
         audioSource.volume = effects;
         foreach(int i in playingPlayers) effectSources[i].volume = effects;
-        if(effects * 2 > 1) PlayerController.warningScale = 1 / effects;
+        if(effects > 0.5f) PlayerController.warningScale = 1 / effects;
         else PlayerController.warningScale = 2;
         effectsText.SetText(effects.ToString("0.00"));
         PlayerPrefs.SetFloat("Effects", effects);
@@ -1440,8 +1455,8 @@ public class SpawnManager : MonoBehaviour
 
         fovSlider.value = 40;
         depthSlider.value = 7000;
-        dampingSlider.value = 0.2f;
-        musicSlider.value = 0.1f;
+        dampingSlider.value = 0.15f;
+        musicSlider.value = 0.25f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
         voiceSlider.value = 0.3f;

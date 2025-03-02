@@ -35,12 +35,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text[] playerNumbers;
     [SerializeField] Color normalColor;
     [SerializeField] Color selectedColor;
+    [SerializeField] GameObject[] gameSettingWindows;
+    int activeGameSetting;
 
     [Header("Customization")]
     [SerializeField] GameObject[] ships;
-    int shipCount;
-    int activeShip;
-    int activePlayer;
     [SerializeField] TMP_Text playerText;
     [SerializeField] TMP_InputField nameInput;
     [SerializeField] GameObject nameEdit;
@@ -52,6 +51,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] AudioClip[] abilitySounds;
     [SerializeField] AudioClip debuffSound;
     Transform activeModel;
+    int shipCount;
+    int activeShip;
+    int activePlayer;
     int rotationSpeed;
     Coroutine resetting;
     public static string[] playerNames = new string[4];
@@ -89,6 +91,7 @@ public class MenuManager : MonoBehaviour
     
     bool loaded;
     public static bool fromGame;
+    public static bool tutorial;
     public static int playerNumber;
     public static int difficulty;
     public static int[] playerShips = new int[4];
@@ -147,20 +150,21 @@ public class MenuManager : MonoBehaviour
             abilities[i] = model.GetChild(2).gameObject;
             selectTexts[i] = ship.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         }
+        nameObject = nameInput.gameObject;
+        nameInput.text = "";
 
         //Get game settings variables
         playersSlider.value = PlayerPrefs.GetInt("PlayerNumber", 1);
         difficultySlider.value = PlayerPrefs.GetInt("Difficulty");
         ChangePlayerNumber();
         ChangeDifficulty();
-        nameObject = nameInput.gameObject;
-        nameInput.text = "";
+        NextGameSetting(PlayerPrefs.GetInt("Tutorial"));
 
         //Get settings variables
         fovSlider.value = PlayerPrefs.GetFloat("Fov", 40);
         depthSlider.value = PlayerPrefs.GetFloat("Depth", 7000);
-        dampingSlider.value = PlayerPrefs.GetFloat("Damping", 0.2f);
-        musicSlider.value = PlayerPrefs.GetFloat("Music", 0.1f);
+        dampingSlider.value = PlayerPrefs.GetFloat("Damping", 0.15f);
+        musicSlider.value = PlayerPrefs.GetFloat("Music", 0.25f);
         if(PlayerPrefs.GetInt("ShowCaptions", 1) == 0) captionToggle.isOn = false;
         else captionToggle.isOn = true;
         if(PlayerPrefs.GetInt("CursorHide") == 0) cursorToggle.isOn = false;
@@ -349,7 +353,7 @@ public class MenuManager : MonoBehaviour
         else if(rotationSpeed != 80) rotationSpeed = 80;
     }
 
-    void SelectShip()
+    public void SelectShip()
     {
         playerShips[activePlayer] = activeShip;
         for(int i = 0; i < shipCount; i++)
@@ -434,6 +438,17 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void NextGameSetting(int newActive)
+    {
+        activeGameSetting = newActive;
+        for(int i = 0; i < 2; i++) gameSettingWindows[i].SetActive(false);
+        gameSettingWindows[activeGameSetting].SetActive(true);
+        if(activeGameSetting == 0) tutorial = false;
+        else tutorial = true;
+        PlayerPrefs.SetInt("Tutorial", activeGameSetting);
+        MinorClick();
+    }
+
     public void NextSetting(int increment)
     {
         activeSetting += increment;
@@ -451,8 +466,8 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeFOV()
     {
-        fov = (float) Math.Round(fovSlider.value, 1);
-        fovText.SetText(fov.ToString("0.0"));
+        fov = Mathf.Round(fovSlider.value);
+        fovText.SetText(fov.ToString());
         PlayerPrefs.SetFloat("Fov", fov);
     }
 
@@ -472,9 +487,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeMusic()
     {
-        music = (float) Math.Round(musicSlider.value, 2);
-        if(music < 0.5f) backgroundMusic.volume = music * 2;
-        else backgroundMusic.volume = 1;
+        music = backgroundMusic.volume = (float) Math.Round(musicSlider.value, 2);
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
@@ -495,8 +508,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeEffects()
     {
-        effects = (float) Math.Round(effectsSlider.value, 2);
-        audioSource.volume = effects;
+        effects = audioSource.volume = (float) Math.Round(effectsSlider.value, 2);
         effectsText.SetText(effects.ToString("0.00"));
         PlayerPrefs.SetFloat("Effects", effects);
     }
@@ -570,10 +582,12 @@ public class MenuManager : MonoBehaviour
         expTime.SetText("Expert: 0:00:000");
         playersSlider.value = 1;
         difficultySlider.value = 0;
+        NextGameSetting(0);
+
         fovSlider.value = 40;
         depthSlider.value = 7000;
-        dampingSlider.value = 0.2f;
-        musicSlider.value = 0.1f;
+        dampingSlider.value = 0.15f;
+        musicSlider.value = 0.25f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
         voiceSlider.value = 0.3f;
@@ -594,8 +608,8 @@ public class MenuManager : MonoBehaviour
 
         fovSlider.value = 40;
         depthSlider.value = 7000;
-        dampingSlider.value = 0.2f;
-        musicSlider.value = 0.1f;
+        dampingSlider.value = 0.15f;
+        musicSlider.value = 0.25f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
         voiceSlider.value = 0.3f;
@@ -659,7 +673,7 @@ public class MenuManager : MonoBehaviour
 
     IEnumerator ChangeText(TMP_Text text, WaitForSeconds wait, Color originalColor, Color newColor, string originalString = "", string newString = "", FontStyles style = FontStyles.Normal, int amount = 1)
     {
-        if(originalString != newString) text.text = newString;
+        if(originalString != newString) text.SetText(newString);
         if(originalColor == newColor) originalColor = Color.white;
         if(text.fontStyle != style) text.fontStyle = style;
         switch(amount)
@@ -681,7 +695,7 @@ public class MenuManager : MonoBehaviour
                 }
                 break;
         }
-        if(originalString != newString) text.text = originalString;
+        if(originalString != newString) text.SetText(originalString);
         if(text.fontStyle != FontStyles.Normal) text.fontStyle = FontStyles.Normal;
     }
 
