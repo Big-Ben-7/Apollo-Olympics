@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 using System;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
-using TreeEditor;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -94,7 +93,6 @@ public class SpawnManager : MonoBehaviour
     public float[] speedLossDivisors;
     public float[] minHealthLosses;
     public float[] deflectionForces;
-    public float[] camShakes;
 
     [Header("Camera/UI/Audio")]
     [SerializeField] GameObject cameraPrefab;
@@ -471,7 +469,6 @@ public class SpawnManager : MonoBehaviour
             playerController.normalizedStartPos = pos.normalized;
             playerController.startRot = rot;
             playerController.stereoPan = stereoPans[i];
-            playerController.camNoise = viewCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
             Transform arrow = playerController.arrow = playerTransform.GetChild(3);
             arrows[i] = arrow.gameObject;
@@ -621,9 +618,9 @@ public class SpawnManager : MonoBehaviour
                 for(int i = 0; i < asteroidNumber; i++)
                 {
                     //Random position, avoid center
-                    int randomX = UnityEngine.Random.Range(1000, side);
-                    int randomY = UnityEngine.Random.Range(1000, side);
-                    int randomZ = UnityEngine.Random.Range(1000, side);
+                    int randomX = UnityEngine.Random.Range(600, side);
+                    int randomY = UnityEngine.Random.Range(600, side);
+                    int randomZ = UnityEngine.Random.Range(600, side);
                     if(UnityEngine.Random.Range(0, 2) == 0)
                     {
                         randomX *= -1;
@@ -662,9 +659,9 @@ public class SpawnManager : MonoBehaviour
                 for(int i = asteroidNumber; i < interactableNumber; i++)
                 {
                     //Random position, avoid center
-                    int randomX = UnityEngine.Random.Range(1000, side);
-                    int randomY = UnityEngine.Random.Range(1000, side);
-                    int randomZ = UnityEngine.Random.Range(1000, side);
+                    int randomX = UnityEngine.Random.Range(600, side);
+                    int randomY = UnityEngine.Random.Range(600, side);
+                    int randomZ = UnityEngine.Random.Range(600, side);
                     if(UnityEngine.Random.Range(0, 2) == 0)
                     {
                         randomX *= -1;

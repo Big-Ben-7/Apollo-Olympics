@@ -683,7 +683,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1200}
+  m_AnchoredPosition: {x: 0, y: 1260}
   m_SizeDelta: {x: 820, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &140606690
@@ -714,9 +714,9 @@ MonoBehaviour:
     Olympics, this legendary competition is not only a challenge of speed, but a
     daring mission of ingenuity and survival. Pilots must select the ultimate spaceship,
     scavenge space debris to fuel their ships, navigate through deadly asteroids,
-    defeat relentless pirates, and race across the Solar System.\n\nDo you have the
-    skill, the courage, and the determination to become the greatest space racer
-    of all?"
+    defeat relentless pirates, and race through the eight planet checkpoints across
+    the Solar System.\n\nDo you have the skill, the courage, and the determination
+    to become the greatest space racer of all?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -1247,7 +1247,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 85}
-  m_SizeDelta: {x: 770, y: 50}
+  m_SizeDelta: {x: 790, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &491969312
 MonoBehaviour:
@@ -1270,11 +1270,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "1. Race through eight checkpoints of increasing distance and difficulty,
-    representing the eight planet orbits in the Solar System.\n2. Evade asteroids
-    and test your luck with wormhole teleportation.\n3. Collect space debris for
-    fuel to maintain spaceship control.\n4. Outmaneuver space pirates with swift
-    rotations (such as rolling).\n5. Select your ideal spaceship, each with unique
-    attributes and abilities.\n\t\t\t   Good luck and see you at the finish line!"
+    representing the eight planets of the Solar System.\n2. Evade asteroids and test
+    your luck with wormhole teleportation.\n3. Collect space debris for fuel to maintain
+    spaceship control.\n4. Outmaneuver space pirates with swift rotations (such as
+    rolling).\n5. Select your ideal spaceship, each with unique attributes and abilities.\n  
+    Play the tutorial mode for more info. Good luck and see you at the finish line!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -1301,8 +1301,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Drone : MonoBehaviour
 {
     [Header("Attack")]
-    public int spawnRadius;
+    [SerializeField] int spawnRadius;
     [SerializeField] float minAttackForce;
     [SerializeField] float maxAttackForce;
     [SerializeField] float confusion;
@@ -15,6 +15,7 @@ public class Drone : MonoBehaviour
     public float offset;
     Vector3 confusionCalc;
     bool waiting;
+    public bool tutorialSpawn;
 
     [Header("Explosion")]
     [SerializeField] GameObject explosion;
@@ -136,13 +137,24 @@ public class Drone : MonoBehaviour
     {
         //Set random position/rotation around player and random attack
         waiting = true;
-        myTransform.localPosition = new Vector3(0, 0, spawnRadius);
         Vector3 targetPos = target.position;
-        myTransform.RotateAround(targetPos, Vector3.up, Random.Range(0f, 360));
-        myTransform.RotateAround(targetPos, Vector3.forward, Random.Range(0f, 360));
-        myTransform.RotateAround(targetPos, Vector3.right, Random.Range(0f, 360));
         attackForce = Random.Range(minAttackForce, maxAttackForce);
-        StartCoroutine(Wait());
+        if(!tutorialSpawn)
+        {
+            myTransform.localPosition = new Vector3(0, 0, spawnRadius);
+            myTransform.RotateAround(targetPos, target.forward, Random.Range(0f, 360));
+            myTransform.RotateAround(targetPos, target.right, Random.Range(0f, 360));
+            myTransform.RotateAround(targetPos, target.up, Random.Range(0f, 360));
+            StartCoroutine(Wait());
+        }
+        else
+        {
+            myTransform.localPosition = new Vector3(0, 0, 2000);
+            myTransform.RotateAround(targetPos, target.forward, Random.Range(0f, 360));
+            myTransform.RotateAround(targetPos, target.right, Random.Range(-45f, 45));
+            myTransform.RotateAround(targetPos, target.up, Random.Range(-45f, 45));
+            waiting = tutorialSpawn = false;
+        }
     }
 
     IEnumerator Wait()

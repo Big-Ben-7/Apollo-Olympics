@@ -1191,11 +1191,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "1. Race through eight checkpoints of increasing distance and difficulty,
-    representing the eight planet orbits in the Solar System.\n2. Evade asteroids
-    and test your luck with wormhole teleportation.\n3. Collect space debris for
-    fuel to maintain spaceship control.\n4. Outmaneuver space pirates with swift
-    rotations (such as rolling).\n5. Select your ideal spaceship, each with unique
-    attributes and abilities.\n\t\t\t   Good luck and see you at the finish line!"
+    representing the eight planets of the Solar System.\n2. Evade asteroids and test
+    your luck with wormhole teleportation.\n3. Collect space debris for fuel to maintain
+    spaceship control.\n4. Outmaneuver space pirates with swift rotations (such as
+    rolling).\n5. Select your ideal spaceship, each with unique attributes and abilities.\n\t\t\t     
+    Play the tutorial mode for more info.\n\t\t\t    Good luck and see you at the
+    finish line!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -2817,7 +2818,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8137713526792948584
 RectTransform:
   m_ObjectHideFlags: 0

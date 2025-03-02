@@ -5,8 +5,6 @@ using TMPro;
 using System;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Cinemachine;
-using Unity.Mathematics;
 
 public class PlayerController : MonoBehaviour
 {
@@ -95,7 +93,6 @@ public class PlayerController : MonoBehaviour
     int healthLossDivisor;
     float minHealthLoss;
     float deflectionForce;
-    float camShake;
     float health = 100;
     float fuel = 100;
     bool collided;
@@ -176,7 +173,6 @@ public class PlayerController : MonoBehaviour
     TMP_Text[] allText;
     int allTextLength;
     GameObject finishBackground;
-    public CinemachineBasicMultiChannelPerlin camNoise;
     public Transform arrow;
     public static string[] playerNames;
     public int shipIndex;
@@ -192,6 +188,7 @@ public class PlayerController : MonoBehaviour
     public bool kinematic = true;
     int captionPriority = 0;
     bool inTutorial = true;
+    bool rotAllowed = true;
     bool thrustAllowed = true;
     bool abilityAllowed = true;
     public bool dronesConfused = true;
@@ -346,7 +343,6 @@ public class PlayerController : MonoBehaviour
         minHealthLoss = spawnManager.minHealthLosses[durability];
         speedLossDivisor = spawnManager.speedLossDivisors[stability];
         deflectionForce = spawnManager.deflectionForces[stability];
-        camShake = spawnManager.camShakes[stability];
         thrustSpeed = initialThrustSpeed;
         decSpeed = thrustSpeed;
 
@@ -554,7 +550,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Movement input
-        rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), -rollAction.ReadValue<float>());
+        if(rotAllowed) rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), -rollAction.ReadValue<float>());
         if(thrustAllowed) thrust = thrustAction.ReadValue<float>();
 
         //Thrust/glide control
@@ -864,8 +860,6 @@ public class PlayerController : MonoBehaviour
             rb.AddForce((rb.position - otherPos).normalized * shipSpeed, ForceMode.VelocityChange);
             Vector3 otherPosLocal = myTransform.InverseTransformPoint(otherPos);
             rb.AddRelativeTorque(new Vector3(otherPosLocal.y, otherPosLocal.x, UnityEngine.Random.Range(-0.5f, 0.5f)).normalized * shipSpeed * deflectionForce, ForceMode.VelocityChange);
-            camNoise.m_AmplitudeGain = camShake;
-            StartCoroutine(ResetCamNoise());
         }
 
         if(!other.gameObject.CompareTag("Drone"))
@@ -964,12 +958,6 @@ public class PlayerController : MonoBehaviour
         healthBar.fillAmount = health / 100;
     }
 
-    IEnumerator ResetCamNoise()
-    {
-        yield return halfSecond;
-        camNoise.m_AmplitudeGain = 0;
-    }
-
     IEnumerator Respawn()
     {
         graphic.SetActive(false);
@@ -1054,11 +1042,12 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator TutorialManager()
     {
-        thrustAllowed = abilityAllowed = false;
+        rotAllowed = thrustAllowed = abilityAllowed = false;
         captionPriority = 6;
         caption.SetText("Welcome to the\nApollo Olympics Tutorial!");
         yield return threeSeconds;
 
+        rotAllowed = true;
         string key = InputControlPath.ToHumanReadableString(pitchAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         caption.SetText("Press " + key + " to pitch up");
@@ -1113,11 +1102,8 @@ public class PlayerController : MonoBehaviour
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         switch(shipIndex)
         {
-            case 5:
-                caption.SetText("Press " + key + " to activate ability\nHold to rotate Saturn's rings");
-                break;
-            case 6:
-                caption.SetText("Press " + key + " to activate ability\nHold to rotate Uranus's rings");
+            case 5 or 6:
+                caption.SetText("Press " + key + " to activate ability\nHold to rotate rings");
                 break;
             default:
                 caption.SetText("Press " + key + " to activate ability");
@@ -1129,24 +1115,12 @@ public class PlayerController : MonoBehaviour
         activeDrones = 2;
         for(int i = 0; i < 2; i++)
         {
-            droneScripts[i].spawnRadius = 500;
+            droneScripts[i].tutorialSpawn = true;
             drones[i].SetActive(true);
         }
-        switch(shipIndex)
-        {
-            case 3:
-                caption.SetText("Thrust and roll to\nconfuse space pirates");
-                break;
-            case 7:
-                caption.SetText("Thrust and roll to\nconfuse space pirates");
-                break;
-            default:
-                caption.SetText("Thrust and roll to\nconfuse space pirates");
-                break;
-        }
+        caption.SetText("Thrust and roll to\nconfuse space pirates");
         dronesConfused = false;
         while(!dronesConfused) yield return null;
-        for(int i = 0; i < 2; i++) droneScripts[i].spawnRadius = 4000;
         if(showCaptions)
         {   
             caption.SetText(droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)]);
@@ -1160,11 +1134,14 @@ public class PlayerController : MonoBehaviour
         if(showCaptions) yield return oneSecond;
         else yield return halfSecond;
 
-        caption.SetText("Test your luck by\nteleporting through wormholes");
+        caption.SetText("Teleport through wormholes");
         teleported = false;
         while(!teleported) yield return null;
         if(showCaptions) yield return twoSeconds;
         else yield return halfSecond;
+
+        caption.SetText("Controls and instructions\ncan be found in settings");
+        yield return threeSeconds;
 
         caption.SetText("Now, race to the\nfinal red checkpoint!");
         yield return threeSeconds;
@@ -1241,65 +1218,63 @@ public class PlayerController : MonoBehaviour
         float distance;
         bool sameCheckpoint = false;
 
-        if(playerCheckpoint == lastCheckpointIndex)
+        switch(playerCheckpoint)
         {
-            if(direction < backPercent)
-            {
-                playerCheckpoint --;
-                RemoveCheckpoint(playerCheckpoint, true);
-            }
-            else sameCheckpoint = true;
-            distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
-        }
-        else
-        {
-            switch(playerCheckpoint)
-            {
-                case 0:
-                    if(direction < forwardPercent)
-                    {
-                        AddCheckpoint(playerCheckpoint, true);
-                        distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
-                        break;
-                    }
-                    sameCheckpoint = true;
-                    distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
-                    break;
-
-                case 1:
-                    if(direction < forwardPercent)
-                    {
-                        AddCheckpoint(playerCheckpoint, true);
-                        distance = UnityEngine.Random.Range(checkpointDistances[1] + 300, checkpointDistances[2] - 300);
-                        break;
-                    }
-                    else if(direction < forwardPercent + backPercent)
-                    {
-                        playerCheckpoint --;
-                        RemoveCheckpoint(playerCheckpoint, true);
-                        distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
-                        break;
-                    }
-                    sameCheckpoint = true;
+            case 0:
+                if(direction < forwardPercent)
+                {
+                    AddCheckpoint(playerCheckpoint, true);
                     distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
                     break;
+                }
+                sameCheckpoint = true;
+                distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
+                break;
 
-                default:
-                    if(direction < forwardPercent)
-                    {
-                        AddCheckpoint(playerCheckpoint, true);
-                        playerCheckpoint ++;
-                    }
-                    else if(direction < forwardPercent + backPercent)
-                    {
-                        playerCheckpoint --;
-                        RemoveCheckpoint(playerCheckpoint, true);
-                    }
-                    else sameCheckpoint = true;
-                    distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
+            case 1:
+                if(direction < backPercent)
+                {
+                    playerCheckpoint --;
+                    RemoveCheckpoint(playerCheckpoint, true);
+                    distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
                     break;
-            }
+                }
+                else if(!tutorial && direction < forwardPercent + backPercent)
+                {
+                    AddCheckpoint(playerCheckpoint, true);
+                    distance = UnityEngine.Random.Range(checkpointDistances[1] + 300, checkpointDistances[2] - 300);
+                    break;
+                }
+                sameCheckpoint = true;
+                distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
+                break;
+            
+            case 8:
+                if(direction < backPercent)
+                {
+                    playerCheckpoint --;
+                    RemoveCheckpoint(playerCheckpoint, true);
+                }
+                else sameCheckpoint = true;
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
+                break;
+
+            default:
+                if(direction < forwardPercent)
+                {
+                    AddCheckpoint(playerCheckpoint, true);
+                    playerCheckpoint ++;
+                }
+                else if(direction < forwardPercent + backPercent)
+                {
+                    playerCheckpoint --;
+                    RemoveCheckpoint(playerCheckpoint, true);
+                }
+                else sameCheckpoint = true;
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
+                break;
         }
+
         if(sameCheckpoint)
         {
             if(!teleported)

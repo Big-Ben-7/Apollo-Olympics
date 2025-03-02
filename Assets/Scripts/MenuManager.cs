@@ -216,14 +216,16 @@ public class MenuManager : MonoBehaviour
     public void Enter()
     {
         intro.SetActive(false);
-        instructions.SetActive(true);
-        MajorClick();
+        BackgroundMusic();
+        ShowMain();
+        //instructions.SetActive(true);
+        //MajorClick();
     }
 
     public void ShowMain()
     {
-        instructions.SetActive(false);
-        loading.SetActive(false);
+        //instructions.SetActive(false);
+        //loading.SetActive(false);
         shipParent.SetActive(false);
         gameSettings.enabled = customization.enabled = settings.enabled = false;
         mainMenu.enabled = true;
