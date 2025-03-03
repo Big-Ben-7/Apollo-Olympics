@@ -139,6 +139,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] TMP_Text finishTitle;
     [SerializeField] Canvas loading;
     [SerializeField] Canvas pauseButton;
+    [SerializeField] TMP_Text pauseLabel;
     [SerializeField] Canvas settings;
     [SerializeField] GameObject[] controls;
     [SerializeField] GameObject rebindErrorText;
@@ -175,6 +176,7 @@ public class SpawnManager : MonoBehaviour
     void Awake()
     {
         menu.enabled = raceFinish.enabled = loading.enabled = pauseButton.enabled = settings.enabled = false;
+        pauseLabel.SetText("II");
         length = side * 2;
 
         //Audio setup
@@ -482,7 +484,8 @@ public class SpawnManager : MonoBehaviour
             viewCam.Follow = viewCam.LookAt = lookTarget;
             CinemachineFramingTransposer transposer = transposers[i] = viewCam.GetCinemachineComponent<CinemachineFramingTransposer>();
             CinemachineSameAsFollowTarget camAim = camAims[i] = viewCam.GetCinemachineComponent<CinemachineSameAsFollowTarget>();
-            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = camAim.m_Damping = damping;
+            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = damping;
+            camAim.m_Damping = damping * 2;
             view.rect = new Rect(cameraRects[i], scaleVector);
         }
 
@@ -1169,24 +1172,28 @@ public class SpawnManager : MonoBehaviour
         views[playerIndex].cullingMask = finishMasks[playerIndex];
         thirdPersons[playerIndex].m_Lens.FieldOfView = 35;
         int playersLeft = playingPlayers.Count;
-        switch(playerNumber - playersLeft)
+        if(tutorial) finishTexts[playerIndex].SetText("Tutorial Complete");
+        else
         {
-            case 1:
-                finishTexts[playerIndex].SetText("1st Place");
-                audioSource.PlayOneShot(firstVoices[playerIndex], voiceScale);
-                break;
-            case 2:
-                finishTexts[playerIndex].SetText("2nd Place");
-                audioSource.PlayOneShot(secondVoices[playerIndex], voiceScale);
-                break;
-            case 3:
-                finishTexts[playerIndex].SetText("3rd Place");
-                audioSource.PlayOneShot(thirdVoices[playerIndex], voiceScale);
-                break;
-            default:
-                finishTexts[playerIndex].SetText("4th Place");
-                audioSource.PlayOneShot(fourthVoices[playerIndex], voiceScale);
-                break;
+            switch(playerNumber - playersLeft)
+            {
+                case 1:
+                    finishTexts[playerIndex].SetText("1st Place");
+                    audioSource.PlayOneShot(firstVoices[playerIndex], voiceScale);
+                    break;
+                case 2:
+                    finishTexts[playerIndex].SetText("2nd Place");
+                    audioSource.PlayOneShot(secondVoices[playerIndex], voiceScale);
+                    break;
+                case 3:
+                    finishTexts[playerIndex].SetText("3rd Place");
+                    audioSource.PlayOneShot(thirdVoices[playerIndex], voiceScale);
+                    break;
+                default:
+                    finishTexts[playerIndex].SetText("4th Place");
+                    audioSource.PlayOneShot(fourthVoices[playerIndex], voiceScale);
+                    break;
+            }
         }
 
         //Game over
@@ -1202,6 +1209,8 @@ public class SpawnManager : MonoBehaviour
             }
             else finishTitle.SetText("Tutorial Complete");
             Cursor.visible = true;
+            pauseLabel.fontSize = 54;
+            pauseLabel.SetText("=");
             StartCoroutine(RaceFinish());
         }
         audioSource.PlayOneShot(goSound);
@@ -1390,7 +1399,8 @@ public class SpawnManager : MonoBehaviour
         foreach(int i in playingPlayers)
         {
             CinemachineFramingTransposer transposer = transposers[i];
-            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = camAims[i].m_Damping = damping;
+            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = damping;
+            camAims[i].m_Damping = damping * 2;
         }
         dampingText.SetText(damping.ToString("0.00"));
         PlayerPrefs.SetFloat("Damping", damping);
@@ -1399,9 +1409,8 @@ public class SpawnManager : MonoBehaviour
     public void ChangeMusic()
     {
         float music = (float) Math.Round(musicSlider.value, 2);
-        float bg = backgroundMusic.volume = music * 0.2f;
-        if(bg == 0) backgroundNoise.volume = 0;
-        else backgroundNoise.volume = 0.1f;
+        backgroundMusic.volume = music / 4;
+        backgroundNoise.volume = music / 2;
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
@@ -1477,7 +1486,7 @@ public class SpawnManager : MonoBehaviour
         fovSlider.value = 40;
         depthSlider.value = 7000;
         dampingSlider.value = 0.15f;
-        musicSlider.value = 0.25f;
+        musicSlider.value = 0.2f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
         voiceSlider.value = 0.3f;

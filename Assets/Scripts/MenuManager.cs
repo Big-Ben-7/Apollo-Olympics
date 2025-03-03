@@ -164,7 +164,7 @@ public class MenuManager : MonoBehaviour
         fovSlider.value = PlayerPrefs.GetFloat("Fov", 40);
         depthSlider.value = PlayerPrefs.GetFloat("Depth", 7000);
         dampingSlider.value = PlayerPrefs.GetFloat("Damping", 0.15f);
-        musicSlider.value = PlayerPrefs.GetFloat("Music", 0.25f);
+        musicSlider.value = PlayerPrefs.GetFloat("Music", 0.2f);
         if(PlayerPrefs.GetInt("ShowCaptions", 1) == 0) captionToggle.isOn = false;
         else captionToggle.isOn = true;
         if(PlayerPrefs.GetInt("CursorHide") == 0) cursorToggle.isOn = false;
@@ -490,6 +490,8 @@ public class MenuManager : MonoBehaviour
     public void ChangeMusic()
     {
         music = backgroundMusic.volume = (float) Math.Round(musicSlider.value, 2);
+        if(music < 0.5f) backgroundMusic.volume = music * 2;
+        else backgroundMusic.volume = 1;
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
@@ -589,7 +591,7 @@ public class MenuManager : MonoBehaviour
         fovSlider.value = 40;
         depthSlider.value = 7000;
         dampingSlider.value = 0.15f;
-        musicSlider.value = 0.25f;
+        musicSlider.value = 0.2f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
         voiceSlider.value = 0.3f;
@@ -611,7 +613,7 @@ public class MenuManager : MonoBehaviour
         fovSlider.value = 40;
         depthSlider.value = 7000;
         dampingSlider.value = 0.15f;
-        musicSlider.value = 0.25f;
+        musicSlider.value = 0.2f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
         voiceSlider.value = 0.3f;
