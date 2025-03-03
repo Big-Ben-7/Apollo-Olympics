@@ -1365,18 +1365,22 @@ public class PlayerController : MonoBehaviour
             activeDrones = newDrones;
             if(showCaptions)
             {
-                if(fromTeleport) StartCoroutine(SetCaption("Teleported past " + checkpointCaptions[playerCheckpoint - 1], threeSeconds, 3));
-                else StartCoroutine(SetCaption("Passed " + checkpointCaptions[playerCheckpoint - 1], threeSeconds, 3));
+                if(fromTeleport) StartCoroutine(SetCaption("Teleported past " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
+                else StartCoroutine(SetCaption("Passed " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
             }
         }
         else
         {
             if(fromTeleport)
             {
-                if(!teleported) teleported = true;
-                if(showCaptions) caption.SetText("Teleported past\nCheckpoint 1");
+                if(!teleported)
+                {
+                    teleported = true;
+                    if(showCaptions) caption.SetText("Teleported past\nCheckpoint 1");
+                }
+                else if(showCaptions) StartCoroutine(SetCaption("Teleported past\nCheckpoint 1", twoSeconds, 3));
             }
-            else if(showCaptions) StartCoroutine(SetCaption("Passed Checkpoint 1", threeSeconds, 3));
+            else if(showCaptions) StartCoroutine(SetCaption("Passed Checkpoint 1", twoSeconds, 3));
         }
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, green));
         audioSource.PlayOneShot(checkpointSound);
@@ -1394,15 +1398,19 @@ public class PlayerController : MonoBehaviour
         {
             if(fromTeleport)
             {
-                if(!teleported) teleported = true;
-                if(showCaptions) caption.SetText("Teleported back\nto Checkpoint 1");
+                if(!teleported)
+                {
+                    teleported = true;
+                    if(showCaptions) caption.SetText("Teleported back\nto Checkpoint 1");
+                }
+                else if(showCaptions) StartCoroutine(SetCaption("Teleported back\nto Checkpoint 1", twoSeconds, 3));
             }
-            else if(showCaptions) caption.SetText("Returned to Checkpoint 1");
+            else if(showCaptions) StartCoroutine(SetCaption("Returned to Checkpoint 1", twoSeconds, 3));
         }
         else if(showCaptions)
         {
-            if(fromTeleport) StartCoroutine(SetCaption("Teleported back" + "\nto " + backCaptions[playerCheckpoint], threeSeconds, 3));
-            else StartCoroutine(SetCaption("Returned to " + backCaptions[playerCheckpoint], threeSeconds, 3));
+            if(fromTeleport) StartCoroutine(SetCaption("Teleported back" + "\nto " + backCaptions[playerCheckpoint], twoSeconds, 3));
+            else StartCoroutine(SetCaption("Returned to " + backCaptions[playerCheckpoint], twoSeconds, 3));
         }
         audioSource.PlayOneShot(errorSound);
         voiceSource.clip = backCheckpointVoice;
