@@ -97,24 +97,22 @@ public class Drone : MonoBehaviour
                 }
 
                 //Explode if drone is inside camera view and not occluded
-                
                 float confusionMag = confusionCalc.sqrMagnitude;
-                
-
-                //Show caption if drone is outmaneuvered
-                if(confusionMag > 300000 || distance < 600000)
+                if(tutorialSpawn)
                 {
-                    if(tutorialSpawn)
+                    if(confusionMag > 300000 || distance < 600000)
                     {
                         tutorialSpawn = false;
                         playerController.dronesConfused = true;
-                        Explode(myTransform.position);
-                        return;
                     }
                     Explode(myTransform.position);
-                    if(confusionMag < 1000 || offset > 0 || !showCaptions) return;
-                    StartCoroutine(playerController.SetDroneCaption(twoSeconds));
+                    return;
                 }
+                Explode(myTransform.position);
+                if(confusionMag < 1000 || offset > 0 || !showCaptions) return;
+
+                //Show caption if drone is outmaneuvered
+                if(confusionMag > 300000 || distance < 600000) StartCoroutine(playerController.SetDroneCaption(twoSeconds));
                 break;
             
             default:

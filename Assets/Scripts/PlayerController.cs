@@ -174,6 +174,7 @@ public class PlayerController : MonoBehaviour
     TMP_Text[] allText;
     int allTextLength;
     GameObject finishBackground;
+    Coroutine settingCaption;
     public Transform arrow;
     public static string[] playerNames;
     public int shipIndex;
@@ -187,8 +188,10 @@ public class PlayerController : MonoBehaviour
     public static bool showArrow;
     public static bool paused = true;
     public bool kinematic = true;
+    bool pauseTutorial;
+    string tutorialText;
     int captionPriority = 0;
-    bool inTutorial = true;
+    bool inTutorial;
     bool canFinish = true;
     bool rotAllowed = true;
     bool thrustAllowed = true;
@@ -504,7 +507,7 @@ public class PlayerController : MonoBehaviour
         if(paused) return;
 
         //Show time
-        if(!inTutorial) timeText.SetText(spawnManager.timeString);
+        timeText.SetText(spawnManager.timeString);
 
         if(kinematic) return;
 
@@ -614,7 +617,8 @@ public class PlayerController : MonoBehaviour
                 if(fuelText.text != "0.00")
                 {
                     fuelText.SetText("0.00");
-                    StartCoroutine(SetCaption(noFuelCaptions[UnityEngine.Random.Range(0, noFuelNumber)], threeSeconds, 5));
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption(noFuelCaptions[UnityEngine.Random.Range(0, noFuelNumber)], threeSeconds, 6));
                     StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 3));
                     audioSource.PlayOneShot(noFuelSound);
                     voiceSource.clip = noFuelVoice;
@@ -632,7 +636,8 @@ public class PlayerController : MonoBehaviour
                     fuelLabel.color = fuelText.color = Color.red;
                     if(showCaptions)
                     {
-                        StartCoroutine(SetCaption(fuelCaptions[UnityEngine.Random.Range(0, fuelNumber)], threeSeconds, 4));
+                        if(settingCaption != null) StopCoroutine(settingCaption);
+                        settingCaption = StartCoroutine(SetCaption(fuelCaptions[UnityEngine.Random.Range(0, fuelNumber)], threeSeconds, 5));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
                     audioSource.PlayOneShot(warningSound, warningScale);
@@ -827,7 +832,11 @@ public class PlayerController : MonoBehaviour
                     debrisCollected = true;
                     if(showCaptions) caption.SetText("+10 Fuel");
                 }
-                else if(showCaptions) StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
+                else if(showCaptions)
+                {
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
+                }
             }
             else
             {
@@ -838,7 +847,11 @@ public class PlayerController : MonoBehaviour
                     debrisCollected = true;
                     if(showCaptions) caption.SetText("+5 Fuel");
                 }
-                else if(showCaptions) StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
+                else if(showCaptions)
+                {
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
+                }
             }
             if(!collectEffect.activeSelf)
             {
@@ -910,7 +923,7 @@ public class PlayerController : MonoBehaviour
         {
             case <= 0:
                 canCollide = canTrigger = false;
-                rb.isKinematic = kinematic = true;
+                rb.isKinematic = kinematic = pauseTutorial = true;
 
                 dieExplosion.transform.position = other.GetContact(0).point;
                 dieExplosion.SetActive(true);
@@ -935,6 +948,18 @@ public class PlayerController : MonoBehaviour
                 for(int i = 0; i < allTextLength; i++) StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
                 for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
 
+                graphic.SetActive(false);
+                thrusterParent.SetActive(false);
+                if(collectEffect.activeSelf) collectEffect.SetActive(false);
+                if(showArrow) arrow.gameObject.SetActive(false);
+                if(settingCaption != null) StopCoroutine(settingCaption);
+                caption.SetText("");
+                captionPriority = 0;
+                deathText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
+                StartCoroutine(ChangeTextColor(deathText, fifthSecond, Color.red, Color.white, 3));
+                audioSource.PlayOneShot(dieSound);
+                voiceSource.clip = dieVoice;
+                voiceSource.PlayDelayed(0.5f);
                 StartCoroutine(Respawn());
                 return;
 
@@ -944,7 +969,8 @@ public class PlayerController : MonoBehaviour
                     healthText.color = healthLabel.color = Color.red;
                     if(showCaptions)
                     {
-                        StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], threeSeconds, 4));
+                        if(settingCaption != null) StopCoroutine(settingCaption);
+                        settingCaption = StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], threeSeconds, 5));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
                     audioSource.PlayOneShot(warningSound, warningScale);
@@ -965,19 +991,6 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Respawn()
     {
-        graphic.SetActive(false);
-        thrusterParent.SetActive(false);
-        if(collectEffect.activeSelf) collectEffect.SetActive(false);
-        if(showArrow) arrow.gameObject.SetActive(false);
-        string originalCaption = caption.text;
-        caption.SetText("");
-        captionPriority = 0;
-        deathText.SetText(deathCaptions[UnityEngine.Random.Range(0, deathNumber)]);
-        StartCoroutine(ChangeTextColor(deathText, fifthSecond, Color.red, Color.white, 3));
-        audioSource.PlayOneShot(dieSound);
-        voiceSource.clip = dieVoice;
-        voiceSource.PlayDelayed(0.5f);
-
         yield return threeSeconds;
         deathText.SetText("");
         if(spawnManager.playerCheckpoints[playerIndex] == 0)
@@ -1008,10 +1021,10 @@ public class PlayerController : MonoBehaviour
         if(showArrow) arrow.gameObject.SetActive(true);
         if(inTutorial)
         {
-            caption.SetText(originalCaption);
-            captionPriority = 6;
+            caption.SetText(tutorialText);
+            captionPriority = 4;
         }
-        rb.isKinematic = kinematic = false;
+        rb.isKinematic = kinematic = pauseTutorial = false;
         canCollide = canTrigger = true;
         if(collided) collided = false;
         rb.velocity = rb.angularVelocity = Vector3.zero;
@@ -1038,7 +1051,6 @@ public class PlayerController : MonoBehaviour
         
         if(!tutorial)
         {
-            inTutorial = false;
             activeDrones = checkpointDrones[0];
             for(int i = 0; i < activeDrones; i++) drones[i].SetActive(true);
         }
@@ -1053,85 +1065,115 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator TutorialManager()
     {
+        inTutorial = true;
         rotAllowed = thrustAllowed = abilityAllowed = canFinish = false;
-        captionPriority = 6;
-        caption.SetText("Welcome to the\nApollo Olympics Tutorial!");
+        captionPriority = 4;
+        tutorialText = "Welcome to the\nApollo Olympics Tutorial!";
+        caption.SetText(tutorialText);
         yield return threeSeconds;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         rotAllowed = true;
         string key = InputControlPath.ToHumanReadableString(pitchAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        caption.SetText("Press " + key + " to pitch down");
+        tutorialText = "Press " + key + " to pitch down";
+        caption.SetText(tutorialText);
         while(rotation.x != 1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         key = InputControlPath.ToHumanReadableString(pitchAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        caption.SetText("Press " + key + " to pitch up");
+        tutorialText = "Press " + key + " to pitch up";
+        caption.SetText(tutorialText);
         while(rotation.x != -1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         key = InputControlPath.ToHumanReadableString(yawAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        caption.SetText("Press " + key + " to yaw left");
+        tutorialText = "Press " + key + " to yaw left";
+        caption.SetText(tutorialText);
         while(rotation.y != -1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         key = InputControlPath.ToHumanReadableString(yawAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        caption.SetText("Press " + key + " to yaw right");
+        tutorialText = "Press " + key + " to yaw right";
+        caption.SetText(tutorialText);
         while(rotation.y != 1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         key = InputControlPath.ToHumanReadableString(rollAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        caption.SetText("Press " + key + " to roll left");
+        tutorialText = "Press " + key + " to roll left";
+        caption.SetText(tutorialText);
         while(rotation.z != 1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         key = InputControlPath.ToHumanReadableString(rollAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        caption.SetText("Press " + key + " to roll right");
+        tutorialText = "Press " + key + " to roll right";
+        caption.SetText(tutorialText);
         while(rotation.z != -1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         thrustAllowed = true;
         key = InputControlPath.ToHumanReadableString(thrustAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        caption.SetText("Press " + key + " to thrust backward");
+        tutorialText = "Press " + key + " to thrust backward";
+        caption.SetText(tutorialText);
         while(thrust != -1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         key = InputControlPath.ToHumanReadableString(thrustAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        caption.SetText("Press " + key + " to thrust forward");
+        tutorialText = "Press " + key + " to thrust forward";
+        caption.SetText(tutorialText);
         while(thrust != 1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
+
+        activeDrones = 2;
+        for(int i = 0; i < 2; i++)
+        {
+            droneScripts[i].tutorialSpawn = true;
+            drones[i].SetActive(true);
+        }
+        tutorialText = "Thrust and roll to\nconfuse space pirates";
+        caption.SetText(tutorialText);
+        dronesConfused = false;
+        while(!dronesConfused) yield return null;
+        StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
+        if(showCaptions)
+        {   
+            tutorialText = droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)];
+            caption.SetText(tutorialText);
+            yield return twoSeconds;
+        }
+        else yield return halfSecond;
+        while(pauseTutorial) yield return null;
 
         abilityAllowed = true;
         key = InputControlPath.ToHumanReadableString(abilityAction.bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
@@ -1140,63 +1182,54 @@ public class PlayerController : MonoBehaviour
         switch(shipIndex)
         {
             case 5 or 6:
-                caption.SetText("Press " + key + " to activate ability\nHold " + key + " to rotate rings");
+                tutorialText = "Press " + key + " to activate ability\nHold " + key + " to rotate rings";
+                caption.SetText(tutorialText);
                 break;
             default:
-                caption.SetText("Press " + key + " to activate ability");
+                tutorialText = "Press " + key + " to activate ability";
+                caption.SetText(tutorialText);
                 break;
         }
         while(!abilityAction.WasPressedThisFrame()) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
-        activeDrones = 2;
-        for(int i = 0; i < 2; i++)
-        {
-            droneScripts[i].tutorialSpawn = true;
-            drones[i].SetActive(true);
-        }
-        caption.SetText("Thrust and roll to\nconfuse space pirates");
-        dronesConfused = false;
-        while(!dronesConfused) yield return null;
-        StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
-        if(showCaptions)
-        {   
-            caption.SetText(droneCaptions[UnityEngine.Random.Range(0, droneCaptionNumber)]);
-            yield return twoSeconds;
-        }
-        else yield return halfSecond;
-        while(kinematic) yield return null;
-
-        caption.SetText("Collect space debris for fuel");
+        tutorialText = "Collect space debris for fuel";
+        caption.SetText(tutorialText);
         debrisCollected = false;
         while(!debrisCollected) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         if(showCaptions) yield return oneSecond;
         else yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
-        caption.SetText("Find a wormhole to teleport");
+        tutorialText = "Find a wormhole to teleport";
+        caption.SetText(tutorialText);
         teleported = false;
         while(!teleported) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         if(showCaptions) yield return twoSeconds;
         else yield return halfSecond;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         canFinish = true;
-        caption.SetText("Controls and instructions\ncan be found in settings");
+        tutorialText = "Controls and instructions\ncan be found in settings";
+        caption.SetText(tutorialText);
         yield return threeSeconds;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
-        caption.SetText("Now, race to the\nfinal red checkpoint!");
+        tutorialText = "Now, race to the\nfinal red checkpoint!";
+        caption.SetText(tutorialText);
         yield return threeSeconds;
-        while(kinematic) yield return null;
+        while(pauseTutorial) yield return null;
 
         inTutorial = false;
-        caption.SetText("");
-        captionPriority = 0;
+        if(captionPriority <= 4)
+        {
+            caption.SetText("");
+            captionPriority = 0;
+        }
     }
 
     IEnumerator ChangeTextColor(TMP_Text text, WaitForSeconds wait, Color originalColor, Color newColor, int amount = 1)
@@ -1231,13 +1264,21 @@ public class PlayerController : MonoBehaviour
         effect.SetActive(false);
     }
 
-    IEnumerator SetCaption(string phrase, WaitForSeconds wait, int priority)
+    IEnumerator SetCaption(string newText, WaitForSeconds wait, int priority)
     {
         if(captionPriority > priority) yield break;
+        if(inTutorial) pauseTutorial = true;
         if(captionPriority != priority) captionPriority = priority;
-        caption.SetText(phrase);
+        if(caption.text != newText) caption.SetText(newText);
+
         yield return wait;
-        if(caption.text == phrase)
+        if(inTutorial)
+        {
+            captionPriority = 4;
+            caption.SetText(tutorialText);
+            pauseTutorial = false;
+        }
+        else
         {
             captionPriority = 0;
             caption.SetText("");
@@ -1338,8 +1379,16 @@ public class PlayerController : MonoBehaviour
             else if(showCaptions)
             {
                 float mag = rb.position.magnitude;
-                if(mag > distance) StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back", twoSeconds, 3));
-                else StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead", twoSeconds, 3));
+                if(mag > distance)
+                {
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back", twoSeconds, 3));
+                }
+                else
+                {
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead", twoSeconds, 3));
+                }
             }
             voiceSource.clip = wormholeVoice;
             voiceSource.Play();
@@ -1365,8 +1414,16 @@ public class PlayerController : MonoBehaviour
             activeDrones = newDrones;
             if(showCaptions)
             {
-                if(fromTeleport) StartCoroutine(SetCaption("Teleported past " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
-                else StartCoroutine(SetCaption("Passed " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
+                if(fromTeleport)
+                {
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("Teleported past " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
+                }
+                else
+                {
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("Passed " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
+                }
             }
         }
         else
@@ -1378,9 +1435,17 @@ public class PlayerController : MonoBehaviour
                     teleported = true;
                     if(showCaptions) caption.SetText("Teleported past\nCheckpoint 1");
                 }
-                else if(showCaptions) StartCoroutine(SetCaption("Teleported past\nCheckpoint 1", twoSeconds, 3));
+                else if(showCaptions)
+                {
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("Teleported past\nCheckpoint 1", twoSeconds, 3));
+                }
             }
-            else if(showCaptions) StartCoroutine(SetCaption("Passed Checkpoint 1", twoSeconds, 3));
+            else if(showCaptions)
+            {
+                if(settingCaption != null) StopCoroutine(settingCaption);
+                settingCaption = StartCoroutine(SetCaption("Passed Checkpoint 1", twoSeconds, 3));
+            }
         }
         StartCoroutine(ChangeTextColor(checkpointText, halfSecond, Color.white, green));
         audioSource.PlayOneShot(checkpointSound);
@@ -1403,14 +1468,30 @@ public class PlayerController : MonoBehaviour
                     teleported = true;
                     if(showCaptions) caption.SetText("Teleported back\nto Checkpoint 1");
                 }
-                else if(showCaptions) StartCoroutine(SetCaption("Teleported back\nto Checkpoint 1", twoSeconds, 3));
+                else if(showCaptions)
+                {
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("Teleported back\nto Checkpoint 1", twoSeconds, 3));
+                }
             }
-            else if(showCaptions) StartCoroutine(SetCaption("Returned to Checkpoint 1", twoSeconds, 3));
+            else if(showCaptions)
+            {
+                if(settingCaption != null) StopCoroutine(settingCaption);
+                settingCaption = StartCoroutine(SetCaption("Returned to Checkpoint 1", twoSeconds, 3));
+            }
         }
         else if(showCaptions)
         {
-            if(fromTeleport) StartCoroutine(SetCaption("Teleported back" + "\nto " + backCaptions[playerCheckpoint], twoSeconds, 3));
-            else StartCoroutine(SetCaption("Returned to " + backCaptions[playerCheckpoint], twoSeconds, 3));
+            if(fromTeleport)
+            {
+                if(settingCaption != null) StopCoroutine(settingCaption);
+                settingCaption = StartCoroutine(SetCaption("Teleported back" + "\nto " + backCaptions[playerCheckpoint], twoSeconds, 3));
+            }
+            else
+            {
+                if(settingCaption != null) StopCoroutine(settingCaption);
+                settingCaption = StartCoroutine(SetCaption("Returned to " + backCaptions[playerCheckpoint], twoSeconds, 3));
+            }
         }
         audioSource.PlayOneShot(errorSound);
         voiceSource.clip = backCheckpointVoice;
