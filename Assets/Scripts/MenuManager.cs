@@ -91,6 +91,7 @@ public class MenuManager : MonoBehaviour
     
     bool loaded;
     public static bool fromGame;
+    public static bool replay;
     public static bool tutorial;
     public static int playerNumber;
     public static int difficulty;
@@ -185,16 +186,22 @@ public class MenuManager : MonoBehaviour
         ChangeThruster();
         ChangeEffects();
 
+        intro.SetActive(false);
         instructions.SetActive(false);
         shipParent.SetActive(false);
-        gameSettings.enabled = customization.enabled = settings.enabled = resetMenu.enabled = mainMenu.enabled = false;
+        mainMenu.enabled = gameSettings.enabled = customization.enabled = settings.enabled = resetMenu.enabled = false;
         
         if(fromGame)
         {
-            intro.SetActive(false);
             mainMenu.enabled = true;
-            BackgroundMusic();
+            backgroundMusic.Play();
             fromGame = false;
+        }
+        else if(replay)
+        {
+            gameSettings.enabled = true;
+            backgroundMusic.Play();
+            replay = false;
         }
         else intro.SetActive(true);
 
@@ -208,15 +215,9 @@ public class MenuManager : MonoBehaviour
         if(shipParent.activeSelf) activeModel.Rotate(0, rotationSpeed * Time.deltaTime, 0);
     }
 
-    public void BackgroundMusic()
-    {
-        backgroundMusic.Play();
-    }
-
     public void Enter()
     {
         intro.SetActive(false);
-        BackgroundMusic();
         ShowMain();
         //instructions.SetActive(true);
         //MajorClick();
@@ -229,6 +230,7 @@ public class MenuManager : MonoBehaviour
         shipParent.SetActive(false);
         gameSettings.enabled = customization.enabled = settings.enabled = false;
         mainMenu.enabled = true;
+        if(!backgroundMusic.isPlaying) backgroundMusic.Play();
         MajorClick();
     }
 

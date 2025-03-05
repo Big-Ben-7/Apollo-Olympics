@@ -80,7 +80,6 @@ public class SpawnManager : MonoBehaviour
     public Vector3[] playerChunks;
     public List<int> playingPlayers = new List<int>();
     public static List<Transform>[] followers;
-    bool finished = true;
     PlayerController[] playerControllers;
 
     [Header("Customization")]
@@ -131,7 +130,10 @@ public class SpawnManager : MonoBehaviour
     public int seconds;
     public int minutes;
     public string timeString;
-    public bool paused = true;
+    bool initialized;
+    bool showTime;
+    bool paused;
+    bool finished;
 
     [Header("Menus")]
     [SerializeField] Canvas menu;
@@ -146,6 +148,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject[] settingWindows;
     int activePlayer;
     int activeSetting;
+    bool enabledFinish;
 
     [Header("Video/Audio Settings")]
     [SerializeField] Slider fovSlider;
@@ -175,6 +178,7 @@ public class SpawnManager : MonoBehaviour
     
     void Awake()
     {
+        InputSystem.actions.Disable();
         menu.enabled = raceFinish.enabled = loading.enabled = pauseButton.enabled = settings.enabled = false;
         pauseLabel.SetText("II");
         length = side * 2;
@@ -499,7 +503,7 @@ public class SpawnManager : MonoBehaviour
             yield return null;
         }
         yield return null;
-        finished = false;
+        initialized = true;
 
         //Audio setup
         allAudio = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
@@ -509,6 +513,7 @@ public class SpawnManager : MonoBehaviour
         backgroundNoise.Play();
         backgroundMusic.Play();
         int countdownTime = 3;
+        InputSystem.actions.Enable();
         while(countdownTime > 0)
         {
             audioSource.PlayOneShot(countdownSound);
@@ -518,16 +523,17 @@ public class SpawnManager : MonoBehaviour
         audioSource.PlayOneShot(goSound);
         audioSource.PlayOneShot(goVoices[UnityEngine.Random.Range(0, playerNumber)], voiceScale);
         yield return oneSecond;
-        InputSystem.actions.Disable();
-        InputSystem.actions.Enable();
-        paused = PlayerController.paused = false;
+        showTime = true;
     }
     void Update()
     {
+        if(!initialized) return;
+
         if(pauseAction.WasPressedThisFrame())
         {
             if(finished)
             {
+                if(!enabledFinish) enabledFinish = true;
                 raceFinish.enabled = !raceFinish.enabled;
                 audioSource.PlayOneShot(pauseSound);
                 return;
@@ -536,7 +542,7 @@ public class SpawnManager : MonoBehaviour
             else Resume();
         }
 
-        if(paused || finished) return;
+        if(paused || !showTime || finished) return;
         //Update time
         milliseconds += Time.deltaTime * 1000;
         if(milliseconds >= 1000)
@@ -556,6 +562,7 @@ public class SpawnManager : MonoBehaviour
     {
         if(finished)
         {
+            if(!enabledFinish) enabledFinish = true;
             raceFinish.enabled = !raceFinish.enabled;
             audioSource.PlayOneShot(pauseSound);
             return;
@@ -588,7 +595,8 @@ public class SpawnManager : MonoBehaviour
     public void RacePlay()
     {
         audioSource.PlayOneShot(pauseSound);
-        StartCoroutine(LoadScene(1));
+        MenuManager.replay = true;
+        StartCoroutine(LoadScene(0));
     }
 
     public void Exit()
@@ -1233,7 +1241,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator RaceFinish()
     {
         yield return fiveSeconds;
-        if(raceFinish.enabled) yield break;
+        if(enabledFinish) yield break;
         raceFinish.enabled = true;
         audioSource.PlayOneShot(pauseSound);
     }
@@ -1481,7 +1489,7 @@ public class SpawnManager : MonoBehaviour
 
     public void ResetSettings()
     {
-        finished = true;
+        initialized = false;
 
         fovSlider.value = 40;
         depthSlider.value = 7000;
@@ -1493,7 +1501,7 @@ public class SpawnManager : MonoBehaviour
         thrusterSlider.value = 0.2f;
         effectsSlider.value = 0.3f;
 
-        finished = false;
+        initialized = true;
         MinorClick();
     }
 
@@ -1509,6 +1517,6 @@ public class SpawnManager : MonoBehaviour
 
     public void MinorClick()
     {
-        if(!finished) audioSource.PlayOneShot(countdownSound);
+        if(initialized) audioSource.PlayOneShot(countdownSound);
     }
 }

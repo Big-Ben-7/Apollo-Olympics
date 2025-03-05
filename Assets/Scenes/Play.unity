@@ -3786,7 +3786,7 @@ MonoBehaviour:
   - 0.9
   - 0.95
   - 1
-  healthLossDivisors: 5802000084030000b0040000dc05000008070000
+  healthLossDivisors: 20030000e8030000b00400007805000040060000
   speedLossDivisors:
   - 5
   - 4
@@ -3863,7 +3863,6 @@ MonoBehaviour:
   seconds: 0
   minutes: 0
   timeString: 
-  paused: 1
   menu: {fileID: 1265169705}
   raceFinish: {fileID: 1671230815}
   finishTitle: {fileID: 2134206434}

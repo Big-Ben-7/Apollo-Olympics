@@ -186,7 +186,7 @@ public class PlayerController : MonoBehaviour
     public static bool tutorial;
     public static bool showCaptions;
     public static bool showArrow;
-    public static bool paused = true;
+    public static bool paused;
     public bool kinematic = true;
     bool pauseTutorial;
     string tutorialText;
