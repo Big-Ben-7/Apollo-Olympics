@@ -617,7 +617,7 @@ public class PlayerController : MonoBehaviour
                 if(fuelText.text != "0.00")
                 {
                     fuelText.SetText("0.00");
-                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    if(settingCaption != null && captionPriority <= 6) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption(noFuelCaptions[UnityEngine.Random.Range(0, noFuelNumber)], threeSeconds, 6));
                     StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 3));
                     audioSource.PlayOneShot(noFuelSound);
@@ -636,7 +636,7 @@ public class PlayerController : MonoBehaviour
                     fuelLabel.color = fuelText.color = Color.red;
                     if(showCaptions)
                     {
-                        if(settingCaption != null) StopCoroutine(settingCaption);
+                        if(settingCaption != null && captionPriority <= 5) StopCoroutine(settingCaption);
                         settingCaption = StartCoroutine(SetCaption(fuelCaptions[UnityEngine.Random.Range(0, fuelNumber)], threeSeconds, 5));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
@@ -834,7 +834,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if(showCaptions)
                 {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    if(settingCaption != null && captionPriority <= 2) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
                 }
             }
@@ -849,7 +849,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if(showCaptions)
                 {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    if(settingCaption != null && captionPriority <= 2) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
                 }
             }
@@ -969,7 +969,7 @@ public class PlayerController : MonoBehaviour
                     healthText.color = healthLabel.color = Color.red;
                     if(showCaptions)
                     {
-                        if(settingCaption != null) StopCoroutine(settingCaption);
+                        if(settingCaption != null && captionPriority <= 5) StopCoroutine(settingCaption);
                         settingCaption = StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], threeSeconds, 5));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
@@ -1381,12 +1381,12 @@ public class PlayerController : MonoBehaviour
                 float mag = rb.position.magnitude;
                 if(mag > distance)
                 {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back", twoSeconds, 3));
                 }
                 else
                 {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead", twoSeconds, 3));
                 }
             }
@@ -1416,12 +1416,12 @@ public class PlayerController : MonoBehaviour
             {
                 if(fromTeleport)
                 {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Teleported past " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
                 }
                 else
                 {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Passed " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
                 }
             }
@@ -1437,13 +1437,13 @@ public class PlayerController : MonoBehaviour
                 }
                 else if(showCaptions)
                 {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Teleported past\nCheckpoint 1", twoSeconds, 3));
                 }
             }
             else if(showCaptions)
             {
-                if(settingCaption != null) StopCoroutine(settingCaption);
+                if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                 settingCaption = StartCoroutine(SetCaption("Passed Checkpoint 1", twoSeconds, 3));
             }
         }
@@ -1470,13 +1470,13 @@ public class PlayerController : MonoBehaviour
                 }
                 else if(showCaptions)
                 {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Teleported back\nto Checkpoint 1", twoSeconds, 3));
                 }
             }
             else if(showCaptions)
             {
-                if(settingCaption != null) StopCoroutine(settingCaption);
+                if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                 settingCaption = StartCoroutine(SetCaption("Returned to Checkpoint 1", twoSeconds, 3));
             }
         }
@@ -1484,12 +1484,12 @@ public class PlayerController : MonoBehaviour
         {
             if(fromTeleport)
             {
-                if(settingCaption != null) StopCoroutine(settingCaption);
+                if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                 settingCaption = StartCoroutine(SetCaption("Teleported back" + "\nto " + backCaptions[playerCheckpoint], twoSeconds, 3));
             }
             else
             {
-                if(settingCaption != null) StopCoroutine(settingCaption);
+                if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
                 settingCaption = StartCoroutine(SetCaption("Returned to " + backCaptions[playerCheckpoint], twoSeconds, 3));
             }
         }
