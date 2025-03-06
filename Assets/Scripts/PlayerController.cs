@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour
     bool pauseTutorial;
     string tutorialText;
     int captionPriority = 0;
-    bool inTutorial;
+    public bool inTutorial;
     bool canFinish = true;
     bool rotAllowed = true;
     bool thrustAllowed = true;
@@ -457,8 +457,8 @@ public class PlayerController : MonoBehaviour
         distanceText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
         speedText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
         timeText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
-        caption = farCanvas.GetChild(11).GetComponent<TMP_Text>();
-        finishText = farCanvas.GetChild(13).GetComponent<TMP_Text>();
+        spawnManager.captions[playerIndex] = caption = farCanvas.GetChild(11).GetComponent<TMP_Text>();
+        spawnManager.finishTexts[playerIndex] = finishText = farCanvas.GetChild(13).GetComponent<TMP_Text>();
         finishCaption = farCanvas.GetChild(14).gameObject;
         deathText = farCanvas.GetChild(15).GetComponent<TMP_Text>();
         countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
@@ -476,7 +476,6 @@ public class PlayerController : MonoBehaviour
         speedText.SetText("Speed: 0.00");
         caption.SetText("");
         finishText.SetText("");
-        spawnManager.finishTexts[playerIndex] = finishText;
         finishCaption.SetActive(false);
         deathText.SetText("");
         countdownText.SetText("");
@@ -617,8 +616,11 @@ public class PlayerController : MonoBehaviour
                 if(fuelText.text != "0.00")
                 {
                     fuelText.SetText("0.00");
-                    if(settingCaption != null && captionPriority <= 6) StopCoroutine(settingCaption);
-                    settingCaption = StartCoroutine(SetCaption(noFuelCaptions[UnityEngine.Random.Range(0, noFuelNumber)], threeSeconds, 6));
+                    if(captionPriority <= 6)
+                    {
+                        if(settingCaption != null) StopCoroutine(settingCaption);
+                        settingCaption = StartCoroutine(SetCaption(noFuelCaptions[UnityEngine.Random.Range(0, noFuelNumber)], threeSeconds, 6));
+                    }
                     StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 3));
                     audioSource.PlayOneShot(noFuelSound);
                     voiceSource.clip = noFuelVoice;
@@ -634,9 +636,9 @@ public class PlayerController : MonoBehaviour
                 if(fuelText.color != Color.red)
                 {
                     fuelLabel.color = fuelText.color = Color.red;
-                    if(showCaptions)
+                    if(showCaptions && captionPriority <= 5)
                     {
-                        if(settingCaption != null && captionPriority <= 5) StopCoroutine(settingCaption);
+                        if(settingCaption != null) StopCoroutine(settingCaption);
                         settingCaption = StartCoroutine(SetCaption(fuelCaptions[UnityEngine.Random.Range(0, fuelNumber)], threeSeconds, 5));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
@@ -731,11 +733,11 @@ public class PlayerController : MonoBehaviour
         }
 
         //Show position
-        Vector3 displayPos = position / 750;
+        Vector3 displayPos = position / 800;
         posText.SetText("Pos: " + displayPos.x.ToString("0.0") + "," + displayPos.y.ToString("0.0") + "," + displayPos.z.ToString("0.0"));
 
         //Show distance from origin
-        distanceText.SetText("Distance: " + (posMag / 750).ToString("0.0"));
+        distanceText.SetText("Distance: " + (posMag / 800).ToString("0.0"));
 
         //Show speed in km/h, multiply by 2.23694 for mph
         float shipSpeed = rb.velocity.magnitude;
@@ -830,11 +832,15 @@ public class PlayerController : MonoBehaviour
                 if(!debrisCollected)
                 {
                     debrisCollected = true;
-                    if(showCaptions) caption.SetText("+10 Fuel");
+                    if(showCaptions)
+                    {
+                        tutorialText = "+10 Fuel";
+                        caption.SetText(tutorialText);
+                    }
                 }
-                else if(showCaptions)
+                else if(showCaptions && captionPriority <= 2)
                 {
-                    if(settingCaption != null && captionPriority <= 2) StopCoroutine(settingCaption);
+                    if(settingCaption != null) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
                 }
             }
@@ -845,11 +851,15 @@ public class PlayerController : MonoBehaviour
                 if(!debrisCollected)
                 {
                     debrisCollected = true;
-                    if(showCaptions) caption.SetText("+5 Fuel");
+                    if(showCaptions)
+                    {
+                        tutorialText = "+5 Fuel";
+                        caption.SetText(tutorialText);
+                    }
                 }
-                else if(showCaptions)
+                else if(showCaptions && captionPriority <= 2)
                 {
-                    if(settingCaption != null && captionPriority <= 2) StopCoroutine(settingCaption);
+                    if(settingCaption != null) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
                 }
             }
@@ -967,9 +977,9 @@ public class PlayerController : MonoBehaviour
                 if(healthText.color != Color.red)
                 {
                     healthText.color = healthLabel.color = Color.red;
-                    if(showCaptions)
+                    if(showCaptions && captionPriority <= 5)
                     {
-                        if(settingCaption != null && captionPriority <= 5) StopCoroutine(settingCaption);
+                        if(settingCaption != null) StopCoroutine(settingCaption);
                         settingCaption = StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], threeSeconds, 5));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
@@ -1266,7 +1276,6 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator SetCaption(string newText, WaitForSeconds wait, int priority)
     {
-        if(captionPriority > priority) yield break;
         if(inTutorial) pauseTutorial = true;
         if(captionPriority != priority) captionPriority = priority;
         if(caption.text != newText) caption.SetText(newText);
@@ -1313,11 +1322,11 @@ public class PlayerController : MonoBehaviour
                 if(direction < forwardPercent)
                 {
                     AddCheckpoint(playerCheckpoint, true);
-                    distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
+                    distance = UnityEngine.Random.Range(checkpointDistances[0] + 200, checkpointDistances[1] - 200);
                     break;
                 }
                 sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
+                distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 200);
                 break;
 
             case 1:
@@ -1325,17 +1334,17 @@ public class PlayerController : MonoBehaviour
                 {
                     playerCheckpoint --;
                     RemoveCheckpoint(playerCheckpoint, true);
-                    distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 300);
+                    distance = UnityEngine.Random.Range(0, checkpointDistances[0] - 200);
                     break;
                 }
                 else if(!tutorial && direction < forwardPercent + backPercent)
                 {
                     AddCheckpoint(playerCheckpoint, true);
-                    distance = UnityEngine.Random.Range(checkpointDistances[1] + 300, checkpointDistances[2] - 300);
+                    distance = UnityEngine.Random.Range(checkpointDistances[1] + 200, checkpointDistances[2] - 200);
                     break;
                 }
                 sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(checkpointDistances[0] + 300, checkpointDistances[1] - 300);
+                distance = UnityEngine.Random.Range(checkpointDistances[0] + 200, checkpointDistances[1] - 200);
                 break;
             
             case 8:
@@ -1345,7 +1354,7 @@ public class PlayerController : MonoBehaviour
                     RemoveCheckpoint(playerCheckpoint, true);
                 }
                 else sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                 break;
 
             default:
@@ -1360,7 +1369,7 @@ public class PlayerController : MonoBehaviour
                     RemoveCheckpoint(playerCheckpoint, true);
                 }
                 else sameCheckpoint = true;
-                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 300, checkpointDistances[playerCheckpoint] - 300);
+                distance = UnityEngine.Random.Range(checkpointDistances[playerCheckpoint - 1] + 200, checkpointDistances[playerCheckpoint] - 200);
                 break;
         }
 
@@ -1372,22 +1381,23 @@ public class PlayerController : MonoBehaviour
                 if(showCaptions)
                 {
                     float mag = rb.position.magnitude;
-                    if(mag > distance) caption.SetText("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back");
-                    else caption.SetText("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead");
+                    if(mag > distance) tutorialText = "Teleported\n" + ((mag - distance) / 800).ToString("0.0") + " units back";
+                    else tutorialText = "Teleported\n" + ((distance - mag) / 800).ToString("0.0") + " units ahead";
+                    caption.SetText(tutorialText);
                 }
             }
-            else if(showCaptions)
+            else if(showCaptions && captionPriority <= 3)
             {
                 float mag = rb.position.magnitude;
                 if(mag > distance)
                 {
-                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
-                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 1000).ToString("0.0") + " units back", twoSeconds, 3));
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 800).ToString("0.0") + " units back", twoSeconds, 3));
                 }
                 else
                 {
-                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
-                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 1000).ToString("0.0") + " units ahead", twoSeconds, 3));
+                    if(settingCaption != null) StopCoroutine(settingCaption);
+                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 800).ToString("0.0") + " units ahead", twoSeconds, 3));
                 }
             }
             voiceSource.clip = wormholeVoice;
@@ -1412,16 +1422,16 @@ public class PlayerController : MonoBehaviour
             int newDrones = checkpointDrones[playerCheckpoint];
             for(int i = activeDrones; i < newDrones; i++) drones[i].SetActive(true);
             activeDrones = newDrones;
-            if(showCaptions)
+            if(showCaptions && captionPriority <= 3)
             {
                 if(fromTeleport)
                 {
-                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
+                    if(settingCaption != null) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Teleported past " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
                 }
                 else
                 {
-                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
+                    if(settingCaption != null) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Passed " + checkpointCaptions[playerCheckpoint - 1], twoSeconds, 3));
                 }
             }
@@ -1433,17 +1443,21 @@ public class PlayerController : MonoBehaviour
                 if(!teleported)
                 {
                     teleported = true;
-                    if(showCaptions) caption.SetText("Teleported past\nCheckpoint 1");
+                    if(showCaptions)
+                    {
+                        tutorialText = "Teleported past\nCheckpoint 1";
+                        caption.SetText(tutorialText);
+                    }
                 }
-                else if(showCaptions)
+                else if(showCaptions && captionPriority <= 3)
                 {
-                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
+                    if(settingCaption != null) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Teleported past\nCheckpoint 1", twoSeconds, 3));
                 }
             }
-            else if(showCaptions)
+            else if(showCaptions && captionPriority <= 3)
             {
-                if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
+                if(settingCaption != null) StopCoroutine(settingCaption);
                 settingCaption = StartCoroutine(SetCaption("Passed Checkpoint 1", twoSeconds, 3));
             }
         }
@@ -1466,30 +1480,34 @@ public class PlayerController : MonoBehaviour
                 if(!teleported)
                 {
                     teleported = true;
-                    if(showCaptions) caption.SetText("Teleported back\nto Checkpoint 1");
+                    if(showCaptions)
+                    {
+                        tutorialText = "Teleported back\nto Checkpoint 1";
+                        caption.SetText(tutorialText);
+                    }
                 }
-                else if(showCaptions)
+                else if(showCaptions && captionPriority <= 3)
                 {
-                    if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
+                    if(settingCaption != null) StopCoroutine(settingCaption);
                     settingCaption = StartCoroutine(SetCaption("Teleported back\nto Checkpoint 1", twoSeconds, 3));
                 }
             }
-            else if(showCaptions)
+            else if(showCaptions && captionPriority <= 3)
             {
-                if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
+                if(settingCaption != null) StopCoroutine(settingCaption);
                 settingCaption = StartCoroutine(SetCaption("Returned to Checkpoint 1", twoSeconds, 3));
             }
         }
-        else if(showCaptions)
+        else if(showCaptions && captionPriority <= 3)
         {
             if(fromTeleport)
             {
-                if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
+                if(settingCaption != null) StopCoroutine(settingCaption);
                 settingCaption = StartCoroutine(SetCaption("Teleported back" + "\nto " + backCaptions[playerCheckpoint], twoSeconds, 3));
             }
             else
             {
-                if(settingCaption != null && captionPriority <= 3) StopCoroutine(settingCaption);
+                if(settingCaption != null) StopCoroutine(settingCaption);
                 settingCaption = StartCoroutine(SetCaption("Returned to " + backCaptions[playerCheckpoint], twoSeconds, 3));
             }
         }

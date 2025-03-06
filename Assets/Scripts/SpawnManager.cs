@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class SpawnManager : MonoBehaviour
 {
     [Header("Sections")]
-    [SerializeField] int side = 3500;
+    [SerializeField] int side = 4000;
     int length;
     GameObject[] sectionPool;
     [SerializeField] Transform sectionParent;
@@ -41,6 +41,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject wormholePrefab;
     //Asteroid number must be divisible by 20
     [SerializeField] int[] asteroidNumbers = new int[] {20, 40, 60, 80};
+    [SerializeField] int[] baseDisableNumbers = new int[] {8, 16, 24, 32};
     [SerializeField] int tutorialAsteroids = 10;
     int asteroidNumber;
     [SerializeField] int minAsteroidScale = 250;
@@ -124,6 +125,7 @@ public class SpawnManager : MonoBehaviour
     WaitForSeconds oneAndHalfSeconds = new WaitForSeconds(1.5f);
     WaitForSeconds fiveSeconds = new WaitForSeconds(5);
     WaitForSecondsRealtime oneRealSecond = new WaitForSecondsRealtime(1);
+    public TMP_Text[] captions;
     public TMP_Text[] finishTexts;
     public GameObject[] confettis;
     public float milliseconds;
@@ -239,7 +241,7 @@ public class SpawnManager : MonoBehaviour
 
             //Stats for each checkpoint
             checkpointCount = checkpointDistances.Length;
-            baseDisableNumber = asteroidNumber * 2 / 5;
+            baseDisableNumber = baseDisableNumbers[difficulty];
             disableByCheckpoint = new int[checkpointCount];
             int increment = baseDisableNumber / (checkpointCount - 1);
             for(int i = 0; i < checkpointCount; i++)
@@ -403,6 +405,7 @@ public class SpawnManager : MonoBehaviour
         playerCheckpoints = new int[playerNumber];
         followers = new List<Transform>[playerNumber];
         Transform[] cameraObjects = new Transform[playerNumber];
+        captions = new TMP_Text[playerNumber];
         finishTexts = new TMP_Text[playerNumber];
         playerControllers = new PlayerController[playerNumber];
         transposers = new CinemachineFramingTransposer[playerNumber];
@@ -410,7 +413,7 @@ public class SpawnManager : MonoBehaviour
         effectSources = new AudioSource[playerNumber];
         voiceSources = new AudioSource[playerNumber];
 
-        Vector3[] startPos = new Vector3[] {new Vector3(0, 0, 300), new Vector3(0, 0, -300), new Vector3(300, 0, 0), new Vector3(-300, 0, 0)};
+        Vector3[] startPos = new Vector3[] {new Vector3(0, 0, 200), new Vector3(0, 0, -200), new Vector3(200, 0, 0), new Vector3(-200, 0, 0)};
         Quaternion[] startRots = new Quaternion[] {Quaternion.identity, Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, -90, 0)};
         Vector2 scaleVector;
         Vector2[] cameraRects;
@@ -630,9 +633,9 @@ public class SpawnManager : MonoBehaviour
                 for(int i = 0; i < asteroidNumber; i++)
                 {
                     //Random position, avoid center
-                    int randomX = UnityEngine.Random.Range(600, side);
-                    int randomY = UnityEngine.Random.Range(600, side);
-                    int randomZ = UnityEngine.Random.Range(600, side);
+                    int randomX = UnityEngine.Random.Range(400, side);
+                    int randomY = UnityEngine.Random.Range(400, side);
+                    int randomZ = UnityEngine.Random.Range(400, side);
                     if(UnityEngine.Random.Range(0, 2) == 0)
                     {
                         randomX *= -1;
@@ -671,9 +674,9 @@ public class SpawnManager : MonoBehaviour
                 for(int i = asteroidNumber; i < interactableNumber; i++)
                 {
                     //Random position, avoid center
-                    int randomX = UnityEngine.Random.Range(600, side);
-                    int randomY = UnityEngine.Random.Range(600, side);
-                    int randomZ = UnityEngine.Random.Range(600, side);
+                    int randomX = UnityEngine.Random.Range(400, side);
+                    int randomY = UnityEngine.Random.Range(400, side);
+                    int randomZ = UnityEngine.Random.Range(400, side);
                     if(UnityEngine.Random.Range(0, 2) == 0)
                     {
                         randomX *= -1;
@@ -1455,7 +1458,16 @@ public class SpawnManager : MonoBehaviour
     {
         bool showCaptions = PlayerController.showCaptions = Drone.showCaptions = captionToggle.isOn;
         if(showCaptions) PlayerPrefs.SetInt("ShowCaptions", 1);
-        else PlayerPrefs.SetInt("ShowCaptions", 0);
+        else
+        {
+            foreach(int i in playingPlayers)
+            {
+                if(playerControllers[i].inTutorial) continue;
+                TMP_Text caption = captions[i];
+                if(caption.text != "") caption.SetText("");
+            }
+            PlayerPrefs.SetInt("ShowCaptions", 0);
+        }
         MinorClick();
     }
 
@@ -1492,8 +1504,8 @@ public class SpawnManager : MonoBehaviour
         initialized = false;
 
         fovSlider.value = 40;
-        depthSlider.value = 7000;
-        dampingSlider.value = 0.15f;
+        depthSlider.value = 8000;
+        dampingSlider.value = 0.1f;
         musicSlider.value = 0.2f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;

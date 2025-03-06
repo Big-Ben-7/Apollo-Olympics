@@ -163,8 +163,8 @@ public class MenuManager : MonoBehaviour
 
         //Get settings variables
         fovSlider.value = PlayerPrefs.GetFloat("Fov", 40);
-        depthSlider.value = PlayerPrefs.GetFloat("Depth", 7000);
-        dampingSlider.value = PlayerPrefs.GetFloat("Damping", 0.15f);
+        depthSlider.value = PlayerPrefs.GetFloat("Depth", 8000);
+        dampingSlider.value = PlayerPrefs.GetFloat("Damping", 0.1f);
         musicSlider.value = PlayerPrefs.GetFloat("Music", 0.2f);
         if(PlayerPrefs.GetInt("ShowCaptions", 1) == 0) captionToggle.isOn = false;
         else captionToggle.isOn = true;
@@ -591,8 +591,8 @@ public class MenuManager : MonoBehaviour
         NextGameSetting(0);
 
         fovSlider.value = 40;
-        depthSlider.value = 7000;
-        dampingSlider.value = 0.15f;
+        depthSlider.value = 8000;
+        dampingSlider.value = 0.1f;
         musicSlider.value = 0.2f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
@@ -613,8 +613,8 @@ public class MenuManager : MonoBehaviour
         loaded = false;
 
         fovSlider.value = 40;
-        depthSlider.value = 7000;
-        dampingSlider.value = 0.15f;
+        depthSlider.value = 8000;
+        dampingSlider.value = 0.1f;
         musicSlider.value = 0.2f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;

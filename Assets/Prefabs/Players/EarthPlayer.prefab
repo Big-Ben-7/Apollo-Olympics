@@ -412,6 +412,7 @@ MonoBehaviour:
   shipIndex: 0
   stereoPan: 0
   kinematic: 1
+  inTutorial: 0
   dronesConfused: 1
 --- !u!82 &283605144193943937
 AudioSource:
