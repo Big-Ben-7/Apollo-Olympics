@@ -152,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
     //UI
     public Transform cameraStats;
+    public Transform cam;
     TMP_Text healthLabel;
     Image healthBar;
     TMP_Text healthText;
@@ -775,11 +776,16 @@ public class PlayerController : MonoBehaviour
     {
         if(paused || kinematic) return;
         droneGroup.position = myTransform.position;
-
-        float fillAmount = (float) Math.Round(fuel / 100, 3);
-        if(fuelBar.fillAmount != fillAmount) fuelBar.fillAmount = fillAmount;
-
         if(showArrow) arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, myTransform.up);
+        
+        float fillAmount = (float) Math.Round(fuel / 100, 3);
+        float currentFill = fuelBar.fillAmount;
+        if(currentFill != fillAmount) fuelBar.fillAmount = Mathf.Lerp(currentFill, fillAmount, Time.deltaTime * 10);
+
+        Vector3 camPos = cam.position;
+        cam.position = new Vector3(Mathf.Round(camPos.x), Mathf.Round(camPos.y), Mathf.Round(camPos.y));
+        Vector3 camRot = cam.rotation.eulerAngles;
+        cam.rotation = Quaternion.Euler(new Vector3(Mathf.Round(camRot.x), Mathf.Round(camRot.y), Mathf.Round(camRot.y)));
     }
 
     void FixedUpdate()
@@ -989,9 +995,9 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(ChangeTextColor(healthLabel, fifthSecond, Color.white, Color.red, 2));
                 break;
         }
-        health = (float) Math.Round(health, 1);
+        health = (float) Math.Round(health, 2);
         healthText.SetText(health.ToString("0.00"));
-        healthBar.fillAmount = health / 100;
+        healthBar.fillAmount = (float) Math.Round(health / 100 , 3);
     }
 
     IEnumerator Respawn()
@@ -1578,15 +1584,15 @@ public class PlayerController : MonoBehaviour
             if(health + abilityStrength < 100)
             {
                 health += abilityStrength;
-                health = (float) Math.Round(health, 1);
+                health = (float) Math.Round(health, 2);
                 healthText.SetText(health.ToString("0.00"));
-                healthBar.fillAmount = health / 100;
+                healthBar.fillAmount = (float) Math.Round(health / 100 , 3);
             }
             else
             {
                 health = 100;
                 healthText.SetText("100.00");
-                healthBar.fillAmount = 1;
+                if(healthBar.fillAmount != 1) healthBar.fillAmount = 1;
             }
             yield return oneSecond;
             currentActivation --;

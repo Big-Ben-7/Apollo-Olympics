@@ -474,6 +474,7 @@ public class SpawnManager : MonoBehaviour
             playerController.playerIndex = i;
             playerController.shipIndex = playerShip;
             playerController.cameraStats = cameraObject.GetChild(1);
+            playerController.cam = viewCam.transform;
             playerController.startPos = pos;
             playerController.normalizedStartPos = pos.normalized;
             playerController.startRot = rot;
