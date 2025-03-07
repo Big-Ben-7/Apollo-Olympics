@@ -80,7 +80,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] int[] playerShips;
     public Vector3[] playerChunks;
     public List<int> playingPlayers = new List<int>();
-    public static List<Transform>[] followers;
+    public static List<GameObject>[] followers;
     PlayerController[] playerControllers;
 
     [Header("Customization")]
@@ -97,7 +97,6 @@ public class SpawnManager : MonoBehaviour
     [Header("Camera/UI/Audio")]
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] LayerMask[] cameraMasks;
-    [SerializeField] LayerMask[] finishMasks;
     [SerializeField] Vector3[] lookTargetPos;
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
@@ -203,7 +202,7 @@ public class SpawnManager : MonoBehaviour
         musicSlider.value = MenuManager.music;
         cursorHide = cursorToggle.isOn = MenuManager.cursorHide;
         if(cursorHide) Cursor.visible = false;
-        CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(0).GetChild(0).GetComponent<CinemachineVirtualCamera>();
+        CinemachineVirtualCamera view = cameraPrefab.transform.GetChild(1).GetComponent<CinemachineVirtualCamera>();
         view.m_Lens.FieldOfView = fovSlider.value = MenuManager.fov;
         view.m_Lens.FarClipPlane = depthSlider.value = MenuManager.depth;
         dampingSlider.value = MenuManager.damping;
@@ -404,8 +403,7 @@ public class SpawnManager : MonoBehaviour
         arrows = new GameObject[playerNumber];
         playerChunks = new Vector3[playerNumber];
         playerCheckpoints = new int[playerNumber];
-        followers = new List<Transform>[playerNumber];
-        Transform[] cameraObjects = new Transform[playerNumber];
+        followers = new List<GameObject>[playerNumber];
         captions = new TMP_Text[playerNumber];
         finishTexts = new TMP_Text[playerNumber];
         playerControllers = new PlayerController[playerNumber];
@@ -453,19 +451,22 @@ public class SpawnManager : MonoBehaviour
 
         for(int i = 0; i < playerNumber; i++)
         {
-            followers[i] = new List<Transform>();
+            followers[i] = new List<GameObject>();
             playerChunks[i] = Vector3.zero;
             playerCheckpoints[i] = 0;
             playingPlayers.Add(i);
-            Transform cameraObject = cameraObjects[i] = Instantiate(cameraPrefab).transform;
-            Transform viewObject = cameraObject.GetChild(0);
-            Camera view = views[i] = viewObject.GetComponent<Camera>();
-            GameObject thirdPersonObject = viewObject.GetChild(0).gameObject;
+            Transform cameraObject = Instantiate(cameraPrefab).transform;
+            Camera view = views[i] = cameraObject.GetChild(0).GetComponent<Camera>();
+            GameObject thirdPersonObject = cameraObject.GetChild(1).gameObject;
             CinemachineVirtualCamera viewCam = thirdPersons[i] = thirdPersonObject.GetComponent<CinemachineVirtualCamera>();
             view.cullingMask = cameraMasks[i];
+            Transform uiCamObject = cameraObject.GetChild(3);
+            Camera uiCam = uiCamObject.GetComponent<Camera>();
+            view.rect = uiCam.rect = new Rect(cameraRects[i], scaleVector);
 
             Vector3 pos = startPos[i];
             Quaternion rot = startRots[i];
+            uiCamObject.rotation = startRots[i];
             int playerShip = playerShips[i];
             GameObject player = Instantiate(possiblePlayers[playerShip], pos, rot);
             PlayerController playerController = playerControllers[i] = player.GetComponent<PlayerController>();
@@ -473,8 +474,7 @@ public class SpawnManager : MonoBehaviour
             playerController.playerNumberString = playerStrings[i];
             playerController.playerIndex = i;
             playerController.shipIndex = playerShip;
-            playerController.cameraStats = cameraObject.GetChild(1);
-            playerController.cam = viewCam.transform;
+            playerController.uiCanvas = cameraObject.GetChild(4);
             playerController.startPos = pos;
             playerController.normalizedStartPos = pos.normalized;
             playerController.startRot = rot;
@@ -493,7 +493,6 @@ public class SpawnManager : MonoBehaviour
             CinemachineSameAsFollowTarget camAim = camAims[i] = viewCam.GetCinemachineComponent<CinemachineSameAsFollowTarget>();
             transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = damping;
             camAim.m_Damping = damping * 2;
-            view.rect = new Rect(cameraRects[i], scaleVector);
         }
 
         GetComponent<AudioListener>().enabled = true;
@@ -1178,10 +1177,9 @@ public class SpawnManager : MonoBehaviour
         {
             DestroySection(i);
         }
-        List<Transform> playerFollowers = followers[playerIndex];
-        foreach(Transform playerFollower in playerFollowers) playerFollower.gameObject.SetActive(false);
-        views[playerIndex].cullingMask = finishMasks[playerIndex];
-        thirdPersons[playerIndex].m_Lens.FieldOfView = 35;
+        List<GameObject> playerFollowers = followers[playerIndex];
+        foreach(GameObject playerFollower in playerFollowers) playerFollower.SetActive(false);
+        views[playerIndex].cullingMask = 0;
         int playersLeft = playingPlayers.Count;
         if(tutorial) finishTexts[playerIndex].SetText("Tutorial Complete");
         else

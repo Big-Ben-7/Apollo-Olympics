@@ -151,8 +151,7 @@ public class PlayerController : MonoBehaviour
     GameObject[] drones;
 
     //UI
-    public Transform cameraStats;
-    public Transform cam;
+    public Transform uiCanvas;
     TMP_Text healthLabel;
     Image healthBar;
     TMP_Text healthText;
@@ -350,8 +349,7 @@ public class PlayerController : MonoBehaviour
         thrustSpeed = initialThrustSpeed;
         decSpeed = thrustSpeed;
 
-        Transform farCanvas = cameraStats.GetChild(0);
-        Transform shipParent = farCanvas.GetChild(12);
+        Transform shipParent = uiCanvas.GetChild(12);
         switch(shipIndex)
         {
             case 0:
@@ -369,7 +367,7 @@ public class PlayerController : MonoBehaviour
                 Transform graphic = aura.transform.GetChild(0);
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
-                SpawnManager.followers[playerIndex].Add(aura.transform);
+                SpawnManager.followers[playerIndex].Add(aura);
                 finishShip = shipParent.GetChild(1).gameObject;
                 loopingAura = false;
                 break;
@@ -395,7 +393,7 @@ public class PlayerController : MonoBehaviour
                 ring.audioSource = audioSource;
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
-                SpawnManager.followers[playerIndex].Add(aura.transform);
+                SpawnManager.followers[playerIndex].Add(aura);
                 finishShip = shipParent.GetChild(5).gameObject;
                 ringRotation = new Vector3(abilityStrength2, 0, 0);
                 ringAbility = true;
@@ -409,7 +407,7 @@ public class PlayerController : MonoBehaviour
                 ring.audioSource = audioSource;
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
-                SpawnManager.followers[playerIndex].Add(aura.transform);
+                SpawnManager.followers[playerIndex].Add(aura);
                 finishShip = shipParent.GetChild(6).gameObject;
                 ringRotation = new Vector3(0, abilityStrength2, 0);
                 ringAbility = true;
@@ -442,7 +440,7 @@ public class PlayerController : MonoBehaviour
             
         }
         droneGroup.gameObject.SetActive(true);
-        SpawnManager.followers[playerIndex].Add(droneGroup);
+        SpawnManager.followers[playerIndex].Add(droneGroup.gameObject);
 
         //Aura setup
         if(loopingAura)
@@ -453,28 +451,28 @@ public class PlayerController : MonoBehaviour
         }
 
         //UI setup
-        finishBackground = farCanvas.GetChild(0).gameObject;
-        Transform healthParent = farCanvas.GetChild(1);
+        finishBackground = uiCanvas.GetChild(0).gameObject;
+        Transform healthParent = uiCanvas.GetChild(1);
             healthLabel = healthParent.GetChild(0).GetComponent<TMP_Text>();
             healthBar = healthParent.GetChild(3).GetComponent<Image>();
             healthText = healthParent.GetChild(4).GetComponent<TMP_Text>();
-        Transform fuelParent = farCanvas.GetChild(2);
+        Transform fuelParent = uiCanvas.GetChild(2);
             fuelLabel = fuelParent.GetChild(0).GetComponent<TMP_Text>();
             fuelBar = fuelParent.GetChild(3).GetComponent<Image>();
             fuelText = fuelParent.GetChild(4).GetComponent<TMP_Text>();
-        collectText = farCanvas.GetChild(3).GetComponent<TMP_Text>();
-        checkpointText = farCanvas.GetChild(4).GetComponent<TMP_Text>();
-        abilityText = farCanvas.GetChild(5).GetComponent<TMP_Text>();
-        nameText = farCanvas.GetChild(6).GetComponent<TMP_Text>();
-        posText = farCanvas.GetChild(7).GetComponent<TMP_Text>();
-        distanceText = farCanvas.GetChild(8).GetComponent<TMP_Text>();
-        speedText = farCanvas.GetChild(9).GetComponent<TMP_Text>();
-        timeText = farCanvas.GetChild(10).GetComponent<TMP_Text>();
-        spawnManager.captions[playerIndex] = caption = farCanvas.GetChild(11).GetComponent<TMP_Text>();
-        spawnManager.finishTexts[playerIndex] = finishText = farCanvas.GetChild(13).GetComponent<TMP_Text>();
-        finishCaption = farCanvas.GetChild(14).gameObject;
-        deathText = farCanvas.GetChild(15).GetComponent<TMP_Text>();
-        countdownText = cameraStats.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+        collectText = uiCanvas.GetChild(3).GetComponent<TMP_Text>();
+        checkpointText = uiCanvas.GetChild(4).GetComponent<TMP_Text>();
+        abilityText = uiCanvas.GetChild(5).GetComponent<TMP_Text>();
+        nameText = uiCanvas.GetChild(6).GetComponent<TMP_Text>();
+        posText = uiCanvas.GetChild(7).GetComponent<TMP_Text>();
+        distanceText = uiCanvas.GetChild(8).GetComponent<TMP_Text>();
+        speedText = uiCanvas.GetChild(9).GetComponent<TMP_Text>();
+        timeText = uiCanvas.GetChild(10).GetComponent<TMP_Text>();
+        spawnManager.captions[playerIndex] = caption = uiCanvas.GetChild(11).GetComponent<TMP_Text>();
+        spawnManager.finishTexts[playerIndex] = finishText = uiCanvas.GetChild(13).GetComponent<TMP_Text>();
+        finishCaption = uiCanvas.GetChild(14).gameObject;
+        deathText = uiCanvas.GetChild(15).GetComponent<TMP_Text>();
+        countdownText = uiCanvas.GetChild(16).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
         healthBar.fillAmount = fuelBar.fillAmount = 1;
@@ -782,10 +780,9 @@ public class PlayerController : MonoBehaviour
         float currentFill = fuelBar.fillAmount;
         if(currentFill != fillAmount) fuelBar.fillAmount = Mathf.Lerp(currentFill, fillAmount, Time.deltaTime * 10);
 
-        Vector3 camPos = cam.position;
-        cam.position = new Vector3(Mathf.Round(camPos.x), Mathf.Round(camPos.y), Mathf.Round(camPos.y));
-        Vector3 camRot = cam.rotation.eulerAngles;
-        cam.rotation = Quaternion.Euler(new Vector3(Mathf.Round(camRot.x), Mathf.Round(camRot.y), Mathf.Round(camRot.y)));
+        fillAmount = (float) Math.Round(health / 100, 3);
+        currentFill = healthBar.fillAmount;
+        if(currentFill != fillAmount) healthBar.fillAmount = Mathf.Lerp(currentFill, fillAmount, Time.deltaTime * 10);
     }
 
     void FixedUpdate()
@@ -997,7 +994,6 @@ public class PlayerController : MonoBehaviour
         }
         health = (float) Math.Round(health, 2);
         healthText.SetText(health.ToString("0.00"));
-        healthBar.fillAmount = (float) Math.Round(health / 100 , 3);
     }
 
     IEnumerator Respawn()
@@ -1586,13 +1582,11 @@ public class PlayerController : MonoBehaviour
                 health += abilityStrength;
                 health = (float) Math.Round(health, 2);
                 healthText.SetText(health.ToString("0.00"));
-                healthBar.fillAmount = (float) Math.Round(health / 100 , 3);
             }
             else
             {
                 health = 100;
                 healthText.SetText("100.00");
-                if(healthBar.fillAmount != 1) healthBar.fillAmount = 1;
             }
             yield return oneSecond;
             currentActivation --;

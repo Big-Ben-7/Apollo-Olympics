@@ -3809,22 +3809,13 @@ MonoBehaviour:
   cameraPrefab: {fileID: 8803354073669428790, guid: cf38e19b88e5647c19ea89b7f8dacb7a, type: 3}
   cameraMasks:
   - serializedVersion: 2
-    m_Bits: 123872
+    m_Bits: 123840
   - serializedVersion: 2
-    m_Bits: 124384
+    m_Bits: 124352
   - serializedVersion: 2
-    m_Bits: 125408
+    m_Bits: 125376
   - serializedVersion: 2
-    m_Bits: 127456
-  finishMasks:
-  - serializedVersion: 2
-    m_Bits: 608
-  - serializedVersion: 2
-    m_Bits: 1120
-  - serializedVersion: 2
-    m_Bits: 2144
-  - serializedVersion: 2
-    m_Bits: 4192
+    m_Bits: 127424
   lookTargetPos:
   - {x: 0, y: 5.5, z: -20}
   - {x: 0, y: 7, z: -24}
