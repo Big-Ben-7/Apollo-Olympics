@@ -98,6 +98,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] LayerMask[] cameraMasks;
     [SerializeField] LayerMask[] finishMasks;
+    [SerializeField] Vector3[] lookTargetPos;
     [SerializeField] AudioClip countdownSound;
     [SerializeField] AudioClip goSound;
     [SerializeField] AudioClip pauseSound;
@@ -412,13 +413,13 @@ public class SpawnManager : MonoBehaviour
         camAims = new CinemachineSameAsFollowTarget[playerNumber];
         effectSources = new AudioSource[playerNumber];
         voiceSources = new AudioSource[playerNumber];
+        Vector3 targetPos = lookTargetPos[playerNumber - 1];
 
         Vector3[] startPos = new Vector3[] {new Vector3(0, 0, 200), new Vector3(0, 0, -200), new Vector3(200, 0, 0), new Vector3(-200, 0, 0)};
         Quaternion[] startRots = new Quaternion[] {Quaternion.identity, Quaternion.Euler(0, 180, 0), Quaternion.Euler(0, 90, 0), Quaternion.Euler(0, -90, 0)};
         Vector2 scaleVector;
         Vector2[] cameraRects;
         string[] playerStrings;
-        Vector3 camOffset = Vector3.zero;
         switch(playerNumber)
         {
             case 1:
@@ -439,7 +440,6 @@ public class SpawnManager : MonoBehaviour
                 scaleVector = new Vector2(0.333f, 1);
                 cameraRects = new Vector2[] {Vector2.zero, new Vector2(0.333f, 0), new Vector2(0.667f, 0)};
                 playerStrings = new string[] {"1", "3", "2"};
-                camOffset = new Vector3(0, 1, -5);
                 stereoPans = new float[] {-0.8f, 0, 0.8f};
                 break;
             
@@ -447,7 +447,6 @@ public class SpawnManager : MonoBehaviour
                 scaleVector = new Vector2(0.5f, 0.5f);
                 cameraRects = new Vector2[] {new Vector2(0, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(0.5f, 0)};
                 playerStrings = new string[] {"1", "4", "3", "2"};
-                camOffset = new Vector3(0, -1, 5);
                 stereoPans = new float[] {-0.8f, 0.8f, -0.8f, 0.8f};
                 break;
         }
@@ -487,7 +486,7 @@ public class SpawnManager : MonoBehaviour
             arrowObject.GetComponent<Canvas>().worldCamera = view;
             arrowObject.layer = thirdPersonObject.layer = i + 9;
             Transform lookTarget = playerTransform.GetChild(2);
-            lookTarget.localPosition += camOffset;
+            lookTarget.localPosition = targetPos;
             viewCam.Follow = viewCam.LookAt = lookTarget;
             CinemachineFramingTransposer transposer = transposers[i] = viewCam.GetCinemachineComponent<CinemachineFramingTransposer>();
             CinemachineSameAsFollowTarget camAim = camAims[i] = viewCam.GetCinemachineComponent<CinemachineSameAsFollowTarget>();
@@ -1211,7 +1210,11 @@ public class SpawnManager : MonoBehaviour
         if(playersLeft == 0)
         {
             finished = true;
-            if(menu.enabled) menu.enabled = false;
+            if(menu.enabled)
+            {
+                menu.enabled = false;
+                Time.timeScale = 1;
+            }
             if(!tutorial)
             {
                 MenuManager.races++;

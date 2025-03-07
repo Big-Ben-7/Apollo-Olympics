@@ -3737,7 +3737,8 @@ MonoBehaviour:
   - {fileID: 4572339319366399824, guid: 182bb06e49f5c4055bf2a347718cc03b, type: 3}
   wormholePrefab: {fileID: 5607819269926399345, guid: de0c4b77a8bd041caa85f9497e2a6c42, type: 3}
   asteroidNumbers: 14000000280000003c00000050000000
-  tutorialAsteroids: 10
+  baseDisableNumbers: 08000000100000001800000020000000
+  tutorialAsteroids: 20
   minAsteroidScale: 250
   maxAsteroidScale: 2500
   collectableNumbers: 0c0000000a0000000800000006000000
@@ -3824,6 +3825,11 @@ MonoBehaviour:
     m_Bits: 2144
   - serializedVersion: 2
     m_Bits: 4192
+  lookTargetPos:
+  - {x: 0, y: 5.5, z: -20}
+  - {x: 0, y: 7, z: -24}
+  - {x: 0, y: 10, z: -32}
+  - {x: 0, y: 4.5, z: -16}
   countdownSound: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
   goSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
@@ -3857,6 +3863,7 @@ MonoBehaviour:
   eventSystem: {fileID: 1183720512}
   audioSource: {fileID: 0}
   initializedObjects: 0
+  captions: []
   finishTexts: []
   confettis: []
   milliseconds: 0

@@ -5,7 +5,6 @@ using TMPro;
 using System;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.ProBuilder.MeshOperations;
 
 public class PlayerController : MonoBehaviour
 {
@@ -129,8 +128,11 @@ public class PlayerController : MonoBehaviour
     int currentCooldown;
     int auraCount;
     ParticleSystem.MainModule[] auraParticles;
+    bool loopingAura = true;
+    bool ringAbility = false;
     Atmosphere atmosphere;
     Ring ring;
+    Vector3 ringRotation;
     bool died;
     Coroutine resetting;
     public static WaitForSeconds oneSecond;
@@ -354,18 +356,21 @@ public class PlayerController : MonoBehaviour
             case 0:
                 ability = SpeedUp();
                 finishShip = shipParent.GetChild(0).gameObject;
+                loopingAura = false;
                 break;
             case 1:
                 ability = Atmosphere();
                 aura = Instantiate(aura);
                 atmosphere = aura.GetComponent<Atmosphere>();
                 atmosphere.target = myTransform;
+                atmosphere.hitForce = abilityStrength;
                 atmosphere.audioSource = audioSource;
                 Transform graphic = aura.transform.GetChild(0);
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
                 finishShip = shipParent.GetChild(1).gameObject;
+                loopingAura = false;
                 break;
             case 2:
                 ability = Regeneration();
@@ -385,26 +390,33 @@ public class PlayerController : MonoBehaviour
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
                 ring.target = myTransform;
+                ring.hitForce = abilityStrength;
                 ring.audioSource = audioSource;
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
                 finishShip = shipParent.GetChild(5).gameObject;
+                ringRotation = new Vector3(abilityStrength2, 0, 0);
+                ringAbility = true;
                 break;
             case 6:
                 ability = Ring();
                 aura = Instantiate(aura);
                 ring = aura.GetComponent<Ring>();
                 ring.target = myTransform;
+                ring.hitForce = abilityStrength;
                 ring.audioSource = audioSource;
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura.transform);
                 finishShip = shipParent.GetChild(6).gameObject;
+                ringRotation = new Vector3(0, abilityStrength2, 0);
+                ringAbility = true;
                 break;
             case 7:
                 ability = WindStorm();
                 finishShip = shipParent.GetChild(7).gameObject;
+                loopingAura = false;
                 break;
         }
         finishShip.SetActive(false);
@@ -432,11 +444,11 @@ public class PlayerController : MonoBehaviour
         SpawnManager.followers[playerIndex].Add(droneGroup);
 
         //Aura setup
-        auraCount = auraSystems.Length;
-        auraParticles = new ParticleSystem.MainModule[auraCount];
-        for(int i = 0; i < auraCount; i++)
+        if(loopingAura)
         {
-            auraParticles[i] = auraSystems[i].main;
+            auraCount = auraSystems.Length;
+            auraParticles = new ParticleSystem.MainModule[auraCount];
+            for(int i = 0; i < auraCount; i++) auraParticles[i] = auraSystems[i].main;
         }
 
         //UI setup
@@ -526,7 +538,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    if((shipIndex != 5 && shipIndex != 6) || currentActivation == 0)
+                    if(!ringAbility || currentActivation == 0)
                     {
                         StartCoroutine(ChangeTextColor(abilityText, fifthSecond, Color.white, Color.red));
                         audioSource.PlayOneShot(errorSound);
@@ -534,19 +546,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if(abilityAction.IsPressed() && currentActivation > 0)
-            {
-                switch(shipIndex)
-                {
-                    case 5:
-                        ring.rotationOffset *= Quaternion.Euler(new Vector3(abilityStrength2, 0, 0) * Time.deltaTime);
-                        break;
-                    
-                    case 6:
-                        ring.rotationOffset *= Quaternion.Euler(new Vector3(0, abilityStrength2, 0) * Time.deltaTime);
-                        break;
-                }
-            }
+            if(ringAbility && abilityAction.IsPressed() && currentActivation > 0) ring.rotationOffset *= Quaternion.Euler(ringRotation * Time.deltaTime);
         }
 
         //Movement input
@@ -741,10 +741,10 @@ public class PlayerController : MonoBehaviour
 
         //Show speed in km/h, multiply by 2.23694 for mph
         float shipSpeed = rb.velocity.magnitude;
-        speedText.SetText("Speed: " + (shipSpeed * 3.6f).ToString("0.00"));
+        speedText.SetText("Speed: " + (shipSpeed * 9 / 2).ToString("0.00"));
 
         //Change thruster effect based on speed
-        if(fuel > 0 && shipSpeed != 0)
+        if(fuel > 0.005f && (shipSpeed > 1 || shipSpeed < -1))
         {
             float thrusterSpeed = shipSpeed / thrusterSpeedDivisor;
             if(thrusterSpeed > maxThrusterSpeed) thrusterSpeed = maxThrusterSpeed;
@@ -765,6 +765,7 @@ public class PlayerController : MonoBehaviour
             {
                 ParticleSystem.MainModule thruster = thrusters[i];
                 if(thruster.startLifetimeMultiplier != 0) thruster.startLifetimeMultiplier = 0;
+                if(thruster.startSpeedMultiplier != 0) thruster.startSpeedMultiplier = 0;
             }
             fireSource.volume = thrusterSource.volume = 0;
         }
@@ -785,7 +786,7 @@ public class PlayerController : MonoBehaviour
     {
         if(paused || kinematic) return;
 
-        if(fuel == 0)
+        if(fuel < 0.005f)
         {
             rb.AddRelativeForce(Vector3.forward * glideSpeed, ForceMode.Acceleration);
             return;
@@ -943,13 +944,7 @@ public class PlayerController : MonoBehaviour
                 currentActivation = currentCooldown = 0;
                 aura.SetActive(false);
                 if(resetting != null) StopCoroutine(resetting);
-                if(shipIndex != 1)
-                {
-                    for(int i = 0; i < auraCount; i++)
-                    {
-                        auraParticles[i].loop = true;
-                    }
-                }
+                if(loopingAura) for(int i = 0; i < auraCount; i++) auraParticles[i].loop = true;
 
                 health = 0;
                 healthText.SetText("0.00");
@@ -1189,17 +1184,9 @@ public class PlayerController : MonoBehaviour
         key = InputControlPath.ToHumanReadableString(abilityAction.bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        switch(shipIndex)
-        {
-            case 5 or 6:
-                tutorialText = "Press " + key + " to activate ability\nHold " + key + " to rotate rings";
-                caption.SetText(tutorialText);
-                break;
-            default:
-                tutorialText = "Press " + key + " to activate ability";
-                caption.SetText(tutorialText);
-                break;
-        }
+        if(ringAbility) tutorialText = "Press " + key + " to activate ability\nHold " + key + " to rotate rings";
+        else tutorialText = "Press " + key + " to activate ability";
+        caption.SetText(tutorialText);
         while(!abilityAction.WasPressedThisFrame()) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
         yield return halfSecond;
@@ -1549,9 +1536,6 @@ public class PlayerController : MonoBehaviour
         currentActivation = activationTime;
         died = false;
         ability = Atmosphere();
-        atmosphere.hitForce = abilityStrength;
-        for(int i = 0; i < 3; i++) auraParticles[i].duration = auraParticles[i].startLifetimeMultiplier = activationTime;
-        auraParticles[3].duration = activationTime - 1;
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
@@ -1714,7 +1698,6 @@ public class PlayerController : MonoBehaviour
         currentActivation = activationTime;
         died = false;
         ability = Ring();
-        ring.hitForce = abilityStrength;
         aura.SetActive(true);
         audioSource.PlayOneShot(activationSound);
         while(currentActivation > 0)
@@ -1791,7 +1774,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return wait;
         aura.SetActive(false);
-        for(int i = 0; i < auraCount; i++) auraParticles[i].loop = true;
+        if(loopingAura) for(int i = 0; i < auraCount; i++) auraParticles[i].loop = true;
         if(!canCollide) canCollide = true;
     }
 }
