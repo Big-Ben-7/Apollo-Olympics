@@ -19,13 +19,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int abilityStrength2;
     [SerializeField] int accFuelLoss = 2;
     [SerializeField] int rotFuelLoss = 1;
-    [SerializeField] float fuelRegeneration = 0.1f;
+    [SerializeField] float fuelRegeneration = 0.5f;
 
     [Header("Movement")]
     [SerializeField] GameObject thrusterParent;
     [SerializeField] float thrusterSpeedDivisor = 100;
     [SerializeField] float maxThrusterSpeed = 15;
-    [SerializeField] float thrusterVolumeDivisor = 10000;
+    [SerializeField] float thrusterVolumeDivisor = 8000;
 
     [Header("Collision")]
     [SerializeField] GameObject dieExplosion;

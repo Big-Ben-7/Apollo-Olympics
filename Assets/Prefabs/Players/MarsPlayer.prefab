@@ -5189,7 +5189,7 @@ MonoBehaviour:
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 100
   maxThrusterSpeed: 15
-  thrusterVolumeDivisor: 10000
+  thrusterVolumeDivisor: 8000
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}

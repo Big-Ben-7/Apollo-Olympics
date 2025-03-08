@@ -165,7 +165,7 @@ public class MenuManager : MonoBehaviour
         fovSlider.value = PlayerPrefs.GetFloat("Fov", 40);
         depthSlider.value = PlayerPrefs.GetFloat("Depth", 8000);
         dampingSlider.value = PlayerPrefs.GetFloat("Damping", 0.1f);
-        musicSlider.value = PlayerPrefs.GetFloat("Music", 0.2f);
+        musicSlider.value = PlayerPrefs.GetFloat("Music", 0.3f);
         if(PlayerPrefs.GetInt("ShowCaptions", 1) == 0) captionToggle.isOn = false;
         else captionToggle.isOn = true;
         if(PlayerPrefs.GetInt("CursorHide") == 0) cursorToggle.isOn = false;
@@ -173,7 +173,7 @@ public class MenuManager : MonoBehaviour
         if(PlayerPrefs.GetInt("ShowArrow", 1) == 0) arrowToggle.isOn = false;
         else arrowToggle.isOn = true;
         voiceSlider.value = PlayerPrefs.GetFloat("Voice", 0.3f);
-        thrusterSlider.value = PlayerPrefs.GetFloat("Thruster", 0.2f);
+        thrusterSlider.value = PlayerPrefs.GetFloat("Thruster", 0.3f);
         effectsSlider.value = PlayerPrefs.GetFloat("Effects", 0.3f);
         ChangeFOV();
         ChangeDepth();
@@ -491,9 +491,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeMusic()
     {
-        music = (float) Math.Round(musicSlider.value, 2);
-        if(music < 0.5f) backgroundMusic.volume = music * 2;
-        else backgroundMusic.volume = 1;
+        music = backgroundMusic.volume = (float) Math.Round(musicSlider.value, 2);
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
@@ -593,11 +591,11 @@ public class MenuManager : MonoBehaviour
         fovSlider.value = 40;
         depthSlider.value = 8000;
         dampingSlider.value = 0.1f;
-        musicSlider.value = 0.2f;
+        musicSlider.value = 0.3f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
         voiceSlider.value = 0.3f;
-        thrusterSlider.value = 0.2f;
+        thrusterSlider.value = 0.3f;
         effectsSlider.value = 0.3f;
         foreach(InputActionMap map in InputSystem.actions.actionMaps) map.RemoveAllBindingOverrides();
         SaveBindings();
@@ -615,11 +613,11 @@ public class MenuManager : MonoBehaviour
         fovSlider.value = 40;
         depthSlider.value = 8000;
         dampingSlider.value = 0.1f;
-        musicSlider.value = 0.2f;
+        musicSlider.value = 0.3f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
         voiceSlider.value = 0.3f;
-        thrusterSlider.value = 0.2f;
+        thrusterSlider.value = 0.3f;
         effectsSlider.value = 0.3f;
 
         loaded = true;

@@ -1520,11 +1520,11 @@ public class SpawnManager : MonoBehaviour
         fovSlider.value = 40;
         depthSlider.value = 8000;
         dampingSlider.value = 0.1f;
-        musicSlider.value = 0.2f;
+        musicSlider.value = 0.3f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
         voiceSlider.value = 0.3f;
-        thrusterSlider.value = 0.2f;
+        thrusterSlider.value = 0.3f;
         effectsSlider.value = 0.3f;
 
         initialized = true;
