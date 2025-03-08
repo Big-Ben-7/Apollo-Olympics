@@ -516,15 +516,20 @@ public class SpawnManager : MonoBehaviour
         pauseButton.enabled = true;
 
         backgroundNoise.Play();
-        backgroundMusic.Play();
         int countdownTime = 3;
         InputSystem.actions.Enable();
+
+        audioSource.PlayOneShot(countdownSound);
+        yield return oneSecond;
+        countdownTime--;
+        backgroundMusic.Play();
         while(countdownTime > 0)
         {
             audioSource.PlayOneShot(countdownSound);
             yield return oneSecond;
             countdownTime--;
         }
+
         audioSource.PlayOneShot(goSound);
         if(tutorial) audioSource.PlayOneShot(welcomeVoice, voiceScale);
         else audioSource.PlayOneShot(goVoice, voiceScale);
@@ -1429,8 +1434,7 @@ public class SpawnManager : MonoBehaviour
 
     public void ChangeMusic()
     {
-        float music = (float) Math.Round(musicSlider.value, 2);
-        backgroundMusic.volume = music / 4;
+        float music = backgroundMusic.volume = (float) Math.Round(musicSlider.value, 2);
         backgroundNoise.volume = music / 2;
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);

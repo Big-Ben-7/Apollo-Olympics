@@ -491,7 +491,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeMusic()
     {
-        music = backgroundMusic.volume = (float) Math.Round(musicSlider.value, 2);
+        music = (float) Math.Round(musicSlider.value, 2);
         if(music < 0.5f) backgroundMusic.volume = music * 2;
         else backgroundMusic.volume = 1;
         musicText.SetText(music.ToString("0.00"));
