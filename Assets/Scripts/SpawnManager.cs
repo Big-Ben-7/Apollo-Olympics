@@ -42,7 +42,7 @@ public class SpawnManager : MonoBehaviour
     //Asteroid number must be divisible by 20
     [SerializeField] int[] asteroidNumbers = new int[] {20, 40, 60, 80};
     [SerializeField] int[] baseDisableNumbers = new int[] {8, 16, 24, 32};
-    [SerializeField] int tutorialAsteroids = 10;
+    [SerializeField] int tutorialAsteroids = 20;
     int asteroidNumber;
     [SerializeField] int minAsteroidScale = 250;
     [SerializeField] int maxAsteroidScale = 2500;
@@ -56,6 +56,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] float maxRotationForce = 0.2f;
     [SerializeField] float maxRotationSpeed = 30;
     [SerializeField] int wormholePercent = 5;
+    [SerializeField] int tutorialWormholePercent = 10;
     [SerializeField] Vector3 wormholeProportions = new Vector3(0.5f, 0.4f, 0.8f);
     [SerializeField] int minWormholeScale = 1500;
     [SerializeField] int maxWormholeScale = 3000;
@@ -91,7 +92,6 @@ public class SpawnManager : MonoBehaviour
     public float[] decMultipliers;
     public int[] healthLossDivisors;
     public float[] speedLossDivisors;
-    public float[] minHealthLosses;
     public float[] deflectionForces;
 
     [Header("Camera/UI/Audio")]
@@ -103,15 +103,17 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] AudioClip pauseSound;
     [SerializeField] AudioClip finishSound;
     [SerializeField] AudioClip confettiSound;
-    [SerializeField] AudioClip[] goVoices;
-    [SerializeField] AudioClip[] firstVoices;
-    [SerializeField] AudioClip[] secondVoices;
-    [SerializeField] AudioClip[] thirdVoices;
-    [SerializeField] AudioClip[] fourthVoices;
+    [SerializeField] AudioClip goVoice;
+    [SerializeField] AudioClip welcomeVoice;
+    [SerializeField] AudioClip firstVoice;
+    [SerializeField] AudioClip secondVoice;
+    [SerializeField] AudioClip thirdVoice;
+    [SerializeField] AudioClip fourthVoice;
+    [SerializeField] AudioClip tutorialVoice;
     [SerializeField] GameObject eventSystem;
     Camera[] views = new Camera[4];
     CinemachineVirtualCamera[] thirdPersons = new CinemachineVirtualCamera[4];
-    public AudioSource audioSource;
+    AudioSource audioSource;
     AudioSource backgroundMusic;
     AudioSource backgroundNoise;
     AudioSource[] allAudio;
@@ -227,6 +229,7 @@ public class SpawnManager : MonoBehaviour
         {
             asteroidNumber = tutorialAsteroids;
             collectableNumber = tutorialCollectables;
+            wormholePercent = tutorialWormholePercent;
             droneNumber = tutorialDrones;
             checkpointDistances = tutorialCheckpoints;
             checkpointCount = checkpointDistances.Length;
@@ -523,7 +526,8 @@ public class SpawnManager : MonoBehaviour
             countdownTime--;
         }
         audioSource.PlayOneShot(goSound);
-        audioSource.PlayOneShot(goVoices[UnityEngine.Random.Range(0, playerNumber)], voiceScale);
+        if(tutorial) audioSource.PlayOneShot(welcomeVoice, voiceScale);
+        else audioSource.PlayOneShot(goVoice, voiceScale);
         yield return oneSecond;
         showTime = true;
     }
@@ -1181,26 +1185,30 @@ public class SpawnManager : MonoBehaviour
         foreach(GameObject playerFollower in playerFollowers) playerFollower.SetActive(false);
         views[playerIndex].cullingMask = 0;
         int playersLeft = playingPlayers.Count;
-        if(tutorial) finishTexts[playerIndex].SetText("Tutorial Complete");
+        if(tutorial)
+        {
+            finishTexts[playerIndex].SetText("Tutorial Complete");
+            audioSource.PlayOneShot(tutorialVoice, voiceScale);
+        }
         else
         {
             switch(playerNumber - playersLeft)
             {
                 case 1:
                     finishTexts[playerIndex].SetText("1st Place");
-                    audioSource.PlayOneShot(firstVoices[playerIndex], voiceScale);
+                    audioSource.PlayOneShot(firstVoice, voiceScale);
                     break;
                 case 2:
                     finishTexts[playerIndex].SetText("2nd Place");
-                    audioSource.PlayOneShot(secondVoices[playerIndex], voiceScale);
+                    audioSource.PlayOneShot(secondVoice, voiceScale);
                     break;
                 case 3:
                     finishTexts[playerIndex].SetText("3rd Place");
-                    audioSource.PlayOneShot(thirdVoices[playerIndex], voiceScale);
+                    audioSource.PlayOneShot(thirdVoice, voiceScale);
                     break;
                 default:
                     finishTexts[playerIndex].SetText("4th Place");
-                    audioSource.PlayOneShot(fourthVoices[playerIndex], voiceScale);
+                    audioSource.PlayOneShot(fourthVoice, voiceScale);
                     break;
             }
         }

@@ -23,9 +23,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] GameObject thrusterParent;
-    [SerializeField] float thrusterSpeedDivisor = 40;
-    [SerializeField] float maxThrusterSpeed = 20;
-    [SerializeField] float thrusterVolumeDivisor = 8000;
+    [SerializeField] float thrusterSpeedDivisor = 100;
+    [SerializeField] float maxThrusterSpeed = 15;
+    [SerializeField] float thrusterVolumeDivisor = 10000;
 
     [Header("Collision")]
     [SerializeField] GameObject dieExplosion;
@@ -57,13 +57,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip wormholeSound;
     [SerializeField] AudioClip warningSound;
     [SerializeField] AudioClip dieSound;
-    [SerializeField] AudioClip[] checkpointVoices;
-    [SerializeField] AudioClip[] backCheckpointVoices;
-    [SerializeField] AudioClip[] wormholeVoices;
-    [SerializeField] AudioClip[] lowFuelVoices;
-    [SerializeField] AudioClip[] noFuelVoices;
-    [SerializeField] AudioClip[] lowHealthVoices;
-    [SerializeField] AudioClip[] dieVoices;
+    [SerializeField] AudioClip checkpointVoice;
+    [SerializeField] AudioClip backCheckpointVoice;
+    [SerializeField] AudioClip wormholeVoice;
+    [SerializeField] AudioClip lowFuelVoice;
+    [SerializeField] AudioClip noFuelVoice;
+    [SerializeField] AudioClip lowHealthVoice;
+    [SerializeField] AudioClip dieVoice;
     
     //Movement control
     Rigidbody rb;
@@ -91,7 +91,6 @@ public class PlayerController : MonoBehaviour
     //Collisions/triggers
     float speedLossDivisor;
     int healthLossDivisor;
-    float minHealthLoss;
     float deflectionForce;
     float health = 100;
     float fuel = 100;
@@ -286,14 +285,6 @@ public class PlayerController : MonoBehaviour
         {"'", "Apostrophe"},
         {"`", "Backtick"},
     };
-    AudioClip checkpointVoice;
-    AudioClip backCheckpointVoice;
-    AudioClip wormholeVoice;
-    AudioClip lowFuelVoice;
-    AudioClip noFuelVoice;
-    AudioClip lowHealthVoice;
-    AudioClip dieVoice;
-
     void Awake()
     {
         dieExplosion.SetActive(false);
@@ -343,7 +334,6 @@ public class PlayerController : MonoBehaviour
         rotationSpeed = spawnManager.rotationSpeeds[agility];
         decMultiplier = spawnManager.decMultipliers[agility];
         healthLossDivisor = spawnManager.healthLossDivisors[durability];
-        minHealthLoss = spawnManager.minHealthLosses[durability];
         speedLossDivisor = spawnManager.speedLossDivisors[stability];
         deflectionForce = spawnManager.deflectionForces[stability];
         thrustSpeed = initialThrustSpeed;
@@ -381,7 +371,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case 4:
                 ability = Juggernaut();
-                collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, minHealthLoss, deflectionForce, rb.mass};
+                collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, deflectionForce, rb.mass};
                 finishShip = shipParent.GetChild(4).gameObject;
                 break;
             case 5:
@@ -482,8 +472,9 @@ public class PlayerController : MonoBehaviour
         checkpointText.SetText("Checkpoint: 0" + checkpointEnd);
         abilityText.SetText("");
         nameText.SetText(playerNames[playerIndex]);
-        posText.SetText("Pos: 0.0,0.0,0.0");
-        distanceText.SetText("Distance: 0.0");
+        Vector3 displayPos = rb.position / 800;
+        posText.SetText("Pos: " + displayPos.x.ToString("0.0") + "," + displayPos.y.ToString("0.0") + "," + displayPos.z.ToString("0.0"));
+        distanceText.SetText("Distance: " + displayPos.magnitude.ToString("0.0"));
         speedText.SetText("Speed: 0.00");
         caption.SetText("");
         finishText.SetText("");
@@ -498,13 +489,6 @@ public class PlayerController : MonoBehaviour
         audioSource.volume = audioVolume;
         voiceSource.volume = voiceVolume;
         audioSource.panStereo = voiceSource.panStereo = thrusterSource.panStereo = fireSource.panStereo = stereoPan;
-        checkpointVoice = checkpointVoices[playerIndex];
-        backCheckpointVoice = backCheckpointVoices[playerIndex];
-        wormholeVoice = wormholeVoices[playerIndex];
-        lowFuelVoice = lowFuelVoices[playerIndex];
-        noFuelVoice = noFuelVoices[playerIndex];
-        lowHealthVoice = lowHealthVoices[playerIndex];
-        dieVoice = dieVoices[playerIndex];
         spawnManager.effectSources[playerIndex] = audioSource;
         spawnManager.voiceSources[playerIndex] = voiceSource;
 
@@ -743,7 +727,7 @@ public class PlayerController : MonoBehaviour
         speedText.SetText("Speed: " + (shipSpeed * 9 / 2).ToString("0.00"));
 
         //Change thruster effect based on speed
-        if(fuel > 0.005f && (shipSpeed > 1 || shipSpeed < -1))
+        if(fuel > 0.005f && (shipSpeed > 5 || shipSpeed < -5))
         {
             float thrusterSpeed = shipSpeed / thrusterSpeedDivisor;
             if(thrusterSpeed > maxThrusterSpeed) thrusterSpeed = maxThrusterSpeed;
@@ -772,17 +756,18 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
-        if(paused || kinematic) return;
+        if(paused) return;
+        float fillAmount = (float) Math.Round(health / 100, 3);
+        float currentFill = healthBar.fillAmount;
+        if(currentFill != fillAmount) healthBar.fillAmount = Mathf.Lerp(currentFill, fillAmount, Time.deltaTime * 10);
+
+        if(kinematic) return;
         droneGroup.position = myTransform.position;
         if(showArrow) arrow.rotation = Quaternion.LookRotation(myTransform.position.normalized, myTransform.up);
         
-        float fillAmount = (float) Math.Round(fuel / 100, 3);
-        float currentFill = fuelBar.fillAmount;
+        fillAmount = (float) Math.Round(fuel / 100, 3);
+        currentFill = fuelBar.fillAmount;
         if(currentFill != fillAmount) fuelBar.fillAmount = Mathf.Lerp(currentFill, fillAmount, Time.deltaTime * 10);
-
-        fillAmount = (float) Math.Round(health / 100, 3);
-        currentFill = healthBar.fillAmount;
-        if(currentFill != fillAmount) healthBar.fillAmount = Mathf.Lerp(currentFill, fillAmount, Time.deltaTime * 10);
     }
 
     void FixedUpdate()
@@ -929,8 +914,8 @@ public class PlayerController : MonoBehaviour
         }
 
         //Lose health on other
-        if(shipSpeed / healthLossDivisor > minHealthLoss) health -= shipSpeed / healthLossDivisor;
-        else health -= minHealthLoss;
+        if(shipSpeed / healthLossDivisor > 0.01f) health -= shipSpeed / healthLossDivisor;
+        else health -= 0.01f;
 
         //Player died
         switch(health)
@@ -951,7 +936,6 @@ public class PlayerController : MonoBehaviour
 
                 health = 0;
                 healthText.SetText("0.00");
-                healthBar.fillAmount = 0;
                 thrustSpeed = initialThrustSpeed;
                 for(int i = 0; i < allTextLength; i++) StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
                 for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
@@ -1016,7 +1000,6 @@ public class PlayerController : MonoBehaviour
 
         health = 100;
         healthText.SetText("100.00");
-        healthBar.fillAmount = 1;
         if(fuel < 10)
         {
             fuel = 10;
@@ -1208,11 +1191,11 @@ public class PlayerController : MonoBehaviour
         teleported = false;
         while(!teleported) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
+        canFinish = true;
         if(showCaptions) yield return twoSeconds;
         else yield return halfSecond;
         while(pauseTutorial) yield return null;
 
-        canFinish = true;
         tutorialText = "Controls and instructions\ncan be found in settings";
         caption.SetText(tutorialText);
         yield return threeSeconds;
@@ -1658,7 +1641,6 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(activationSound);
         speedLossDivisor = 1;
         healthLossDivisor = abilityStrength2;
-        minHealthLoss = 0;
         deflectionForce = 0;
         rb.mass = abilityStrength;
         while(currentActivation > 0)
@@ -1672,9 +1654,8 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(expireSound);
         speedLossDivisor = collisionInitials[0];
         healthLossDivisor = (int) collisionInitials[1];
-        minHealthLoss = collisionInitials[2];
-        deflectionForce = collisionInitials[3];
-        rb.mass = collisionInitials[4];
+        deflectionForce = collisionInitials[2];
+        rb.mass = collisionInitials[3];
 
         //Cooldown
         while(currentCooldown > 0)

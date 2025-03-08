@@ -3750,6 +3750,7 @@ MonoBehaviour:
   maxRotationForce: 0.2
   maxRotationSpeed: 30
   wormholePercent: 5
+  tutorialWormholePercent: 10
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
   minWormholeScale: 1500
   maxWormholeScale: 3000
@@ -3773,7 +3774,7 @@ MonoBehaviour:
   playerChunks: []
   playingPlayers: 
   initialThrustSpeeds: b80b0000ac0d0000a00f00009411000088130000
-  accelerations: b0040000780500004006000008070000d0070000
+  accelerations: 20030000b004000040060000d007000060090000
   maxThrustSpeeds: 30750000b8880000409c0000c8af000050c30000
   rotationSpeeds:
   - 2
@@ -3787,19 +3788,13 @@ MonoBehaviour:
   - 0.9
   - 0.95
   - 1
-  healthLossDivisors: 20030000e8030000b00400007805000040060000
+  healthLossDivisors: bc020000840300004c04000014050000dc050000
   speedLossDivisors:
   - 5
   - 4
   - 3
   - 2
   - 1.2
-  minHealthLosses:
-  - 1
-  - 0.75
-  - 0.5
-  - 0.25
-  - 0
   deflectionForces:
   - 10
   - 1
@@ -3826,33 +3821,14 @@ MonoBehaviour:
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}
   finishSound: {fileID: 8300000, guid: b0e62ed71b1538648b719821f4f63b4c, type: 3}
   confettiSound: {fileID: 8300000, guid: 566d2ea6240b489479a6e9fd608c2621, type: 3}
-  goVoices:
-  - {fileID: 8300000, guid: 13dc21c1b61c94013a947a07c3c92d08, type: 3}
-  - {fileID: 8300000, guid: cf9adfc3b21bc49488007709a442c042, type: 3}
-  - {fileID: 8300000, guid: 53c5283e1a7594d1c97ac28c3ceeb742, type: 3}
-  - {fileID: 8300000, guid: 58b48d4cc2210421ab38527448eaaf4b, type: 3}
-  firstVoices:
-  - {fileID: 8300000, guid: 56c27536f17994e6db95501186ec093f, type: 3}
-  - {fileID: 8300000, guid: ad761228af7454d2188627a06a1deba7, type: 3}
-  - {fileID: 8300000, guid: f86cc6b6a2f16478c9d82d2263814d8f, type: 3}
-  - {fileID: 8300000, guid: 60431dc603a344cd69bda9e15b24a2ae, type: 3}
-  secondVoices:
-  - {fileID: 8300000, guid: 41605e51066414fec80d0f9a98f530d6, type: 3}
-  - {fileID: 8300000, guid: 313939b44530749889942be4e5f9fa13, type: 3}
-  - {fileID: 8300000, guid: dda5096debf0149e7a15c74f601f0897, type: 3}
-  - {fileID: 8300000, guid: 64a37c67e85f6441d9e04a1acc51ffb5, type: 3}
-  thirdVoices:
-  - {fileID: 8300000, guid: 40cd1ba347f924c3889c60e90d68b44c, type: 3}
-  - {fileID: 8300000, guid: 8c5bc25907c754bfe8b8060e9fe0b5bc, type: 3}
-  - {fileID: 8300000, guid: dd8d20d513a6f4efc9b4c1060336d2d3, type: 3}
-  - {fileID: 8300000, guid: 7c210d807efa74e45bbae81d4ddf13db, type: 3}
-  fourthVoices:
-  - {fileID: 8300000, guid: 5cc61d362e7424b099667bcbbc2a42dc, type: 3}
-  - {fileID: 8300000, guid: 698e7373dad074fcbbcdc7da46d7a5c8, type: 3}
-  - {fileID: 8300000, guid: 66039f6ee5d2d485eb1e28c7847fc332, type: 3}
-  - {fileID: 8300000, guid: ced2b91b419dc49bc9c28ad007b3381a, type: 3}
+  goVoice: {fileID: 8300000, guid: 13dc21c1b61c94013a947a07c3c92d08, type: 3}
+  welcomeVoice: {fileID: 8300000, guid: 4549f00d5e8704ea0ac91ce28cbf721e, type: 3}
+  firstVoice: {fileID: 8300000, guid: 56c27536f17994e6db95501186ec093f, type: 3}
+  secondVoice: {fileID: 8300000, guid: 41605e51066414fec80d0f9a98f530d6, type: 3}
+  thirdVoice: {fileID: 8300000, guid: 40cd1ba347f924c3889c60e90d68b44c, type: 3}
+  fourthVoice: {fileID: 8300000, guid: 5cc61d362e7424b099667bcbbc2a42dc, type: 3}
+  tutorialVoice: {fileID: 8300000, guid: d5ad036df3af34ab0aa88c559718e0fa, type: 3}
   eventSystem: {fileID: 1183720512}
-  audioSource: {fileID: 0}
   initializedObjects: 0
   captions: []
   finishTexts: []

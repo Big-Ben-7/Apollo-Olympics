@@ -5185,11 +5185,11 @@ MonoBehaviour:
   abilityStrength2: 0
   accFuelLoss: 2
   rotFuelLoss: 1
-  fuelRegeneration: 0.1
+  fuelRegeneration: 0.5
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 100
   maxThrusterSpeed: 15
-  thrusterVolumeDivisor: 1000
+  thrusterVolumeDivisor: 10000
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
@@ -5226,41 +5226,13 @@ MonoBehaviour:
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
   warningSound: {fileID: 8300000, guid: ba39bf8baf6d13046889b2d64822381a, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
-  checkpointVoices:
-  - {fileID: 8300000, guid: 54a93326f5f9b42a78c1b3f9d7a49f6d, type: 3}
-  - {fileID: 8300000, guid: aefc0e32338754442a4aa2eafaac4d69, type: 3}
-  - {fileID: 8300000, guid: c03b639b127b74a728061f3c5a2ae31b, type: 3}
-  - {fileID: 8300000, guid: 5c2e78014704e49d6ad62dc072d679ca, type: 3}
-  backCheckpointVoices:
-  - {fileID: 8300000, guid: fd8cf1e40cf6d4d7a8529f295569ba67, type: 3}
-  - {fileID: 8300000, guid: 9fe2e4fc654de473aba66d9819b2ed5b, type: 3}
-  - {fileID: 8300000, guid: bf4afb5ba6db144c8a4eb5ea90666da0, type: 3}
-  - {fileID: 8300000, guid: c49126269f3e548289d879f7a7f1080d, type: 3}
-  wormholeVoices:
-  - {fileID: 8300000, guid: 8226e1ccad39e469786d8f8693dc2143, type: 3}
-  - {fileID: 8300000, guid: 6b4f499cfdb594dc2b12b23a90b8adff, type: 3}
-  - {fileID: 8300000, guid: c173ae2688393407f88e64a99699d54a, type: 3}
-  - {fileID: 8300000, guid: ca6ee640954944040bce1c070c5ef69f, type: 3}
-  lowFuelVoices:
-  - {fileID: 8300000, guid: 43fa6b102709f4370b48ecd5607c1a24, type: 3}
-  - {fileID: 8300000, guid: 2d418832ec56a4c34a3a54ae6a81661a, type: 3}
-  - {fileID: 8300000, guid: 4caf99db53a2547d6a6b42fdc504533c, type: 3}
-  - {fileID: 8300000, guid: 99327fd148fe8446ab35594a9426111b, type: 3}
-  noFuelVoices:
-  - {fileID: 8300000, guid: d41d5f078af484d45a5c2b7c911ed6bb, type: 3}
-  - {fileID: 8300000, guid: a26b67e621d1544bf9b7118c5af9a585, type: 3}
-  - {fileID: 8300000, guid: ce2ace897fa6d465a91dae4d136adfd5, type: 3}
-  - {fileID: 8300000, guid: 853b5884e6cef4e8da51541c1b1e4e73, type: 3}
-  lowHealthVoices:
-  - {fileID: 8300000, guid: 3f7b6f54c440f45a2b6c7b24391f96e9, type: 3}
-  - {fileID: 8300000, guid: 635083c19a83a467e852292737141607, type: 3}
-  - {fileID: 8300000, guid: a229e202b306742acab8e357b8b441e3, type: 3}
-  - {fileID: 8300000, guid: 769efe5b64dba46a880906595e421504, type: 3}
-  dieVoices:
-  - {fileID: 8300000, guid: da37d0c62e28c40a590876ee791506b3, type: 3}
-  - {fileID: 8300000, guid: e7399c3f414a34a7994b08ec716206b0, type: 3}
-  - {fileID: 8300000, guid: 60b46d63ee71a4b338290b2eef009f91, type: 3}
-  - {fileID: 8300000, guid: dffcfb21f2fbf4b2182949baad76c4d7, type: 3}
+  checkpointVoice: {fileID: 8300000, guid: 54a93326f5f9b42a78c1b3f9d7a49f6d, type: 3}
+  backCheckpointVoice: {fileID: 8300000, guid: fd8cf1e40cf6d4d7a8529f295569ba67, type: 3}
+  wormholeVoice: {fileID: 8300000, guid: 8226e1ccad39e469786d8f8693dc2143, type: 3}
+  lowFuelVoice: {fileID: 8300000, guid: 43fa6b102709f4370b48ecd5607c1a24, type: 3}
+  noFuelVoice: {fileID: 8300000, guid: d41d5f078af484d45a5c2b7c911ed6bb, type: 3}
+  lowHealthVoice: {fileID: 8300000, guid: 3f7b6f54c440f45a2b6c7b24391f96e9, type: 3}
+  dieVoice: {fileID: 8300000, guid: da37d0c62e28c40a590876ee791506b3, type: 3}
   myTransform: {fileID: 0}
   playerNumberString: 
   playerIndex: 0
@@ -5269,7 +5241,7 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   canCollide: 0
   collects: 0
-  cameraStats: {fileID: 0}
+  uiCanvas: {fileID: 0}
   arrow: {fileID: 7303635377737201954}
   shipIndex: 0
   stereoPan: 0
