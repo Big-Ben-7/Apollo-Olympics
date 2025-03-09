@@ -1134,6 +1134,10 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1333963336483855244, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6
+      objectReference: {fileID: 0}
     - target: {fileID: 2483115064154436964, guid: 53222a3d044d047ecaef21b5dfea0742, type: 3}
       propertyPath: m_SortingLayer
       value: 0
@@ -1518,6 +1522,22 @@ PrefabInstance:
     - target: {fileID: 6621394768861302051, guid: b1828535bbc4a4370a473a94592a4c93, type: 3}
       propertyPath: m_SortingLayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7528331473887926837, guid: b1828535bbc4a4370a473a94592a4c93, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7528331473887926837, guid: b1828535bbc4a4370a473a94592a4c93, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7528331473887926837, guid: b1828535bbc4a4370a473a94592a4c93, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7528331473887926837, guid: b1828535bbc4a4370a473a94592a4c93, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 7573843062393746588, guid: b1828535bbc4a4370a473a94592a4c93, type: 3}
       propertyPath: m_SortingLayer
@@ -2146,6 +2166,10 @@ PrefabInstance:
     - target: {fileID: 5610707184710985919, guid: e6fa9b4a1c09c45278e8f25e6313def9, type: 3}
       propertyPath: m_Name
       value: JupiterModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019722689335004667, guid: e6fa9b4a1c09c45278e8f25e6313def9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 6514630326094331388, guid: e6fa9b4a1c09c45278e8f25e6313def9, type: 3}
       propertyPath: m_SortingLayer
