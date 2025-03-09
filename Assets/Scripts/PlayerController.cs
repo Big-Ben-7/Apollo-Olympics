@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int abilityStrength2;
     [SerializeField] int accFuelLoss = 2;
     [SerializeField] int rotFuelLoss = 1;
-    [SerializeField] float fuelRegeneration = 0.5f;
+    [SerializeField] float fuelRegeneration = 0.1f;
 
     [Header("Movement")]
     [SerializeField] GameObject thrusterParent;
