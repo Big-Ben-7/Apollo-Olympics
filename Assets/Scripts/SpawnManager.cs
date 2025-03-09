@@ -514,30 +514,35 @@ public class SpawnManager : MonoBehaviour
         allAudio = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
         audioCount = allAudio.Length;
         pauseButton.enabled = true;
-
         backgroundNoise.Play();
-        int countdownTime = 3;
-        InputSystem.actions.Enable();
 
-        while(countdownTime > 1)
-        {
-            audioSource.PlayOneShot(countdownSound);
-            yield return oneSecond;
-            countdownTime--;
-        }
-        backgroundMusic.Play();
+        int countdownTime = 3;
+        StartCoroutine(PlayMusic());
+        InputSystem.actions.Enable();
         while(countdownTime > 0)
         {
             audioSource.PlayOneShot(countdownSound);
             yield return oneSecond;
             countdownTime--;
         }
-
         audioSource.PlayOneShot(goSound);
-        if(tutorial) audioSource.PlayOneShot(welcomeVoice, voiceScale);
-        else audioSource.PlayOneShot(goVoice, voiceScale);
-        yield return oneSecond;
+        if(tutorial)
+        {
+            yield return oneSecond;
+            audioSource.PlayOneShot(welcomeVoice, voiceScale);
+        }
+        else
+        {
+            audioSource.PlayOneShot(goVoice, voiceScale);
+            yield return oneSecond;
+        }
         showTime = true;
+    }
+
+    IEnumerator PlayMusic()
+    {
+        yield return new WaitForSeconds(0.4f);
+        backgroundMusic.Play();
     }
     void Update()
     {
@@ -1438,7 +1443,7 @@ public class SpawnManager : MonoBehaviour
     public void ChangeMusic()
     {
         float music = backgroundMusic.volume = (float) Math.Round(musicSlider.value, 2);
-        backgroundNoise.volume = music / 2;
+        backgroundNoise.volume = music / 4;
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
