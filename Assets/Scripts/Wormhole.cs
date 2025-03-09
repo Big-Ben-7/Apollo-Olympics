@@ -7,28 +7,17 @@ public class Wormhole : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         GameObject otherObject = other.gameObject;
-        foreach(GameObject go in triggeredObjects)
+        foreach(GameObject go in triggeredObjects) if(otherObject == go) return;
+        if(otherObject.CompareTag("Player")) 
         {
-            if(otherObject == go)
-            {
-                return;
-            }
-        }
-        switch(otherObject.tag)
-        {
-            case "Player":
-                triggeredObjects.Add(otherObject);
-                other.GetComponent<PlayerController>().Teleport();
-                break;
-
-            case "Drone":
-                other.GetComponent<Drone>().ResetDrone();
-                break;
+            triggeredObjects.Add(otherObject);
+            other.GetComponent<PlayerController>().Teleport();
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.CompareTag("Player")) triggeredObjects.Remove(other.gameObject);
+        GameObject otherObject = other.gameObject;
+        if(otherObject.CompareTag("Player")) triggeredObjects.Remove(otherObject);
     }
 }
