@@ -519,9 +519,12 @@ public class SpawnManager : MonoBehaviour
         int countdownTime = 3;
         InputSystem.actions.Enable();
 
-        audioSource.PlayOneShot(countdownSound);
-        yield return oneSecond;
-        countdownTime--;
+        while(countdownTime > 1)
+        {
+            audioSource.PlayOneShot(countdownSound);
+            yield return oneSecond;
+            countdownTime--;
+        }
         backgroundMusic.Play();
         while(countdownTime > 0)
         {
@@ -1250,7 +1253,7 @@ public class SpawnManager : MonoBehaviour
         confetti.SetActive(true);
         for(int i = 0; i < 3; i++)
         {
-            audioSource.PlayOneShot(confettiSound, 0.8f);
+            audioSource.PlayOneShot(confettiSound);
             yield return oneAndHalfSeconds;
         };
         confetti.SetActive(false);
@@ -1516,17 +1519,12 @@ public class SpawnManager : MonoBehaviour
     public void ResetSettings()
     {
         initialized = false;
-
         fovSlider.value = 40;
         depthSlider.value = 8000;
         dampingSlider.value = 0.1f;
-        musicSlider.value = 0.3f;
+        musicSlider.value = voiceSlider.value = thrusterSlider.value = effectsSlider.value = 0.4f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
-        voiceSlider.value = 0.3f;
-        thrusterSlider.value = 0.3f;
-        effectsSlider.value = 0.3f;
-
         initialized = true;
         MinorClick();
     }

@@ -165,16 +165,16 @@ public class MenuManager : MonoBehaviour
         fovSlider.value = PlayerPrefs.GetFloat("Fov", 40);
         depthSlider.value = PlayerPrefs.GetFloat("Depth", 8000);
         dampingSlider.value = PlayerPrefs.GetFloat("Damping", 0.1f);
-        musicSlider.value = PlayerPrefs.GetFloat("Music", 0.3f);
+        musicSlider.value = PlayerPrefs.GetFloat("Music", 0.4f);
         if(PlayerPrefs.GetInt("ShowCaptions", 1) == 0) captionToggle.isOn = false;
         else captionToggle.isOn = true;
         if(PlayerPrefs.GetInt("CursorHide") == 0) cursorToggle.isOn = false;
         else cursorToggle.isOn = true;
         if(PlayerPrefs.GetInt("ShowArrow", 1) == 0) arrowToggle.isOn = false;
         else arrowToggle.isOn = true;
-        voiceSlider.value = PlayerPrefs.GetFloat("Voice", 0.3f);
-        thrusterSlider.value = PlayerPrefs.GetFloat("Thruster", 0.3f);
-        effectsSlider.value = PlayerPrefs.GetFloat("Effects", 0.3f);
+        voiceSlider.value = PlayerPrefs.GetFloat("Voice", 0.4f);
+        thrusterSlider.value = PlayerPrefs.GetFloat("Thruster", 0.4f);
+        effectsSlider.value = PlayerPrefs.GetFloat("Effects", 0.4f);
         ChangeFOV();
         ChangeDepth();
         ChangeDamping();
@@ -591,12 +591,9 @@ public class MenuManager : MonoBehaviour
         fovSlider.value = 40;
         depthSlider.value = 8000;
         dampingSlider.value = 0.1f;
-        musicSlider.value = 0.3f;
+        musicSlider.value = voiceSlider.value = thrusterSlider.value = effectsSlider.value = 0.4f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
-        voiceSlider.value = 0.3f;
-        thrusterSlider.value = 0.3f;
-        effectsSlider.value = 0.3f;
         foreach(InputActionMap map in InputSystem.actions.actionMaps) map.RemoveAllBindingOverrides();
         SaveBindings();
         string rebinds = PlayerPrefs.GetString("Bindings");
@@ -613,12 +610,9 @@ public class MenuManager : MonoBehaviour
         fovSlider.value = 40;
         depthSlider.value = 8000;
         dampingSlider.value = 0.1f;
-        musicSlider.value = 0.3f;
+        musicSlider.value = voiceSlider.value = thrusterSlider.value = effectsSlider.value = 0.4f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
-        voiceSlider.value = 0.3f;
-        thrusterSlider.value = 0.3f;
-        effectsSlider.value = 0.3f;
 
         loaded = true;
         MinorClick();
