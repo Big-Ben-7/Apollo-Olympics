@@ -526,16 +526,10 @@ public class SpawnManager : MonoBehaviour
             countdownTime--;
         }
         audioSource.PlayOneShot(goSound);
-        if(tutorial)
-        {
-            yield return oneSecond;
-            audioSource.PlayOneShot(welcomeVoice, voiceScale);
-        }
-        else
-        {
-            audioSource.PlayOneShot(goVoice, voiceScale);
-            yield return oneSecond;
-        }
+        
+        yield return oneSecond;
+        if(tutorial) audioSource.PlayOneShot(welcomeVoice, voiceScale);
+        else audioSource.PlayOneShot(goVoice, voiceScale);
         showTime = true;
     }
 
