@@ -557,7 +557,7 @@ public class PlayerController : MonoBehaviour
                     if(glideSpeed != thrustSpeed) glideSpeed = thrustSpeed;
                     
                     if(thrustSpeed < accThreshold) thrustSpeed += accIncrement;
-                    else if(thrustSpeed != maxThrustSpeed) thrustSpeed = maxThrustSpeed;
+                    else thrustSpeed = maxThrustSpeed;
                     
                     fuel -= accFuelIncrement;
                 }
@@ -580,7 +580,7 @@ public class PlayerController : MonoBehaviour
                 else fuel = 0;
 
                 if(thrustSpeed > decThreshold && dec != 1) thrustSpeed *= dec;
-                else if(thrustSpeed != initialThrustSpeed) thrustSpeed = initialThrustSpeed;
+                else thrustSpeed = initialThrustSpeed;
                 break;
         
             case 0:
