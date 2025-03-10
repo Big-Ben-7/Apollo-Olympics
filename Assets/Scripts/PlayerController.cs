@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
     int auraCount;
     ParticleSystem.MainModule[] auraParticles;
     bool loopingAura = true;
-    bool ringAbility = false;
+    bool ringAbility;
     Atmosphere atmosphere;
     Ring ring;
     Vector3 ringRotation;
@@ -139,6 +139,7 @@ public class PlayerController : MonoBehaviour
     public static WaitForSeconds threeSeconds;
     public static WaitForSeconds fifthSecond;
     public static WaitForSeconds halfSecond;
+    public static WaitForSeconds threeTenthSeconds;
     Collider[] surroundingColliders = new Collider[10000];
 
     //Drone
@@ -192,6 +193,7 @@ public class PlayerController : MonoBehaviour
     bool pauseTutorial;
     string tutorialText;
     int captionPriority = 0;
+    bool errorPlaying;
     public bool inTutorial;
     bool canFinish = true;
     bool rotAllowed = true;
@@ -676,8 +678,13 @@ public class PlayerController : MonoBehaviour
                 if(!canFinish)
                 {
                     rb.AddForce(-rb.position.normalized * 2000, ForceMode.VelocityChange);
-                    StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
-                    audioSource.PlayOneShot(errorSound);
+                    if(!errorPlaying)
+                    {
+                        errorPlaying = true;
+                        StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
+                        audioSource.PlayOneShot(errorSound);
+                        StartCoroutine(ResetError());
+                    }
                     return;
                 }
                 gameObject.SetActive(false);
@@ -799,6 +806,12 @@ public class PlayerController : MonoBehaviour
                 rb.AddRelativeForce(Vector3.forward * glideSpeed, ForceMode.Acceleration);
                 break;
         }
+    }
+
+    IEnumerator ResetError()
+    {
+        yield return threeTenthSeconds;
+        errorPlaying = false;
     }
 
     void OnTriggerEnter(Collider other)

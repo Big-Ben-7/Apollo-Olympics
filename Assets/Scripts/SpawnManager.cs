@@ -272,6 +272,7 @@ public class SpawnManager : MonoBehaviour
         PlayerController.oneSecond = oneSecond = MenuManager.oneSecond;
         PlayerController.twoSeconds = Drone.twoSeconds = MenuManager.twoSeconds;
         PlayerController.threeSeconds = new WaitForSeconds(3);
+        PlayerController.threeTenthSeconds = new WaitForSeconds(0.3f);
         PlayerController.fifthSecond = new WaitForSeconds(0.2f);
         PlayerController.halfSecond = MenuManager.halfSecond;
         pauseAction = InputSystem.actions.FindAction("Pause");

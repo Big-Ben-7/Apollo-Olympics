@@ -252,9 +252,9 @@ MonoBehaviour:
   activationSound: {fileID: 8300000, guid: 6148dfe58b5bb4817829b7de333b8970, type: 3}
   expireSound: {fileID: 8300000, guid: acbcb75601b0082458fda8807f67c813, type: 3}
   chargeSound: {fileID: 8300000, guid: 7a9de5c4d998126449cf964a6b27a8b0, type: 3}
-  errorSound: {fileID: 8300000, guid: 1ed8fb76fc64e4e46847348138782234, type: 3}
+  errorSound: {fileID: 8300000, guid: 3d78f08df203b4b6181aa6625f1acfb0, type: 3}
   wormholeSound: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
-  warningSound: {fileID: 8300000, guid: ba39bf8baf6d13046889b2d64822381a, type: 3}
+  warningSound: {fileID: 8300000, guid: 6c162c6025190491292d821da647ca93, type: 3}
   dieSound: {fileID: 8300000, guid: be016e70580e91c4f8a8f9e7701b00d4, type: 3}
   checkpointVoice: {fileID: 8300000, guid: 54a93326f5f9b42a78c1b3f9d7a49f6d, type: 3}
   backCheckpointVoice: {fileID: 8300000, guid: fd8cf1e40cf6d4d7a8529f295569ba67, type: 3}

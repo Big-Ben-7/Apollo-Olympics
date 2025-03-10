@@ -255,7 +255,7 @@ MonoBehaviour:
   backgroundMusic: {fileID: 79966736}
   majorClick: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   minorClick: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
-  errorSound: {fileID: 8300000, guid: 1ed8fb76fc64e4e46847348138782234, type: 3}
+  errorSound: {fileID: 8300000, guid: 3d78f08df203b4b6181aa6625f1acfb0, type: 3}
 --- !u!4 &79966734
 Transform:
   m_ObjectHideFlags: 0
