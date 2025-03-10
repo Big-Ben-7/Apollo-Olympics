@@ -1438,7 +1438,7 @@ public class SpawnManager : MonoBehaviour
     public void ChangeMusic()
     {
         float music = backgroundMusic.volume = (float) Math.Round(musicSlider.value, 2);
-        backgroundNoise.volume = music / 4;
+        backgroundNoise.volume = music / 2;
         musicText.SetText(music.ToString("0.00"));
         PlayerPrefs.SetFloat("Music", music);
     }
@@ -1455,6 +1455,7 @@ public class SpawnManager : MonoBehaviour
     public void ChangeThruster()
     {
         float thruster = PlayerController.maxThrusterVolume = (float) Math.Round(thrusterSlider.value, 2);
+        PlayerController.thrusterVolumeDivisor = 2000 / thruster;
         thrusterText.SetText(thruster.ToString("0.00"));
         PlayerPrefs.SetFloat("Thruster", thruster);
     }

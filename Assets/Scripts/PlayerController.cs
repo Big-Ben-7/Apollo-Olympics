@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject thrusterParent;
     [SerializeField] float thrusterSpeedDivisor = 100;
     [SerializeField] float maxThrusterSpeed = 15;
-    [SerializeField] float thrusterVolumeDivisor = 8000;
 
     [Header("Collision")]
     [SerializeField] GameObject dieExplosion;
@@ -45,7 +44,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioSource voiceSource;
     [SerializeField] AudioSource fireSource;
-    [SerializeField] AudioSource thrusterSource;
     [SerializeField] AudioClip[] hitSounds;
     [SerializeField] AudioClip noFuelSound;
     [SerializeField] AudioClip collectSound;
@@ -181,6 +179,7 @@ public class PlayerController : MonoBehaviour
     public static string[] playerNames;
     public int shipIndex;
     public static float maxThrusterVolume;
+    public static float thrusterVolumeDivisor;
     public static float audioVolume;
     public static float voiceVolume;
     public float stereoPan;
@@ -294,7 +293,7 @@ public class PlayerController : MonoBehaviour
         aura.SetActive(false);
         collectEffect.SetActive(false);
         thrusterParent.SetActive(false);
-        fireSource.volume = thrusterSource.volume = 0;
+        fireSource.volume = 0;
 
         rb = gameObject.GetComponent<Rigidbody>();
         rb.isKinematic = true;
@@ -337,8 +336,7 @@ public class PlayerController : MonoBehaviour
         healthLossDivisor = spawnManager.healthLossDivisors[durability];
         speedLossDivisor = spawnManager.speedLossDivisors[stability];
         deflectionForce = spawnManager.deflectionForces[stability];
-        thrustSpeed = initialThrustSpeed;
-        decSpeed = thrustSpeed;
+        thrustSpeed = decSpeed = initialThrustSpeed;
 
         Transform shipParent = uiCanvas.GetChild(12);
         switch(shipIndex)
@@ -489,7 +487,7 @@ public class PlayerController : MonoBehaviour
 
         audioSource.volume = audioVolume;
         voiceSource.volume = voiceVolume;
-        audioSource.panStereo = voiceSource.panStereo = thrusterSource.panStereo = fireSource.panStereo = stereoPan;
+        audioSource.panStereo = voiceSource.panStereo = fireSource.panStereo = stereoPan;
         spawnManager.effectSources[playerIndex] = audioSource;
         spawnManager.voiceSources[playerIndex] = voiceSource;
 
@@ -554,7 +552,7 @@ public class PlayerController : MonoBehaviour
             case > 0:
                 if(fuel > accFuelIncrement)
                 {
-                    if(glideSpeed != thrustSpeed) glideSpeed = thrustSpeed;
+                    glideSpeed = thrustSpeed;
                     
                     if(thrustSpeed < accThreshold) thrustSpeed += accIncrement;
                     else thrustSpeed = maxThrustSpeed;
@@ -564,16 +562,16 @@ public class PlayerController : MonoBehaviour
                 else fuel = 0;
                 
                 if(decSpeed > decThreshold && dec != 1) decSpeed *= dec;
-                else if(decSpeed != initialThrustSpeed) decSpeed = initialThrustSpeed;
+                else decSpeed = initialThrustSpeed;
                 break;
 
             case < 0:
                 if(fuel > accFuelIncrement)
                 {
-                    if(glideSpeed != 0) glideSpeed = 0;
+                    glideSpeed = 0;
 
                     if(decSpeed < accThreshold) decSpeed += accIncrement;
-                    else if(decSpeed != maxThrustSpeed) decSpeed = maxThrustSpeed;
+                    else decSpeed = maxThrustSpeed;
 
                     fuel -= accFuelIncrement;
                 }
@@ -733,9 +731,9 @@ public class PlayerController : MonoBehaviour
         speedText.SetText("Speed: " + (shipSpeed * 9 / 2).ToString("0.00"));
 
         //Change thruster effect based on speed
-        if(fuel > 0.005f && (shipSpeed > 5 || shipSpeed < -5))
+        if(fuel > 0.005f && shipSpeed > thrusterSpeedDivisor / 2)
         {
-            float thrusterSpeed = shipSpeed / thrusterSpeedDivisor;
+            float thrusterSpeed = (float) Math.Round(shipSpeed / thrusterSpeedDivisor, 4);
             if(thrusterSpeed > maxThrusterSpeed) thrusterSpeed = maxThrusterSpeed;
             for(int i = 0; i < thrusterCount; i++)
             {
@@ -744,19 +742,19 @@ public class PlayerController : MonoBehaviour
                 thruster.startSpeedMultiplier = thrusterSpeed;
             }
 
-            float thrusterVolume = shipSpeed / thrusterVolumeDivisor;
+            float thrusterVolume = (float) Math.Round(shipSpeed / thrusterVolumeDivisor, 4);
             if(thrusterVolume > maxThrusterVolume) thrusterVolume = maxThrusterVolume;
-            fireSource.volume = thrusterSource.volume = thrusterVolume;
+            fireSource.volume = thrusterVolume;
         }
         else
         {
             for(int i = 0; i < thrusterCount; i++)
             {
                 ParticleSystem.MainModule thruster = thrusters[i];
-                if(thruster.startLifetimeMultiplier != 0) thruster.startLifetimeMultiplier = 0;
+                if(thruster.startLifetimeMultiplier != 0.0001f) thruster.startLifetimeMultiplier = 0.0001f;
                 if(thruster.startSpeedMultiplier != 0) thruster.startSpeedMultiplier = 0;
             }
-            fireSource.volume = thrusterSource.volume = 0;
+            fireSource.volume = 0;
         }
     }
 
@@ -946,14 +944,16 @@ public class PlayerController : MonoBehaviour
                 if(resetting != null) StopCoroutine(resetting);
                 if(loopingAura) for(int i = 0; i < auraCount; i++) auraParticles[i].loop = true;
 
-                health = 0;
+                health = thrust = glideSpeed = 0;
                 healthText.SetText("0.00");
-                thrustSpeed = initialThrustSpeed;
+                rotation = Vector3.zero;
+                thrustSpeed = decSpeed = initialThrustSpeed;
                 for(int i = 0; i < allTextLength; i++) StartCoroutine(ChangeTextColor(allText[i], halfSecond, Color.white, Color.red));
                 for(int i = 0; i < activeDrones; i++) droneScripts[i].ResetDrone();
 
                 graphic.SetActive(false);
                 thrusterParent.SetActive(false);
+                fireSource.volume = 0;
                 if(collectEffect.activeSelf) collectEffect.SetActive(false);
                 if(showArrow) arrow.gameObject.SetActive(false);
                 if(settingCaption != null) StopCoroutine(settingCaption);
