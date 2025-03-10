@@ -56,10 +56,10 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] float maxRotationForce = 0.2f;
     [SerializeField] float maxRotationSpeed = 30;
     [SerializeField] int wormholePercent = 5;
-    [SerializeField] int tutorialWormholePercent = 10;
+    [SerializeField] int tutorialWormholePercent = 15;
     [SerializeField] Vector3 wormholeProportions = new Vector3(0.5f, 0.4f, 0.8f);
-    [SerializeField] int minWormholeScale = 1500;
-    [SerializeField] int maxWormholeScale = 3000;
+    [SerializeField] int minWormholeScale = 2000;
+    [SerializeField] int maxWormholeScale = 4000;
     int interactableNumber;
     int baseDisableNumber;
     int[] disableByCheckpoint;
@@ -479,6 +479,7 @@ public class SpawnManager : MonoBehaviour
             playerController.playerIndex = i;
             playerController.shipIndex = playerShip;
             playerController.uiCanvas = cameraObject.GetChild(4);
+            playerController.shipCanvas = cameraObject.GetChild(5);
             playerController.startPos = pos;
             playerController.normalizedStartPos = pos.normalized;
             playerController.startRot = rot;
@@ -1518,7 +1519,7 @@ public class SpawnManager : MonoBehaviour
     public void ResetSettings()
     {
         initialized = false;
-        fovSlider.value = 40;
+        fovSlider.value = 45;
         depthSlider.value = 8000;
         dampingSlider.value = 0.1f;
         musicSlider.value = voiceSlider.value = thrusterSlider.value = effectsSlider.value = 0.4f;

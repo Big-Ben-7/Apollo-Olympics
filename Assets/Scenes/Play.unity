@@ -522,7 +522,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 57687
+    m_Bits: 57696
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
@@ -3750,10 +3750,10 @@ MonoBehaviour:
   maxRotationForce: 0.2
   maxRotationSpeed: 30
   wormholePercent: 5
-  tutorialWormholePercent: 10
+  tutorialWormholePercent: 15
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
-  minWormholeScale: 1500
-  maxWormholeScale: 3000
+  minWormholeScale: 2000
+  maxWormholeScale: 4000
   droneNumbers: 08000000100000001800000020000000
   tutorialDrones: 2
   begCheckpointDrones: 000000000100000002000000030000000400000005000000060000000700000008000000
@@ -3812,10 +3812,10 @@ MonoBehaviour:
   - serializedVersion: 2
     m_Bits: 127424
   lookTargetPos:
-  - {x: 0, y: 5.5, z: -20}
+  - {x: 0, y: 6, z: -20}
   - {x: 0, y: 7, z: -24}
-  - {x: 0, y: 10, z: -32}
-  - {x: 0, y: 4.5, z: -16}
+  - {x: 0, y: 9, z: -32}
+  - {x: 0, y: 5, z: -16}
   countdownSound: {fileID: 8300000, guid: efb5f1b0875bbc7408e2352c2367f89a, type: 3}
   goSound: {fileID: 8300000, guid: eb29844b03df258489a10c01c6e51552, type: 3}
   pauseSound: {fileID: 8300000, guid: 5e0e5f5b2e1d5874aad33b1fc93772b5, type: 3}

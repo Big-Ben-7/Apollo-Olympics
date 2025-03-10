@@ -376,6 +376,7 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   uiCanvas: {fileID: 0}
+  shipCanvas: {fileID: 0}
   arrow: {fileID: 4512064021348999379}
   shipIndex: 0
   stereoPan: 0
@@ -1310,6 +1311,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6289117378035806089}
     m_Modifications:
+    - target: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 4602995492852016373, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
       propertyPath: m_Layer
       value: 6

@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviour
 
     //UI
     public Transform uiCanvas;
+    public Transform shipCanvas;
     TMP_Text healthLabel;
     Image healthBar;
     TMP_Text healthText;
@@ -338,12 +339,11 @@ public class PlayerController : MonoBehaviour
         deflectionForce = spawnManager.deflectionForces[stability];
         thrustSpeed = decSpeed = initialThrustSpeed;
 
-        Transform shipParent = uiCanvas.GetChild(12);
         switch(shipIndex)
         {
             case 0:
                 ability = SpeedUp();
-                finishShip = shipParent.GetChild(0).gameObject;
+                finishShip = shipCanvas.GetChild(0).gameObject;
                 loopingAura = false;
                 break;
             case 1:
@@ -357,21 +357,21 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {graphic.GetComponent<ParticleSystem>(), graphic.GetChild(0).GetComponent<ParticleSystem>(), graphic.GetChild(1).GetComponent<ParticleSystem>(), graphic.GetChild(2).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura);
-                finishShip = shipParent.GetChild(1).gameObject;
+                finishShip = shipCanvas.GetChild(1).gameObject;
                 loopingAura = false;
                 break;
             case 2:
                 ability = Regeneration();
-                finishShip = shipParent.GetChild(2).gameObject;
+                finishShip = shipCanvas.GetChild(2).gameObject;
                 break;
             case 3:
                 ability = DustStorm();
-                finishShip = shipParent.GetChild(3).gameObject;
+                finishShip = shipCanvas.GetChild(3).gameObject;
                 break;
             case 4:
                 ability = Juggernaut();
                 collisionInitials = new float[] {speedLossDivisor, healthLossDivisor, deflectionForce, rb.mass};
-                finishShip = shipParent.GetChild(4).gameObject;
+                finishShip = shipCanvas.GetChild(4).gameObject;
                 break;
             case 5:
                 ability = Ring();
@@ -383,7 +383,7 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura);
-                finishShip = shipParent.GetChild(5).gameObject;
+                finishShip = shipCanvas.GetChild(5).gameObject;
                 ringRotation = new Vector3(abilityStrength2, 0, 0);
                 ringAbility = true;
                 break;
@@ -397,18 +397,17 @@ public class PlayerController : MonoBehaviour
                 auraSystems = new ParticleSystem[] {aura.transform.GetChild(0).GetComponent<ParticleSystem>()};
                 aura.SetActive(false);
                 SpawnManager.followers[playerIndex].Add(aura);
-                finishShip = shipParent.GetChild(6).gameObject;
+                finishShip = shipCanvas.GetChild(6).gameObject;
                 ringRotation = new Vector3(0, abilityStrength2, 0);
                 ringAbility = true;
                 break;
             case 7:
                 ability = WindStorm();
-                finishShip = shipParent.GetChild(7).gameObject;
+                finishShip = shipCanvas.GetChild(7).gameObject;
                 loopingAura = false;
                 break;
         }
-        finishShip.SetActive(false);
-        confetti = shipParent.GetChild(8).gameObject;
+        confetti = shipCanvas.GetChild(8).gameObject;
         confetti.SetActive(false);
         spawnManager.confettis[playerIndex] = confetti;
 
@@ -458,10 +457,10 @@ public class PlayerController : MonoBehaviour
         speedText = uiCanvas.GetChild(9).GetComponent<TMP_Text>();
         timeText = uiCanvas.GetChild(10).GetComponent<TMP_Text>();
         spawnManager.captions[playerIndex] = caption = uiCanvas.GetChild(11).GetComponent<TMP_Text>();
-        spawnManager.finishTexts[playerIndex] = finishText = uiCanvas.GetChild(13).GetComponent<TMP_Text>();
-        finishCaption = uiCanvas.GetChild(14).gameObject;
-        deathText = uiCanvas.GetChild(15).GetComponent<TMP_Text>();
-        countdownText = uiCanvas.GetChild(16).GetComponent<TMP_Text>();
+        spawnManager.finishTexts[playerIndex] = finishText = uiCanvas.GetChild(12).GetComponent<TMP_Text>();
+        finishCaption = uiCanvas.GetChild(13).gameObject;
+        deathText = uiCanvas.GetChild(14).GetComponent<TMP_Text>();
+        countdownText = uiCanvas.GetChild(15).GetComponent<TMP_Text>();
         
         finishBackground.SetActive(false);
         healthBar.fillAmount = fuelBar.fillAmount = 1;
@@ -731,14 +730,14 @@ public class PlayerController : MonoBehaviour
         speedText.SetText("Speed: " + (shipSpeed * 9 / 2).ToString("0.00"));
 
         //Change thruster effect based on speed
-        if(fuel > 0.005f && shipSpeed > thrusterSpeedDivisor / 2)
+        if(fuel > 0.005f && shipSpeed > 15)
         {
             float thrusterSpeed = (float) Math.Round(shipSpeed / thrusterSpeedDivisor, 4);
             if(thrusterSpeed > maxThrusterSpeed) thrusterSpeed = maxThrusterSpeed;
             for(int i = 0; i < thrusterCount; i++)
             {
                 ParticleSystem.MainModule thruster = thrusters[i];
-                if(thruster.startLifetimeMultiplier != 1) thruster.startLifetimeMultiplier = 1;
+                if(thruster.maxParticles != 1000) thruster.maxParticles = 1000;
                 thruster.startSpeedMultiplier = thrusterSpeed;
             }
 
@@ -751,7 +750,7 @@ public class PlayerController : MonoBehaviour
             for(int i = 0; i < thrusterCount; i++)
             {
                 ParticleSystem.MainModule thruster = thrusters[i];
-                if(thruster.startLifetimeMultiplier != 0.0001f) thruster.startLifetimeMultiplier = 0.0001f;
+                if(thruster.maxParticles != 0) thruster.maxParticles = 0;
                 if(thruster.startSpeedMultiplier != 0) thruster.startSpeedMultiplier = 0;
             }
             fireSource.volume = 0;

@@ -372,6 +372,7 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   uiCanvas: {fileID: 0}
+  shipCanvas: {fileID: 0}
   arrow: {fileID: 1189042490095786437}
   shipIndex: 0
   stereoPan: 0
@@ -905,8 +906,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 6289117378035806089}
     m_Modifications:
     - target: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4406458890600891459, guid: fbf2c0acec4ac487a8c101384b263ddd, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
