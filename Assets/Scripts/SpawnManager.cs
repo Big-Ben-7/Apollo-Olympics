@@ -585,10 +585,7 @@ public class SpawnManager : MonoBehaviour
         paused = PlayerController.paused = true;
         menu.enabled = true;
         if(cursorHide) Cursor.visible = true;
-        for(int i = 0; i < audioCount; i++)
-        {
-            allAudio[i].Pause();
-        }
+        for(int i = 0; i < audioCount; i++) allAudio[i].Pause();
         audioSource.PlayOneShot(pauseSound);
         Time.timeScale = 0;
         GC.Collect();
@@ -599,10 +596,7 @@ public class SpawnManager : MonoBehaviour
         menu.enabled = false;
         if(cursorHide) Cursor.visible = false;
         Time.timeScale = 1;
-        for(int i = 0; i < audioCount; i++)
-        {
-            allAudio[i].UnPause();
-        }
+        for(int i = 0; i < audioCount; i++) allAudio[i].UnPause();
         audioSource.PlayOneShot(pauseSound);
         paused = PlayerController.paused = false;
     }
