@@ -1465,8 +1465,6 @@ public class SpawnManager : MonoBehaviour
         voiceScale = voiceScale * audioSource.volume / effects;
         audioSource.volume = effects;
         foreach(int i in playingPlayers) effectSources[i].volume = effects;
-        if(effects > 0.5f) PlayerController.warningScale = 1 / effects;
-        else PlayerController.warningScale = 2;
         effectsText.SetText(effects.ToString("0.00"));
         PlayerPrefs.SetFloat("Effects", effects);
     }

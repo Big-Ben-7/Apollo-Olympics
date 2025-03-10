@@ -215,15 +215,15 @@ MonoBehaviour:
   nameEdit: {fileID: 830300838}
   nameEnter: {fileID: 1954826845}
   abilitySounds:
-  - {fileID: 8300000, guid: 6cf9c85b5a3b88c468b21b9d21250adf, type: 3}
-  - {fileID: 8300000, guid: c91fcf414acc0344cb03b13996f1bf3b, type: 3}
-  - {fileID: 8300000, guid: cfce0cea076109f478783201b2a9f57f, type: 3}
-  - {fileID: 8300000, guid: 8ff2a2d7e79f81c40ac447512f879374, type: 3}
-  - {fileID: 8300000, guid: 6cf9c85b5a3b88c468b21b9d21250adf, type: 3}
-  - {fileID: 8300000, guid: 1d74880bed4586644a16a79a2d9dc8af, type: 3}
-  - {fileID: 8300000, guid: 1d74880bed4586644a16a79a2d9dc8af, type: 3}
+  - {fileID: 8300000, guid: 1444792bff90c44dfa51b555482a78f7, type: 3}
+  - {fileID: 8300000, guid: 1b0ab98d6c5b24553a0a819ad9710b4f, type: 3}
+  - {fileID: 8300000, guid: 2fa1a723819394857a00996393152436, type: 3}
+  - {fileID: 8300000, guid: 0a828d238ff894800a77dd23aab307e4, type: 3}
+  - {fileID: 8300000, guid: 1444792bff90c44dfa51b555482a78f7, type: 3}
+  - {fileID: 8300000, guid: a0e3702e9eb9e466da5596a737076ccd, type: 3}
+  - {fileID: 8300000, guid: a0e3702e9eb9e466da5596a737076ccd, type: 3}
   - {fileID: 8300000, guid: 6148dfe58b5bb4817829b7de333b8970, type: 3}
-  debuffSound: {fileID: 8300000, guid: acbcb75601b0082458fda8807f67c813, type: 3}
+  debuffSound: {fileID: 8300000, guid: c54f161155fc64ccb851e4145d688995, type: 3}
   fovSlider: {fileID: 1091587816}
   depthSlider: {fileID: 677924262}
   dampingSlider: {fileID: 452242742}

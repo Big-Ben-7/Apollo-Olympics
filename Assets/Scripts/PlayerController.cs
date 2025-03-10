@@ -182,7 +182,6 @@ public class PlayerController : MonoBehaviour
     public int shipIndex;
     public static float maxThrusterVolume;
     public static float audioVolume;
-    public static float warningScale;
     public static float voiceVolume;
     public float stereoPan;
     public static bool tutorial;
@@ -627,7 +626,7 @@ public class PlayerController : MonoBehaviour
                         settingCaption = StartCoroutine(SetCaption(fuelCaptions[UnityEngine.Random.Range(0, fuelNumber)], threeSeconds, 5));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
-                    audioSource.PlayOneShot(warningSound, warningScale);
+                    audioSource.PlayOneShot(warningSound);
                     voiceSource.clip = lowFuelVoice;
                     voiceSource.Play();
                 }
@@ -978,7 +977,7 @@ public class PlayerController : MonoBehaviour
                         settingCaption = StartCoroutine(SetCaption(crashCaptions[UnityEngine.Random.Range(0, crashNumber)], threeSeconds, 5));
                         StartCoroutine(ChangeTextColor(caption, fifthSecond, Color.white, Color.red, 2));
                     }
-                    audioSource.PlayOneShot(warningSound, warningScale);
+                    audioSource.PlayOneShot(warningSound);
                     voiceSource.clip = lowHealthVoice;
                     voiceSource.Play();
                 }
@@ -1522,7 +1521,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged");
-            audioSource.PlayOneShot(chargeSound, 0.7f);
+            audioSource.PlayOneShot(chargeSound);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1555,7 +1554,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged");
-            audioSource.PlayOneShot(chargeSound, 0.7f);
+            audioSource.PlayOneShot(chargeSound);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1602,7 +1601,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged");
-            audioSource.PlayOneShot(chargeSound, 0.7f);
+            audioSource.PlayOneShot(chargeSound);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1638,7 +1637,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged");
-            audioSource.PlayOneShot(chargeSound, 0.7f);
+            audioSource.PlayOneShot(chargeSound);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1680,7 +1679,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged");
-            audioSource.PlayOneShot(chargeSound, 0.7f);
+            audioSource.PlayOneShot(chargeSound);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1714,7 +1713,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged");
-            audioSource.PlayOneShot(chargeSound, 0.7f);
+            audioSource.PlayOneShot(chargeSound);
             yield return oneSecond;
         }
         abilityText.SetText("");
@@ -1758,7 +1757,7 @@ public class PlayerController : MonoBehaviour
         if(!died)
         {
             abilityText.SetText("Ability Charged");
-            audioSource.PlayOneShot(chargeSound, 0.7f);
+            audioSource.PlayOneShot(chargeSound);
             yield return oneSecond;
         }
         abilityText.SetText("");
