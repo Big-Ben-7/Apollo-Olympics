@@ -216,11 +216,10 @@ MonoBehaviour:
   abilityStrength2: 10000
   accFuelLoss: 2
   rotFuelLoss: 1
-  fuelRegeneration: 0.1
+  fuelRegeneration: 0.2
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 100
   maxThrusterSpeed: 15
-  thrusterVolumeDivisor: 5000
   dieExplosion: {fileID: 4501643787200127509}
   hitExplosions:
   - {fileID: 9183769491992783333}
@@ -236,7 +235,6 @@ MonoBehaviour:
   audioSource: {fileID: -6234278454604288188}
   voiceSource: {fileID: -9081330097998061524}
   fireSource: {fileID: 283605144193943937}
-  thrusterSource: {fileID: 0}
   hitSounds:
   - {fileID: 8300000, guid: 31dbe1f047a081845bd95a5b256ee829, type: 3}
   - {fileID: 8300000, guid: b57a5b81c8663e14bbf70a3cc6ff01ad, type: 3}
@@ -271,6 +269,7 @@ MonoBehaviour:
   canCollide: 0
   collects: 0
   uiCanvas: {fileID: 0}
+  shipCanvas: {fileID: 0}
   arrow: {fileID: 7200272891621461937}
   shipIndex: 0
   stereoPan: 0

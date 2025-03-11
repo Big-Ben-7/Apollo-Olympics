@@ -319,7 +319,7 @@ MonoBehaviour:
   abilityStrength2: 0
   accFuelLoss: 2
   rotFuelLoss: 1
-  fuelRegeneration: 0.1
+  fuelRegeneration: 0.2
   thrusterParent: {fileID: 684149586399486677}
   thrusterSpeedDivisor: 100
   maxThrusterSpeed: 15
