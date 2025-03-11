@@ -15,7 +15,7 @@ public class Atmosphere : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.CompareTag("Drone") || other.gameObject.CompareTag("Aura")) return;
+        if(other.gameObject.CompareTag("Drone")) return;
         Rigidbody otherRb = other.rigidbody;
         if(otherRb.isKinematic) return;
         otherRb.AddForce((otherRb.position - myTransform.position).normalized * hitForce, ForceMode.VelocityChange);

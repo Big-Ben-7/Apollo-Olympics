@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3103636391601836884}
   - component: {fileID: 241866311725434301}
   m_Layer: 13
-  m_Name: Collider (1)
+  m_Name: SmallCollider
   m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21571,7 +21571,7 @@ GameObject:
   - component: {fileID: 4721258175144467365}
   - component: {fileID: 1307183306842374874}
   m_Layer: 13
-  m_Name: Collider
+  m_Name: LargeCollider
   m_TagString: Aura
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33244,7 +33244,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 16448
+    m_Bits: 16384
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

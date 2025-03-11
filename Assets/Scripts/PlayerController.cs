@@ -830,7 +830,11 @@ public class PlayerController : MonoBehaviour
             int number = UnityEngine.Random.Range(0, 100);
             if(number < extraFuelPercent)
             {
-                if(fuel < 90) fuel += 10;
+                if(fuel < 90)
+                {
+                    if(regenerateFuel) regenerateFuel = false;
+                    fuel += 10;
+                }
                 else fuel = 100;
                 if(!debrisCollected)
                 {
@@ -849,7 +853,11 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if(fuel < 95) fuel += 5;
+                if(fuel < 95)
+                {
+                    if(regenerateFuel && fuel >= 5) regenerateFuel = false;
+                    fuel += 5;
+                }
                 else fuel = 100;
                 if(!debrisCollected)
                 {
@@ -1735,14 +1743,8 @@ public class PlayerController : MonoBehaviour
         {
             Collider collider = surroundingColliders[i];
             Rigidbody otherRb = collider.attachedRigidbody;
-            if(otherRb.isKinematic || collider.gameObject == gameObject)
-            {
-                continue;
-            }
-            if(collider.gameObject.CompareTag("Drone"))
-            {
-                collider.GetComponent<Drone>().Explode(otherRb.position);
-            }
+            if(otherRb.isKinematic) continue;
+            if(collider.gameObject.CompareTag("Drone")) collider.GetComponent<Drone>().Explode(otherRb.position);
             else
             {
                 otherRb.AddForce((otherRb.position - rb.position).normalized * abilityStrength, ForceMode.VelocityChange);

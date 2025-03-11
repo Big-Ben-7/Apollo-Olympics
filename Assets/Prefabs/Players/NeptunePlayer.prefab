@@ -230,7 +230,7 @@ MonoBehaviour:
   auraSystems: []
   abilityMask:
     serializedVersion: 2
-    m_Bits: 49216
+    m_Bits: 49152
   green: {r: 0.23529412, g: 1, b: 0.50980395, a: 1}
   audioSource: {fileID: -6234278454604288188}
   voiceSource: {fileID: -9081330097998061524}
