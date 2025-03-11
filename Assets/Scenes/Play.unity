@@ -3753,7 +3753,7 @@ MonoBehaviour:
   tutorialWormholePercent: 15
   wormholeProportions: {x: 0.5, y: 0.4, z: 0.8}
   minWormholeScale: 2000
-  maxWormholeScale: 4000
+  maxWormholeScale: 3000
   droneNumbers: 08000000100000001800000020000000
   tutorialDrones: 2
   begCheckpointDrones: 000000000100000002000000030000000400000005000000060000000700000008000000

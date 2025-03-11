@@ -692,7 +692,12 @@ public class PlayerController : MonoBehaviour
                 for(int i = 0; i < allTextLength; i++) if(allText[i].color != Color.white) allText[i].color = Color.white;
                 spawnManager.PlayerFinish(playerIndex);
 
-                if(tutorial) return;
+                if(tutorial)
+                {
+                    distanceText.SetText("Distance: 100.0");
+                    return;
+                }
+                distanceText.SetText("Distance: 1000.0");
                 DateTime finishTime = DateTime.Now;
                 int elapsedMilliseconds = Mathf.RoundToInt(spawnManager.milliseconds) + spawnManager.seconds * 1000 + spawnManager.minutes * 60000;
                 if(elapsedMilliseconds < MenuManager.times[MenuManager.difficulty] || MenuManager.times[MenuManager.difficulty] == 0)
