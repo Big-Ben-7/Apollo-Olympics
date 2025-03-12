@@ -91,6 +91,7 @@ public class SpawnManager : MonoBehaviour
     public float[] rotationSpeeds;
     public float[] decMultipliers;
     public int[] healthLossDivisors;
+    [SerializeField] int healthLossDecrease;
     public float[] speedLossDivisors;
     public float[] deflectionForces;
 
@@ -236,6 +237,8 @@ public class SpawnManager : MonoBehaviour
         }
         else
         {
+            int healthShift = healthLossDecrease * difficulty;
+            for(int i = 0; i < 5; i++) healthLossDivisors[i] -= healthShift;
             asteroidNumber = asteroidNumbers[difficulty];
             collectableNumber = collectableNumbers[difficulty];
             droneNumber = droneNumbers[difficulty];

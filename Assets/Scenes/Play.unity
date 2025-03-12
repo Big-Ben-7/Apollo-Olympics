@@ -3773,9 +3773,9 @@ MonoBehaviour:
   playerShips: 00000000000000000000000000000000
   playerChunks: []
   playingPlayers: 
-  initialThrustSpeeds: b80b0000ac0d0000a00f00009411000088130000
+  initialThrustSpeeds: a00f000094110000881300007c15000070170000
   accelerations: e8030000dc050000d0070000c4090000b80b0000
-  maxThrustSpeeds: 30750000b8880000409c0000c8af000050c30000
+  maxThrustSpeeds: 409c0000c8af000050c30000d8d6000060ea0000
   rotationSpeeds:
   - 2
   - 3.5
@@ -3788,7 +3788,8 @@ MonoBehaviour:
   - 0.9
   - 0.95
   - 1
-  healthLossDivisors: 58020000ee020000840300001a040000b0040000
+  healthLossDivisors: b0040000780500004006000008070000d0070000
+  healthLossDecrease: 200
   speedLossDivisors:
   - 5
   - 4
