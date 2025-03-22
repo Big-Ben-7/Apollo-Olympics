@@ -44,6 +44,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_InputField nameInput;
     [SerializeField] GameObject nameEdit;
     [SerializeField] GameObject nameEnter;
+    TMP_Text namePlaceholder;
     GameObject nameObject;
     TMP_Text[] selectTexts;
     Transform[] models;
@@ -151,6 +152,7 @@ public class MenuManager : MonoBehaviour
             abilities[i] = model.GetChild(2).gameObject;
             selectTexts[i] = ship.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         }
+        namePlaceholder = nameInput.placeholder.GetComponent<TMP_Text>();
         nameObject = nameInput.gameObject;
         nameInput.text = "";
 
@@ -373,6 +375,7 @@ public class MenuManager : MonoBehaviour
     {
         playerText.enabled = false;
         nameInput.text = "";
+        namePlaceholder.SetText(playerNames[activePlayer]);
         nameEdit.SetActive(false);
         nameObject.SetActive(true);
         nameEnter.SetActive(true);
@@ -393,7 +396,8 @@ public class MenuManager : MonoBehaviour
                 break;
             }
         }
-        if(newName != "" && valid)
+        if(newName == "") MinorClick();
+        else if(valid)
         {
             playerText.SetText(newName);
             playerNames[activePlayer] = newName;
