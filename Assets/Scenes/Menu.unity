@@ -1270,11 +1270,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "1. Race through eight checkpoints of increasing distance and difficulty,
-    representing the eight planets of the Solar System.\n2. Evade asteroids and test
-    your luck with wormhole teleportation.\n3. Collect space debris for fuel to maintain
-    spaceship control.\n4. Outmaneuver space pirates with swift rotations (such as
-    rolling).\n5. Select your ideal spaceship, each with unique attributes and abilities.\n  
-    Play the tutorial mode for more info. Good luck and see you at the finish line!"
+    corresponding to the eight planets of the Solar System.\n2. Evade asteroids and
+    test your luck with wormhole teleportation.\n3. Collect space debris for fuel
+    to maintain spaceship control.\n4. Outmaneuver space pirates with swift rotations
+    (such as rolling).\n5. Select your ideal spaceship, each with unique attributes
+    and abilities.\n   Play the tutorial mode for more info. Good luck and see you
+    at the finish line!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -4631,6 +4632,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 2548589434599480672, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
+      propertyPath: m_text
+      value: Left/Right
+      objectReference: {fileID: 0}
     - target: {fileID: 2606275324026673448, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -4971,6 +4976,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 79966733}
+    - target: {fileID: 7344585189835919197, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
+      propertyPath: m_text
+      value: Down/Up
+      objectReference: {fileID: 0}
     - target: {fileID: 7517466669962869928, guid: e26febed23b1d4dfa89a6b2ea523cf7a, type: 3}
       propertyPath: m_RebindStopEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
