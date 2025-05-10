@@ -164,9 +164,9 @@ public class MenuManager : MonoBehaviour
         NextGameSetting(PlayerPrefs.GetInt("Tutorial"));
 
         //Get settings variables
-        fovSlider.value = PlayerPrefs.GetFloat("Fov", 45);
+        fovSlider.value = PlayerPrefs.GetFloat("Fov", 60);
         depthSlider.value = PlayerPrefs.GetFloat("Depth", 8000);
-        dampingSlider.value = PlayerPrefs.GetFloat("Damping", 0.3f);
+        dampingSlider.value = PlayerPrefs.GetFloat("Damping", 0.2f);
         musicSlider.value = PlayerPrefs.GetFloat("Music", 0.4f);
         if(PlayerPrefs.GetInt("ShowCaptions", 1) == 0) captionToggle.isOn = false;
         else captionToggle.isOn = true;
@@ -592,9 +592,9 @@ public class MenuManager : MonoBehaviour
         difficultySlider.value = 0;
         NextGameSetting(0);
 
-        fovSlider.value = 45;
+        fovSlider.value = 60;
         depthSlider.value = 8000;
-        dampingSlider.value = 0.3f;
+        dampingSlider.value = 0.2f;
         musicSlider.value = voiceSlider.value = thrusterSlider.value = effectsSlider.value = 0.4f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;
@@ -611,9 +611,9 @@ public class MenuManager : MonoBehaviour
     {
         loaded = false;
 
-        fovSlider.value = 45;
+        fovSlider.value = 60;
         depthSlider.value = 8000;
-        dampingSlider.value = 0.3f;
+        dampingSlider.value = 0.2f;
         musicSlider.value = voiceSlider.value = thrusterSlider.value = effectsSlider.value = 0.4f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;

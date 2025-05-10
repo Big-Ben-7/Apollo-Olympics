@@ -531,7 +531,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Movement input
-        if(rotAllowed) rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), rollAction.ReadValue<float>());
+        if(rotAllowed) rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), -rollAction.ReadValue<float>());
         if(thrustAllowed) thrust = thrustAction.ReadValue<float>();
 
         //Thrust/glide control
@@ -1128,7 +1128,7 @@ public class PlayerController : MonoBehaviour
         key = InputControlPath.ToHumanReadableString(rollAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        tutorialText = "Press " + key + " to roll left";
+        tutorialText = "Press " + key + " to roll counterclockwise";
         caption.SetText(tutorialText);
         while(rotation.z != 1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
@@ -1138,7 +1138,7 @@ public class PlayerController : MonoBehaviour
         key = InputControlPath.ToHumanReadableString(rollAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
         key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        tutorialText = "Press " + key + " to roll right";
+        tutorialText = "Press " + key + " to roll clockwise";
         caption.SetText(tutorialText);
         while(rotation.z != -1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
