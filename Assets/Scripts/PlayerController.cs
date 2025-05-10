@@ -469,7 +469,7 @@ public class PlayerController : MonoBehaviour
         checkpointText.SetText("Checkpoint: 0" + checkpointEnd);
         abilityText.SetText("");
         nameText.SetText(playerNames[playerIndex]);
-        Vector3 displayPos = rb.position / 800;
+        Vector3 displayPos = rb.position / 600;
         posText.SetText("Pos: " + displayPos.x.ToString("0.0") + "," + displayPos.y.ToString("0.0") + "," + displayPos.z.ToString("0.0"));
         distanceText.SetText("Distance: " + displayPos.magnitude.ToString("0.0"));
         speedText.SetText("Speed: 0.00");
@@ -723,11 +723,11 @@ public class PlayerController : MonoBehaviour
         }
 
         //Show position
-        Vector3 displayPos = position / 800;
+        Vector3 displayPos = position / 600;
         posText.SetText("Pos: " + displayPos.x.ToString("0.0") + "," + displayPos.y.ToString("0.0") + "," + displayPos.z.ToString("0.0"));
 
         //Show distance from origin
-        distanceText.SetText("Distance: " + (posMag / 800).ToString("0.0"));
+        distanceText.SetText("Distance: " + (posMag / 600).ToString("0.0"));
 
         //Show speed in km/h, multiply by 2.23694 for mph
         float shipSpeed = rb.velocity.magnitude;
@@ -1356,8 +1356,8 @@ public class PlayerController : MonoBehaviour
                 if(showCaptions)
                 {
                     float mag = rb.position.magnitude;
-                    if(mag > distance) tutorialText = "Teleported\n" + ((mag - distance) / 800).ToString("0.0") + " units back";
-                    else tutorialText = "Teleported\n" + ((distance - mag) / 800).ToString("0.0") + " units ahead";
+                    if(mag > distance) tutorialText = "Teleported\n" + ((mag - distance) / 600).ToString("0.0") + " units back";
+                    else tutorialText = "Teleported\n" + ((distance - mag) / 600).ToString("0.0") + " units ahead";
                     caption.SetText(tutorialText);
                 }
             }
@@ -1367,12 +1367,12 @@ public class PlayerController : MonoBehaviour
                 if(mag > distance)
                 {
                     if(settingCaption != null) StopCoroutine(settingCaption);
-                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 800).ToString("0.0") + " units back", twoSeconds, 3));
+                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((mag - distance) / 600).ToString("0.0") + " units back", twoSeconds, 3));
                 }
                 else
                 {
                     if(settingCaption != null) StopCoroutine(settingCaption);
-                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 800).ToString("0.0") + " units ahead", twoSeconds, 3));
+                    settingCaption = StartCoroutine(SetCaption("Teleported\n" + ((distance - mag) / 600).ToString("0.0") + " units ahead", twoSeconds, 3));
                 }
             }
             voiceSource.clip = wormholeVoice;
