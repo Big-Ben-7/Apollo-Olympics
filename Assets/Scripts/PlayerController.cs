@@ -109,7 +109,6 @@ public class PlayerController : MonoBehaviour
     GameObject hitExplosionPrefab;
     int forwardPercent = 35;
     int backPercent = 25;
-    int extraFuelPercent = 50;
     int droneCaptionNumber;
     int crashNumber;
     int fuelNumber;
@@ -824,53 +823,36 @@ public class PlayerController : MonoBehaviour
             collects++;
             collectText.SetText("Space Debris: " + collects.ToString());
             StartCoroutine(ChangeTextColor(collectText, fifthSecond, Color.white, green));
-            int number = UnityEngine.Random.Range(0, 100);
-            if(number < extraFuelPercent)
+            int increase = UnityEngine.Random.Range(1, 21);
+            float newFuel = fuel + increase;
+            switch(newFuel)
             {
-                if(fuel < 90)
-                {
+                case >= 100:
+                    fuel = 100;
+                    break;
+                case >= 10:
                     if(regenerateFuel) regenerateFuel = false;
-                    fuel += 10;
-                }
-                else fuel = 100;
-                if(!debrisCollected)
-                {
-                    debrisCollected = true;
-                    if(showCaptions)
-                    {
-                        tutorialText = "+10 Fuel";
-                        caption.SetText(tutorialText);
-                    }
-                }
-                else if(showCaptions && captionPriority <= 2)
-                {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
-                    settingCaption = StartCoroutine(SetCaption("+10 Fuel", oneSecond, 2));
-                }
+                    fuel = newFuel;
+                    break;
+                default:
+                    fuel = newFuel;
+                    break;
             }
-            else
+            if(!debrisCollected)
             {
-                if(fuel < 95)
+                debrisCollected = true;
+                if(showCaptions)
                 {
-                    if(regenerateFuel && fuel >= 5) regenerateFuel = false;
-                    fuel += 5;
-                }
-                else fuel = 100;
-                if(!debrisCollected)
-                {
-                    debrisCollected = true;
-                    if(showCaptions)
-                    {
-                        tutorialText = "+5 Fuel";
-                        caption.SetText(tutorialText);
-                    }
-                }
-                else if(showCaptions && captionPriority <= 2)
-                {
-                    if(settingCaption != null) StopCoroutine(settingCaption);
-                    settingCaption = StartCoroutine(SetCaption("+5 Fuel", oneSecond, 2));
+                    tutorialText = "+" + increase + " Fuel";
+                    caption.SetText(tutorialText);
                 }
             }
+            else if(showCaptions && captionPriority <= 2)
+            {
+                if(settingCaption != null) StopCoroutine(settingCaption);
+                settingCaption = StartCoroutine(SetCaption("+" + increase + " Fuel", oneSecond, 2));
+            }
+
             if(!collectEffect.activeSelf)
             {
                 collectEffect.SetActive(true);
