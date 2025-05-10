@@ -175,7 +175,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] TMP_Text effectsText;
 
     float damping;
-    CinemachineFramingTransposer[] transposers;
     CinemachineSameAsFollowTarget[] camAims;
     public AudioSource[] effectSources;
     public AudioSource[] voiceSources;
@@ -414,7 +413,6 @@ public class SpawnManager : MonoBehaviour
         captions = new TMP_Text[playerNumber];
         finishTexts = new TMP_Text[playerNumber];
         playerControllers = new PlayerController[playerNumber];
-        transposers = new CinemachineFramingTransposer[playerNumber];
         camAims = new CinemachineSameAsFollowTarget[playerNumber];
         effectSources = new AudioSource[playerNumber];
         voiceSources = new AudioSource[playerNumber];
@@ -497,10 +495,8 @@ public class SpawnManager : MonoBehaviour
             Transform lookTarget = playerTransform.GetChild(2);
             lookTarget.localPosition = targetPos;
             viewCam.Follow = viewCam.LookAt = lookTarget;
-            CinemachineFramingTransposer transposer = transposers[i] = viewCam.GetCinemachineComponent<CinemachineFramingTransposer>();
             CinemachineSameAsFollowTarget camAim = camAims[i] = viewCam.GetCinemachineComponent<CinemachineSameAsFollowTarget>();
-            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = damping;
-            camAim.m_Damping = damping * 2;
+            camAim.m_Damping = damping;
         }
 
         GetComponent<AudioListener>().enabled = true;
@@ -1423,12 +1419,7 @@ public class SpawnManager : MonoBehaviour
     public void ChangeDamping()
     {
         damping = (float) Math.Round(dampingSlider.value, 2);
-        foreach(int i in playingPlayers)
-        {
-            CinemachineFramingTransposer transposer = transposers[i];
-            transposer.m_XDamping = transposer.m_YDamping = transposer.m_ZDamping = damping;
-            camAims[i].m_Damping = damping * 2;
-        }
+        foreach(int i in playingPlayers) camAims[i].m_Damping = damping;
         dampingText.SetText(damping.ToString("0.00"));
         PlayerPrefs.SetFloat("Damping", damping);
     }
@@ -1518,7 +1509,7 @@ public class SpawnManager : MonoBehaviour
         initialized = false;
         fovSlider.value = 45;
         depthSlider.value = 8000;
-        dampingSlider.value = 0.1f;
+        dampingSlider.value = 0.3f;
         musicSlider.value = voiceSlider.value = thrusterSlider.value = effectsSlider.value = 0.4f;
         captionToggle.isOn = arrowToggle.isOn = true;
         cursorToggle.isOn = false;

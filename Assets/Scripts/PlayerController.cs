@@ -531,7 +531,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Movement input
-        if(rotAllowed) rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), -rollAction.ReadValue<float>());
+        if(rotAllowed) rotation = new Vector3(-pitchAction.ReadValue<float>(), yawAction.ReadValue<float>(), rollAction.ReadValue<float>());
         if(thrustAllowed) thrust = thrustAction.ReadValue<float>();
 
         //Thrust/glide control
@@ -789,10 +789,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Roll, pitch, yaw
-        if(rotation != Vector3.zero)
-        {
-            rb.AddRelativeTorque(rotation * rotationSpeed, ForceMode.Acceleration);
-        }
+        if(rotation != Vector3.zero) rb.AddRelativeTorque(rotation * rotationSpeed, ForceMode.Acceleration);
 
         //Thrust and glide
         switch(thrust)

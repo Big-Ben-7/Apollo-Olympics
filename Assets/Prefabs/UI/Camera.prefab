@@ -372,8 +372,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 10
-  far clip plane: 7000
-  field of view: 35
+  far clip plane: 8000
+  field of view: 45
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -3355,10 +3355,10 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 35
+    FieldOfView: 45
     OrthographicSize: 5
     NearClipPlane: 10
-    FarClipPlane: 7000
+    FarClipPlane: 8000
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -3431,7 +3431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c41ac9245b87c4192012080077d830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Damping: 0.1
+  m_Damping: 0.3
 --- !u!114 &3573742035030591435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3448,9 +3448,9 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0.1
+  m_YDamping: 0.1
+  m_ZDamping: 0.1
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
