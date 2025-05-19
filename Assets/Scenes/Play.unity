@@ -3778,7 +3778,7 @@ MonoBehaviour:
   sectionPrefab: {fileID: 566563954241801917, guid: 30a9808a47135427c9ecd3e3ee56857d, type: 3}
   playerCheckpoints: 
   checkpointDistances: 60ea0000c0d401000071020080a9030068a70400d8b8050048ca060040ef0700c0270900
-  tutorialCheckpoints: 3075000080380100
+  tutorialCheckpoints: c05d000060ea0000
   checkpointParent: {fileID: 64442204}
   checkpointPrefab: {fileID: 5693663519667222683, guid: 40d6b472ed0bc40b3ae50fc3dbf81602, type: 3}
   finishMat: {fileID: 2100000, guid: 11a6088f9cac6426a90e9b064c81cc2e, type: 2}

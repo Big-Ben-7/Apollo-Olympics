@@ -563,7 +563,7 @@ public class SpawnManager : MonoBehaviour
         if(paused || !showTime || finished) return;
         //Update time
         milliseconds += Time.deltaTime * 1000;
-        if(milliseconds >= 1000)
+        if(Mathf.Round(milliseconds) >= 1000)
         {
             milliseconds = 0;
             seconds ++;
