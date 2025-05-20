@@ -27,6 +27,11 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text intTime;
     [SerializeField] TMP_Text advTime;
     [SerializeField] TMP_Text expTime;
+    [SerializeField] TMP_Text[] manualTexts;
+    [SerializeField] Canvas manualCanvas;
+    [SerializeField] GameObject manualNext;
+    int lastManualIndex;
+    int manualIndex = 0;
 
     [Header("Game Settings")]
     [SerializeField] Slider difficultySlider;
@@ -138,6 +143,7 @@ public class MenuManager : MonoBehaviour
         advTime.SetText("Advanced: " + advSpan.Minutes.ToString() + ":" + advSpan.Seconds.ToString("00") + "." + advSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description2"));
         TimeSpan expSpan = TimeSpan.FromMilliseconds(times[3]);
         expTime.SetText("Expert: " + expSpan.Minutes.ToString() + ":" + expSpan.Seconds.ToString("00") + "." + expSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description3"));
+        lastManualIndex = manualTexts.Length - 1;
 
         //Get customization variables
         shipCount = ships.Length;
@@ -191,7 +197,7 @@ public class MenuManager : MonoBehaviour
         intro.SetActive(false);
         instructions.SetActive(false);
         shipParent.SetActive(false);
-        mainMenu.enabled = gameSettings.enabled = customization.enabled = settings.enabled = resetMenu.enabled = false;
+        mainMenu.enabled = gameSettings.enabled = customization.enabled = settings.enabled = resetMenu.enabled = manualCanvas.enabled = false;
         
         if(fromGame)
         {
@@ -221,8 +227,38 @@ public class MenuManager : MonoBehaviour
     {
         intro.SetActive(false);
         ShowMain();
+        if(PlayerPrefs.GetInt("FirstPlay", 1) == 1)
+        {
+            StartCoroutine(OpenManual());
+            PlayerPrefs.SetInt("FirstPlay", 0);
+        }
         //instructions.SetActive(true);
         //MajorClick();
+    }
+
+    IEnumerator OpenManual()
+    {
+        if(!manualNext.activeSelf) manualNext.SetActive(true);
+        yield return halfSecond;
+        ToggleManual();
+    }
+
+    public void NextManual()
+    {
+        manualIndex ++;
+        for(int i = 0; i <= lastManualIndex; i++) manualTexts[i].enabled = false;
+        manualTexts[manualIndex].enabled = true;
+        if(manualIndex == lastManualIndex) manualNext.SetActive(false);
+        else if(!manualNext.activeSelf) manualNext.SetActive(true);
+        MinorClick();
+    }
+
+    public void ToggleManual()
+    {
+        for(int i = 0; i <= lastManualIndex; i++) manualTexts[i].enabled = false;
+        manualTexts[manualIndex].enabled = true;
+        manualCanvas.enabled = !manualCanvas.enabled;
+        MinorClick();
     }
 
     public void ShowMain()

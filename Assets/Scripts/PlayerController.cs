@@ -1069,7 +1069,7 @@ public class PlayerController : MonoBehaviour
         rotAllowed = true;
         string key = InputControlPath.ToHumanReadableString(pitchAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
-        key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
+        key = key.Replace("System", "Cmd").Replace("Control", "Ctrl");
         tutorialText = "Press " + key + " to pitch down";
         caption.SetText(tutorialText);
         while(rotation.x != 1) yield return null;
@@ -1079,7 +1079,7 @@ public class PlayerController : MonoBehaviour
 
         key = InputControlPath.ToHumanReadableString(pitchAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
-        key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
+        key = key.Replace("System", "Cmd").Replace("Control", "Ctrl");
         tutorialText = "Press " + key + " to pitch up";
         caption.SetText(tutorialText);
         while(rotation.x != -1) yield return null;
@@ -1089,7 +1089,7 @@ public class PlayerController : MonoBehaviour
 
         key = InputControlPath.ToHumanReadableString(yawAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
-        key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
+        key = key.Replace("System", "Cmd").Replace("Control", "Ctrl");
         tutorialText = "Press " + key + " to yaw left";
         caption.SetText(tutorialText);
         while(rotation.y != -1) yield return null;
@@ -1099,7 +1099,7 @@ public class PlayerController : MonoBehaviour
 
         key = InputControlPath.ToHumanReadableString(yawAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
-        key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
+        key = key.Replace("System", "Cmd").Replace("Control", "Ctrl");
         tutorialText = "Press " + key + " to yaw right";
         caption.SetText(tutorialText);
         while(rotation.y != 1) yield return null;
@@ -1109,8 +1109,8 @@ public class PlayerController : MonoBehaviour
 
         key = InputControlPath.ToHumanReadableString(rollAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
-        key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        tutorialText = "Press " + key + " to roll counterclockwise";
+        key = key.Replace("System", "Cmd").Replace("Control", "Ctrl");
+        tutorialText = "Press " + key + " to roll left";
         caption.SetText(tutorialText);
         while(rotation.z != 1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
@@ -1119,8 +1119,8 @@ public class PlayerController : MonoBehaviour
 
         key = InputControlPath.ToHumanReadableString(rollAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
-        key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
-        tutorialText = "Press " + key + " to roll clockwise";
+        key = key.Replace("System", "Cmd").Replace("Control", "Ctrl");
+        tutorialText = "Press " + key + " to roll right";
         caption.SetText(tutorialText);
         while(rotation.z != -1) yield return null;
         StartCoroutine(ChangeTextColor(caption, halfSecond, Color.white, green));
@@ -1130,7 +1130,7 @@ public class PlayerController : MonoBehaviour
         thrustAllowed = true;
         key = InputControlPath.ToHumanReadableString(thrustAction.bindings[1].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
-        key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
+        key = key.Replace("System", "Cmd").Replace("Control", "Ctrl");
         tutorialText = "Press " + key + " to thrust backward";
         caption.SetText(tutorialText);
         while(thrust != -1) yield return null;
@@ -1140,7 +1140,7 @@ public class PlayerController : MonoBehaviour
 
         key = InputControlPath.ToHumanReadableString(thrustAction.bindings[2].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
-        key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
+        key = key.Replace("System", "Cmd").Replace("Control", "Ctrl");
         tutorialText = "Press " + key + " to thrust forward";
         caption.SetText(tutorialText);
         while(thrust != 1) yield return null;
@@ -1171,7 +1171,7 @@ public class PlayerController : MonoBehaviour
         abilityAllowed = true;
         key = InputControlPath.ToHumanReadableString(abilityAction.bindings[0].effectivePath, InputControlPath.HumanReadableStringOptions.UseShortNames | InputControlPath.HumanReadableStringOptions.OmitDevice);
         if(wordNames.ContainsKey(key)) key = wordNames[key];
-        key = key.Replace("Left ", "L. ").Replace("Right ", "R. ").Replace("System", "Cmd").Replace("Control", "Ctrl").Replace("L. Arrow", "Left Arrow").Replace("R. Arrow", "Right Arrow");
+        key = key.Replace("System", "Cmd").Replace("Control", "Ctrl");
         if(ringAbility) tutorialText = "Press " + key + " to activate ability\nHold " + key + " to rotate rings";
         else tutorialText = "Press " + key + " to activate ability";
         caption.SetText(tutorialText);
