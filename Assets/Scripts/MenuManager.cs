@@ -29,7 +29,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text expTime;
     [SerializeField] TMP_Text[] manualTexts;
     [SerializeField] Canvas manualCanvas;
+    [SerializeField] GameObject manualBack;
     [SerializeField] GameObject manualNext;
+    [SerializeField] GameObject[] manualClose;
     int lastManualIndex;
     int manualIndex = 0;
 
@@ -144,6 +146,9 @@ public class MenuManager : MonoBehaviour
         TimeSpan expSpan = TimeSpan.FromMilliseconds(times[3]);
         expTime.SetText("Expert: " + expSpan.Minutes.ToString() + ":" + expSpan.Seconds.ToString("00") + "." + expSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description3"));
         lastManualIndex = manualTexts.Length - 1;
+        manualClose[0].SetActive(false);
+        manualClose[1].SetActive(false);
+        manualNext.SetActive(true);
 
         //Get customization variables
         shipCount = ships.Length;
@@ -238,18 +243,48 @@ public class MenuManager : MonoBehaviour
 
     IEnumerator OpenManual()
     {
-        if(!manualNext.activeSelf) manualNext.SetActive(true);
-        yield return halfSecond;
+        yield return oneSecond;
         ToggleManual();
     }
 
-    public void NextManual()
+    public void NextManual(int increment)
     {
-        manualIndex ++;
-        for(int i = 0; i <= lastManualIndex; i++) manualTexts[i].enabled = false;
+        manualIndex += increment;
+        if (manualIndex < 0)
+        {
+            manualIndex = 0;
+            return;
+        }
+        else if (manualIndex == 0)
+        {
+            manualBack.SetActive(false);
+            manualClose[0].SetActive(true);
+        }
+        else if (manualIndex == lastManualIndex)
+        {
+            manualNext.SetActive(false);
+            manualClose[1].SetActive(true);
+        }
+        else if (manualIndex > lastManualIndex)
+        {
+            manualIndex = lastManualIndex;
+            return;
+        }
+        else
+        {
+            if (!manualNext.activeSelf)
+            {
+                manualClose[1].SetActive(false);
+                manualNext.SetActive(true);
+            }
+            else if (!manualBack.activeSelf)
+            {
+                manualClose[0].SetActive(false);
+                manualBack.SetActive(true);
+            }
+        }
+        for (int i = 0; i <= lastManualIndex; i++) manualTexts[i].enabled = false;
         manualTexts[manualIndex].enabled = true;
-        if(manualIndex == lastManualIndex) manualNext.SetActive(false);
-        else if(!manualNext.activeSelf) manualNext.SetActive(true);
         MinorClick();
     }
 
@@ -333,6 +368,7 @@ public class MenuManager : MonoBehaviour
     public void Play()
     {
         gameSettings.enabled = false;
+        if(manualCanvas.enabled) manualCanvas.enabled = false;
         loading.SetActive(true);
         MajorClick();
         StartCoroutine(LoadGame());
