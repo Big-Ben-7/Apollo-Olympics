@@ -249,6 +249,7 @@ public class MenuManager : MonoBehaviour
     IEnumerator OpenManual()
     {
         yield return oneSecond;
+        if (loading.activeSelf) yield break;
         ToggleManual();
     }
 
