@@ -535,7 +535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.09322969, b: 0.16981131, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -949,7 +949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.09322969, b: 0.16981131, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1029,7 +1029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.09322969, b: 0.16981131, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1604,11 +1604,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You can change usernames and spaceships in the customization window. Use
-    the arrows next to your username to switch between players, and the arrows next
-    to each ship name to switch between ships. Let's start customizing by selecting
-    Edit in the top right, clicking on the username text area to type in a new name,
-    and hitting Enter to submit.
+  m_text: You can change usernames and spaceships in the Customize window. Use the
+    arrows next to your username to switch between players, and the arrows next to
+    each ship name to switch spaceships. Let's start customizing by selecting Edit
+    in the top right, clicking on the username text area to type in a new name, and
+    hitting Enter to submit.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -2757,7 +2757,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.09322969, b: 0.16981131, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3262,9 +3262,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: Welcome to the Apollo Olympics! Let's get you ready to enter your first
-    race! This is the main menu, your control center between races. Here, you can
+    race! This is the Main Menu, your control center between races. Here, you can
     view your race records and access many other windows. Select Customize at the
-    bottom of the screen to enter the customization window. You can drag this manual
+    bottom of the screen to enter the Customize window. You can drag this manual
     to any position in the screen.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -3399,7 +3399,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click the info icon [ i ] on the right of the main menu to access this
+  m_text: Click the info icon [ i ] on the right of the Main Menu to access this
     manual.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -3609,7 +3609,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237442571}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -3622,11 +3622,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You're finally ready to race! Hit Play in the main menu to open the Game
-    Settings window, where you can enter the player number and difficulty for the
-    race. Newer racers are advised to select Tutorial mode at the top of the window
-    for an interactive demonstration of race instructions, controls, and mechanics.
-    Good luck and see you at the finish line!
+  m_text: You're finally ready to race! Hit Play in the Main Menu to open up the
+    Game Settings window, where you can enter the player number and difficulty for
+    the race. Newer racers are advised to select the Tutorial mode at the top of
+    the window for a guided demonstration of race instructions, controls, and mechanics.
+    See you at the finish line!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -4811,7 +4811,7 @@ MonoBehaviour:
     information panels on the right to learn about each ship and planet. Click on
     Ability in the bottom right to preview each ship's unique special ability, and
     hit Select in the bottom left to lock in your choice. Once you're done customizing,
-    select Back to return to the main menu.
+    select Back to return to the Main Menu.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -5908,10 +5908,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Select Settings at the bottom of the main menu to access the settings window.
-    This opens up the control rebinding panel, where you can remap your controls
-    by clicking on a displayed binding and then inputting the desired new keys with
-    your keyboard. Use the arrows on the left and right to switch between each control
+  m_text: Select Settings at the bottom of the main menu to access the Settings window.
+    This opens up the Controls panel, where you can remap your controls by clicking
+    on a displayed binding and then inputting the desired new functions with your
+    keyboard. Use the arrows on the left and right to switch between each control
     layout.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -6039,7 +6039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.09322969, b: 0.16981131, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6605,7 +6605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.09322969, b: 0.16981131, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7256,7 +7256,7 @@ MonoBehaviour:
     the Video/Audio panel, you can adjust multiple settings that impact the race's
     atmosphere, performance, and difficulty. In each panel, hit Reset to use the
     default configurations. The third settings panel displays brief race instructions.
-    Click Back to return to the main menu.
+    Click Back to return to the Main Menu.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
   m_sharedMaterial: {fileID: 2889158205133252263, guid: 560c7af368c9d4675993f0d038fbc4c1, type: 2}
@@ -7394,7 +7394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.09322969, b: 0.16981131, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
