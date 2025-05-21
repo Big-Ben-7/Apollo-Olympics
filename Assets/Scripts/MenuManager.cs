@@ -28,6 +28,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] TMP_Text advTime;
     [SerializeField] TMP_Text expTime;
     [SerializeField] TMP_Text[] manualTexts;
+    [SerializeField] TMP_Text manualPage;
     [SerializeField] Canvas manualCanvas;
     [SerializeField] GameObject manualBack;
     [SerializeField] GameObject manualNext;
@@ -146,9 +147,13 @@ public class MenuManager : MonoBehaviour
         TimeSpan expSpan = TimeSpan.FromMilliseconds(times[3]);
         expTime.SetText("Expert: " + expSpan.Minutes.ToString() + ":" + expSpan.Seconds.ToString("00") + "." + expSpan.Milliseconds.ToString("000") + PlayerPrefs.GetString("Description3"));
         lastManualIndex = manualTexts.Length - 1;
-        manualClose[0].SetActive(false);
+        manualBack.SetActive(false);
         manualClose[1].SetActive(false);
+        for (int i = 1; i <= lastManualIndex; i++) manualTexts[i].enabled = false;
+        manualClose[0].SetActive(true);
         manualNext.SetActive(true);
+        manualTexts[0].enabled = true;
+        manualPage.SetText("Pg. 1/6");
 
         //Get customization variables
         shipCount = ships.Length;
@@ -249,6 +254,7 @@ public class MenuManager : MonoBehaviour
 
     public void NextManual(int increment)
     {
+        manualTexts[manualIndex].enabled = false;
         manualIndex += increment;
         if (manualIndex < 0)
         {
@@ -283,15 +289,13 @@ public class MenuManager : MonoBehaviour
                 manualBack.SetActive(true);
             }
         }
-        for (int i = 0; i <= lastManualIndex; i++) manualTexts[i].enabled = false;
         manualTexts[manualIndex].enabled = true;
+        manualPage.SetText("Pg. " + (manualIndex + 1) + "/6");
         MinorClick();
     }
 
     public void ToggleManual()
     {
-        for(int i = 0; i <= lastManualIndex; i++) manualTexts[i].enabled = false;
-        manualTexts[manualIndex].enabled = true;
         manualCanvas.enabled = !manualCanvas.enabled;
         MinorClick();
     }
@@ -663,6 +667,21 @@ public class MenuManager : MonoBehaviour
         playersSlider.value = 1;
         difficultySlider.value = 0;
         NextGameSetting(0);
+
+        if (manualIndex != 0)
+        {
+            manualTexts[manualIndex].enabled = false;
+            manualIndex = 0;
+            manualBack.SetActive(false);
+            if (!manualNext.activeSelf)
+            {
+                manualClose[1].SetActive(false);
+                manualNext.SetActive(true);
+            }
+            manualClose[0].SetActive(true);
+            manualTexts[0].enabled = true;
+            manualPage.SetText("Pg. 1/6");
+        }
 
         fovSlider.value = 60;
         depthSlider.value = 8000;
